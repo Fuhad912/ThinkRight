@@ -148,9 +148,24 @@ async function initTest() {
         console.log('✓ User authenticated:', user.email);
 
         // Initialize subscription system and check access
-        await window.Subscription?.init();
-        if (!window.Subscription?.canAccessTests()) {
-            console.log('User does not have access to tests');
+        console.log('⏳ Initializing subscription system...');
+        const subInitialized = await window.Subscription?.init();
+        console.log('✓ Subscription initialized:', subInitialized);
+        
+        // Debug: Log subscription status
+        if (subInitialized) {
+            console.log('📊 Access Check Results:');
+            console.log('  Trial Active:', window.Subscription?.isTrialActive?.());
+            console.log('  Subscription Active:', window.Subscription?.isSubscriptionActive?.());
+            console.log('  Is Admin:', window.Subscription?.isAdmin?.());
+        }
+        
+        // Check access
+        const hasAccess = window.Subscription?.canAccessTests();
+        console.log('Test Access Result:', hasAccess);
+        
+        if (!hasAccess) {
+            console.log('❌ User does not have access to tests');
             window.Subscription?.showPaywallModal('tests');
             return;
         }
