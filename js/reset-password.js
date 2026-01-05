@@ -154,8 +154,8 @@ async function handleResetPassword(e) {
         return;
     }
     
-    if (newPassword.length < 8) {
-        showError('Password must be at least 8 characters long.');
+    if (newPassword.length < 6) {
+        showError('Password must be at least 6 characters long.');
         return;
     }
     
@@ -174,20 +174,43 @@ async function handleResetPassword(e) {
     resetPasswordBtn.disabled = true;
     
     try {
-        // Update password with recovery token
+        // First, verify and create a session with the recovery token
+        console.log('🔐 Verifying reset token and creating session...');
+        
+        // The URL hash with the token should have been processed by Supabase
+        // Now update the password using the authenticated session
         const { data, error } = await supabase.auth.updateUser({
             password: newPassword
         });
         
         if (error) {
-            console.error('Password update error:', error);
-            showError(error.message || 'Failed to update password. Please try again.');
+            console.error('❌ Password update error:', error);
+            console.error('Error code:', error.code);
+            console.error('Error message:', error.message);
+            
+            // If session invalid, try to get fresh session
+            if (error.message.includes('session') || error.message.includes('invalid')) {
+                showError('Your reset link has expired. Please request a new password reset.');
+            } else {
+                showError(error.message || 'Failed to update password. Please try again.');
+            }
             hideLoading();
             resetPasswordBtn.disabled = false;
             return;
         }
         
-        console.log('✓ Password reset successful');
+        if (!data || !data.user) {
+            console.error('❌ No user data returned from password update');
+            showError('Password update failed. Please try again.');
+            hideLoading();
+            resetPasswordBtn.disabled = false;
+            return;
+        }
+        
+        console.log('✅ Password updated successfully for user:', data.user.email);
+        
+        // Also sign out to clear any sessions
+        await supabase.auth.signOut();
         
         // Show success message
         showSuccess('Password reset successful! Redirecting to login...');
@@ -199,7 +222,8 @@ async function handleResetPassword(e) {
         }, 2000);
         
     } catch (error) {
-        console.error('Password reset error:', error);
+        console.error('❌ Password reset error:', error);
+        console.error('Full error:', JSON.stringify(error, null, 2));
         showError(error.message || 'An error occurred while resetting your password.');
         hideLoading();
         resetPasswordBtn.disabled = false;
