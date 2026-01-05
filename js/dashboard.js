@@ -148,9 +148,14 @@ async function checkAuthAndLoadDashboard() {
         await window.Subscription?.init();
         if (!window.Subscription?.canAccessDashboard()) {
             console.log('⚠️ User does not have access to dashboard');
-            window.Subscription?.showPaywallModal('dashboard');
-            window.dashboardActive = false;
-            return;
+            if (!window.Subscription?.isAdmin()) {
+                window.Subscription?.showPaywallModal('dashboard');
+                setTimeout(() => {
+                    window.dashboardActive = false;
+                    window.location.href = 'index.html';
+                }, 2000);
+                return;
+            }
         }
         
         // Display user info
