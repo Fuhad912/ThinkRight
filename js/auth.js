@@ -139,6 +139,7 @@ async function signUp(email, password, username) {
             email: email.trim().toLowerCase(),
             password: password,
             options: {
+                emailRedirectTo: 'https://thinkright.vercel.app/index.html',
                 data: {
                     username: username.trim()
                 }
@@ -319,7 +320,7 @@ async function resetPassword(email) {
         console.log('Sending password reset email to:', email);
 
         const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: `${window.location.origin}/reset-password.html`,
+            redirectTo: 'https://thinkright.vercel.app/reset-password.html',
         });
 
         if (error) {
