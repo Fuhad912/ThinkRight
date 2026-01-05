@@ -154,19 +154,31 @@ async function fetchSubscriptionData(userId) {
 
 /**
  * Check if user's trial is still active
+ * Handles timezone-aware ISO strings from Supabase
  * @returns {boolean} True if trial is active
  */
 function isTrialActive() {
     const subData = subscriptionState.subscriptionData;
     
     if (!subData || !subData.trial_ends_at) {
+        console.log('⚠️ No trial data found');
         return false;
     }
 
-    const now = new Date();
-    const trialEnds = new Date(subData.trial_ends_at);
-    
-    return now < trialEnds;
+    try {
+        const now = new Date();
+        const trialEnds = new Date(subData.trial_ends_at);
+        
+        console.log('📊 Trial Check:');
+        console.log('  Now:', now.toISOString());
+        console.log('  Trial Ends:', trialEnds.toISOString());
+        console.log('  Is Active:', now < trialEnds);
+        
+        return now < trialEnds;
+    } catch (error) {
+        console.error('Error checking trial status:', error);
+        return false;
+    }
 }
 
 /**
@@ -318,7 +330,7 @@ function getAccessStatus() {
 async function createTrialForNewUser(userId) {
     try {
         if (!supabase || !userId) {
-            console.error('Missing supabase or userId');
+            console.error('❌ Missing supabase or userId');
             return false;
         }
 
@@ -326,8 +338,22 @@ async function createTrialForNewUser(userId) {
         const now = new Date();
         const trialEnds = new Date(now.getTime() + SUBSCRIPTION_CONFIG.TRIAL_DURATION_HOURS * 60 * 60 * 1000);
 
-        console.log('Creating trial for user:', userId);
-        console.log('Trial ends at:', trialEnds.toISOString());
+        console.log('🎯 Creating 24-hour trial for user:', userId);
+        console.log('  Current Time:', now.toISOString());
+        console.log('  Trial Duration:', SUBSCRIPTION_CONFIG.TRIAL_DURATION_HOURS, 'hours');
+        console.log('  Trial Ends At:', trialEnds.toISOString());
+
+        // Check if user already has a trial
+        const { data: existingData, error: checkError } = await supabase
+            .from('user_subscriptions')
+            .select('*')
+            .eq('user_id', userId)
+            .single();
+
+        if (existingData) {
+            console.log('✓ Trial already exists for user:', userId);
+            return true;
+        }
 
         // Insert into user_subscriptions table
         const { data, error } = await supabase
@@ -344,12 +370,20 @@ async function createTrialForNewUser(userId) {
             .select();
 
         if (error) {
-            console.error('Error creating trial:', error);
+            console.error('❌ Error creating trial:', error);
+            console.error('  Error Code:', error.code);
+            console.error('  Error Message:', error.message);
             return false;
         }
 
-        console.log('✓ Trial created for user:', userId);
-        console.log('Trial data:', data);
+        if (!data || data.length === 0) {
+            console.error('❌ No trial data returned after insert');
+            return false;
+        }
+
+        console.log('✅ Trial successfully created for user:', userId);
+        console.log('  Trial Record:', data[0]);
+        
         
         // Reset subscription state so it reloads
         subscriptionState.initialized = false;
