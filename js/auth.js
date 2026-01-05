@@ -135,11 +135,19 @@ async function signUp(email, password, username) {
 
         // Sign up with Supabase
         console.log('📝 Attempting to sign up with email:', email.toLowerCase());
+        
+        // Use dynamic email redirect based on environment
+        let emailRedirectUrl = 'https://thinkright.vercel.app/index.html';
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            emailRedirectUrl = window.location.origin + '/index.html';
+        }
+        console.log('📧 Email redirect URL:', emailRedirectUrl);
+        
         const { data, error } = await supabase.auth.signUp({
             email: email.trim().toLowerCase(),
             password: password,
             options: {
-                emailRedirectTo: 'https://thinkright.vercel.app/index.html',
+                emailRedirectTo: emailRedirectUrl,
                 data: {
                     username: username.trim()
                 }
@@ -245,11 +253,16 @@ async function login(email, password) {
             return { success: false, error: 'Login failed - no user data received' };
         }
 
-        // Check if email is confirmed
-        if (data.user.email_confirmed_at === null) {
-            console.warn('⚠️ Email not confirmed for:', data.user.email);
-            return { success: false, error: 'Please confirm your email before logging in.' };
+        // STRICT: Check if email is confirmed - absolutely required
+        if (!data.user.email_confirmed_at) {
+            console.warn('⚠️ BLOCKED: Email not confirmed for:', data.user.email);
+            console.warn('⚠️ Confirmation timestamp:', data.user.email_confirmed_at);
+            // Force logout this unconfirmed session
+            await supabase.auth.signOut();
+            return { success: false, error: 'Please confirm your email before logging in. Check your inbox for the confirmation link.' }
         }
+        
+        console.log('✓ Email confirmed at:', data.user.email_confirmed_at);
 
         // Store username from user metadata in localStorage
         if (data.user.user_metadata && data.user.user_metadata.username) {
