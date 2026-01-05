@@ -88,7 +88,7 @@ function showSyllabusLockedMessage() {
             <div style="font-size: 3rem; margin-bottom: 1rem;">🔒</div>
             <h2 style="margin-top: 0; color: var(--color-accent);">Syllabus is a Premium Feature</h2>
             <p style="font-size: 1.1rem; color: var(--color-text-secondary); margin-bottom: 2rem;">
-                Upgrade to the 3-month subscription plan to unlock exclusive syllabus PDFs and study materials.
+                Upgrade to the 1-month subscription plan to unlock exclusive syllabus PDFs and study materials.
             </p>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                 <button onclick="window.Subscription.showPaywallModal('syllabus')" 
@@ -318,3 +318,4 @@ function addCardHoverAnimations() {
 
 // Log completion
 console.log('📄 syllabus.js module loaded');
+
