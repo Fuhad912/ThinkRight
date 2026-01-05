@@ -147,6 +147,18 @@ async function checkAuthAndLoadDashboard() {
         // Initialize subscription system and check access
         await window.Subscription?.init();
         if (!window.Subscription?.canAccessDashboard()) {
+            updatePageStatus('Access Denied', 'red');
+            
+            if (!window.Subscription?.isAdmin()) {
+                window.Subscription?.showPaywallModal('dashboard');
+                window.dashboardActive = false;
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 3000);
+                return;
+            }
+        }
+        if (!window.Subscription?.canAccessDashboard()) {
             console.log('⚠️ User does not have access to dashboard');
             if (!window.Subscription?.isAdmin()) {
                 window.Subscription?.showPaywallModal('dashboard');
