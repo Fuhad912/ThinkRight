@@ -59,11 +59,9 @@ const subscriptionState = {
  */
 async function initSubscription() {
     try {
-        // Return if already initialized
-        if (subscriptionState.initialized) {
-            return true;
-        }
-
+        // Always refresh subscription data, even if initialized (allow cache refresh)
+        // This ensures trial data is always current
+        
         // Wait for auth to be initialized
         let retries = 0;
         while (!window.authInitialized && retries < 20) {
@@ -80,7 +78,16 @@ async function initSubscription() {
         subscriptionState.user = user;
         
         // Fetch subscription status from Supabase
+        console.log('🔄 Fetching subscription data for user:', user.id);
         const subData = await fetchSubscriptionData(user.id);
+        
+        if (!subData) {
+            console.error('❌ Failed to fetch subscription data');
+            subscriptionState.subscriptionData = null;
+            subscriptionState.initialized = false;
+            return false;
+        }
+        
         subscriptionState.subscriptionData = subData;
         subscriptionState.lastChecked = Date.now();
         
@@ -89,13 +96,17 @@ async function initSubscription() {
         subscriptionState.initialized = true;
         
         console.log('✓ Subscription system initialized');
+        console.log('  User ID:', user.id);
         console.log('  Admin:', subscriptionState.isAdmin);
+        console.log('  Subscription Tier:', subData?.subscription_tier);
+        console.log('  Trial Ends At:', subData?.trial_ends_at);
         console.log('  Trial Active:', isTrialActive());
         console.log('  Subscription Active:', isSubscriptionActive());
         
         return true;
     } catch (error) {
         console.error('Error initializing subscription:', error);
+        subscriptionState.initialized = false;
         return false;
     }
 }
@@ -272,9 +283,26 @@ function canAccessDashboard() {
  * Free: No
  */
 function canAccessTests() {
-    if (isAdmin()) return true;
-    if (isTrialActive()) return true;
-    if (isSubscriptionActive()) return true;
+    console.log('🔍 Checking test access...');
+    console.log('  Admin:', isAdmin());
+    console.log('  Trial Active:', isTrialActive());
+    console.log('  Subscription Active:', isSubscriptionActive());
+    
+    if (isAdmin()) {
+        console.log('✓ Access granted: User is admin');
+        return true;
+    }
+    if (isTrialActive()) {
+        console.log('✓ Access granted: User has active trial');
+        return true;
+    }
+    if (isSubscriptionActive()) {
+        console.log('✓ Access granted: User has active subscription');
+        return true;
+    }
+    
+    console.log('❌ Access denied: No active trial or subscription');
+    console.log('Subscription State:', subscriptionState);
     return false;
 }
 
