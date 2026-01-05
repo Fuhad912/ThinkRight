@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThinkRight - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard-page">
+    <!-- Page status indicator -->
+    <div id="pageStatus" style="position: fixed; top: 10px; right: 10px; background: green; color: white; padding: 5px 10px; border-radius: 3px; font-size: 12px; z-index: 10000; font-weight: bold;">Dashboard Active</div>
+
+    <!-- Main container -->
+    <div class="container">
+        <!-- Header section with branding and controls -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">ThinkRight</h1>
+                <p class="tagline">Your Performance Dashboard</p>
+            </div>
+            <!-- Header controls -->
+            <div class="header-controls">
+                <!-- Pricing button -->
+                <button id="pricingBtn" class="header-button pricing-button" aria-label="View Pricing" onclick="window.Subscription.showPricingModal()">
+                    💰 Pricing
+                </button>
+                <!-- Home link -->
+                <a href="index.html" class="header-link home-link" id="homeLink">
+                    🏠 Home
+                </a>
+                <!-- User info (shown when logged in) -->
+                <div class="user-info" id="userInfo" style="display: none;">
+                    <span class="user-email" id="userEmail"></span>
+                </div>
+                <!-- Logout button -->
+                <button id="logoutBtn" class="header-button logout-button" aria-label="Logout" style="display: none;">
+                    Logout
+                </button>
+                <!-- Dark mode toggle button -->
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
+                    <span class="theme-icon">🌙</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard error message (hidden by default) -->
+        <div class="error-message" id="errorMessage" style="display: none;"></div>
+
+        <!-- Loading state -->
+        <div id="loadingState" class="loading-state" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading your dashboard...</p>
+        </div>
+
+        <!-- Main dashboard content -->
+        <main class="dashboard-main" id="dashboardContent">
+            <!-- Overview Section -->
+            <section class="dashboard-section">
+                <h2 class="section-title">📊 Overview</h2>
+                <div id="overviewSection"></div>
+            </section>
+
+            <!-- Subject Performance Section -->
+            <section class="dashboard-section">
+                <h2 class="section-title">📈 Subject Performance</h2>
+                <div id="subjectSection"></div>
+            </section>
+
+            <!-- Test History Section -->
+            <section class="dashboard-section">
+                <h2 class="section-title">📋 Test History</h2>
+                <div id="historySection"></div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="dashboard-section dashboard-actions">
+                <a href="index.html" class="action-button primary-btn">
+                    Take a Test
+                </a>
+                <button id="refreshBtn" class="action-button secondary-btn">
+                    Refresh Data
+                </button>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2025 ThinkRight. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="mailto:thinkright912@gmail.com" class="contact-button">📧 Email</a>
+                    <a href="https://wa.me/2348160271964" target="_blank" class="contact-button">Contact Us on WhatsApp</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- GSAP library for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Supabase library (creates window.supabase global) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
+    <!-- Application scripts - ONLY dashboard scripts, NOT utils.js -->
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/subscription.js"></script>
+    <script src="js/components/dashboard-analytics.js"></script>
+    <script src="js/components/dashboard-cards.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
