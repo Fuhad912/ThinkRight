@@ -581,11 +581,11 @@ function showPricingModal() {
                     <div class="pricing-price">₦0 <span class="per-period">/24 hours</span></div>
                     <p class="plan-description">Limited trial access</p>
                     <ul class="pricing-benefits">
-                        <li>✓ 1 free test per subject</li>
+                        <li>✓ Full test access for 24 hours</li>
                         <li>✓ View test results</li>
-                        <li>✗ No dashboard analytics</li>
+                        <li>✓ Dashboard analytics (limited)</li>
                         <li>✗ No syllabus access</li>
-                        <li><strong>Limited to 24 hours</strong></li>
+                        <li><strong>Expires after 24 hours</strong></li>
                     </ul>
                     <button class="pricing-btn disabled" disabled>Current Plan</button>
                 </div>
@@ -601,7 +601,7 @@ function showPricingModal() {
                         <li>✓ Syllabus PDFs</li>
                         <li><strong>30 days access</strong></li>
                     </ul>
-                    <button class="pricing-btn primary-btn" onclick="window.Subscription.closePricingModal();">Get Started</button>
+                    <button class="pricing-btn primary-btn" onclick="window.Subscription.initiateFlutterwavePayment('1_month', '${subscriptionState.user?.email || 'user@example.com'}');">Get Started</button>
                 </div>
                 
                 <div class="pricing-card premium-card featured">
@@ -617,7 +617,7 @@ function showPricingModal() {
                         <li><strong>90 days access</strong></li>
                         <li><strong style="color: #4CAF50;">Save 10% vs 1-month</strong></li>
                     </ul>
-                    <button class="pricing-btn featured-btn" onclick="window.Subscription.closePricingModal();">Get Started</button>
+                    <button class="pricing-btn featured-btn" onclick="window.Subscription.initiateFlutterwavePayment('3_month', '${subscriptionState.user?.email || 'user@example.com'}');">Get Started</button>
                 </div>
             </div>
             
@@ -641,7 +641,7 @@ function showPricingModal() {
                         </tr>
                         <tr>
                             <td>Test Access</td>
-                            <td>1 per subject</td>
+                            <td>Full for 24hrs</td>
                             <td>Unlimited</td>
                             <td>Unlimited</td>
                         </tr>
