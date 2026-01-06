@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThinkRight - Sign Up</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="auth-page">
+    <!-- Hero Section -->
+    <section class="auth-hero">
+        <div class="hero-content">
+            <h1>Welcome to ThinkRight</h1>
+            <p>Master Your Studies, Ace Your Exams</p>
+        </div>
+    </section>
+
+    <!-- Auth container -->
+    <div class="auth-container">
+        <!-- Left side: Branding -->
+        <div class="auth-branding">
+            <h1 class="auth-logo">ThinkRight</h1>
+            <p class="auth-tagline">Master Your Studies, Ace Your Exams</p>
+            
+            <div class="auth-features">
+                <div class="feature-item">
+                    <span class="feature-icon">✓</span>
+                    <span>Practice 1,500+ Questions</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">✓</span>
+                    <span>Real Exam Format</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">✓</span>
+                    <span>Track Your Progress</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">✓</span>
+                    <span>Instant Feedback</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right side: Signup form -->
+        <div class="auth-form-container">
+            <div class="auth-form-wrapper">
+                <!-- Header -->
+                <div class="auth-form-header">
+                    <h2>Create Your Account</h2>
+                    <p>Join ThinkRight and start practicing</p>
+                </div>
+
+                <!-- Error message display -->
+                <div class="auth-error" id="errorMessage" style="display: none;">
+                    <span id="errorText"></span>
+                </div>
+
+                <!-- Success message display -->
+                <div class="auth-success" id="successMessage" style="display: none;">
+                    <span id="successText"></span>
+                </div>
+
+                <!-- Signup form -->
+                <form id="signupForm" class="auth-form">
+                    <!-- Email input -->
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-input"
+                            placeholder="you@example.com"
+                            required
+                            aria-label="Email address"
+                        >
+                    </div>
+
+                    <!-- Username input -->
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username</label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            class="form-input"
+                            placeholder="your_username"
+                            required
+                            aria-label="Username"
+                        >
+                    </div>
+
+                    <!-- Password input -->
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="form-input"
+                            placeholder="••••••••"
+                            required
+                            aria-label="Password"
+                        >
+                        <p class="form-hint" id="passwordHint">
+                            Must be at least 6 characters with 1 uppercase letter and 1 number
+                        </p>
+                    </div>
+
+                    <!-- Confirm password input -->
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            name="confirmPassword" 
+                            class="form-input"
+                            placeholder="••••••••"
+                            required
+                            aria-label="Confirm password"
+                        >
+                    </div>
+
+                    <!-- Signup button -->
+                    <button type="submit" class="auth-button" id="signupBtn">
+                        <span id="signupBtnText">Create Account</span>
+                        <span id="signupBtnSpinner" class="spinner" style="display: none;"></span>
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="auth-divider">
+                    <span>Already have an account?</span>
+                </div>
+
+                <!-- Login link -->
+                <p class="auth-link-text">
+                    <a href="login.html" class="auth-link">Login here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section class="auth-about">
+        <div class="about-content">
+            <h2>About ThinkRight</h2>
+            <p>ThinkRight is a simple practice website for students preparing for JAMB and WAEC. It's built to feel like the real CBT exam - timed questions, random order, and instant results so students can practise properly and gain confidence before the real test.</p>
+            <p><strong>No distractions, no unnecessary features.</strong></p>
+            <p>Just focused practice to help you think better and perform better.</p>
+        </div>
+    </section>
+
+    <!-- Footer with Contact -->
+    <footer class="auth-footer">
+        <p>&copy; 2026 ThinkRight. All rights reserved.</p>
+        <div class="auth-footer-links">
+            <a href="mailto:thinkright912@gmail.com" class="contact-button">📧 Email</a>
+            <a href="https://wa.me/2348160271964" target="_blank" class="contact-button">Contact Us on WhatsApp</a>
+        </div>
+    </footer>
+
+    <!-- GSAP library (for animations) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <!-- Supabase library (creates window.supabase global) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
+    
+    <!-- Application scripts -->
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/subscription.js"></script>
+    <script src="js/signup.js"></script>
+</body>
+</html>
