@@ -56,6 +56,10 @@ const subscriptionState = {
 // Timer handle to auto-refresh subscription when trial expires
 subscriptionState._expiryTimer = null;
 
+// Periodic refresh interval handle (every 60 seconds)
+subscriptionState._periodicRefreshInterval = null;
+const SUBSCRIPTION_REFRESH_INTERVAL_MS = 60000; // 1 minute
+
 /**
  * Initialize subscription system
  * Called on app startup
@@ -109,6 +113,9 @@ async function initSubscription() {
         // Schedule a refresh when the trial ends so client state stays accurate
         scheduleTrialExpiryRefresh();
 
+        // Schedule periodic refresh to catch expiry even if page stays open
+        schedulePeriodicSubscriptionRefresh();
+
         return true;
     } catch (error) {
         console.error('Error initializing subscription:', error);
@@ -155,6 +162,60 @@ function scheduleTrialExpiryRefresh() {
         }, refreshIn);
     } catch (err) {
         console.error('Error scheduling trial refresh:', err);
+    }
+}
+
+/**
+ * Schedule periodic subscription refresh (every 60 seconds).
+ * This ensures that trial expiry is detected promptly even if:
+ * - The page stays open for hours
+ * - The browser is closed and reopened
+ * - The user navigates between pages
+ * 
+ * Each refresh checks if trial has expired and revokes access immediately.
+ */
+function schedulePeriodicSubscriptionRefresh() {
+    try {
+        // Clear existing interval if any
+        if (subscriptionState._periodicRefreshInterval) {
+            clearInterval(subscriptionState._periodicRefreshInterval);
+            subscriptionState._periodicRefreshInterval = null;
+        }
+
+        console.log('Starting periodic subscription refresh every', SUBSCRIPTION_REFRESH_INTERVAL_MS / 1000, 'seconds');
+        
+        subscriptionState._periodicRefreshInterval = setInterval(async () => {
+            if (!subscriptionState.initialized) {
+                console.log('Subscription not initialized, skipping periodic refresh');
+                return;
+            }
+
+            console.log('🔄 Periodic subscription refresh check...');
+            const wasTrialActive = isTrialActive();
+            const wasSubActive = isSubscriptionActive();
+            
+            // Re-fetch subscription data from server
+            if (subscriptionState.user) {
+                const freshData = await fetchSubscriptionData(subscriptionState.user.id);
+                if (freshData) {
+                    subscriptionState.subscriptionData = freshData;
+                    subscriptionState.lastChecked = Date.now();
+                    
+                    const isNowTrialActive = isTrialActive();
+                    const isNowSubActive = isSubscriptionActive();
+                    
+                    // Log status change if trial expired
+                    if (wasTrialActive && !isNowTrialActive) {
+                        console.log('⚠️ TRIAL EXPIRED! Access revoked.');
+                    }
+                    if (wasSubActive && !isNowSubActive) {
+                        console.log('⚠️ SUBSCRIPTION EXPIRED! Access revoked.');
+                    }
+                }
+            }
+        }, SUBSCRIPTION_REFRESH_INTERVAL_MS);
+    } catch (err) {
+        console.error('Error scheduling periodic refresh:', err);
     }
 }
 
