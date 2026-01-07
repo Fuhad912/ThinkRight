@@ -53,6 +53,9 @@ const subscriptionState = {
     initialized: false
 };
 
+// Timer handle to auto-refresh subscription when trial expires
+subscriptionState._expiryTimer = null;
+
 /**
  * Initialize subscription system
  * Called on app startup
@@ -103,11 +106,55 @@ async function initSubscription() {
         console.log('  Trial Active:', isTrialActive());
         console.log('  Subscription Active:', isSubscriptionActive());
         
+        // Schedule a refresh when the trial ends so client state stays accurate
+        scheduleTrialExpiryRefresh();
+
         return true;
     } catch (error) {
         console.error('Error initializing subscription:', error);
         subscriptionState.initialized = false;
         return false;
+    }
+}
+
+/**
+ * Schedule a refresh of subscription data when the trial ends.
+ * This ensures that a client with an open page will re-check state
+ * immediately after the trial period and revoke access appropriately.
+ */
+function scheduleTrialExpiryRefresh() {
+    try {
+        // Clear existing timer if any
+        if (subscriptionState._expiryTimer) {
+            clearTimeout(subscriptionState._expiryTimer);
+            subscriptionState._expiryTimer = null;
+        }
+
+        const subData = subscriptionState.subscriptionData;
+        if (!subData || !subData.trial_ends_at) return;
+
+        const now = new Date();
+        const trialEnds = new Date(subData.trial_ends_at);
+        const msRemaining = trialEnds - now;
+
+        console.log('Scheduling trial expiry refresh. Remaining ms:', msRemaining);
+
+        if (msRemaining <= 0) {
+            // Already expired - force immediate refresh
+            subscriptionState.initialized = false;
+            initSubscription();
+            return;
+        }
+
+        // Schedule a refresh a little after expiry to account for clock drift
+        const refreshIn = msRemaining + 2000; // 2s buffer
+        subscriptionState._expiryTimer = setTimeout(async () => {
+            console.log('Trial expiry reached - refreshing subscription state');
+            subscriptionState.initialized = false;
+            await initSubscription();
+        }, refreshIn);
+    } catch (err) {
+        console.error('Error scheduling trial refresh:', err);
     }
 }
 
