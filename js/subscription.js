@@ -675,10 +675,16 @@ async function verifyFlutterwavePayment(transactionId, planKey) {
             throw new Error('Supabase or user not initialized');
         }
 
+        console.log('🔐 Starting payment verification...');
+        console.log('  Transaction ID:', transactionId);
+        console.log('  User ID:', subscriptionState.user.id);
+        console.log('  Plan:', planKey);
+
         // Show loading state
         showPaywallMessage('Verifying payment, please wait...');
 
         // Call Supabase Edge Function to verify payment securely
+        console.log('📡 Calling Edge Function: verify-flutterwave-payment');
         const { data, error } = await supabase.functions.invoke('verify-flutterwave-payment', {
             body: {
                 transactionId: transactionId,
@@ -688,32 +694,53 @@ async function verifyFlutterwavePayment(transactionId, planKey) {
         });
 
         if (error) {
-            console.error('Error calling verification function:', error);
-            showPaywallMessage('Payment verification error. Please try again.');
+            console.error('❌ Edge Function error:', error);
+            showPaywallMessage('Payment verification error: ' + (error.message || error));
             return;
         }
 
+        console.log('✓ Edge Function response:', data);
+
         if (data && data.success) {
-            console.log('✓ Payment verified and subscription activated');
+            console.log('✅ Payment verified successfully');
+            console.log('  Message:', data.message);
             
-            // Refresh subscription data
+            // Force full subscription refresh
+            console.log('🔄 Refreshing subscription data from database...');
             subscriptionState.initialized = false;
-            await initSubscription();
+            subscriptionState.subscriptionData = null;
+            
+            const refreshSuccess = await initSubscription();
+            
+            if (!refreshSuccess) {
+                console.error('⚠️ Subscription refresh failed');
+                showPaywallMessage('Subscription activated but refresh failed. Please reload the page.');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+                return;
+            }
+
+            console.log('✓ Subscription data refreshed');
+            console.log('  Is subscription active:', isSubscriptionActive());
+            console.log('  Subscription tier:', subscriptionState.subscriptionData?.subscription_tier);
             
             // Show success message and redirect
             showPaymentSuccessModal(planKey);
             
             // Redirect to dashboard after 3 seconds
             setTimeout(() => {
+                console.log('🚀 Redirecting to dashboard...');
                 window.location.href = 'dashboard.html';
             }, 3000);
         } else {
-            console.error('Payment verification returned false:', data?.error);
-            showPaywallMessage('Payment verification failed: ' + (data?.error || 'Unknown error'));
+            const errorMsg = data?.error || 'Unknown error';
+            console.error('❌ Payment verification failed:', errorMsg);
+            showPaywallMessage('Payment verification failed: ' + errorMsg);
         }
     } catch (error) {
-        console.error('Error verifying Flutterwave payment:', error);
-        showPaywallMessage('Error verifying payment: ' + error.message);
+        console.error('❌ Error verifying payment:', error);
+        showPaywallMessage('Error verifying payment: ' + (error.message || error));
     }
 }
 
