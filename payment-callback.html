@@ -207,8 +207,6 @@
         // Initialize Supabase - MUST MATCH js/auth.js credentials!
         const supabaseUrl = 'https://hqroqfkabptqwpqpplln.supabase.co';
         const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhxcm9xZmthYnB0cXdwcXBwbGxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcxMDU5OTgsImV4cCI6MjA4MjY4MTk5OH0.pVci7zzscJsD1UJDAYgCV2UOSxdMLuMvYntWB5EDVzo';
-        
-        let supabase = null;
 
         // Wait for Supabase to load
         async function initSupabase() {
@@ -217,9 +215,9 @@
                 return null;
             }
             try {
-                supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+                const client = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
                 console.log('✅ Supabase initialized');
-                return supabase;
+                return client;
             } catch (err) {
                 console.error('❌ Error initializing Supabase:', err);
                 return null;
@@ -230,16 +228,14 @@
             const container = document.getElementById('paymentContainer');
             
             // Ensure Supabase is initialized
-            if (!supabase) {
-                supabase = await initSupabase();
-                if (!supabase) {
-                    showError(
-                        'System Error',
-                        'Failed to initialize payment system. Please try again or contact support.',
-                        'support'
-                    );
-                    return;
-                }
+            let supabaseClient = await initSupabase();
+            if (!supabaseClient) {
+                showError(
+                    'System Error',
+                    'Failed to initialize payment system. Please try again or contact support.',
+                    'support'
+                );
+                return;
             }
             
             try {
@@ -274,7 +270,7 @@
                 }
 
                 // Check if user is authenticated
-                const { data: { user }, error: authError } = await supabase.auth.getUser();
+                const { data: { user }, error: authError } = await supabaseClient.auth.getUser();
                 
                 if (authError || !user) {
                     console.error('❌ Auth error:', authError);
@@ -290,7 +286,7 @@
 
                 // Process based on payment status
                 if (status === 'successful') {
-                    await handleSuccessfulPayment(user, txRef);
+                    await handleSuccessfulPayment(user, txRef, supabaseClient);
                 } else if (status === 'failed') {
                     showError(
                         'Payment Failed',
@@ -321,7 +317,7 @@
             }
         }
 
-        async function handleSuccessfulPayment(user, txRef) {
+        async function handleSuccessfulPayment(user, txRef, supabaseClient) {
             const container = document.getElementById('paymentContainer');
             
             console.log('💳 Processing successful payment for user:', user.id);
@@ -375,7 +371,7 @@
 
                 // Update user metadata with subscription info
                 console.log('🔄 Updating Supabase metadata...');
-                const { error: updateError } = await supabase.auth.updateUser({
+                const { error: updateError } = await supabaseClient.auth.updateUser({
                     data: {
                         is_premium: true,
                         subscription_plan: plan,
@@ -393,13 +389,17 @@
 
                 console.log('✅ Metadata updated successfully');
                 
-                // Force refresh session to get updated metadata
+                // Force refresh session to ensure metadata is synced
                 console.log('🔄 Refreshing user session...');
-                const { data: { user: refreshedUser }, error: refreshError } = await supabase.auth.refreshSession();
+                const { error: refreshError } = await supabaseClient.auth.refreshSession();
                 if (refreshError) {
                     console.warn('⚠️ Session refresh error (non-critical):', refreshError);
-                } else if (refreshedUser) {
-                    console.log('✅ Session refreshed, new metadata:', refreshedUser.user_metadata);
+                } else {
+                    // Get updated user data
+                    const { data: { user: updatedUser } } = await supabaseClient.auth.getUser();
+                    if (updatedUser) {
+                        console.log('✅ Session refreshed, new metadata:', updatedUser.user_metadata);
+                    }
                 }
 
 
@@ -428,7 +428,6 @@
                 console.log('⏱️ Starting countdown...');
                 let count = 3;
                 const interval = setInterval(() => {
-                    count--;
                     const countdownElement = document.getElementById('countdown');
                     if (countdownElement) {
                         countdownElement.textContent = count;
@@ -438,6 +437,7 @@
                         console.log('🚀 Redirecting to /index.html');
                         window.location.href = '/index.html';
                     }
+                    count--;
                 }, 1000);
 
             } catch (error) {
