@@ -204,26 +204,80 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Initialize Supabase
-        const supabaseUrl = 'https://gtzrqyspmzowljxbhcyv.supabase.co';
-        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd0enJxeXNwbXpvd2xqeGJoY3l2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDk4MTAxNzMsImV4cCI6MjAyNTM5MDE3M30.OKwYV-r3yM_J2T-6EcVRV7bvpXt4MvCYEY0g4mEP6os';
-        const supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+        // Initialize Supabase - MUST MATCH js/auth.js credentials!
+        const supabaseUrl = 'https://hqroqfkabptqwpqpplln.supabase.co';
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhxcm9xZmthYnB0cXdwcXBwbGxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcxMDU5OTgsImV4cCI6MjA4MjY4MTk5OH0.pVci7zzscJsD1UJDAYgCV2UOSxdMLuMvYntWB5EDVzo';
+        
+        let supabase = null;
+
+        // Wait for Supabase to load
+        async function initSupabase() {
+            if (!window.supabase) {
+                console.error('❌ Supabase library not loaded');
+                return null;
+            }
+            try {
+                supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+                console.log('✅ Supabase initialized');
+                return supabase;
+            } catch (err) {
+                console.error('❌ Error initializing Supabase:', err);
+                return null;
+            }
+        }
 
         async function processPayment() {
             const container = document.getElementById('paymentContainer');
             
+            // Ensure Supabase is initialized
+            if (!supabase) {
+                supabase = await initSupabase();
+                if (!supabase) {
+                    showError(
+                        'System Error',
+                        'Failed to initialize payment system. Please try again or contact support.',
+                        'support'
+                    );
+                    return;
+                }
+            }
+            
             try {
-                // Get URL parameters
+                // Get URL parameters (try both query string and hash)
                 const params = new URLSearchParams(window.location.search);
-                const status = params.get('status');
-                const txRef = params.get('tx_ref');
+                let status = params.get('status');
+                let txRef = params.get('tx_ref');
                 
-                console.log('Payment callback received:', { status, txRef });
+                // Fallback: check URL hash in case Flutterwave uses hash parameters
+                if (!status && window.location.hash) {
+                    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+                    status = hashParams.get('status') || status;
+                    txRef = hashParams.get('tx_ref') || txRef;
+                }
+                
+                console.log('📍 Current URL:', window.location.href);
+                console.log('🔍 Extracted parameters:', { status, txRef });
+                
+                // If no status parameter found, show what we received
+                if (!status) {
+                    console.warn('⚠️ No status parameter found in URL');
+                    console.log('Query string:', window.location.search);
+                    console.log('Hash:', window.location.hash);
+                    
+                    // Show debug screen
+                    showError(
+                        'Status Not Found',
+                        'Could not detect payment status. This might be a Flutterwave redirect issue. Contact support with your transaction reference.',
+                        'support'
+                    );
+                    return;
+                }
 
                 // Check if user is authenticated
                 const { data: { user }, error: authError } = await supabase.auth.getUser();
                 
                 if (authError || !user) {
+                    console.error('❌ Auth error:', authError);
                     showError(
                         'Authentication Required',
                         'Please sign in to your account to complete payment processing.',
@@ -231,6 +285,8 @@
                     );
                     return;
                 }
+                
+                console.log('✅ User authenticated:', user.id);
 
                 // Process based on payment status
                 if (status === 'successful') {
@@ -268,6 +324,9 @@
         async function handleSuccessfulPayment(user, txRef) {
             const container = document.getElementById('paymentContainer');
             
+            console.log('💳 Processing successful payment for user:', user.id);
+            console.log('📋 Transaction reference:', txRef);
+            
             // Show processing state
             container.innerHTML = `
                 <div class="status-success">
@@ -289,11 +348,15 @@
                 let planName = '1 Month Plan';
                 let price = 1499;
 
-                // Parse plan from tx_ref if available (format: tx_ref_plankey_timestamp)
+                // Parse plan from tx_ref if available (format: thinkright_userid_plankey_timestamp)
+                console.log('🔍 Parsing plan from tx_ref:', txRef);
                 if (txRef && txRef.includes('quarterly')) {
                     plan = 'quarterly';
                     planName = '3 Month Plan';
                     price = 3999;
+                    console.log('✅ Plan identified as: quarterly');
+                } else {
+                    console.log('✅ Plan identified as: monthly (default)');
                 }
 
                 // Calculate subscription dates
@@ -305,8 +368,13 @@
                 } else if (plan === 'quarterly') {
                     endDate.setMonth(endDate.getMonth() + 3);
                 }
+                
+                console.log('📅 Subscription dates calculated:');
+                console.log('   Start:', startDate.toISOString());
+                console.log('   Expires:', endDate.toISOString());
 
                 // Update user metadata with subscription info
+                console.log('🔄 Updating Supabase metadata...');
                 const { error: updateError } = await supabase.auth.updateUser({
                     data: {
                         is_premium: true,
@@ -317,18 +385,27 @@
                         last_payment_date: startDate.toISOString()
                     }
                 });
-
+                
                 if (updateError) {
+                    console.error('❌ Metadata update error:', updateError);
                     throw new Error(`Failed to update subscription: ${updateError.message}`);
                 }
 
-                console.log('Subscription updated successfully:', {
-                    plan,
-                    startDate: startDate.toISOString(),
-                    expiresAt: endDate.toISOString()
-                });
+                console.log('✅ Metadata updated successfully');
+                
+                // Force refresh session to get updated metadata
+                console.log('🔄 Refreshing user session...');
+                const { data: { user: refreshedUser }, error: refreshError } = await supabase.auth.refreshSession();
+                if (refreshError) {
+                    console.warn('⚠️ Session refresh error (non-critical):', refreshError);
+                } else if (refreshedUser) {
+                    console.log('✅ Session refreshed, new metadata:', refreshedUser.user_metadata);
+                }
+
+
 
                 // Show success message and redirect
+                console.log('🎉 Showing success message...');
                 container.innerHTML = `
                     <div class="status-success">
                         <div class="logo">ThinkRight</div>
@@ -348,12 +425,17 @@
                 `;
 
                 // Countdown and redirect
+                console.log('⏱️ Starting countdown...');
                 let count = 3;
                 const interval = setInterval(() => {
                     count--;
-                    document.getElementById('countdown').textContent = count;
-                        if (count === 0) {
+                    const countdownElement = document.getElementById('countdown');
+                    if (countdownElement) {
+                        countdownElement.textContent = count;
+                    }
+                    if (count === 0) {
                         clearInterval(interval);
+                        console.log('🚀 Redirecting to /index.html');
                         window.location.href = '/index.html';
                     }
                 }, 1000);
@@ -427,8 +509,35 @@
             window.location.href = `https://wa.me/2348160271964?text=I%20need%20help%20with%20my%20payment%20(Reference:%20${txRef})`;
         }
 
-        // Start payment processing
-        processPayment();
+        // Start payment processing with error handling
+        console.log('🎯 Payment callback page loaded');
+        
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                console.log('📄 DOM ready, initializing payment processing...');
+                await processPayment();
+            } catch (err) {
+                console.error('❌ Fatal error:', err);
+                document.getElementById('paymentContainer').innerHTML = `
+                    <div style="text-align: center; padding: 40px;">
+                        <div style="font-size: 60px; margin: 20px 0;">❌</div>
+                        <h1 style="color: #c53030;">System Error</h1>
+                        <p style="color: #718096; margin: 20px 0;">An unexpected error occurred. Please check the browser console for details.</p>
+                        <p style="color: #a0aec0; font-size: 14px; font-family: monospace;">${err.message}</p>
+                        <button onclick="window.location.href='/index.html'" style="
+                            background: #667eea;
+                            color: white;
+                            border: none;
+                            padding: 12px 30px;
+                            border-radius: 6px;
+                            cursor: pointer;
+                            font-weight: bold;
+                            margin-top: 20px;
+                        ">Back to Home</button>
+                    </div>
+                `;
+            }
+        });
     </script>
 </body>
 </html>
