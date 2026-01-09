@@ -285,7 +285,7 @@
                 console.log('✅ User authenticated:', user.id);
 
                 // Process based on payment status
-                if (status === 'successful') {
+                if (status === 'successful' || status === 'completed') {
                     await handleSuccessfulPayment(user, txRef, supabaseClient);
                 } else if (status === 'failed') {
                     showError(
