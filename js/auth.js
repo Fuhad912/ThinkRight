@@ -137,7 +137,7 @@ async function signUp(email, password, username) {
         console.log('📝 Attempting to sign up with email:', email.toLowerCase());
         
         // Use dynamic email redirect based on environment
-        let emailRedirectUrl = 'https://thinkright.vercel.app/index.html';
+        let emailRedirectUrl = 'https://thinkright.name.ng/index.html';
         if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
             emailRedirectUrl = window.location.origin + '/index.html';
         }
@@ -362,7 +362,7 @@ async function resetPassword(email) {
         console.log('Sending password reset email to:', email);
 
         const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: 'https://thinkright.vercel.app/reset-password.html',
+            redirectTo: 'https://thinkright.name.ng/reset-password.html',
         });
 
         if (error) {
