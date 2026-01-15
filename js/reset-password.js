@@ -14,7 +14,6 @@ const errorMessage = document.getElementById('errorMessage');
 const successMessage = document.getElementById('successMessage');
 const loadingState = document.getElementById('loadingState');
 const passwordMatchMessage = document.getElementById('passwordMatchMessage');
-const themeToggle = document.getElementById('themeToggle');
 
 let resetToken = null;
 
@@ -87,22 +86,44 @@ async function verifyResetSession() {
  * Setup event listeners
  */
 function setupEventListeners() {
+    console.log('Setting up event listeners...');
+    
+    // Verify form exists
+    if (!resetPasswordForm) {
+        console.error('❌ Reset password form not found!');
+        return;
+    }
+    console.log('✓ Form found, adding submit listener');
+    
     // Form submission
-    resetPasswordForm.addEventListener('submit', handleResetPassword);
+    resetPasswordForm.addEventListener('submit', function(e) {
+        console.log('Form submitted!');
+        handleResetPassword(e);
+    });
     
     // Password visibility toggles
-    toggleNewPassword.addEventListener('click', function(e) {
-        e.preventDefault();
-        togglePasswordVisibility(newPasswordInput);
-    });
+    if (toggleNewPassword) {
+        toggleNewPassword.addEventListener('click', function(e) {
+            console.log('Toggle new password clicked');
+            e.preventDefault();
+            togglePasswordVisibility(newPasswordInput);
+        });
+    }
     
-    toggleConfirmPassword.addEventListener('click', function(e) {
-        e.preventDefault();
-        togglePasswordVisibility(confirmPasswordInput);
-    });
+    if (toggleConfirmPassword) {
+        toggleConfirmPassword.addEventListener('click', function(e) {
+            console.log('Toggle confirm password clicked');
+            e.preventDefault();
+            togglePasswordVisibility(confirmPasswordInput);
+        });
+    }
     
     // Real-time password match validation
-    confirmPasswordInput.addEventListener('input', validatePasswordMatch);
+    if (confirmPasswordInput) {
+        confirmPasswordInput.addEventListener('input', validatePasswordMatch);
+    }
+    
+    console.log('✓ Event listeners setup complete');
 }
 
 /**
@@ -301,7 +322,15 @@ function setupThemeToggle() {
     // Get current theme from localStorage
     const currentTheme = localStorage.getItem('theme') || 'light';
     document.documentElement.setAttribute('data-theme', currentTheme);
-    updateThemeIcon(currentTheme);
+    
+    // Only setup toggle if element exists
+    const themeToggle = document.getElementById('themeToggle');
+    if (!themeToggle) {
+        console.log('ℹ️ Theme toggle not found on this page');
+        return;
+    }
+    
+    updateThemeIcon(currentTheme, themeToggle);
     
     // Setup toggle button
     themeToggle.addEventListener('click', () => {
@@ -310,7 +339,7 @@ function setupThemeToggle() {
         
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('theme', newTheme);
-        updateThemeIcon(newTheme);
+        updateThemeIcon(newTheme, themeToggle);
         
         console.log('Theme switched to:', newTheme);
     });
@@ -319,11 +348,13 @@ function setupThemeToggle() {
 /**
  * Update theme icon based on current theme
  */
-function updateThemeIcon(theme) {
-    const icon = themeToggle.querySelector('.theme-icon');
-    if (theme === 'light') {
-        icon.textContent = '🌙';
-    } else {
-        icon.textContent = '☀️';
+function updateThemeIcon(theme, themeToggle) {
+    const icon = themeToggle?.querySelector('.theme-icon');
+    if (icon) {
+        if (theme === 'light') {
+            icon.textContent = '🌙';
+        } else {
+            icon.textContent = '☀️';
+        }
     }
 }
