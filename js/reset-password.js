@@ -1,748 +1,405 @@
-/**
- * THINKRIGHT - SUPABASE AUTHENTICATION MODULE
- * 
- * This module handles:
- * - Supabase initialization (CDN-loaded supabase-js)
- * - Email/password sign up
- * - Email/password login
- * - Session persistence
- * - User identity management
- * - Logout functionality
- * 
- * IMPORTANT: Only handles authentication. Does NOT touch questions, timers, or UI logic.
- * All questions still load from local JSON files.
- * 
- * SETUP REQUIRED:
- * 1. Create Supabase account at https://supabase.com
- * 2. Create a new project
- * 3. Enable Email/Password authentication
- * 4. Copy your SUPABASE_URL and SUPABASE_ANON_KEY
- * 5. Paste them in the config object below
- * 
- * FUTURE: Phase 2 will add:
- * - Email verification
- * - Password reset
- * - OAuth providers (Google, GitHub)
- * - User profiles database
- * - Analytics tracking
- */
+// Initialize Supabase
+const SUPABASE_URL = 'https://hqroqfkabptqwpqpplln.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhxcm9xZmthYnB0cXdwcXBwbGxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcxMDU5OTgsImV4cCI6MjA4MjY4MTk5OH0.pVci7zzscJsD1UJDAYgCV2UOSxdMLuMvYntWB5EDVzo';
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ============================================================================
-// SUPABASE CONFIGURATION
-// 
-// Add your credentials from Supabase project settings
-// ============================================================================
+// DOM elements
+const resetPasswordForm = document.getElementById('resetPasswordForm');
+const newPasswordInput = document.getElementById('newPassword');
+const confirmPasswordInput = document.getElementById('confirmPassword');
+const resetPasswordBtn = document.getElementById('resetPasswordBtn');
+const toggleNewPassword = document.getElementById('toggleNewPassword');
+const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+const errorMessage = document.getElementById('errorMessage');
+const successMessage = document.getElementById('successMessage');
+const loadingState = document.getElementById('loadingState');
+const passwordMatchMessage = document.getElementById('passwordMatchMessage');
 
-const SUPABASE_CONFIG = {
-    // IMPORTANT: Replace these with your actual Supabase credentials
-    // Get from: Supabase Dashboard → Settings → API
-    URL: 'https://hqroqfkabptqwpqpplln.supabase.co',
-    ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhxcm9xZmthYnB0cXdwcXBwbGxuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcxMDU5OTgsImV4cCI6MjA4MjY4MTk5OH0.pVci7zzscJsD1UJDAYgCV2UOSxdMLuMvYntWB5EDVzo',
-};
-
-// ============================================================================
-// SUPABASE CLIENT INITIALIZATION
-// 
-// Initialize the Supabase client using the CDN-loaded library.
-// This is loaded in the HTML via script tag before this module.
-// ============================================================================
-
-let supabase = null;
-window.authInitialized = false; // Global flag to track if Supabase is initialized
+let resetToken = null;
 
 /**
- * Initialize Supabase client
- * 
- * This should be called once on app startup (in utils.js DOMContentLoaded).
- * Uses the global `window.supabase` object loaded via CDN.
- * 
- * @returns {boolean} True if initialization successful
+ * Initialize page on load
  */
-function initSupabase() {
-    try {
-        console.log('🔄 Initializing Supabase...');
-        
-        // Check if credentials are set
-        if (!SUPABASE_CONFIG.URL || !SUPABASE_CONFIG.ANON_KEY) {
-            console.error('❌ Supabase credentials not configured');
-            return false;
-        }
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('✓ Reset password page loaded');
+    
+    // Setup theme toggle
+    setupThemeToggle();
+    
+    // Extract token from URL hash
+    extractResetToken();
+    
+    // Setup event listeners
+    setupEventListeners();
+    
+    // Verify the reset session with Supabase
+    verifyResetSession();
+});
 
-        // Check if Supabase library is available (loaded via CDN)
-        if (!window.supabase || !window.supabase.createClient) {
-            console.error('❌ Supabase library not loaded. Retrying...');
-            return false;
-        }
-
-        // Initialize Supabase client
-        supabase = window.supabase.createClient(SUPABASE_CONFIG.URL, SUPABASE_CONFIG.ANON_KEY);
-        window.authInitialized = true;
-        console.log('✅ Supabase initialized successfully');
-        return true;
-    } catch (error) {
-        console.error('❌ Error initializing Supabase:', error);
-        return false;
+/**
+ * Extract reset token from URL hash
+ * Supabase can send the token in different formats:
+ * 1. #type=recovery&token=xxx
+ * 2. ?type=recovery&token=xxx (query params)
+ * 3. #access_token=xxx&type=recovery (fragment with access_token)
+ */
+function extractResetToken() {
+    console.log('Extracting reset token...');
+    
+    // Try fragment first (#...)
+    const fullHash = window.location.hash;
+    const fullSearch = window.location.search;
+    
+    console.log('Full URL hash:', fullHash);
+    console.log('Full URL search:', fullSearch);
+    
+    let hash = fullHash.substring(1);
+    let params = new URLSearchParams(hash);
+    
+    // If no params in hash, try search (query string)
+    if (params.size === 0 && fullSearch) {
+        hash = fullSearch.substring(1);
+        params = new URLSearchParams(hash);
+        console.log('Using search params instead of hash');
     }
+    
+    console.log('All params:', Array.from(params.entries()));
+    
+    // Try different token field names
+    let type = params.get('type');
+    let token = params.get('token') || params.get('access_token');
+    
+    // If still no token, check if there's error or token in hash
+    if (!token && fullHash) {
+        const matches = fullHash.match(/token=([^&]+)/);
+        if (matches) {
+            token = matches[1];
+            console.log('Token found via regex:', token.substring(0, 20) + '...');
+        }
+    }
+    
+    resetToken = token;
+    
+    console.log('Token type:', type);
+    console.log('Reset token found:', !!resetToken);
+    if (resetToken) {
+        console.log('Token length:', resetToken.length);
+        console.log('Token preview:', resetToken.substring(0, 30) + '...');
+    }
+    
+    if (!resetToken) {
+        console.error('❌ No token found in URL (hash or search)');
+        console.log('Full URL:', window.location.href);
+        console.log('This might be expected on first load - token should be in the email link');
+        // Don't hide the form - let user see the page and try
+        // The token should be there when they click from email
+        return;
+    }
+    
+    console.log('✓ Token extracted successfully');
 }
 
-// ============================================================================
-// AUTHENTICATION FUNCTIONS
-// 
-// Core auth operations: sign up, login, logout, session management.
-// ============================================================================
-
 /**
- * Sign up a new user with email, password, and username
- * 
- * @param {string} email - User's email
- * @param {string} password - User's password
- * @param {string} username - User's display name
- * @returns {Promise<Object>} Result object with success status and data/error
- * 
- * Returns:
- * - { success: true, user: {...}, needsConfirmation: true } on successful signup
- * - { success: false, error: '...' } on failure
- * 
- * NOTE: Email confirmation is REQUIRED. User must confirm email before logging in.
- * Username is stored in user metadata.
+ * Verify the reset session is valid
+ * This just checks if the token format is correct
  */
-async function signUp(email, password, username) {
+async function verifyResetSession() {
+    if (!resetToken) {
+        console.warn('⚠️ No token to verify');
+        return;
+    }
+    
     try {
-        if (!supabase) {
-            return { success: false, error: 'Supabase not initialized' };
+        // Just verify the token exists and has reasonable length
+        // Supabase recovery tokens are typically long enough
+        if (resetToken.length < 10) {
+            console.warn('⚠️ Token seems too short:', resetToken.length);
+            showError('This reset link appears invalid. Please request a new password reset.');
+            resetPasswordForm.style.display = 'none';
+            return;
         }
-
-        // Validate input
-        if (!email || !password || !username) {
-            return { success: false, error: 'Email, password, and username required' };
-        }
-
-        if (username.trim().length < 2) {
-            return { success: false, error: 'Username must be at least 2 characters' };
-        }
-
-        if (username.trim().length > 30) {
-            return { success: false, error: 'Username must not exceed 30 characters' };
-        }
-
-        if (password.length < 6) {
-            return { success: false, error: 'Password must be at least 6 characters' };
-        }
-
-        if (!isValidEmail(email)) {
-            return { success: false, error: 'Invalid email format' };
-        }
-
-        // Sign up with Supabase
-        console.log('📝 Attempting to sign up with email:', email.toLowerCase());
         
-        // Use dynamic email redirect based on environment
-        let emailRedirectUrl = 'https://thinkright.name.ng/index.html';
-        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-            emailRedirectUrl = window.location.origin + '/index.html';
-        }
-        console.log('📧 Email redirect URL:', emailRedirectUrl);
-        
-        const { data, error } = await supabase.auth.signUp({
-            email: email.trim().toLowerCase(),
-            password: password,
-            options: {
-                emailRedirectTo: emailRedirectUrl,
-                data: {
-                    username: username.trim()
-                }
-            }
-        });
-
-        if (error) {
-            console.error('❌ Supabase signup error:', error);
-            console.error('Error message:', error.message);
-            console.error('Error status:', error.status);
-            console.error('Error code:', error.code);
-            console.error('Full error object:', JSON.stringify(error, null, 2));
-            
-            const errorMessage = (error.message || '').toLowerCase();
-            
-            // Check for duplicate email errors
-            if (errorMessage.includes('already registered') || 
-                errorMessage.includes('user already exists') ||
-                errorMessage.includes('duplicate') ||
-                errorMessage.includes('email already') ||
-                error.code === 'user_already_exists' ||
-                error.code === 'email_exists') {
-                return { success: false, error: 'This email is already registered. Please log in or check your email for confirmation.' };
-            }
-            
-            return { success: false, error: error.message || 'Signup failed' };
-        }
-
-        if (!data || !data.user) {
-            console.error('❌ No user data returned from signup');
-            return { success: false, error: 'Signup failed - no user data received' };
-        }
-
-        // Success - user created and confirmation email sent
-        console.log('✓ User account created. Confirmation email sent to:', data.user.email);
-        return { 
-            success: true, 
-            user: data.user,
-            needsConfirmation: true,
-            email: data.user.email
-        };
+        console.log('✓ Reset token format looks valid, length:', resetToken.length);
     } catch (error) {
-        console.error('Error signing up:', error);
-        return { success: false, error: error.message || 'Signup failed' };
+        console.error('Verification error:', error);
+        // Don't block form submission, let user try to reset
     }
 }
 
 /**
- * Login user with email and password
- * 
- * Requires email confirmation before login succeeds.
- * Retrieves username from user metadata on successful login
- * and stores it in localStorage.
- * 
- * @param {string} email - User's email
- * @param {string} password - User's password
- * @returns {Promise<Object>} Result object with success status and data/error
- * 
- * Returns:
- * - { success: true, user: {...}, session: {...} } on successful login
- * - { success: false, error: '...' } on failure
- * - { success: false, error: 'Please confirm your email before logging in.' } if unconfirmed
+ * Setup event listeners
  */
-async function login(email, password) {
-    try {
-        if (!supabase) {
-            return { success: false, error: 'Supabase not initialized' };
-        }
-
-        // Validate input
-        if (!email || !password) {
-            return { success: false, error: 'Email and password required' };
-        }
-
-        // Login with Supabase
-        console.log('🔐 Attempting to login with email:', email);
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email: email.trim().toLowerCase(),
-            password: password,
+function setupEventListeners() {
+    console.log('Setting up event listeners...');
+    
+    // Verify form exists
+    if (!resetPasswordForm) {
+        console.error('❌ Reset password form not found!');
+        return;
+    }
+    console.log('✓ Form found, adding submit listener');
+    
+    // Form submission
+    resetPasswordForm.addEventListener('submit', function(e) {
+        console.log('Form submitted!');
+        handleResetPassword(e);
+    });
+    
+    // Password visibility toggles
+    if (toggleNewPassword) {
+        toggleNewPassword.addEventListener('click', function(e) {
+            console.log('Toggle new password clicked');
+            e.preventDefault();
+            togglePasswordVisibility(newPasswordInput);
         });
+    }
+    
+    if (toggleConfirmPassword) {
+        toggleConfirmPassword.addEventListener('click', function(e) {
+            console.log('Toggle confirm password clicked');
+            e.preventDefault();
+            togglePasswordVisibility(confirmPasswordInput);
+        });
+    }
+    
+    // Real-time password match validation
+    if (confirmPasswordInput) {
+        confirmPasswordInput.addEventListener('input', validatePasswordMatch);
+    }
+    
+    console.log('✓ Event listeners setup complete');
+}
 
-        if (error) {
-            console.error('❌ Login error:', error);
-            console.error('Error message:', error.message);
-            
-            // Handle invalid credentials
-            if (error.message.includes('Invalid login credentials')) {
-                return { success: false, error: 'Invalid email or password' };
-            }
-            
-            // Handle unconfirmed email
-            if (error.message.includes('Email not confirmed') || 
-                error.message.includes('email_not_confirmed') ||
-                error.message.includes('unconfirmed')) {
-                return { success: false, error: 'Please confirm your email before logging in.' };
-            }
-            
-            return { success: false, error: error.message };
-        }
+/**
+ * Toggle password visibility
+ */
+function togglePasswordVisibility(input) {
+    if (input.type === 'password') {
+        input.type = 'text';
+    } else {
+        input.type = 'password';
+    }
+}
 
-        if (!data || !data.user) {
-            console.error('❌ No user data returned from login');
-            return { success: false, error: 'Login failed - no user data received' };
-        }
-
-        // STRICT: Check if email is confirmed - absolutely required
-        if (!data.user.email_confirmed_at) {
-            console.warn('⚠️ BLOCKED: Email not confirmed for:', data.user.email);
-            console.warn('⚠️ Confirmation timestamp:', data.user.email_confirmed_at);
-            // Force logout this unconfirmed session
-            await supabase.auth.signOut();
-            return { success: false, error: 'Please confirm your email before logging in. Check your inbox for the confirmation link.' }
-        }
-        
-        console.log('✓ Email confirmed at:', data.user.email_confirmed_at);
-
-        // Store username from user metadata in localStorage
-        if (data.user.user_metadata && data.user.user_metadata.username) {
-            localStorage.setItem('thinkright_username', data.user.user_metadata.username);
+/**
+ * Validate passwords match in real-time
+ */
+function validatePasswordMatch() {
+    if (newPasswordInput.value && confirmPasswordInput.value) {
+        if (newPasswordInput.value !== confirmPasswordInput.value) {
+            passwordMatchMessage.style.display = 'block';
         } else {
-            // Fallback to email if username not available
-            localStorage.setItem('thinkright_username', data.user.email);
+            passwordMatchMessage.style.display = 'none';
         }
+    } else {
+        passwordMatchMessage.style.display = 'none';
+    }
+}
 
-        // Grant a 24-hour free trial automatically on first confirmed login
-        try {
-            const metadata = data.user.user_metadata || {};
-            const hasSubscription = metadata.is_premium === true || metadata.subscription_expires_at;
-            if (!hasSubscription) {
-                const now = new Date();
-                const expiresAt = new Date(now.getTime() + 24 * 60 * 60 * 1000); // 24 hours
-                const { error: updateError } = await supabase.auth.updateUser({
-                    data: {
-                        // Trial grants limited access only — do NOT mark as full premium
-                        is_premium: false,
-                        subscription_plan: 'trial',
-                        subscription_started_at: now.toISOString(),
-                        subscription_expires_at: expiresAt.toISOString(),
-                        tx_ref: null,
-                        last_payment_date: null
-                    }
+/**
+ * Handle password reset
+ */
+async function handleResetPassword(e) {
+    e.preventDefault();
+    
+    // Clear previous messages
+    hideError();
+    hideSuccess();
+    
+    // Validate inputs
+    const newPassword = newPasswordInput.value.trim();
+    const confirmPassword = confirmPasswordInput.value.trim();
+    
+    // Validation checks
+    if (!newPassword || !confirmPassword) {
+        showError('Please fill in all fields.');
+        return;
+    }
+    
+    if (newPassword.length < 6) {
+        showError('Password must be at least 6 characters long.');
+        return;
+    }
+    
+    if (newPassword !== confirmPassword) {
+        showError('Passwords do not match.');
+        return;
+    }
+    
+    // Show loading state
+    showLoading();
+    resetPasswordBtn.disabled = true;
+    
+    try {
+        console.log('🔐 Processing password reset...');
+        
+        // Check if Supabase already established a session from the email link
+        const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+        console.log('Current session:', sessionData.session);
+        console.log('Session error:', sessionError);
+        
+        if (!sessionData.session) {
+            console.error('❌ No session found. Token may have expired.');
+            
+            // If we have the reset token from URL, try to verify it
+            if (resetToken) {
+                console.log('Attempting to verify recovery token...');
+                const { data: otpData, error: otpError } = await supabase.auth.verifyOtp({
+                    token_hash: resetToken,
+                    type: 'recovery'
                 });
-
-                if (updateError) {
-                    console.warn('Could not assign free trial metadata:', updateError.message || updateError);
-                } else {
-                    console.log('✓ 24-hour free trial granted until', expiresAt.toISOString());
+                
+                if (otpError) {
+                    console.error('❌ OTP verification error:', otpError);
+                    showError('Your reset link has expired or is invalid. Please request a new password reset.');
+                    hideLoading();
+                    resetPasswordBtn.disabled = false;
+                    return;
                 }
+                console.log('✓ OTP verified');
+            } else {
+                showError('Session expired. Please click the reset link in the email again.');
+                hideLoading();
+                resetPasswordBtn.disabled = false;
+                return;
             }
-        } catch (trialErr) {
-            console.error('Error granting free trial:', trialErr);
+        } else {
+            console.log('✓ Session already established from email link');
         }
-
-        console.log('✓ User logged in successfully:', data.user.email);
-        return { success: true, user: data.user, session: data.session };
-    } catch (error) {
-        console.error('Error logging in:', error);
-        return { success: false, error: error.message || 'Login failed' };
-    }
-}
-
-/**
- * Logout the current user
- * 
- * @returns {Promise<Object>} Result object with success status
- * 
- * Returns:
- * - { success: true } on successful logout
- * - { success: false, error: '...' } on failure
- */
-async function logout() {
-    try {
-        if (!supabase) {
-            return { success: false, error: 'Supabase not initialized' };
-        }
-
-        const { error } = await supabase.auth.signOut();
-
-        if (error) {
-            return { success: false, error: error.message };
-        }
-
-        console.log('✓ User logged out successfully');
-        return { success: true };
-    } catch (error) {
-        console.error('Error logging out:', error);
-        return { success: false, error: error.message || 'Logout failed' };
-    }
-}
-
-// ============================================================================
-// PASSWORD RECOVERY
-// 
-// Handle forgot password flow using Supabase
-// ============================================================================
-
-/**
- * Send password reset email to user
- * 
- * Sends an email with a password recovery link to the provided email address.
- * The user clicks the link to reset their password.
- * 
- * @param {string} email - User's email address
- * @returns {Promise<Object>} Result object with success status and error message if any
- */
-async function resetPassword(email) {
-    try {
-        if (!supabase) {
-            return { success: false, error: 'Supabase not initialized' };
-        }
-
-        console.log('Sending password reset email to:', email);
-
-        // Use the correct redirect URL
-        const redirectUrl = 'https://thinkright.name.ng/reset-password.html';
-        console.log('Reset redirect URL:', redirectUrl);
-
-        const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: redirectUrl,
-        });
-
-        if (error) {
-            console.error('Password reset error:', error);
-            return { success: false, error: error.message || 'Failed to send reset email' };
-        }
-
-        console.log('✓ Password reset email sent successfully');
-        console.log('Email should contain a link with the reset token');
-        return { success: true, data };
-
-    } catch (error) {
-        console.error('Error in resetPassword:', error);
-        return { success: false, error: error.message || 'An error occurred' };
-    }
-}
-
-/**
- * Update user password (used after clicking reset link)
- * 
- * Called when user is on the password reset page after clicking the email link.
- * 
- * @param {string} newPassword - The new password
- * @returns {Promise<Object>} Result object with success status
- */
-async function updatePassword(newPassword) {
-    try {
-        if (!supabase) {
-            return { success: false, error: 'Supabase not initialized' };
-        }
-
-        const { data, error } = await supabase.auth.updateUser({
+        
+        // Small delay to ensure session is fully established
+        await new Promise(r => setTimeout(r, 300));
+        
+        // Step: Update the password with the authenticated session
+        console.log('Attempting to update password...');
+        const { data: updateData, error: updateError } = await supabase.auth.updateUser({
             password: newPassword
         });
-
-        if (error) {
-            console.error('Password update error:', error);
-            return { success: false, error: error.message || 'Failed to update password' };
+        
+        if (updateError) {
+            console.error('❌ Password update error:', updateError);
+            console.error('Error code:', updateError.code);
+            console.error('Error message:', updateError.message);
+            console.error('Full error:', JSON.stringify(updateError));
+            showError(updateError.message || 'Failed to update password. Please try again.');
+            hideLoading();
+            resetPasswordBtn.disabled = false;
+            return;
         }
-
+        
         console.log('✅ Password updated successfully');
-        return { success: true, data };
-
+        if (updateData && updateData.user) {
+            console.log('User after update:', updateData.user.email);
+        }
+        
+        // Sign out to clear the temporary session
+        await supabase.auth.signOut();
+        console.log('✓ Signed out temporary session');
+        
+        // Show success message
+        showSuccess('Password reset successful! Redirecting to login...');
+        resetPasswordForm.style.display = 'none';
+        
+        // Redirect to login after 2 seconds
+        setTimeout(() => {
+            window.location.href = 'login.html';
+        }, 2000);
+        
     } catch (error) {
-        console.error('Error in updatePassword:', error);
-        return { success: false, error: error.message || 'An error occurred' };
-    }
-}
-
-// ============================================================================
-// SESSION & USER MANAGEMENT
-// 
-// Get current user, check authentication status, watch for changes.
-// ============================================================================
-
-/**
- * Get the currently logged-in user
- * 
- * This retrieves the session from Supabase auth state.
- * Works even after page refresh (Supabase handles persistence).
- * 
- * @returns {Promise<Object|null>} User object or null if not logged in
- */
-async function getCurrentUser() {
-    try {
-        if (!supabase) {
-            return null;
-        }
-
-        const { data, error } = await supabase.auth.getUser();
-
-        if (error || !data.user) {
-            return null;
-        }
-
-        return data.user;
-    } catch (error) {
-        console.error('Error getting current user:', error);
-        return null;
+        console.error('❌ Password reset error:', error);
+        console.error('Full error:', JSON.stringify(error, null, 2));
+        showError(error.message || 'An error occurred while resetting your password. Please try again or contact support.');
+        hideLoading();
+        resetPasswordBtn.disabled = false;
     }
 }
 
 /**
- * Check if user is currently authenticated
- * 
- * @returns {Promise<boolean>} True if user is logged in
+ * Show error message
  */
-async function isAuthenticated() {
-    const user = await getCurrentUser();
-    return user !== null;
+function showError(message) {
+    errorMessage.textContent = message;
+    errorMessage.style.display = 'block';
+    console.error('Error:', message);
 }
 
 /**
- * Get current session (access token, refresh token, etc.)
- * 
- * Useful for making authenticated API calls in Phase 2.
- * 
- * @returns {Promise<Object|null>} Session object or null
+ * Hide error message
  */
-async function getSession() {
-    try {
-        if (!supabase) {
-            return null;
-        }
-
-        const { data, error } = await supabase.auth.getSession();
-
-        if (error || !data.session) {
-            return null;
-        }
-
-        return data.session;
-    } catch (error) {
-        console.error('Error getting session:', error);
-        return null;
-    }
+function hideError() {
+    errorMessage.style.display = 'none';
 }
 
 /**
- * Watch for authentication state changes
- * 
- * Useful for:
- * - Updating UI when user logs in/out
- * - Redirecting on logout
- * - Syncing auth state across tabs
- * 
- * @param {Function} callback - Function to call when auth state changes
- *   Receives: { event, session } where event is 'SIGNED_IN', 'SIGNED_OUT', etc.
- * 
- * @returns {Function} Unsubscribe function to stop listening
+ * Show success message
  */
-function onAuthStateChange(callback) {
-    if (!supabase) {
-        console.warn('Supabase not initialized for auth state watching');
-        return () => {};
-    }
+function showSuccess(message) {
+    successMessage.textContent = message;
+    successMessage.style.display = 'block';
+    console.log('Success:', message);
+}
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-        console.log('Auth state changed:', event);
-        callback({ event, session });
+/**
+ * Hide success message
+ */
+function hideSuccess() {
+    successMessage.style.display = 'none';
+}
+
+/**
+ * Show loading state
+ */
+function showLoading() {
+    loadingState.style.display = 'flex';
+}
+
+/**
+ * Hide loading state
+ */
+function hideLoading() {
+    loadingState.style.display = 'none';
+}
+
+/**
+ * Setup theme toggle
+ */
+function setupThemeToggle() {
+    // Get current theme from localStorage
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    
+    // Only setup toggle if element exists
+    const themeToggle = document.getElementById('themeToggle');
+    if (!themeToggle) {
+        console.log('ℹ️ Theme toggle not found on this page');
+        return;
+    }
+    
+    updateThemeIcon(currentTheme, themeToggle);
+    
+    // Setup toggle button
+    themeToggle.addEventListener('click', () => {
+        const theme = document.documentElement.getAttribute('data-theme');
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme, themeToggle);
+        
+        console.log('Theme switched to:', newTheme);
     });
-
-    // Return unsubscribe function
-    return () => subscription.unsubscribe();
-}
-
-// ============================================================================
-// VALIDATION HELPERS
-// 
-// Validate user input before sending to Supabase.
-// ============================================================================
-
-/**
- * Validate email format
- * 
- * @param {string} email - Email to validate
- * @returns {boolean} True if valid email format
- */
-function isValidEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
 }
 
 /**
- * Validate password strength
- * 
- * Requirements:
- * - At least 6 characters
- * - At least one uppercase letter
- * - At least one number
- * 
- * @param {string} password - Password to validate
- * @returns {Object} { isValid: boolean, message: string }
+ * Update theme icon based on current theme
  */
-function validatePassword(password) {
-    if (password.length < 6) {
-        return { isValid: false, message: 'Password must be at least 6 characters' };
-    }
-
-    if (!/[A-Z]/.test(password)) {
-        return { isValid: false, message: 'Password must contain at least one uppercase letter' };
-    }
-
-    if (!/\d/.test(password)) {
-        return { isValid: false, message: 'Password must contain at least one number' };
-    }
-
-    return { isValid: true, message: 'Password is valid' };
-}
-
-// ============================================================================
-// REDIRECT HELPERS
-// 
-// Help with navigation after auth events.
-// ============================================================================
-
-/**
- * Redirect to login if not authenticated
- * 
- * Useful for protecting pages.
- * Call this on protected pages (index.html, test.html).
- * 
- * @param {string} nextUrl - Optional: URL to redirect to after login
- *   If provided, will append as ?next= parameter
- */
-async function requireAuth(nextUrl = null) {
-    const user = await getCurrentUser();
-
-    if (!user) {
-        // Redirect to login
-        let loginUrl = 'login.html';
-        if (nextUrl) {
-            loginUrl += `?next=${encodeURIComponent(nextUrl)}`;
+function updateThemeIcon(theme, themeToggle) {
+    const icon = themeToggle?.querySelector('.theme-icon');
+    if (icon) {
+        if (theme === 'light') {
+            icon.textContent = '🌙';
+        } else {
+            icon.textContent = '☀️';
         }
-        window.location.href = loginUrl;
     }
 }
-
-/**
- * Get the 'next' URL from query parameters
- * 
- * Useful on login/signup pages to redirect back to original page.
- * 
- * @returns {string} The 'next' URL if present, or 'index.html' as default
- */
-function getNextUrl() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get('next') || 'index.html';
-}
-
-// ============================================================================
-// ERROR HANDLING UTILITIES
-// ============================================================================
-
-/**
- * Format error message for display to user
- * 
- * Makes error messages more user-friendly.
- * 
- * @param {string} errorMessage - Raw error message from Supabase
- * @returns {string} Formatted, user-friendly message
- */
-function formatErrorMessage(errorMessage) {
-    const errorMap = {
-        'Invalid login credentials': 'Email or password is incorrect',
-        'already registered': 'Email is already registered',
-        'rate_limit_exceeded': 'Too many login attempts. Please try again later',
-        'user_not_found': 'User does not exist',
-    };
-
-    for (const [key, value] of Object.entries(errorMap)) {
-        if (errorMessage.includes(key)) {
-            return value;
-        }
-    }
-
-    return errorMessage || 'An error occurred. Please try again.';
-}
-
-// ============================================================================
-// OTP AUTHENTICATION FUNCTIONS
-// 
-// Handle OTP-based authentication for signup verification and passwordless login.
-// ============================================================================
-
-/**
- * Sign up with email and password, then send OTP to email
- * 
- * @param {string} email - User's email
- * @param {string} password - User's password
- * @returns {Promise<Object>} { success: boolean, data, error }
- */
-async function signUpWithOTP(email, password) {
-    try {
-        if (!supabase) {
-            return { success: false, error: 'Supabase not initialized' };
-        }
-
-        if (!email || !password) {
-            return { success: false, error: 'Email and password required' };
-        }
-
-        if (password.length < 6) {
-            return { success: false, error: 'Password must be at least 6 characters' };
-        }
-
-        console.log('🔄 Signing up with OTP:', email);
-
-        // Sign up the user
-        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-            email: email,
-            password: password,
-        });
-
-        if (signUpError) {
-            console.error('❌ Signup error:', signUpError);
-            return { success: false, error: signUpError.message };
-        }
-
-        if (!signUpData.user) {
-            return { success: false, error: 'Signup failed - no user data' };
-        }
-
-        console.log('✓ User created, OTP sent to email:', email);
-        return { success: true, data: signUpData };
-    } catch (error) {
-        console.error('❌ Error in signUpWithOTP:', error);
-        return { success: false, error: error.message };
-    }
-}
-
-/**
- * Sign in with email only (passwordless OTP)
- * Sends an OTP code to the user's email
- * 
- * @param {string} email - User's email
- * @returns {Promise<Object>} { success: boolean, error }
- */
-async function signInWithOTP(email) {
-    try {
-        if (!supabase) {
-            return { success: false, error: 'Supabase not initialized' };
-        }
-
-        if (!email) {
-            return { success: false, error: 'Email required' };
-        }
-
-        console.log('🔄 Sending OTP to:', email);
-
-        const { data, error } = await supabase.auth.signInWithOtp({
-            email: email,
-        });
-
-        if (error) {
-            console.error('❌ OTP send error:', error);
-            return { success: false, error: error.message };
-        }
-
-        console.log('✓ OTP sent to email:', email);
-        return { success: true, data: data };
-    } catch (error) {
-        console.error('❌ Error sending OTP:', error);
-        return { success: false, error: error.message };
-    }
-}
-
-// ============================================================================
-// EXPORT FOR TESTING
-// 
-// Make functions available globally for debugging in browser console.
-// Remove in production if desired.
-// ============================================================================
-
-window.ThinkRightAuth = {
-    initSupabase,
-    signUp,
-    login,
-    logout,
-    getCurrentUser,
-    isAuthenticated,
-    getSession,
-    onAuthStateChange,
-    requireAuth,
-    getNextUrl,
-};
-
-// Make auth functions globally available for easy access
-window.signUp = signUp;
-window.login = login;
-window.logout = logout;
-window.resetPassword = resetPassword;
-window.updatePassword = updatePassword;
-window.getCurrentUser = getCurrentUser;
-window.isAuthenticated = isAuthenticated;
-window.getSession = getSession;
-window.onAuthStateChange = onAuthStateChange;
-
-console.log('✓ Auth module loaded. Available at window.ThinkRightAuth');
