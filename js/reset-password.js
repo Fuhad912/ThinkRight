@@ -38,22 +38,63 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /**
  * Extract reset token from URL hash
- * Format: #type=recovery&token=xxx
+ * Supabase can send the token in different formats:
+ * 1. #type=recovery&token=xxx
+ * 2. ?type=recovery&token=xxx (query params)
+ * 3. #access_token=xxx&type=recovery (fragment with access_token)
  */
 function extractResetToken() {
-    const hash = window.location.hash.substring(1);
-    const params = new URLSearchParams(hash);
+    console.log('Extracting reset token...');
     
-    const type = params.get('type');
-    resetToken = params.get('token');
+    // Try fragment first (#...)
+    const fullHash = window.location.hash;
+    const fullSearch = window.location.search;
+    
+    console.log('Full URL hash:', fullHash);
+    console.log('Full URL search:', fullSearch);
+    
+    let hash = fullHash.substring(1);
+    let params = new URLSearchParams(hash);
+    
+    // If no params in hash, try search (query string)
+    if (params.size === 0 && fullSearch) {
+        hash = fullSearch.substring(1);
+        params = new URLSearchParams(hash);
+        console.log('Using search params instead of hash');
+    }
+    
+    console.log('All params:', Array.from(params.entries()));
+    
+    // Try different token field names
+    let type = params.get('type');
+    let token = params.get('token') || params.get('access_token');
+    
+    // If still no token, check if there's error or token in hash
+    if (!token && fullHash) {
+        const matches = fullHash.match(/token=([^&]+)/);
+        if (matches) {
+            token = matches[1];
+            console.log('Token found via regex:', token.substring(0, 20) + '...');
+        }
+    }
+    
+    resetToken = token;
     
     console.log('Token type:', type);
     console.log('Reset token found:', !!resetToken);
-    
-    if (type !== 'recovery' || !resetToken) {
-        showError('Invalid or expired reset link. Please request a new password reset.');
-        resetPasswordForm.style.display = 'none';
+    if (resetToken) {
+        console.log('Token length:', resetToken.length);
+        console.log('Token preview:', resetToken.substring(0, 30) + '...');
     }
+    
+    if (!resetToken) {
+        console.error('❌ No token found in URL (hash or search)');
+        showError('Invalid or expired reset link. No token detected. Please request a new password reset.');
+        resetPasswordForm.style.display = 'none';
+        return;
+    }
+    
+    console.log('✓ Token extracted successfully');
 }
 
 /**
@@ -62,20 +103,21 @@ function extractResetToken() {
  */
 async function verifyResetSession() {
     if (!resetToken) {
+        console.warn('⚠️ No token to verify');
         return;
     }
     
     try {
-        // Just verify the token format is valid UUID-like
-        // The actual OTP verification happens during password update
-        if (resetToken.length < 20) {
-            console.warn('⚠️ Invalid token format');
-            showError('This reset link has expired or is invalid. Please request a new password reset.');
+        // Just verify the token exists and has reasonable length
+        // Supabase recovery tokens are typically long enough
+        if (resetToken.length < 10) {
+            console.warn('⚠️ Token seems too short:', resetToken.length);
+            showError('This reset link appears invalid. Please request a new password reset.');
             resetPasswordForm.style.display = 'none';
             return;
         }
         
-        console.log('✓ Reset token format valid');
+        console.log('✓ Reset token format looks valid, length:', resetToken.length);
     } catch (error) {
         console.error('Verification error:', error);
         // Don't block form submission, let user try to reset
