@@ -800,23 +800,39 @@ function populateReviewModal() {
 
         // Show user's answer (if exists)
         if (userAnswer) {
-            const userOptionValue = question[`option_${userAnswer}`];
+            // Handle both formats: option_A style and options.A style
+            const userOptionValue = question[`option_${userAnswer}`] || 
+                                   (question.options && question.options[userAnswer]) || 
+                                   'Not found';
+            
             const userOptionDiv = document.createElement('div');
             userOptionDiv.className = isCorrect ? 'review-option correct-answer' : 'review-option user-incorrect';
             userOptionDiv.innerHTML = `
-                <div class="option-header">${isCorrect ? 'Your Answer' : 'Your Answer'}</div>
+                <div class="option-header">${isCorrect ? '✓ Your Answer (Correct)' : '✗ Your Answer (Incorrect)'}</div>
                 <span class="option-label">${userAnswer}:</span> <span class="option-text">${userOptionValue}</span>
             `;
             optionsDiv.appendChild(userOptionDiv);
+        } else {
+            // User didn't answer this question
+            const noAnswerDiv = document.createElement('div');
+            noAnswerDiv.className = 'review-option user-incorrect';
+            noAnswerDiv.innerHTML = `
+                <div class="option-header">✗ Not Answered</div>
+                <span class="option-text">You skipped this question</span>
+            `;
+            optionsDiv.appendChild(noAnswerDiv);
         }
 
-        // Show correct answer (if user was wrong)
+        // Show correct answer (always show, but especially if user was wrong)
         if (!isCorrect) {
-            const correctOptionValue = question[`option_${correctAnswer}`];
+            const correctOptionValue = question[`option_${correctAnswer}`] || 
+                                      (question.options && question.options[correctAnswer]) || 
+                                      'Not found';
+            
             const correctOptionDiv = document.createElement('div');
             correctOptionDiv.className = 'review-option correct-answer';
             correctOptionDiv.innerHTML = `
-                <div class="option-header">Correct Answer</div>
+                <div class="option-header">✓ Correct Answer</div>
                 <span class="option-label">${correctAnswer}:</span> <span class="option-text">${correctOptionValue}</span>
             `;
             optionsDiv.appendChild(correctOptionDiv);
@@ -828,15 +844,17 @@ function populateReviewModal() {
         resultDiv.innerHTML = isCorrect ? '✓ Correct' : '✗ Incorrect';
         optionsDiv.appendChild(resultDiv);
 
-        // Explanation
+        // Explanation (show for all questions, whether correct or incorrect)
         if (question.explanation) {
             const explanationDiv = document.createElement('div');
             explanationDiv.className = 'review-explanation';
             explanationDiv.innerHTML = `
-                <div class="explanation-header">Explanation</div>
+                <div class="explanation-header">📚 Explanation</div>
                 <div class="explanation-text">${question.explanation.replace(/\n/g, '<br>')}</div>
             `;
             optionsDiv.appendChild(explanationDiv);
+        } else {
+            console.warn(`Q${index + 1}: No explanation found`);
         }
 
         reviewItem.appendChild(questionDiv);
