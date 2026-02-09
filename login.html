@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <title>ThinkRight - Login</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/premium-ui.css">
+</head>
+<body class="auth-page page-auth page-login">
+    <main class="auth-shell">
+        <section class="auth-hero">
+            <p class="eyebrow">ThinkRight Platform</p>
+            <h1>Welcome back</h1>
+            <p>Sign in to continue your structured exam practice and analytics tracking.</p>
+
+            <div class="auth-features">
+                <div class="feature-item">
+                    <span class="feature-icon">01</span>
+                    <span>Practice 1,500+ questions</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">02</span>
+                    <span>Timed CBT simulation</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">03</span>
+                    <span>Performance insights</span>
+                </div>
+                <div class="feature-item">
+                    <span class="feature-icon">04</span>
+                    <span>Instant feedback loops</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="auth-form-container">
+            <div class="auth-form-wrapper">
+                <div class="auth-form-header">
+                    <h2>Login to Your Account</h2>
+                    <p>Enter your credentials to continue.</p>
+                </div>
+
+                <div class="auth-error" id="errorMessage" style="display: none;">
+                    <span id="errorText"></span>
+                </div>
+
+                <form id="loginForm" class="auth-form">
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-input"
+                            placeholder="you@example.com"
+                            required
+                            aria-label="Email address"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="password-field password-input-wrapper">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                class="form-input password-input"
+                                placeholder="********"
+                                required
+                                aria-label="Password"
+                            >
+                            <button type="button" id="passwordToggle" class="password-toggle" aria-label="Show password" aria-pressed="false">Show</button>
+                        </div>
+                    </div>
+
+                    <div class="form-meta-row">
+                        <a href="#" id="forgotPasswordLink" class="forgot-password-link">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="auth-button" id="loginBtn">
+                        <span id="loginBtnText">Login</span>
+                        <span id="loginBtnSpinner" class="spinner" style="display: none;"></span>
+                    </button>
+                </form>
+
+                <div class="auth-divider">
+                    <span>New to ThinkRight?</span>
+                </div>
+
+                <p class="auth-link-text">
+                    Do not have an account?
+                    <a href="signup.html" class="auth-link">Create one now</a>
+                </p>
+            </div>
+        </section>
+
+        <section class="auth-about auth-about-panel">
+            <div class="about-content">
+                <h2>About ThinkRight</h2>
+                <p>ThinkRight helps JAMB candidates practice in realistic CBT conditions with timed sessions, random question flow, and immediate scoring.</p>
+                <p>Built for focused, distraction-free preparation and measurable improvement.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="auth-footer">
+        <p>&copy; 2026 ThinkRight. All rights reserved.</p>
+        <div class="auth-footer-links">
+            <a href="mailto:thinkright912@gmail.com" class="contact-button">Email</a>
+            <a href="https://wa.me/2348160271964" target="_blank" class="contact-button">WhatsApp Support</a>
+        </div>
+    </footer>
+
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
+    <script defer src="js/utils.js"></script>
+    <script defer src="js/auth.js"></script>
+    <script defer src="js/login.js"></script>
+</body>
+</html>
