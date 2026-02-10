@@ -60,6 +60,14 @@
       return;
     }
 
+    // Best-effort: if this browser has local history, backfill it to Supabase so
+    // projections/dashboard are consistent across browsers/devices.
+    try {
+      await backfillLocalResultsToSupabase(user.id);
+    } catch (e) {
+      console.warn("[projection] Backfill warning:", e);
+    }
+
     // Read recent tests from Supabase (preferred) or fall back to local stored results.
     const recent = await fetchRecentTestsForProjection(user.id, 5);
     if (!Array.isArray(recent) || recent.length < 3) {
@@ -216,6 +224,78 @@
 
     console.warn("[projection] Unable to read recent results from Supabase.", errors);
     return [];
+  }
+
+  function fnv1a32Hex(str) {
+    let h = 0x811c9dc5;
+    for (let i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = (h + ((h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24))) >>> 0;
+    }
+    return ("00000000" + h.toString(16)).slice(-8);
+  }
+
+  function buildClientRef(r, userId) {
+    const uid = (userId || r?.userId || "").toString();
+    const subject = (r?.subject || "").toString();
+    const ts = (r?.timestamp || r?.completed_at || r?.completedAt || "").toString();
+    const score = Number(r?.score ?? r?.score_percentage ?? "");
+    const correct = Number(r?.correctCount ?? r?.correct_count ?? "");
+    const wrong = Number(r?.wrongCount ?? r?.wrong_count ?? "");
+    const total = Number(r?.totalQuestions ?? r?.total_questions ?? "");
+    const base = [uid, subject, ts, score, correct, wrong, total].join("|");
+    return "tr_" + fnv1a32Hex(base);
+  }
+
+  async function backfillLocalResultsToSupabase(userId) {
+    if (!userId) return 0;
+    if (!window.supabase || typeof window.supabase.from !== "function") return 0;
+
+    let allResults = [];
+    try {
+      const sm = (typeof StorageManager !== "undefined" && StorageManager) || window.StorageManager;
+      allResults = sm && typeof sm.getResults === "function" ? sm.getResults() : [];
+    } catch (e) {
+      allResults = [];
+    }
+    if (!Array.isArray(allResults) || allResults.length === 0) return 0;
+
+    const mine = allResults.filter((r) => r && r.userId === userId).slice(-200);
+    if (mine.length === 0) return 0;
+
+    const rows = [];
+    for (const r of mine) {
+      const clientRef = (r.clientRef || r.client_ref || buildClientRef(r, userId)).toString();
+      const scorePct = Number(r.score ?? r.score_percentage);
+      const correct = Number(r.correctCount ?? r.correct_count);
+      const wrong = Number(r.wrongCount ?? r.wrong_count);
+      const total = Number(r.totalQuestions ?? r.total_questions);
+      const completedAt = r.timestamp || r.completed_at || r.completedAt || new Date().toISOString();
+
+      if (!Number.isFinite(scorePct) || !Number.isFinite(correct) || !Number.isFinite(wrong) || !Number.isFinite(total)) continue;
+
+      rows.push({
+        client_ref: clientRef,
+        user_id: userId,
+        subject: (r.subject || "").toString(),
+        score_percentage: scorePct,
+        correct_count: correct,
+        wrong_count: wrong,
+        total_questions: total,
+        completed_at: completedAt,
+      });
+    }
+    if (rows.length === 0) return 0;
+
+    const { error } = await window.supabase
+      .from("test_results")
+      .upsert(rows, { onConflict: "client_ref", ignoreDuplicates: true });
+    if (error) {
+      // If the table isn't created yet, don't spam user-facing UI; just return.
+      console.warn("[projection] Backfill upsert error:", error);
+      return 0;
+    }
+    return rows.length;
   }
 
   function getRecentFromLocalResults(userId, limit) {
