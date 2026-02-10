@@ -311,6 +311,15 @@ async function handleLogout() {
 async function loadDashboardData(userId) {
     try {
         console.log('🔄 Loading dashboard for userId:', userId);
+
+        // Cross-browser/device history: best-effort sync between localStorage and Supabase.
+        // Keeps existing UI/analytics intact (dashboard continues reading StorageManager.getResults()).
+        try {
+            await backfillLocalResultsToSupabase(userId);
+            await hydrateResultsFromSupabase(userId);
+        } catch (e) {
+            console.warn('[dashboard] Results sync warning:', e);
+        }
         const allResults = StorageManager.getResults();
         console.log('📦 All stored results:', allResults);
         console.log('📊 Number of results:', allResults.length);
@@ -353,6 +362,147 @@ async function loadDashboardData(userId) {
     } catch (error) {
         console.error('Error loading dashboard data:', error);
         displayErrorMessage('Failed to load dashboard. Please refresh the page.');
+    }
+}
+
+// ============================================================================
+// RESULTS SYNC (Supabase <-> localStorage)
+// ============================================================================
+
+function dashboardFNV1a32Hex(str) {
+    let h = 0x811c9dc5;
+    for (let i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = (h + ((h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24))) >>> 0;
+    }
+    return ('00000000' + h.toString(16)).slice(-8);
+}
+
+function buildDashboardClientRef(result) {
+    const userId = (result?.userId || '').toString();
+    const subject = (result?.subject || '').toString();
+    const ts = (result?.timestamp || result?.completedAt || result?.completed_at || '').toString();
+    const score = Number(result?.score ?? result?.scorePercentage ?? result?.score_percentage ?? '');
+    const correct = Number(result?.correctCount ?? result?.correct_count ?? '');
+    const wrong = Number(result?.wrongCount ?? result?.wrong_count ?? '');
+    const total = Number(result?.totalQuestions ?? result?.total_questions ?? '');
+    const base = [userId, subject, ts, score, correct, wrong, total].join('|');
+    return 'tr_' + dashboardFNV1a32Hex(base);
+}
+
+async function backfillLocalResultsToSupabase(userId) {
+    if (!userId) return 0;
+    if (!window.supabase || typeof window.supabase.from !== 'function') return 0;
+
+    const all = StorageManager.getResults();
+    if (!Array.isArray(all) || all.length === 0) return 0;
+
+    const mine = all.filter((r) => r && r.userId === userId);
+    if (mine.length === 0) return 0;
+
+    // Bounded set to avoid huge payloads.
+    const slice = mine.slice(-200);
+    const rows = [];
+
+    for (const r of slice) {
+        const clientRef = (r.clientRef || r.client_ref || buildDashboardClientRef(r)).toString();
+        const scorePct = Number(r.score ?? r.score_percentage);
+        const correct = Number(r.correctCount ?? r.correct_count);
+        const wrong = Number(r.wrongCount ?? r.wrong_count);
+        const total = Number(r.totalQuestions ?? r.total_questions);
+        const completedAt = r.timestamp || r.completed_at || r.completedAt || new Date().toISOString();
+
+        if (!Number.isFinite(scorePct) || !Number.isFinite(correct) || !Number.isFinite(wrong) || !Number.isFinite(total)) continue;
+
+        rows.push({
+            client_ref: clientRef,
+            user_id: userId,
+            subject: (r.subject || '').toString(),
+            score_percentage: scorePct,
+            correct_count: correct,
+            wrong_count: wrong,
+            total_questions: total,
+            auto_submitted: !!r.autoSubmitted,
+            reason: (r.reason || '').toString(),
+            completed_at: completedAt,
+        });
+    }
+
+    if (rows.length === 0) return 0;
+
+    try {
+        const { error } = await window.supabase
+            .from('test_results')
+            .upsert(rows, { onConflict: 'client_ref', ignoreDuplicates: true });
+        if (error) {
+            console.warn('[dashboard] Backfill upsert error:', error);
+            return 0;
+        }
+        return rows.length;
+    } catch (e) {
+        console.warn('[dashboard] Backfill upsert failed:', e);
+        return 0;
+    }
+}
+
+async function hydrateResultsFromSupabase(userId) {
+    if (!userId) return 0;
+    if (!window.supabase || typeof window.supabase.from !== 'function') return 0;
+
+    try {
+        const { data, error } = await window.supabase
+            .from('test_results')
+            .select('id,client_ref,subject,score_percentage,correct_count,wrong_count,total_questions,time_taken_seconds,auto_submitted,reason,completed_at,created_at')
+            .eq('user_id', userId)
+            .order('completed_at', { ascending: true })
+            .limit(500);
+
+        if (error) {
+            console.warn('[dashboard] Hydrate select error:', error);
+            return 0;
+        }
+
+        const remote = Array.isArray(data) ? data : [];
+        if (remote.length === 0) return 0;
+
+        const local = StorageManager.getResults();
+        const safeLocal = Array.isArray(local) ? local : [];
+        const seen = new Set();
+        for (const r of safeLocal) {
+            if (r?.clientRef) seen.add(r.clientRef);
+            if (r?.client_ref) seen.add(r.client_ref);
+        }
+
+        let added = 0;
+        for (const row of remote) {
+            const clientRef = (row.client_ref || '').toString();
+            if (clientRef && seen.has(clientRef)) continue;
+
+            safeLocal.push({
+                remoteId: row.id,
+                clientRef: clientRef || undefined,
+                userId: userId,
+                subject: row.subject,
+                score: Number(row.score_percentage),
+                correctCount: Number(row.correct_count),
+                wrongCount: Number(row.wrong_count),
+                totalQuestions: Number(row.total_questions),
+                timestamp: row.completed_at || row.created_at || new Date().toISOString(),
+                autoSubmitted: !!row.auto_submitted,
+                reason: row.reason || '',
+            });
+            if (clientRef) seen.add(clientRef);
+            added++;
+        }
+
+        if (added > 0) {
+            localStorage.setItem('test_results', JSON.stringify(safeLocal));
+        }
+
+        return added;
+    } catch (e) {
+        console.warn('[dashboard] Hydrate failed:', e);
+        return 0;
     }
 }
 
