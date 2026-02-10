@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <title>ThinkRight - Test Interface</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/premium-ui.css">
+    <script defer src="https://checkout.flutterwave.com/v3.js"></script>
+</head>
+<body class="test-page page-test">
+    <div class="test-container">
+        <div class="test-main-content">
+            <header class="test-header">
+                <div class="test-info">
+                    <h1 class="test-subject" id="testSubject">Mathematics</h1>
+                    <div class="test-progress">
+                        <span id="questionCounter">1 / 30</span>
+                    </div>
+                </div>
+
+                <div class="test-controls">
+                    <div class="timer-section">
+                        <div class="timer" id="timer">60:00</div>
+                        <p class="timer-label">Time Remaining</p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="test-workspace">
+                <main class="test-content">
+                    <section class="question-section">
+                        <div class="question-container">
+                            <h2 class="question-text" id="questionText">Loading question...</h2>
+                        </div>
+
+                        <section class="options-section">
+                            <div class="options-grid" id="optionsContainer"></div>
+                        </section>
+
+                        <div class="skip-warning" id="skipWarning" style="display: none;">
+                            <p>Please select an answer before proceeding.</p>
+                        </div>
+                    </section>
+                </main>
+
+                <aside id="questionPalette" class="question-palette-panel" aria-label="Question palette">
+                    <div class="palette-panel-header">
+                        <h3>OMR Palette</h3>
+                        <p>Jump to any question</p>
+                    </div>
+                    <div id="paletteGrid" class="palette-grid" role="list"></div>
+                    <div class="palette-legend" aria-hidden="true">
+                        <span><i class="legend-dot current"></i>Current</span>
+                        <span><i class="legend-dot answered"></i>Answered</span>
+                        <span><i class="legend-dot pending"></i>Pending</span>
+                    </div>
+                </aside>
+            </div>
+
+            <section class="navigation-section">
+                <button class="nav-button nav-previous" id="prevBtn" aria-label="Previous question" type="button">Previous</button>
+
+                <div class="navigation-info">
+                    <span id="navStatus">Question 1 of 30</span>
+                </div>
+
+                <button class="nav-button nav-next" id="nextBtn" aria-label="Next question" type="button">Next</button>
+            </section>
+
+            <section class="submit-section">
+                <button class="submit-button" id="submitBtn" aria-label="Submit test" type="button">Submit Test</button>
+            </section>
+        </div>
+    </div>
+
+    <div class="modal" id="resultsModal" style="display: none;">
+        <div class="modal-content">
+            <h2 class="results-title">Test Complete</h2>
+
+            <div class="results-summary">
+                <div class="result-item result-score">
+                    <p class="result-label">Your Score</p>
+                    <p class="result-value" id="finalScore">0%</p>
+                </div>
+
+                <div class="results-breakdown">
+                    <div class="result-item result-correct">
+                        <p class="result-label">Correct</p>
+                        <p class="result-value" id="correctCount">0</p>
+                    </div>
+
+                    <div class="result-item result-wrong">
+                        <p class="result-label">Wrong</p>
+                        <p class="result-value" id="wrongCount">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <section class="performance-insights" id="performanceInsights" aria-live="polite">
+                <h3 class="insights-title">Performance Insights</h3>
+                <p class="insights-summary" id="insightsSummary"></p>
+                <ul class="insights-tips" id="insightsTips"></ul>
+                <div class="insights-topics-wrap" id="insightsTopicsWrap" style="display: none;">
+                    <p class="insights-topics-label">Focus Topics</p>
+                    <div class="insights-topics" id="insightsTopics"></div>
+                </div>
+            </section>
+
+            <div class="results-actions">
+                <button class="action-button retake-btn" id="retakeBtn" type="button">Retake Test</button>
+                <button class="action-button review-btn" id="reviewBtn" type="button">Review Answers</button>
+                <button class="action-button home-btn" id="homeBtn" type="button">Return Home</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="reviewModal" style="display: none;">
+        <div class="modal-content review-modal-content">
+            <div class="review-header">
+                <h2>Review Answers</h2>
+                <button class="review-close-btn" id="reviewCloseBtn" type="button">X</button>
+            </div>
+            <div class="review-body" id="reviewBody"></div>
+            <div class="review-footer">
+                <button class="action-button" id="reviewReturnBtn" type="button">Return Home</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="antiCheatModal" class="anti-cheat-modal" style="display:none;">
+      <div class="anti-cheat-modal-content">
+        <h2 class="anti-cheat-title">Warning</h2>
+        <p class="anti-cheat-message">Leaving the test page again will automatically submit your test.</p>
+        <button id="antiCheatCloseBtn" class="anti-cheat-close-btn" type="button">Continue Test</button>
+      </div>
+    </div>
+
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
+    <script defer src="js/question-bank.js"></script>
+    <script defer src="js/utils.js"></script>
+    <script defer src="js/auth.js"></script>
+    <script defer src="js/subscription.js"></script>
+    <script defer src="js/subscription-sync.js"></script>
+    <script defer src="js/test.js"></script>
+</body>
+</html>

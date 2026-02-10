@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <title>ThinkRight - Syllabus Download</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/premium-ui.css">
+    <script defer src="https://checkout.flutterwave.com/v3.js"></script>
+</head>
+<body class="page-syllabus">
+    <nav id="tr-navbar" class="tr-navbar" role="navigation" aria-label="ThinkRight main navigation">
+      <div class="tr-navbar__container">
+        <a href="index.html" class="tr-navbar__logo" aria-label="ThinkRight Home">
+          <span class="tr-navbar__brand">ThinkRight</span>
+        </a>
+
+        <ul class="tr-navbar__nav" role="list">
+          <li><a href="index.html" class="tr-navbar__link">Home</a></li>
+          <li><a href="dashboard.html" class="tr-navbar__link">Dashboard</a></li>
+          <li><a href="syllabus.html" class="tr-navbar__link">Syllabus</a></li>
+          <li><a href="#" class="tr-navbar__link tr-navbar__link--pricing">Pricing</a></li>
+        </ul>
+
+        <div id="tr-user-info" class="tr-navbar__user-info" style="display: none;">
+          <div class="tr-navbar__user-avatar">
+            <img id="tr-user-avatar" src="" alt="User avatar" class="tr-navbar__avatar-img">
+            <span id="tr-user-premium-star" class="tr-navbar__premium-star" style="display: none;">*</span>
+          </div>
+          <span id="tr-user-name" class="tr-navbar__user-name"></span>
+          <button id="tr-logout-btn" class="tr-navbar__logout-btn" type="button" title="Logout">Logout</button>
+        </div>
+
+        <button id="tr-auth-btn" class="tr-navbar__auth-btn" type="button">Login</button>
+
+        <button id="tr-theme-toggle" class="tr-navbar__theme-btn" aria-label="Toggle dark mode" type="button">
+            <svg class="tr-navbar__icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <svg class="tr-navbar__icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+        </button>
+
+        <button id="tr-hamburger" class="tr-navbar__hamburger" aria-label="Toggle navigation menu" aria-controls="tr-mobile-menu" aria-expanded="false" type="button">
+          <span class="tr-navbar__hamburger-line"></span>
+          <span class="tr-navbar__hamburger-line"></span>
+          <span class="tr-navbar__hamburger-line"></span>
+        </button>
+      </div>
+
+      <div id="tr-mobile-menu" class="tr-navbar__mobile-menu" role="region" aria-label="Mobile navigation menu">
+        <ul class="tr-navbar__mobile-nav" role="list">
+          <li><a href="index.html" class="tr-navbar__mobile-link">Home</a></li>
+          <li><a href="dashboard.html" class="tr-navbar__mobile-link">Dashboard</a></li>
+          <li><a href="syllabus.html" class="tr-navbar__mobile-link">Syllabus</a></li>
+          <li><a href="#" class="tr-navbar__mobile-link tr-navbar__mobile-link--pricing">Pricing</a></li>
+
+          <li id="tr-mobile-user-info" class="tr-navbar__mobile-user-info" style="display: none;">
+            <div class="tr-navbar__mobile-user-avatar">
+              <img id="tr-mobile-user-avatar" src="" alt="User avatar" class="tr-navbar__mobile-avatar-img">
+              <span id="tr-mobile-user-premium-star" class="tr-navbar__mobile-premium-star" style="display: none;">*</span>
+            </div>
+            <span id="tr-mobile-user-name" class="tr-navbar__mobile-user-name"></span>
+            <button id="tr-mobile-logout-btn" class="tr-navbar__mobile-logout-btn" type="button" title="Logout">Logout</button>
+          </li>
+
+          <li><button id="tr-mobile-auth-btn" class="tr-navbar__mobile-auth-btn" type="button">Login</button></li>
+          <li><button id="tr-theme-toggle-mobile" class="tr-navbar__mobile-theme-btn" type="button">
+            <svg class="tr-navbar__icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <svg class="tr-navbar__icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            <span class="tr-navbar__theme-label">Dark Mode</span>
+          </button></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+        <main class="landing-page">
+            <section class="welcome-section">
+                <p class="eyebrow">Syllabus Library</p>
+                <h1>Download Official JAMB Syllabi</h1>
+                <p>Access complete subject outlines and exam coverage guides to structure your preparation effectively.</p>
+            </section>
+
+            <section class="syllabus-section">
+                <div class="syllabus-grid">
+                    <div class="syllabus-item">
+                        <div class="syllabus-header">
+                            <div class="syllabus-icon">EN</div>
+                            <h3>Use of English</h3>
+                        </div>
+                        <p class="syllabus-description">English language proficiency coverage including comprehension, vocabulary, grammar, and communication skills.</p>
+                        <button class="view-btn" data-file="Use-of-English.pdf">View Syllabus</button>
+                    </div>
+
+                    <div class="syllabus-item">
+                        <div class="syllabus-header">
+                            <div class="syllabus-icon">MA</div>
+                            <h3>Mathematics</h3>
+                        </div>
+                        <p class="syllabus-description">Core and advanced mathematics topics including algebra, geometry, trigonometry, and introductory calculus.</p>
+                        <button class="view-btn" data-file="Mathematics.pdf">View Syllabus</button>
+                    </div>
+
+                    <div class="syllabus-item">
+                        <div class="syllabus-header">
+                            <div class="syllabus-icon">PH</div>
+                            <h3>Physics</h3>
+                        </div>
+                        <p class="syllabus-description">Mechanics, electricity, magnetism, waves, and modern physics principles required for examination success.</p>
+                        <button class="view-btn" data-file="Physics.pdf">View Syllabus</button>
+                    </div>
+
+                    <div class="syllabus-item">
+                        <div class="syllabus-header">
+                            <div class="syllabus-icon">CH</div>
+                            <h3>Chemistry</h3>
+                        </div>
+                        <p class="syllabus-description">Inorganic, organic, and physical chemistry fundamentals, including reactions, bonding, and quantitative analysis.</p>
+                        <button class="view-btn" data-file="Chemistry.pdf">View Syllabus</button>
+                    </div>
+
+                    <div class="syllabus-item">
+                        <div class="syllabus-header">
+                            <div class="syllabus-icon">BI</div>
+                            <h3>Biology</h3>
+                        </div>
+                        <p class="syllabus-description">Cell structure, genetics, ecology, physiology, and evolution for comprehensive life science preparation.</p>
+                        <button class="view-btn" data-file="Biology.pdf">View Syllabus</button>
+                    </div>
+
+                    <div class="syllabus-item">
+                        <div class="syllabus-header">
+                            <div class="syllabus-icon">CO</div>
+                            <h3>Commerce</h3>
+                        </div>
+                        <p class="syllabus-description">Business principles, trade structures, accounting concepts, and commercial systems in modern economies.</p>
+                        <button class="view-btn" data-file="Commerce.pdf">View Syllabus</button>
+                    </div>
+
+                    <div class="syllabus-item">
+                        <div class="syllabus-header">
+                            <div class="syllabus-icon">LI</div>
+                            <h3>Literature in English</h3>
+                        </div>
+                        <p class="syllabus-description">Prose, poetry, and drama analysis with emphasis on themes, literary devices, and interpretation skills.</p>
+                        <button class="view-btn" data-file="Literature-in-English.pdf">View Syllabus</button>
+                    </div>
+
+                    <div class="syllabus-item">
+                        <div class="syllabus-header">
+                            <div class="syllabus-icon">EC</div>
+                            <h3>Economics</h3>
+                        </div>
+                        <p class="syllabus-description">Micro and macroeconomic models, market structures, policy tools, and international trade concepts.</p>
+                        <button class="view-btn" data-file="Economics.pdf">View Syllabus</button>
+                    </div>
+
+                    <div class="syllabus-item">
+                        <div class="syllabus-header">
+                            <div class="syllabus-icon">GV</div>
+                            <h3>Government</h3>
+                        </div>
+                        <p class="syllabus-description">Constitutional principles, governance institutions, comparative politics, and civic participation frameworks.</p>
+                        <button class="view-btn" data-file="Government.pdf">View Syllabus</button>
+                    </div>
+
+                    <div class="syllabus-item">
+                        <div class="syllabus-header">
+                            <div class="syllabus-icon">GE</div>
+                            <h3>Geography</h3>
+                        </div>
+                        <p class="syllabus-description">Physical and human geography topics including map reading, environment, settlements, and regional studies.</p>
+                        <button class="view-btn" data-file="JAMB-Syllabus-for-Geography.pdf">View Syllabus</button>
+                    </div>
+
+                    <div class="syllabus-item">
+                        <div class="syllabus-header">
+                            <div class="syllabus-icon">HI</div>
+                            <h3>History</h3>
+                        </div>
+                        <p class="syllabus-description">Key historical periods, civilizations, and national developments with focus on interpretation and context.</p>
+                        <button class="view-btn" data-file="History-JAMB-Syllabus-2025.pdf">View Syllabus</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="dashboard-section dashboard-actions syllabus-actions">
+                <a href="index.html" class="action-button primary-btn">Start Practicing Tests</a>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2026 ThinkRight. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="mailto:thinkright912@gmail.com" class="contact-button">Email</a>
+                    <a href="https://wa.me/2348160271964" target="_blank" class="contact-button">WhatsApp Support</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
+    <script defer src="js/utils.js"></script>
+    <script defer src="js/auth.js"></script>
+    <script defer src="js/subscription.js"></script>
+    <script defer src="js/subscription-sync.js"></script>
+    <script defer src="js/app.js"></script>
+    <script defer src="js/syllabus.js"></script>
+    <script defer src="js/navbar-load.js"></script>
+</body>
+</html>
