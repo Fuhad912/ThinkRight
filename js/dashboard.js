@@ -63,9 +63,20 @@ function showDashboardLockedMessage() {
 
     if (upgradeBtn) {
         upgradeBtn.addEventListener('click', () => {
+            // Prefer the full pricing modal (requested). Fallback to paywall modal if needed.
+            if (window.Subscription && typeof window.Subscription.showPricingModal === 'function') {
+                window.Subscription.showPricingModal();
+                return;
+            }
+            if (typeof window.showPricingModal === 'function') {
+                window.showPricingModal();
+                return;
+            }
             if (window.Subscription && typeof window.Subscription.showPaywallModal === 'function') {
                 window.Subscription.showPaywallModal('dashboard');
+                return;
             }
+            console.log('Pricing modal unavailable.');
         });
     }
 
