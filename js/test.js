@@ -1520,25 +1520,157 @@ async function submitTest(arg) {
     const userId = testState.userId || (user ? user.id : '');
     
     console.log('💾 Saving result with userId:', userId);
+
+    const completedAt = new Date().toISOString();
     
     StorageManager.saveResult({
+        clientRef: buildClientResultRef({
+            userId: userId,
+            subject: testState.subject,
+            score: result.percentage,
+            correctCount: result.correct,
+            wrongCount: result.wrong,
+            totalQuestions: result.total,
+            timestamp: completedAt,
+        }),
         userId: userId,
         subject: testState.subject,
         score: result.percentage,
         correctCount: result.correct,
         wrongCount: result.wrong,
         totalQuestions: result.total,
-        timestamp: new Date().toISOString(),
+        timestamp: completedAt,
         answers: testState.answers,
         autoSubmitted: autoSubmitted,
         reason: reason,
     });
+
+    // Best-effort: persist results to Supabase so history follows the user across browsers/devices.
+    // Never block the UI if this fails (offline, RLS, table missing, etc.).
+    try {
+        const lastSaved = StorageManager.getLastResult ? StorageManager.getLastResult() : null;
+        const clientRef = lastSaved?.clientRef || buildClientResultRef(lastSaved || {});
+        await saveResultToSupabase({
+            clientRef,
+            userId,
+            subject: testState.subject,
+            scorePercentage: result.percentage,
+            correctCount: result.correct,
+            wrongCount: result.wrong,
+            totalQuestions: result.total,
+            completedAt,
+            autoSubmitted,
+            reason,
+        });
+    } catch (e) {
+        console.warn('[test] Result Supabase sync skipped/failed:', e);
+    }
 
     // Display results
     displayResults(result);
 
     // Clear the active test state
     StorageManager.clearTestState();
+}
+
+// ============================================================================
+// RESULTS SYNC (Supabase)
+// ============================================================================
+
+function buildClientResultRef(result) {
+    // Deterministic-ish client ref so retries/backfills don't create duplicates.
+    // Avoid crypto dependencies; use FNV-1a 32-bit over a stable string.
+    const userId = (result?.userId || '').toString();
+    const subject = (result?.subject || '').toString();
+    const ts = (result?.timestamp || result?.completedAt || '').toString();
+    const score = Number(result?.score ?? result?.scorePercentage ?? '');
+    const correct = Number(result?.correctCount ?? '');
+    const wrong = Number(result?.wrongCount ?? '');
+    const total = Number(result?.totalQuestions ?? '');
+    const base = [userId, subject, ts, score, correct, wrong, total].join('|');
+    return 'tr_' + fnv1a32Hex(base);
+}
+
+function fnv1a32Hex(str) {
+    let h = 0x811c9dc5;
+    for (let i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        // 32-bit FNV prime: 16777619
+        h = (h + ((h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24))) >>> 0;
+    }
+    return ('00000000' + h.toString(16)).slice(-8);
+}
+
+async function saveResultToSupabase(payload) {
+    const {
+        clientRef,
+        userId,
+        subject,
+        scorePercentage,
+        correctCount,
+        wrongCount,
+        totalQuestions,
+        completedAt,
+        autoSubmitted,
+        reason,
+    } = payload || {};
+
+    if (!userId) return false;
+    if (!window.supabase || typeof window.supabase.from !== 'function') return false;
+
+    // Derive time taken if we have remaining time and a configured duration.
+    let timeTakenSeconds = null;
+    try {
+        if (typeof testState?.timeRemaining === 'number' && typeof CONFIG?.TEST_DURATION_MINUTES === 'number') {
+            const total = Math.max(0, Math.floor(CONFIG.TEST_DURATION_MINUTES * 60));
+            const remaining = Math.max(0, Math.floor(testState.timeRemaining));
+            timeTakenSeconds = Math.max(0, total - remaining);
+        }
+    } catch (e) {
+        // ignore
+    }
+
+    const row = {
+        client_ref: (clientRef || buildClientResultRef({
+            userId,
+            subject,
+            timestamp: completedAt,
+            score: scorePercentage,
+            correctCount,
+            wrongCount,
+            totalQuestions,
+        })).toString(),
+        user_id: userId,
+        subject: (subject || '').toString(),
+        score_percentage: Number(scorePercentage),
+        correct_count: Number(correctCount),
+        wrong_count: Number(wrongCount),
+        total_questions: Number(totalQuestions),
+        time_taken_seconds: timeTakenSeconds,
+        auto_submitted: !!autoSubmitted,
+        reason: (reason || '').toString(),
+        completed_at: completedAt || new Date().toISOString(),
+    };
+
+    // Guard invalid numbers (avoid inserting NaN).
+    if (!Number.isFinite(row.score_percentage) || !Number.isFinite(row.correct_count) || !Number.isFinite(row.wrong_count) || !Number.isFinite(row.total_questions)) {
+        return false;
+    }
+
+    try {
+        const { error } = await window.supabase
+            .from('test_results')
+            .upsert(row, { onConflict: 'client_ref', ignoreDuplicates: true });
+
+        if (error) {
+            console.warn('[test] Supabase test_results upsert error:', error);
+            return false;
+        }
+        return true;
+    } catch (e) {
+        console.warn('[test] Supabase test_results upsert failed:', e);
+        return false;
+    }
 }
 
 // ============================================================================
