@@ -1495,6 +1495,12 @@ button span,
     overscroll-behavior: contain;
 }
 
+/* Keep review question text readable on tinted review cards in dark mode */
+html[data-theme='dark'] .page-test #reviewModal .review-question,
+html[data-theme='dark'] .page-test #reviewModal .review-question strong {
+    color: #111827;
+}
+
 .anti-cheat-modal {
     position: fixed;
     inset: 0;
