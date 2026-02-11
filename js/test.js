@@ -51,6 +51,7 @@ const testState = {
     timeRemaining: CONFIG.TEST_DURATION_SECONDS,
     isTestStarted: false,
     isTestSubmitted: false,
+    submissionInProgress: false,
 };
 
 // ============================================================================
@@ -103,6 +104,9 @@ const elements = {
     // Anti-cheat modal
     antiCheatModal: document.getElementById('antiCheatModal'),
     antiCheatCloseBtn: document.getElementById('antiCheatCloseBtn'),
+    submitConfirmModal: document.getElementById('submitConfirmModal'),
+    confirmSubmitBtn: document.getElementById('confirmSubmitBtn'),
+    cancelSubmitBtn: document.getElementById('cancelSubmitBtn'),
 
     // OMR palette
     questionPalette: document.getElementById('questionPalette'),
@@ -1134,6 +1138,20 @@ function handleReturnHome() {
     window.location.href = 'index.html';
 }
 
+function openSubmitConfirmation() {
+    if (testState.isTestSubmitted || testState.submissionInProgress) return;
+    if (!elements.submitConfirmModal) {
+        submitTest(false);
+        return;
+    }
+    elements.submitConfirmModal.style.display = 'flex';
+}
+
+function closeSubmitConfirmation() {
+    if (!elements.submitConfirmModal) return;
+    elements.submitConfirmModal.style.display = 'none';
+}
+
 // ============================================================================
 // EVENT LISTENER SETUP
 // 
@@ -1149,7 +1167,7 @@ function setupEventListeners() {
     elements.nextBtn.addEventListener('click', goToNextQuestion);
 
     // Submit button
-    elements.submitBtn.addEventListener('click', () => submitTest(false));
+    elements.submitBtn.addEventListener('click', openSubmitConfirmation);
 
     // Results action buttons
     elements.retakeBtn.addEventListener('click', handleRetakeTest);
@@ -1164,6 +1182,23 @@ function setupEventListeners() {
         elements.reviewReturnBtn.addEventListener('click', () => {
             handleCloseReview();
             handleReturnHome();
+        });
+    }
+
+    if (elements.cancelSubmitBtn) {
+        elements.cancelSubmitBtn.addEventListener('click', closeSubmitConfirmation);
+    }
+    if (elements.confirmSubmitBtn) {
+        elements.confirmSubmitBtn.addEventListener('click', () => {
+            closeSubmitConfirmation();
+            submitTest(false);
+        });
+    }
+    if (elements.submitConfirmModal) {
+        elements.submitConfirmModal.addEventListener('click', (event) => {
+            if (event.target === elements.submitConfirmModal) {
+                closeSubmitConfirmation();
+            }
         });
     }
 
@@ -1182,6 +1217,10 @@ function setupEventListeners() {
  */
 function handleKeyboardNavigation(event) {
     if (testState.isTestSubmitted) return; // Disable after submission
+    if (elements.submitConfirmModal && elements.submitConfirmModal.style.display === 'flex') {
+        if (event.key === 'Escape') closeSubmitConfirmation();
+        return;
+    }
 
     if (event.key === 'ArrowLeft' && !elements.prevBtn.disabled) {
         goToPreviousQuestion();
@@ -1484,7 +1523,13 @@ const examLock = {
 
 // ===================== SUBMIT TEST (MODULAR) =====================
 async function submitTest(arg) {
-    if (testState.isTestSubmitted || antiCheat.isSubmitted) return;
+    if (testState.isTestSubmitted || antiCheat.isSubmitted || testState.submissionInProgress) return;
+    testState.submissionInProgress = true;
+    if (elements.submitBtn) {
+        elements.submitBtn.disabled = true;
+        elements.submitBtn.textContent = 'Submitting...';
+    }
+    closeSubmitConfirmation();
 
     // Normalize submit metadata across callers:
     // - submitTest(true) => timer auto-submit
@@ -1507,23 +1552,24 @@ async function submitTest(arg) {
     antiCheat.markSubmitted();
     // Remove navigation restrictions immediately once the test is submitted.
     try { examLock.deactivate(); } catch (e) { /* ignore */ }
-    // Stop the timer
-    clearInterval(testState.timerInterval);
-    // Calculate results
-    const result = calculateScore();
+    try {
+        // Stop the timer
+        clearInterval(testState.timerInterval);
+        // Calculate results
+        const result = calculateScore();
 
-    console.log('Test submitted. Results:', result);
+        console.log('Test submitted. Results:', result);
 
     // Save result for future reference
     // Get current user ID for data scoping (fallback to empty string if not available)
-    const user = await getCurrentUser().catch(() => null);
-    const userId = testState.userId || (user ? user.id : '');
+        const user = await getCurrentUser().catch(() => null);
+        const userId = testState.userId || (user ? user.id : '');
     
-    console.log('💾 Saving result with userId:', userId);
+        console.log('💾 Saving result with userId:', userId);
 
-    const completedAt = new Date().toISOString();
+        const completedAt = new Date().toISOString();
     
-    StorageManager.saveResult({
+        StorageManager.saveResult({
         clientRef: buildClientResultRef({
             userId: userId,
             subject: testState.subject,
@@ -1547,30 +1593,40 @@ async function submitTest(arg) {
 
     // Best-effort: persist results to Supabase so history follows the user across browsers/devices.
     // Never block the UI if this fails (offline, RLS, table missing, etc.).
-    try {
-        const lastSaved = StorageManager.getLastResult ? StorageManager.getLastResult() : null;
-        const clientRef = lastSaved?.clientRef || buildClientResultRef(lastSaved || {});
-        await saveResultToSupabase({
-            clientRef,
-            userId,
-            subject: testState.subject,
-            scorePercentage: result.percentage,
-            correctCount: result.correct,
-            wrongCount: result.wrong,
-            totalQuestions: result.total,
-            completedAt,
-            autoSubmitted,
-            reason,
-        });
-    } catch (e) {
-        console.warn('[test] Result Supabase sync skipped/failed:', e);
+        try {
+            const lastSaved = StorageManager.getLastResult ? StorageManager.getLastResult() : null;
+            const clientRef = lastSaved?.clientRef || buildClientResultRef(lastSaved || {});
+            await saveResultToSupabase({
+                clientRef,
+                userId,
+                subject: testState.subject,
+                scorePercentage: result.percentage,
+                correctCount: result.correct,
+                wrongCount: result.wrong,
+                totalQuestions: result.total,
+                completedAt,
+                autoSubmitted,
+                reason,
+            });
+        } catch (e) {
+            console.warn('[test] Result Supabase sync skipped/failed:', e);
+        }
+
+        // Display results
+        displayResults(result);
+
+        // Clear the active test state
+        StorageManager.clearTestState();
+    } catch (error) {
+        console.error('Submit failed:', error);
+        testState.isTestSubmitted = false;
+        testState.submissionInProgress = false;
+        if (elements.submitBtn) {
+            elements.submitBtn.disabled = false;
+            elements.submitBtn.textContent = 'Submit Test';
+        }
+        alert('Unable to submit test right now. Please try again.');
     }
-
-    // Display results
-    displayResults(result);
-
-    // Clear the active test state
-    StorageManager.clearTestState();
 }
 
 // ============================================================================
