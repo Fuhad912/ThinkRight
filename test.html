@@ -8,6 +8,7 @@
     <title>ThinkRight - Test Interface</title>
     <link rel="stylesheet" href="css/style.css?v=20260211d">
     <link rel="stylesheet" href="css/premium-ui.css?v=20260211d">
+    <link rel="stylesheet" href="css/test-palette.css?v=20260211e">
     <script defer src="https://checkout.flutterwave.com/v3.js"></script>
 </head>
 <body class="test-page page-test">
@@ -32,8 +33,16 @@
             <div class="test-workspace">
                 <main class="test-content">
                     <section class="question-section">
+                        <button id="paletteToggleBtn" class="palette-toggle-btn" type="button" aria-expanded="false" aria-controls="questionPalette">
+                            Question Palette
+                        </button>
                         <div class="question-container">
-                            <h2 class="question-text" id="questionText">Loading question...</h2>
+                            <div class="question-top-row">
+                                <h2 class="question-text" id="questionText">Loading question...</h2>
+                                <button id="markReviewBtn" class="mark-review-btn" type="button" aria-pressed="false">
+                                    Mark for review
+                                </button>
+                            </div>
                         </div>
 
                         <section class="options-section">
@@ -46,19 +55,31 @@
                     </section>
                 </main>
 
-                <aside id="questionPalette" class="question-palette-panel" aria-label="Question palette">
+                <aside id="questionPalette" class="question-palette-panel" aria-label="Question palette" aria-hidden="false">
+                    <div class="palette-sheet-handle" aria-hidden="true"></div>
                     <div class="palette-panel-header">
-                        <h3>OMR Palette</h3>
-                        <p>Jump to any question</p>
+                        <div class="palette-panel-title-wrap">
+                            <h3>Question Palette</h3>
+                            <p>Jump to any question quickly</p>
+                        </div>
+                        <button id="paletteCloseBtn" class="palette-close-btn" type="button" aria-label="Close palette">
+                            Close
+                        </button>
+                    </div>
+                    <div class="palette-summary" aria-live="polite">
+                        <span>Answered <strong id="paletteAnsweredCount">0</strong>/<strong id="paletteTotalCount">0</strong></span>
+                        <span>Remaining <strong id="paletteRemainingCount">0</strong></span>
                     </div>
                     <div id="paletteGrid" class="palette-grid" role="list"></div>
                     <div class="palette-legend" aria-hidden="true">
                         <span><i class="legend-dot current"></i>Current</span>
                         <span><i class="legend-dot answered"></i>Answered</span>
+                        <span><i class="legend-dot flagged"></i>Marked</span>
                         <span><i class="legend-dot pending"></i>Pending</span>
                     </div>
                 </aside>
             </div>
+            <div id="paletteOverlay" class="palette-overlay" hidden></div>
 
             <section class="navigation-section">
                 <button class="nav-button nav-previous" id="prevBtn" aria-label="Previous question" type="button">Previous</button>
@@ -156,6 +177,6 @@
     <script defer src="js/auth.js?v=20260211d"></script>
     <script defer src="js/subscription.js?v=20260211d"></script>
     <script defer src="js/subscription-sync.js?v=20260211d"></script>
-    <script defer src="js/test.js?v=20260211d"></script>
+    <script defer src="js/test.js?v=20260211e"></script>
 </body>
 </html>
