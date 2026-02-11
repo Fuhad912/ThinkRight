@@ -240,9 +240,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Animate page load for pleasant UX
     animatePageLoad();
 
-    // Initialize trial banner (non-blocking)
-    initTrialBanner();
-
     // Log for debugging (remove in production)
     console.log('Subject selection ready. Available subjects: Mathematics, English');
 });
@@ -453,68 +450,6 @@ async function checkAuth() {
     }
 }
 
-// ============================================================================
-// TRIAL BANNER
-// ============================================================================
-async function initTrialBanner() {
-    try {
-        // Wait until auth and subscription code ready
-        let retries = 0;
-        while ((!window.authInitialized || !window.Subscription || typeof window.Subscription.init !== 'function') && retries < 50) {
-            await new Promise(r => setTimeout(r, 100));
-            retries++;
-        }
-
-        if (!window.authInitialized || !window.Subscription) return;
-
-        // Initialize subscription state (safe to call repeatedly)
-        await window.Subscription.init();
-
-        // Show banner only when trial active
-        if (typeof window.Subscription.isTrialActive === 'function' && window.Subscription.isTrialActive()) {
-            const banner = document.getElementById('trialBanner');
-            if (!banner) return;
-            const timeReadable = window.Subscription.getSubscriptionTimeReadable();
-            banner.style.display = 'block';
-            banner.style.background = '#fff7ed';
-            banner.style.border = '1px solid #ffd89b';
-            banner.style.padding = '12px 16px';
-            banner.style.borderRadius = '8px';
-            banner.style.margin = '12px 0';
-            banner.innerHTML = `
-                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
-                    <div style="display:flex;align-items:center;gap:12px;">
-                        <div style="font-size:20px;">⏳</div>
-                        <div>
-                            <strong>Your 24-hour free trial is active</strong>
-                            <div style="font-size:13px;color:#444;">Access to tests only — expires in <span class="trial-remaining">${timeReadable}</span></div>
-                        </div>
-                    </div>
-                    <div style="display:flex;gap:8px;align-items:center;">
-                        <button id="trialUpgradeBtn" style="background:#667eea;color:#fff;border:none;padding:8px 12px;border-radius:6px;cursor:pointer;font-weight:600;">Upgrade</button>
-                        <button id="trialDismissBtn" style="background:transparent;border:none;color:#666;padding:8px 12px;cursor:pointer;">Dismiss</button>
-                    </div>
-                </div>
-            `;
-
-            // Wire buttons
-            const upgradeBtn = document.getElementById('trialUpgradeBtn');
-            const dismissBtn = document.getElementById('trialDismissBtn');
-            if (upgradeBtn) upgradeBtn.addEventListener('click', () => window.Subscription.showPricingModal());
-            if (dismissBtn) dismissBtn.addEventListener('click', () => window.Subscription.dismissTrialBanner());
-
-            // Start live countdown using shared function
-            if (window.Subscription && typeof window.Subscription.startTrialBannerCountdown === 'function') {
-                window.Subscription.startTrialBannerCountdown(banner);
-            }
-        }
-    } catch (err) {
-        console.error('Error initializing trial banner:', err);
-    }
-}
-
-// NOTE: countdown and dismiss functions are provided by window.Subscription
-
 /**
  * Handle logout
  */
@@ -553,52 +488,6 @@ async function handleLogout() {
 // FREE TEST COUNTER DISPLAY
 // ============================================================================
 
-function showHomeTestsLockedOverlay() {
-    const landingPage = document.querySelector('.landing-page');
-    if (!landingPage) return;
-
-    const existing = landingPage.querySelector('.home-lock-overlay');
-    if (existing) return;
-
-    landingPage.classList.add('is-free-tests-locked');
-
-    const overlay = document.createElement('div');
-    overlay.className = 'home-lock-overlay';
-    overlay.innerHTML = `
-        <div class="home-lock-dialog" role="dialog" aria-modal="false" aria-labelledby="homeLockTitle">
-            <div class="home-lock-icon" aria-hidden="true">&#128274;</div>
-            <h2 id="homeLockTitle">Free Test Limit Reached</h2>
-            <p>You have used all 6 free tests. Upgrade to continue practicing all subjects.</p>
-            <div class="home-lock-actions">
-                <button type="button" class="home-lock-upgrade">Upgrade Now</button>
-            </div>
-        </div>
-    `;
-
-    const upgradeBtn = overlay.querySelector('.home-lock-upgrade');
-    if (upgradeBtn) {
-        upgradeBtn.onclick = () => {
-            if (window.Subscription && typeof window.Subscription.showPricingModal === 'function') {
-                window.Subscription.showPricingModal();
-            } else if (typeof window.showPricingModal === 'function') {
-                window.showPricingModal();
-            } else {
-                console.log('Pricing modal unavailable.');
-            }
-        };
-    }
-
-    landingPage.appendChild(overlay);
-}
-
-function hideHomeTestsLockedOverlay() {
-    const landingPage = document.querySelector('.landing-page');
-    if (!landingPage) return;
-    landingPage.classList.remove('is-free-tests-locked');
-    const overlay = landingPage.querySelector('.home-lock-overlay');
-    if (overlay) overlay.remove();
-}
-
 async function displayFreeTestCounter(user) {
     try {
         const freeTestCounter = document.getElementById('freeTestCounter');
@@ -627,7 +516,6 @@ async function displayFreeTestCounter(user) {
         // Don't show counter for premium users
         if (isPremium) {
             freeTestCounter.style.display = 'none';
-            hideHomeTestsLockedOverlay();
             return;
         }
 
@@ -637,11 +525,9 @@ async function displayFreeTestCounter(user) {
         if (remaining > 0) {
             freeTestText.textContent = `Free tests remaining: ${remaining}/${freeTestLimit}`;
             upgradeBtn.style.display = 'none';
-            hideHomeTestsLockedOverlay();
         } else {
             freeTestText.textContent = 'You have used all your free tests';
             upgradeBtn.style.display = 'block';
-            showHomeTestsLockedOverlay();
         }
 
         // Add upgrade button handler
