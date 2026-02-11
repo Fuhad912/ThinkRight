@@ -175,6 +175,36 @@ const subscriptionState = {
     initialized: false
 };
 
+function getAuthClient() {
+    if (window.supabase && window.supabase.auth) return window.supabase;
+    try {
+        if (typeof supabase !== 'undefined' && supabase && supabase.auth) return supabase;
+    } catch (e) {
+        // ignore
+    }
+    return null;
+}
+
+function getLocalFreeTestsUsedFallback(userId) {
+    if (!userId) return 0;
+    try {
+        const raw = localStorage.getItem(`tr_free_tests_used_${userId}`);
+        const value = parseInt(raw, 10);
+        return Number.isFinite(value) && !isNaN(value) ? value : 0;
+    } catch (e) {
+        return 0;
+    }
+}
+
+function setLocalFreeTestsUsedFallback(userId, value) {
+    if (!userId) return;
+    try {
+        localStorage.setItem(`tr_free_tests_used_${userId}`, String(value));
+    } catch (e) {
+        // ignore
+    }
+}
+
 /**
  * Initialize subscription system
  * Loads subscription from database + user profile
@@ -197,6 +227,7 @@ async function initSubscription() {
 
         subscriptionState.user = user;
         subscriptionState.metadata = user.user_metadata || {};
+        setLocalFreeTestsUsedFallback(subscriptionState.user?.id, getFreeTestsUsed());
 
         // Load subscription from database
         if (window.supabase) {
@@ -468,10 +499,13 @@ function canAccessDashboard() {
  * Get free tests used count from user metadata (STRICT FREEMIUM)
  */
 function getFreeTestsUsed() {
+    const localValue = getLocalFreeTestsUsedFallback(subscriptionState.user?.id);
     const meta = subscriptionState.metadata || {};
     const v = meta.free_tests_used;
     const n = parseInt(v, 10);
-    return Number.isFinite(n) && !isNaN(n) ? n : 0;
+    const metadataValue = Number.isFinite(n) && !isNaN(n) ? n : 0;
+    // Monotonic strategy: never drop below locally observed usage in this browser.
+    return Math.max(metadataValue, localValue);
 }
 
 /**
@@ -498,6 +532,7 @@ async function refreshMetadata() {
         if (!user) return false;
         subscriptionState.user = user;
         subscriptionState.metadata = user.user_metadata || {};
+        setLocalFreeTestsUsedFallback(subscriptionState.user?.id, getFreeTestsUsed());
         return true;
     } catch (err) {
         console.error('refreshMetadata error:', err);
@@ -517,8 +552,9 @@ async function ensureSubscriptionValid() {
         
         if (isPremiumFlag && expiresAt && new Date() >= expiresAt) {
             // Subscription expired — clear premium fields
-            if (typeof supabase !== 'undefined' && supabase) {
-                const { data, error } = await supabase.auth.updateUser({
+            const authClient = getAuthClient();
+            if (authClient) {
+                const { data, error } = await authClient.auth.updateUser({
                     data: {
                         is_premium: false,
                         subscription_plan: null,
@@ -552,6 +588,7 @@ async function tryStartTest() {
     try {
         // Ensure subscription state loaded
         if (typeof initSubscription === 'function') await initSubscription();
+        await refreshMetadata();
         
         // Check and clear expired subscriptions
         await ensureSubscriptionValid();
@@ -568,31 +605,40 @@ async function tryStartTest() {
         
         if (used < 6) {
             const newVal = used + 1;
+            // Update local fallback immediately to avoid stale metadata races.
+            setLocalFreeTestsUsedFallback(subscriptionState.user?.id, newVal);
             try {
                 // Atomically increment counter in Supabase
-                if (typeof supabase !== 'undefined' && supabase) {
-                    const { data, error } = await supabase.auth.updateUser({
+                const authClient = getAuthClient();
+                if (authClient) {
+                    const { data, error } = await authClient.auth.updateUser({
                         data: {
                             free_tests_used: newVal
                         }
                     });
                     if (error) {
                         console.error('tryStartTest update error:', error);
-                        return { allowed: false, reason: 'error' };
+                        subscriptionState.metadata = subscriptionState.metadata || {};
+                        subscriptionState.metadata.free_tests_used = newVal;
+                        return { allowed: true, premium: false, free_tests_used: newVal };
                     }
                     if (data && data.user) {
                         subscriptionState.metadata = data.user.user_metadata || {};
                     } else {
                         await refreshMetadata();
                     }
+                    setLocalFreeTestsUsedFallback(subscriptionState.user?.id, newVal);
                 } else {
-                    // Fallback: local only
+                    // Fallback: local only (temporary resilience when auth client is unavailable)
                     subscriptionState.metadata = subscriptionState.metadata || {};
                     subscriptionState.metadata.free_tests_used = newVal;
+                    setLocalFreeTestsUsedFallback(subscriptionState.user?.id, newVal);
                 }
             } catch (e) {
                 console.error('Error incrementing free tests:', e);
-                return { allowed: false, reason: 'error' };
+                subscriptionState.metadata = subscriptionState.metadata || {};
+                subscriptionState.metadata.free_tests_used = newVal;
+                return { allowed: true, premium: false, free_tests_used: newVal };
             }
             console.log(`✅ Test allowed (free user, now ${newVal}/6 tests used)`);
             return { allowed: true, premium: false, free_tests_used: newVal };
