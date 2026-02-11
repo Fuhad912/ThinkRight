@@ -6,8 +6,8 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <title>ThinkRight - Test Interface</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/premium-ui.css">
+    <link rel="stylesheet" href="css/style.css?v=20260211d">
+    <link rel="stylesheet" href="css/premium-ui.css?v=20260211d">
     <script defer src="https://checkout.flutterwave.com/v3.js"></script>
 </head>
 <body class="test-page page-test">
@@ -138,13 +138,24 @@
       </div>
     </div>
 
+    <div class="modal" id="submitConfirmModal" style="display:none;">
+      <div class="modal-content submit-confirm-content" role="dialog" aria-modal="true" aria-labelledby="submitConfirmTitle">
+        <h2 id="submitConfirmTitle">Submit Test?</h2>
+        <p>Your current answers will be finalized and you will not be able to edit this attempt.</p>
+        <div class="submit-confirm-actions">
+          <button id="cancelSubmitBtn" class="action-button secondary-btn" type="button">Continue Test</button>
+          <button id="confirmSubmitBtn" class="action-button submit-button" type="button">Yes, Submit Test</button>
+        </div>
+      </div>
+    </div>
+
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
-    <script defer src="js/question-bank.js?v=20260211b"></script>
-    <script defer src="js/utils.js?v=20260211b"></script>
-    <script defer src="js/auth.js?v=20260211b"></script>
-    <script defer src="js/subscription.js?v=20260211b"></script>
-    <script defer src="js/subscription-sync.js?v=20260211b"></script>
-    <script defer src="js/test.js?v=20260211b"></script>
+    <script defer src="js/question-bank.js?v=20260211d"></script>
+    <script defer src="js/utils.js?v=20260211d"></script>
+    <script defer src="js/auth.js?v=20260211d"></script>
+    <script defer src="js/subscription.js?v=20260211d"></script>
+    <script defer src="js/subscription-sync.js?v=20260211d"></script>
+    <script defer src="js/test.js?v=20260211d"></script>
 </body>
 </html>
