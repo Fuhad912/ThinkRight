@@ -1312,7 +1312,7 @@ button span,
     border-radius: 0;
     background: var(--surface-bg);
     margin: 0;
-    padding: 8px var(--space-2);
+    padding: 10px var(--space-2);
 }
 
 .page-test .nav-button {
@@ -1335,7 +1335,8 @@ button span,
     z-index: 3;
     background: var(--surface-bg);
     border-top: 1px solid var(--line-subtle);
-    padding: 8px var(--space-2);
+    margin-top: clamp(12px, 1.8vh, 20px);
+    padding: 12px var(--space-2);
 }
 
 .page-test .submit-button {
@@ -1521,6 +1522,35 @@ button span,
     font-weight: 600;
 }
 
+.page-test .submit-confirm-content {
+    width: min(100%, 480px);
+    max-width: 480px;
+    text-align: center;
+    padding: var(--space-4);
+}
+
+.page-test .submit-confirm-content h2 {
+    margin: 0 0 10px;
+    color: var(--text-primary);
+}
+
+.page-test .submit-confirm-content p {
+    margin: 0 0 var(--space-3);
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.page-test .submit-confirm-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.page-test .submit-confirm-actions .action-button {
+    min-width: 160px;
+}
+
 @media (max-width: 1024px) {
     .subjects-grid,
     .syllabus-grid {
@@ -1635,6 +1665,7 @@ button span,
 
     .page-test .submit-section {
         padding: 6px 8px;
+        margin-top: 10px;
     }
 
     .page-test .performance-insights {
@@ -1663,6 +1694,15 @@ button span,
     .page-test .results-actions .action-button {
         min-height: 38px;
         font-size: 0.8rem;
+    }
+
+    .page-test .submit-confirm-actions {
+        flex-direction: column;
+    }
+
+    .page-test .submit-confirm-actions .action-button {
+        width: 100%;
+        min-width: 0;
     }
 
     .page-status-indicator {
