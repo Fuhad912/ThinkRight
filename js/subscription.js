@@ -850,6 +850,91 @@ function closePricingModal() {
 // redirectToLoginForCheckout removed: initiatePremiumPayment now redirects to login directly.
 
 // ============================================================================
+// SUBSCRIPTION MUTATIONS (DEFINED HERE TO PREVENT RUNTIME EXPORT ERRORS)
+// ============================================================================
+
+async function updateSubscriptionAfterPayment(plan, txRef, amount) {
+    try {
+        const user = subscriptionState.user || (typeof getCurrentUser === 'function' ? await getCurrentUser() : null);
+        if (!user) return { success: false, error: 'User not authenticated' };
+
+        const now = new Date();
+        const normalizedPlan = (plan || '').toString().toLowerCase();
+        const isQuarterly = normalizedPlan === 'quarterly' || normalizedPlan === '3-month';
+        const expiresAt = new Date(now);
+        expiresAt.setDate(expiresAt.getDate() + (isQuarterly ? 90 : 30));
+
+        if (window.supabase && typeof window.supabase.from === 'function') {
+            const { data, error } = await window.supabase
+                .from('subscriptions')
+                .upsert({
+                    user_id: user.id,
+                    plan: isQuarterly ? '3-month' : 'monthly',
+                    status: 'active',
+                    started_at: now.toISOString(),
+                    expires_at: expiresAt.toISOString(),
+                    updated_at: now.toISOString(),
+                }, { onConflict: 'user_id' })
+                .select('*')
+                .maybeSingle();
+
+            if (error) return { success: false, error: error.message || 'Subscription update failed' };
+            subscriptionState.subscription = data || subscriptionState.subscription;
+        }
+
+        const authClient = getAuthClient();
+        if (authClient) {
+            const { data: updatedUser, error: metaError } = await authClient.auth.updateUser({
+                data: {
+                    is_premium: true,
+                    subscription_plan: isQuarterly ? '3-month' : 'monthly',
+                    subscription_started_at: now.toISOString(),
+                    subscription_expires_at: expiresAt.toISOString(),
+                    tx_ref: txRef || null,
+                    last_payment_date: now.toISOString(),
+                }
+            });
+            if (metaError) {
+                console.warn('Payment metadata update warning:', metaError);
+            } else if (updatedUser && updatedUser.user) {
+                subscriptionState.metadata = updatedUser.user.user_metadata || {};
+            }
+        }
+
+        return { success: true, tx_ref: txRef || null, amount_paid: amount || null };
+    } catch (error) {
+        return { success: false, error: error.message || 'Subscription update error' };
+    }
+}
+
+async function cancelSubscription() {
+    try {
+        const user = subscriptionState.user || (typeof getCurrentUser === 'function' ? await getCurrentUser() : null);
+        if (!user) return { success: false, error: 'User not authenticated' };
+        if (!window.supabase || typeof window.supabase.from !== 'function') {
+            return { success: false, error: 'Supabase not initialized' };
+        }
+
+        const { data, error } = await window.supabase
+            .from('subscriptions')
+            .update({ status: 'canceled', updated_at: new Date().toISOString() })
+            .eq('user_id', user.id)
+            .select('*')
+            .maybeSingle();
+
+        if (error) return { success: false, error: error.message || 'Cancel failed' };
+        subscriptionState.subscription = data || subscriptionState.subscription;
+        return { success: true };
+    } catch (error) {
+        return { success: false, error: error.message || 'Cancel failed' };
+    }
+}
+
+async function grantPremium(plan = 'admin') {
+    return updateSubscriptionAfterPayment(plan, `manual_${Date.now()}`, 0);
+}
+
+// ============================================================================
 // GLOBAL EXPORTS
 // ============================================================================
 
