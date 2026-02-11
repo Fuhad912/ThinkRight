@@ -695,6 +695,83 @@ body.tr-loading {
     background: var(--accent-soft);
 }
 
+.page-home .landing-page.is-free-tests-locked {
+    position: relative;
+}
+
+.page-home .landing-page.is-free-tests-locked > *:not(.home-lock-overlay) {
+    filter: blur(1.5px);
+    opacity: 0.7;
+    pointer-events: none;
+    user-select: none;
+}
+
+.page-home .home-lock-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 25;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-3);
+    background: rgba(15, 23, 42, 0.25);
+    backdrop-filter: blur(2px);
+}
+
+.page-home .home-lock-dialog {
+    width: min(560px, 100%);
+    border: 1px solid var(--line-subtle);
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--surface-bg) 88%, transparent);
+    box-shadow: var(--shadow-md);
+    text-align: center;
+    padding: var(--space-4);
+}
+
+.page-home .home-lock-icon {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto var(--space-2);
+    border-radius: 999px;
+    border: 1px solid var(--line-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    background: var(--surface-subtle);
+}
+
+.page-home .home-lock-dialog h2 {
+    margin: 0 0 10px;
+    color: var(--text-primary);
+    font-size: var(--text-h2);
+}
+
+.page-home .home-lock-dialog p {
+    margin: 0 0 var(--space-3);
+    color: var(--text-secondary);
+}
+
+.page-home .home-lock-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.page-home .home-lock-upgrade {
+    min-height: 44px;
+    border-radius: var(--radius-sm);
+    padding: 10px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: var(--accent-primary);
+    color: #ffffff;
+}
+
+.page-home .home-lock-upgrade:hover {
+    background: var(--accent-primary-hover);
+}
+
 .action-button,
 .view-btn,
 .primary-btn,
@@ -800,6 +877,22 @@ button span,
 
     .page-dashboard .dashboard-lock-upgrade,
     .page-dashboard .dashboard-lock-back {
+        width: 100%;
+    }
+
+    .page-home .home-lock-overlay {
+        padding: var(--space-2);
+    }
+
+    .page-home .home-lock-dialog {
+        padding: var(--space-3);
+    }
+
+    .page-home .home-lock-actions {
+        flex-direction: column;
+    }
+
+    .page-home .home-lock-upgrade {
         width: 100%;
     }
 }
