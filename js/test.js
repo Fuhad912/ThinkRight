@@ -47,11 +47,13 @@ const testState = {
     questions: [],
     currentQuestionIndex: 0,
     answers: {},           // { questionIndex: selectedAnswer }
+    flaggedQuestions: {},  // { questionIndex: true }
     timerInterval: null,
     timeRemaining: CONFIG.TEST_DURATION_SECONDS,
     isTestStarted: false,
     isTestSubmitted: false,
     submissionInProgress: false,
+    paletteUiReady: false,
 };
 
 // ============================================================================
@@ -70,6 +72,7 @@ const elements = {
     questionText: document.getElementById('questionText'),
     optionsContainer: document.getElementById('optionsContainer'),
     skipWarning: document.getElementById('skipWarning'),
+    markReviewBtn: document.getElementById('markReviewBtn'),
 
     // Navigation
     prevBtn: document.getElementById('prevBtn'),
@@ -111,6 +114,12 @@ const elements = {
     // OMR palette
     questionPalette: document.getElementById('questionPalette'),
     paletteGrid: document.getElementById('paletteGrid'),
+    paletteToggleBtn: document.getElementById('paletteToggleBtn'),
+    paletteCloseBtn: document.getElementById('paletteCloseBtn'),
+    paletteOverlay: document.getElementById('paletteOverlay'),
+    paletteAnsweredCount: document.getElementById('paletteAnsweredCount'),
+    paletteRemainingCount: document.getElementById('paletteRemainingCount'),
+    paletteTotalCount: document.getElementById('paletteTotalCount'),
 
     // Test container
     testContainer: document.querySelector('.test-container'),
@@ -282,8 +291,13 @@ async function initTest() {
             console.log('Resuming previous test...');
             // Resume the test
             testState.questions = savedState.questions;
-            testState.currentQuestionIndex = savedState.currentQuestionIndex;
-            testState.answers = savedState.answers;
+            testState.currentQuestionIndex = Number.isInteger(savedState.currentQuestionIndex)
+                ? savedState.currentQuestionIndex
+                : Number.isInteger(savedState.currentQuestion)
+                    ? savedState.currentQuestion
+                    : 0;
+            testState.answers = savedState.answers || {};
+            testState.flaggedQuestions = savedState.flaggedQuestions || {};
             testState.timeRemaining = savedState.timeRemaining;
         } else {
             // New test: enforce access + consume free attempt if applicable.
@@ -535,6 +549,7 @@ function renderCurrentQuestion() {
 
     // Update question text with HTML support for math formatting
     elements.questionText.innerHTML = formatMathQuestion(question.question);
+    updateMarkForReviewButton();
 
     // Clear previous options
     elements.optionsContainer.innerHTML = '';
@@ -615,6 +630,27 @@ function handleOptionSelect(letter, button) {
     updatePaletteStates();
 
     console.log(`Question ${testState.currentQuestionIndex + 1}: Selected ${letter}`);
+}
+
+function updateMarkForReviewButton() {
+    if (!elements.markReviewBtn) return;
+
+    const isFlagged = !!testState.flaggedQuestions[testState.currentQuestionIndex];
+    elements.markReviewBtn.classList.toggle('is-flagged', isFlagged);
+    elements.markReviewBtn.setAttribute('aria-pressed', isFlagged ? 'true' : 'false');
+    elements.markReviewBtn.textContent = isFlagged ? 'Marked for review' : 'Mark for review';
+}
+
+function toggleCurrentQuestionFlag() {
+    const index = testState.currentQuestionIndex;
+    if (testState.flaggedQuestions[index]) {
+        delete testState.flaggedQuestions[index];
+    } else {
+        testState.flaggedQuestions[index] = true;
+    }
+    updateMarkForReviewButton();
+    updatePaletteStates();
+    saveTestState();
 }
 
 // ============================================================================
@@ -743,7 +779,9 @@ function saveTestState() {
     const state = {
         subject: testState.subject,
         currentQuestion: testState.currentQuestionIndex,
+        currentQuestionIndex: testState.currentQuestionIndex,
         answers: testState.answers,
+        flaggedQuestions: testState.flaggedQuestions,
         timeRemaining: testState.timeRemaining,
         questions: testState.questions,
     };
@@ -1140,6 +1178,7 @@ function handleReturnHome() {
 
 function openSubmitConfirmation() {
     if (testState.isTestSubmitted || testState.submissionInProgress) return;
+    closePalette();
     if (!elements.submitConfirmModal) {
         submitTest(false);
         return;
@@ -1168,6 +1207,10 @@ function setupEventListeners() {
 
     // Submit button
     elements.submitBtn.addEventListener('click', openSubmitConfirmation);
+
+    if (elements.markReviewBtn) {
+        elements.markReviewBtn.addEventListener('click', toggleCurrentQuestionFlag);
+    }
 
     // Results action buttons
     elements.retakeBtn.addEventListener('click', handleRetakeTest);
@@ -1202,6 +1245,8 @@ function setupEventListeners() {
         });
     }
 
+    setupPaletteUi();
+
     // Keyboard navigation (optional enhancement)
     document.addEventListener('keydown', handleKeyboardNavigation);
 }
@@ -1220,6 +1265,21 @@ function handleKeyboardNavigation(event) {
     if (elements.submitConfirmModal && elements.submitConfirmModal.style.display === 'flex') {
         if (event.key === 'Escape') closeSubmitConfirmation();
         return;
+    }
+
+    if (event.key === 'Escape' && isPaletteOpen()) {
+        closePalette();
+        return;
+    }
+
+    if ((event.key === 'f' || event.key === 'F') && !event.ctrlKey && !event.metaKey && !event.altKey) {
+        const active = document.activeElement;
+        const isTyping = active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable);
+        if (!isTyping) {
+            event.preventDefault();
+            toggleCurrentQuestionFlag();
+            return;
+        }
     }
 
     if (event.key === 'ArrowLeft' && !elements.prevBtn.disabled) {
@@ -1524,6 +1584,7 @@ const examLock = {
 // ===================== SUBMIT TEST (MODULAR) =====================
 async function submitTest(arg) {
     if (testState.isTestSubmitted || antiCheat.isSubmitted || testState.submissionInProgress) return;
+    closePalette();
     testState.submissionInProgress = true;
     if (elements.submitBtn) {
         elements.submitBtn.disabled = true;
@@ -1733,12 +1794,103 @@ async function saveResultToSupabase(payload) {
 // QUESTION PALETTE
 // ============================================================================
 
+const PALETTE_DESKTOP_BREAKPOINT = 1024;
+
+function isDesktopPaletteMode() {
+    return window.innerWidth >= PALETTE_DESKTOP_BREAKPOINT;
+}
+
+function isPaletteOpen() {
+    return !!(elements.questionPalette && elements.questionPalette.classList.contains('is-open'));
+}
+
+function syncPaletteViewportMode() {
+    if (!elements.questionPalette || !elements.paletteOverlay || !elements.paletteToggleBtn) return;
+
+    if (isDesktopPaletteMode()) {
+        elements.questionPalette.classList.remove('is-open');
+        elements.questionPalette.setAttribute('aria-hidden', 'false');
+        elements.paletteOverlay.classList.remove('is-open');
+        elements.paletteOverlay.hidden = true;
+        elements.paletteToggleBtn.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('tr-palette-open');
+    } else if (!isPaletteOpen()) {
+        elements.questionPalette.setAttribute('aria-hidden', 'true');
+        elements.paletteOverlay.classList.remove('is-open');
+        elements.paletteOverlay.hidden = true;
+        elements.paletteToggleBtn.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('tr-palette-open');
+    }
+}
+
+function openPalette() {
+    if (isDesktopPaletteMode()) return;
+    if (!elements.questionPalette || !elements.paletteOverlay || !elements.paletteToggleBtn) return;
+
+    elements.questionPalette.classList.add('is-open');
+    elements.questionPalette.setAttribute('aria-hidden', 'false');
+    elements.paletteOverlay.hidden = false;
+    elements.paletteOverlay.classList.add('is-open');
+    elements.paletteToggleBtn.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('tr-palette-open');
+}
+
+function closePalette() {
+    if (isDesktopPaletteMode()) return;
+    if (!elements.questionPalette || !elements.paletteOverlay || !elements.paletteToggleBtn) return;
+
+    elements.questionPalette.classList.remove('is-open');
+    elements.questionPalette.setAttribute('aria-hidden', 'true');
+    elements.paletteOverlay.classList.remove('is-open');
+    elements.paletteOverlay.hidden = true;
+    elements.paletteToggleBtn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('tr-palette-open');
+}
+
+function setupPaletteUi() {
+    if (testState.paletteUiReady) return;
+    testState.paletteUiReady = true;
+
+    if (elements.paletteToggleBtn) {
+        elements.paletteToggleBtn.addEventListener('click', () => {
+            if (isPaletteOpen()) closePalette();
+            else openPalette();
+        });
+    }
+
+    if (elements.paletteCloseBtn) {
+        elements.paletteCloseBtn.addEventListener('click', closePalette);
+    }
+
+    if (elements.paletteOverlay) {
+        elements.paletteOverlay.addEventListener('click', closePalette);
+    }
+
+    if (elements.paletteGrid) {
+        elements.paletteGrid.addEventListener('click', (event) => {
+            const item = event.target && event.target.closest ? event.target.closest('.palette-item') : null;
+            if (!item) return;
+            const index = Number(item.getAttribute('data-question-index'));
+            if (Number.isInteger(index)) {
+                goToQuestion(index);
+            }
+        });
+    }
+
+    window.addEventListener('resize', syncPaletteViewportMode);
+    syncPaletteViewportMode();
+}
+
 function renderQuestionPalette() {
     if (!elements.paletteGrid) return;
 
     elements.paletteGrid.innerHTML = '';
-
     const totalQuestions = testState.questions.length;
+
+    if (elements.paletteTotalCount) {
+        elements.paletteTotalCount.textContent = String(totalQuestions);
+    }
+
     for (let index = 0; index < totalQuestions; index++) {
         const paletteItem = document.createElement('button');
         paletteItem.type = 'button';
@@ -1746,7 +1898,6 @@ function renderQuestionPalette() {
         paletteItem.textContent = `${index + 1}`;
         paletteItem.setAttribute('aria-label', `Go to question ${index + 1}`);
         paletteItem.setAttribute('data-question-index', `${index}`);
-        paletteItem.addEventListener('click', () => goToQuestion(index));
         elements.paletteGrid.appendChild(paletteItem);
     }
 }
@@ -1754,20 +1905,42 @@ function renderQuestionPalette() {
 function updatePaletteStates() {
     if (!elements.paletteGrid) return;
 
+    // State source mapping:
+    // answered -> testState.answers[index] exists
+    // current -> testState.currentQuestionIndex === index
+    // flagged -> testState.flaggedQuestions[index] === true
     const items = elements.paletteGrid.querySelectorAll('.palette-item');
+    let answeredCount = 0;
+    const total = testState.questions.length;
+
     items.forEach((item, index) => {
-        item.classList.remove('current', 'answered');
+        item.classList.remove('current', 'answered', 'flagged');
         item.removeAttribute('aria-current');
 
-        if (testState.currentQuestionIndex === index) {
+        const isAnswered = Object.prototype.hasOwnProperty.call(testState.answers, index);
+        const isCurrent = testState.currentQuestionIndex === index;
+        const isFlagged = !!testState.flaggedQuestions[index];
+
+        if (isAnswered) {
+            answeredCount++;
+            item.classList.add('answered');
+        }
+
+        if (isCurrent) {
             item.classList.add('current');
             item.setAttribute('aria-current', 'true');
         }
 
-        if (Object.prototype.hasOwnProperty.call(testState.answers, index)) {
-            item.classList.add('answered');
+        if (isFlagged) {
+            item.classList.add('flagged');
         }
     });
+
+    const remaining = Math.max(0, total - answeredCount);
+    if (elements.paletteAnsweredCount) elements.paletteAnsweredCount.textContent = String(answeredCount);
+    if (elements.paletteRemainingCount) elements.paletteRemainingCount.textContent = String(remaining);
+    if (elements.paletteTotalCount) elements.paletteTotalCount.textContent = String(total);
+    if (elements.paletteToggleBtn) elements.paletteToggleBtn.textContent = `Question Palette (${answeredCount}/${total})`;
 }
 
 function goToQuestion(index) {
@@ -1777,6 +1950,9 @@ function goToQuestion(index) {
     renderCurrentQuestion();
     updatePaletteStates();
     saveTestState();
+    if (!isDesktopPaletteMode()) {
+        closePalette();
+    }
 }
 
 // ============================================================================
