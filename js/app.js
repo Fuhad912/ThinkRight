@@ -553,6 +553,52 @@ async function handleLogout() {
 // FREE TEST COUNTER DISPLAY
 // ============================================================================
 
+function showHomeTestsLockedOverlay() {
+    const landingPage = document.querySelector('.landing-page');
+    if (!landingPage) return;
+
+    const existing = landingPage.querySelector('.home-lock-overlay');
+    if (existing) return;
+
+    landingPage.classList.add('is-free-tests-locked');
+
+    const overlay = document.createElement('div');
+    overlay.className = 'home-lock-overlay';
+    overlay.innerHTML = `
+        <div class="home-lock-dialog" role="dialog" aria-modal="false" aria-labelledby="homeLockTitle">
+            <div class="home-lock-icon" aria-hidden="true">&#128274;</div>
+            <h2 id="homeLockTitle">Free Test Limit Reached</h2>
+            <p>You have used all 6 free tests. Upgrade to continue practicing all subjects.</p>
+            <div class="home-lock-actions">
+                <button type="button" class="home-lock-upgrade">Upgrade Now</button>
+            </div>
+        </div>
+    `;
+
+    const upgradeBtn = overlay.querySelector('.home-lock-upgrade');
+    if (upgradeBtn) {
+        upgradeBtn.onclick = () => {
+            if (window.Subscription && typeof window.Subscription.showPricingModal === 'function') {
+                window.Subscription.showPricingModal();
+            } else if (typeof window.showPricingModal === 'function') {
+                window.showPricingModal();
+            } else {
+                console.log('Pricing modal unavailable.');
+            }
+        };
+    }
+
+    landingPage.appendChild(overlay);
+}
+
+function hideHomeTestsLockedOverlay() {
+    const landingPage = document.querySelector('.landing-page');
+    if (!landingPage) return;
+    landingPage.classList.remove('is-free-tests-locked');
+    const overlay = landingPage.querySelector('.home-lock-overlay');
+    if (overlay) overlay.remove();
+}
+
 async function displayFreeTestCounter(user) {
     try {
         const freeTestCounter = document.getElementById('freeTestCounter');
@@ -565,6 +611,9 @@ async function displayFreeTestCounter(user) {
         if (window.Subscription && typeof window.Subscription.init === 'function') {
             await window.Subscription.init();
         }
+        if (window.Subscription && typeof window.Subscription.refreshMetadata === 'function') {
+            await window.Subscription.refreshMetadata();
+        }
 
         const isPremium = window.Subscription && typeof window.Subscription.isPremium === 'function'
             ? window.Subscription.isPremium()
@@ -573,11 +622,12 @@ async function displayFreeTestCounter(user) {
             ? window.Subscription.getFreeTestsUsed()
             : 0;
         const freeTestLimit = 6;
-        const remaining = freeTestLimit - freeTestsUsed;
+        const remaining = Math.max(0, freeTestLimit - Math.max(0, Number(freeTestsUsed) || 0));
 
         // Don't show counter for premium users
         if (isPremium) {
             freeTestCounter.style.display = 'none';
+            hideHomeTestsLockedOverlay();
             return;
         }
 
@@ -587,19 +637,21 @@ async function displayFreeTestCounter(user) {
         if (remaining > 0) {
             freeTestText.textContent = `Free tests remaining: ${remaining}/${freeTestLimit}`;
             upgradeBtn.style.display = 'none';
+            hideHomeTestsLockedOverlay();
         } else {
             freeTestText.textContent = 'You have used all your free tests';
             upgradeBtn.style.display = 'block';
+            showHomeTestsLockedOverlay();
         }
 
         // Add upgrade button handler
-        upgradeBtn.addEventListener('click', () => {
+        upgradeBtn.onclick = () => {
             if (window.Subscription && typeof window.Subscription.showPricingModal === 'function') {
                 window.Subscription.showPricingModal();
             } else {
                 console.log('Open pricing modal');
             }
-        });
+        };
 
         console.log('✓ Free test counter displayed:', { freeTestsUsed, remaining, isPremium });
 
