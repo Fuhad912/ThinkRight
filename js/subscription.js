@@ -205,6 +205,25 @@ function setLocalFreeTestsUsedFallback(userId, value) {
     }
 }
 
+function getCompletedTestsUsedFallback(userId) {
+    if (!userId) return 0;
+    try {
+        const sm = (typeof StorageManager !== 'undefined' && StorageManager) || window.StorageManager;
+        if (!sm || typeof sm.getResults !== 'function') return 0;
+        const all = sm.getResults();
+        if (!Array.isArray(all) || all.length === 0) return 0;
+
+        const strict = all.filter((r) => r && r.userId === userId);
+        if (strict.length > 0) return strict.length;
+
+        // Legacy fallback: very old results may not have userId.
+        const anonymous = all.filter((r) => r && !r.userId);
+        return anonymous.length;
+    } catch (e) {
+        return 0;
+    }
+}
+
 /**
  * Initialize subscription system
  * Loads subscription from database + user profile
@@ -500,12 +519,13 @@ function canAccessDashboard() {
  */
 function getFreeTestsUsed() {
     const localValue = getLocalFreeTestsUsedFallback(subscriptionState.user?.id);
+    const historyValue = getCompletedTestsUsedFallback(subscriptionState.user?.id);
     const meta = subscriptionState.metadata || {};
     const v = meta.free_tests_used;
     const n = parseInt(v, 10);
     const metadataValue = Number.isFinite(n) && !isNaN(n) ? n : 0;
-    // Monotonic strategy: never drop below locally observed usage in this browser.
-    return Math.max(metadataValue, localValue);
+    // Monotonic strategy across metadata + local fallback + completed history.
+    return Math.max(metadataValue, localValue, historyValue);
 }
 
 /**
