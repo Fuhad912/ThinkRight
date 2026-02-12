@@ -602,6 +602,172 @@ function isValidQuestion(question) {
 }
 
 // ============================================================================
+// PWA SUPPORT
+//
+// Conservative installability support:
+// - Inject required manifest/theme tags
+// - Register service worker only on secure production origins
+// - Show a small dismissible install prompt when supported
+// ============================================================================
+
+const PWA_THEME_COLOR = '#1d4ed8';
+const PWA_INSTALL_DISMISS_KEY = 'tr_pwa_install_dismiss_until';
+const PWA_INSTALL_DISMISS_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
+let deferredInstallPromptEvent = null;
+
+function initPwaSupport() {
+    ensurePwaHeadTags();
+    registerThinkRightServiceWorker();
+    setupPwaInstallPrompt();
+}
+
+function ensurePwaHeadTags() {
+    const head = document.head;
+    if (!head) return;
+
+    if (!head.querySelector('link[rel="manifest"]')) {
+        const manifest = document.createElement('link');
+        manifest.rel = 'manifest';
+        manifest.href = '/manifest.json';
+        head.appendChild(manifest);
+    }
+
+    if (!head.querySelector('meta[name="theme-color"]')) {
+        const themeMeta = document.createElement('meta');
+        themeMeta.name = 'theme-color';
+        themeMeta.content = PWA_THEME_COLOR;
+        head.appendChild(themeMeta);
+    }
+
+    if (!head.querySelector('meta[name="apple-mobile-web-app-capable"]')) {
+        const capMeta = document.createElement('meta');
+        capMeta.name = 'apple-mobile-web-app-capable';
+        capMeta.content = 'yes';
+        head.appendChild(capMeta);
+    }
+
+    if (!head.querySelector('link[rel="apple-touch-icon"]')) {
+        const appleIcon = document.createElement('link');
+        appleIcon.rel = 'apple-touch-icon';
+        appleIcon.href = '/icons/icon-192.png';
+        head.appendChild(appleIcon);
+    }
+}
+
+function registerThinkRightServiceWorker() {
+    const isLocalhost = window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1' ||
+        window.location.hostname.endsWith('.local');
+
+    if (!('serviceWorker' in navigator) || isLocalhost || !window.isSecureContext) {
+        return;
+    }
+
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+                console.log('[PWA] Service worker registered:', registration.scope);
+            })
+            .catch((error) => {
+                console.error('[PWA] Service worker registration failed:', error);
+            });
+    });
+}
+
+function setupPwaInstallPrompt() {
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+        return;
+    }
+
+    const dismissedUntil = Number(localStorage.getItem(PWA_INSTALL_DISMISS_KEY) || 0);
+    if (dismissedUntil > Date.now()) {
+        return;
+    }
+
+    window.addEventListener('beforeinstallprompt', (event) => {
+        event.preventDefault();
+        deferredInstallPromptEvent = event;
+        showPwaInstallPrompt();
+    });
+
+    window.addEventListener('appinstalled', () => {
+        deferredInstallPromptEvent = null;
+        hidePwaInstallPrompt();
+        console.log('[PWA] App installed successfully');
+    });
+}
+
+function showPwaInstallPrompt() {
+    if (document.getElementById('trPwaInstallPrompt')) return;
+    if (!deferredInstallPromptEvent) return;
+
+    const prompt = document.createElement('div');
+    prompt.id = 'trPwaInstallPrompt';
+    prompt.setAttribute('role', 'status');
+    prompt.style.cssText = [
+        'position: fixed',
+        'left: 16px',
+        'right: 16px',
+        'bottom: 16px',
+        'z-index: 11000',
+        'max-width: 460px',
+        'margin: 0 auto',
+        'border: 1px solid rgba(148,163,184,0.35)',
+        'border-radius: 12px',
+        'background: #ffffff',
+        'color: #0f172a',
+        'box-shadow: 0 18px 38px rgba(15,23,42,0.22)',
+        'padding: 12px',
+        'font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif'
+    ].join(';');
+
+    prompt.innerHTML = `
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+            <div style="font-size:0.92rem;font-weight:600;">Install ThinkRight for faster access.</div>
+            <div style="display:flex;gap:8px;">
+                <button type="button" id="trPwaInstallNow" style="min-height:40px;padding:8px 12px;border:none;border-radius:8px;background:${PWA_THEME_COLOR};color:#fff;font-weight:600;cursor:pointer;">Install</button>
+                <button type="button" id="trPwaInstallDismiss" style="min-height:40px;padding:8px 12px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#0f172a;font-weight:600;cursor:pointer;">Not now</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(prompt);
+
+    const installBtn = document.getElementById('trPwaInstallNow');
+    const dismissBtn = document.getElementById('trPwaInstallDismiss');
+
+    if (installBtn) {
+        installBtn.addEventListener('click', async () => {
+            if (!deferredInstallPromptEvent) {
+                hidePwaInstallPrompt();
+                return;
+            }
+
+            deferredInstallPromptEvent.prompt();
+            try {
+                await deferredInstallPromptEvent.userChoice;
+            } catch (error) {
+                console.warn('[PWA] Install prompt result unavailable:', error);
+            }
+            deferredInstallPromptEvent = null;
+            hidePwaInstallPrompt();
+        });
+    }
+
+    if (dismissBtn) {
+        dismissBtn.addEventListener('click', () => {
+            localStorage.setItem(PWA_INSTALL_DISMISS_KEY, String(Date.now() + PWA_INSTALL_DISMISS_MS));
+            hidePwaInstallPrompt();
+        });
+    }
+}
+
+function hidePwaInstallPrompt() {
+    const prompt = document.getElementById('trPwaInstallPrompt');
+    if (prompt) prompt.remove();
+}
+
+// ============================================================================
 // INITIALIZATION
 // 
 // Run on page load to set up the app.
@@ -613,6 +779,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize theme system
     initTheme();
+
+    // PWA installability support (safe, conservative)
+    initPwaSupport();
     
     // Set up theme toggle listeners on all theme buttons
     const themeButtons = document.querySelectorAll('.theme-toggle');
