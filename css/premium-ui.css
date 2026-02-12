@@ -523,7 +523,7 @@ body.tr-loading {
 .subject-cards {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-2);
+    gap: 10px;
 }
 
 .page-dashboard .subject-card {
@@ -532,25 +532,26 @@ body.tr-loading {
     border-radius: var(--radius-md);
     background: var(--surface-bg);
     box-shadow: none;
-    padding: var(--space-2);
+    padding: 10px 12px;
 }
 
 .page-dashboard .subject-title {
     margin: 0;
-    font-size: 1rem;
+    font-size: 0.94rem;
+    line-height: 1.25;
 }
 
 .page-dashboard .subject-attempts {
     color: var(--text-muted);
-    font-size: 0.82rem;
+    font-size: 0.76rem;
 }
 
 .page-dashboard .subject-stats {
-    margin-top: var(--space-1);
+    margin-top: 6px;
 }
 
 .page-dashboard .stat-row {
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
 
 .history-table-wrapper {
