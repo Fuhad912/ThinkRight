@@ -15,12 +15,45 @@
     const themeToggle = document.getElementById("tr-theme-toggle");
     const themeToggleMobile = document.getElementById("tr-theme-toggle-mobile");
 
+    ensureLeaderboardLinks();
     setActiveLinks();
     setupTheme(themeToggle, themeToggleMobile);
     setupPricingHandlers(mobileMenu);
     setupAuthHandlers(authBtn, mobileAuthBtn, logoutBtn, mobileLogoutBtn);
     setupMenuBehavior(hamburger, mobileMenu);
     displayUserInfo();
+  }
+
+  function ensureLeaderboardLinks() {
+    const addLink = (container, linkClass, beforeSelector) => {
+      if (!container) return;
+      if (container.querySelector('a[href="leaderboard.html"]')) return;
+
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = "leaderboard.html";
+      a.className = linkClass;
+      a.textContent = "Leaderboard";
+      li.appendChild(a);
+
+      const beforeNode = beforeSelector
+        ? container.querySelector(beforeSelector)?.closest("li")
+        : null;
+      if (beforeNode) container.insertBefore(li, beforeNode);
+      else container.appendChild(li);
+    };
+
+    addLink(
+      document.querySelector(".tr-navbar__nav"),
+      "tr-navbar__link",
+      ".tr-navbar__link--pricing"
+    );
+
+    addLink(
+      document.querySelector(".tr-navbar__mobile-nav"),
+      "tr-navbar__mobile-link",
+      ".tr-navbar__mobile-link--pricing"
+    );
   }
 
   function setupMenuBehavior(hamburger, mobileMenu) {
@@ -363,8 +396,9 @@
       const starDesktop = document.getElementById("tr-user-premium-star");
       const starMobile = document.getElementById("tr-mobile-user-premium-star");
 
-      if (userNameDesktop) userNameDesktop.textContent = userName;
-      if (userNameMobile) userNameMobile.textContent = userName;
+      const premiumSuffix = isUserPremium ? " ★" : "";
+      if (userNameDesktop) userNameDesktop.textContent = `${userName}${premiumSuffix}`;
+      if (userNameMobile) userNameMobile.textContent = `${userName}${premiumSuffix}`;
       if (avatarDesktop) avatarDesktop.src = avatarUrl;
       if (avatarMobile) avatarMobile.src = avatarUrl;
       if (starDesktop) starDesktop.style.display = isUserPremium ? "flex" : "none";
