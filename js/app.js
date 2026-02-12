@@ -346,6 +346,20 @@ async function checkAuth() {
 
         // User authenticated - show their username and navigation items
         console.log('✓ User authenticated:', user.email);
+
+        // Fast first paint for free-test counter from auth metadata/local cache.
+        // This avoids waiting on full subscription init before the banner appears.
+        const quickMeta = user.user_metadata || {};
+        const quickPremium = quickMeta.is_premium === true || quickMeta.is_premium === 'true';
+        if (!quickPremium) {
+            const quickUsed = Number(quickMeta.free_tests_used);
+            renderFreeTestCounterUI({
+                isPremium: false,
+                freeTestsUsed: Number.isFinite(quickUsed) ? quickUsed : 0
+            });
+        } else {
+            renderFreeTestCounterUI({ isPremium: true, freeTestsUsed: 0 });
+        }
         
         // Wait for subscription module to be ready and initialized
         retries = 0;
@@ -364,7 +378,7 @@ async function checkAuth() {
         const username = localStorage.getItem('thinkright_username') || user.email;
         
         // Check if user is premium (now that subscription is initialized)
-        const isPremium = window.Subscription?.isPremium();
+        const isPremium = !!(window.Subscription && typeof window.Subscription.isPremium === 'function' && window.Subscription.isPremium());
         console.log('Is Premium:', isPremium);
         
         // Show premium welcome banner if user is premium
@@ -374,9 +388,14 @@ async function checkAuth() {
                 premiumBanner.style.display = 'block';
                 console.log('✓ Premium welcome banner displayed');
             }
+            // Ensure free counter stays hidden for active premium users.
+            renderFreeTestCounterUI({ isPremium: true, freeTestsUsed: 0 });
         } else {
             // Show free test counter for non-premium users
-            await displayFreeTestCounter(user);
+            // Keep this non-blocking for faster home render.
+            displayFreeTestCounter(user).catch((err) => {
+                console.error('displayFreeTestCounter sync error:', err);
+            });
         }
         
         // Update user email display (desktop)
@@ -491,10 +510,16 @@ async function handleLogout() {
 async function displayFreeTestCounter(user) {
     try {
         const freeTestCounter = document.getElementById('freeTestCounter');
-        const freeTestText = document.getElementById('freeTestText');
-        const upgradeBtn = document.getElementById('upgradeBtn');
+        if (!freeTestCounter) return;
 
-        if (!freeTestCounter || !freeTestText || !upgradeBtn) return;
+        // Immediate render from locally available values (no network wait).
+        const immediateMeta = (user && user.user_metadata) ? user.user_metadata : {};
+        const immediatePremium = immediateMeta.is_premium === true || immediateMeta.is_premium === 'true';
+        const immediateUsedRaw = Number(immediateMeta.free_tests_used);
+        renderFreeTestCounterUI({
+            isPremium: immediatePremium,
+            freeTestsUsed: Number.isFinite(immediateUsedRaw) ? immediateUsedRaw : 0
+        });
 
         // Source of truth: Subscription module + metadata counters
         if (window.Subscription && typeof window.Subscription.init === 'function') {
@@ -510,27 +535,10 @@ async function displayFreeTestCounter(user) {
         const freeTestsUsed = window.Subscription && typeof window.Subscription.getFreeTestsUsed === 'function'
             ? window.Subscription.getFreeTestsUsed()
             : 0;
-        const freeTestLimit = 6;
-        const remaining = Math.max(0, freeTestLimit - Math.max(0, Number(freeTestsUsed) || 0));
-
-        // Don't show counter for premium users
-        if (isPremium) {
-            freeTestCounter.style.display = 'none';
-            return;
-        }
-
-        // Show counter for free users
-        freeTestCounter.style.display = 'block';
-
-        if (remaining > 0) {
-            freeTestText.textContent = `Free tests remaining: ${remaining}/${freeTestLimit}`;
-            upgradeBtn.style.display = 'none';
-        } else {
-            freeTestText.textContent = 'You have used all your free tests';
-            upgradeBtn.style.display = 'block';
-        }
+        renderFreeTestCounterUI({ isPremium, freeTestsUsed });
 
         // Add upgrade button handler
+        const upgradeBtn = document.getElementById('upgradeBtn');
         upgradeBtn.onclick = () => {
             if (window.Subscription && typeof window.Subscription.showPricingModal === 'function') {
                 window.Subscription.showPricingModal();
@@ -539,10 +547,35 @@ async function displayFreeTestCounter(user) {
             }
         };
 
-        console.log('✓ Free test counter displayed:', { freeTestsUsed, remaining, isPremium });
+        console.log('✓ Free test counter displayed:', { freeTestsUsed, isPremium });
 
     } catch (error) {
         console.error('Error displaying free test counter:', error);
+    }
+}
+
+function renderFreeTestCounterUI({ isPremium, freeTestsUsed }) {
+    const freeTestCounter = document.getElementById('freeTestCounter');
+    const freeTestText = document.getElementById('freeTestText');
+    const upgradeBtn = document.getElementById('upgradeBtn');
+    if (!freeTestCounter || !freeTestText || !upgradeBtn) return;
+
+    const freeTestLimit = 6;
+    const used = Math.max(0, Number(freeTestsUsed) || 0);
+    const remaining = Math.max(0, freeTestLimit - used);
+
+    if (isPremium) {
+        freeTestCounter.style.display = 'none';
+        return;
+    }
+
+    freeTestCounter.style.display = 'block';
+    if (remaining > 0) {
+        freeTestText.textContent = `Free tests remaining: ${remaining}/${freeTestLimit}`;
+        upgradeBtn.style.display = 'none';
+    } else {
+        freeTestText.textContent = 'You have used all your free tests';
+        upgradeBtn.style.display = 'block';
     }
 }
 
