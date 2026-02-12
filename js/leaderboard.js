@@ -235,9 +235,22 @@
 
   async function fetchMyProjectedRank() {
     if (!isSupabaseReady()) throw new Error("Supabase client unavailable.");
-    const { data, error } = await window.supabase.rpc("leaderboard_get_my_projected_rank", {
+    const userId = state.user?.id || null;
+    let { data, error } = await window.supabase.rpc("leaderboard_get_my_projected_rank", {
+      p_user_id: userId,
       p_week_id: state.weekId,
     });
+
+    // Retry with minimal args to tolerate schema-cache/default-arg quirks.
+    if (error) {
+      console.warn("[leaderboard] my projected rank rpc retry:", error);
+      const retry = await window.supabase.rpc("leaderboard_get_my_projected_rank", {
+        p_user_id: userId,
+      });
+      data = retry.data;
+      error = retry.error;
+    }
+
     if (error) throw error;
     if (Array.isArray(data) && data.length > 0) return data[0];
     return null;
@@ -256,10 +269,23 @@
 
   async function fetchMySubjectRank(subjectKey) {
     if (!isSupabaseReady()) throw new Error("Supabase client unavailable.");
-    const { data, error } = await window.supabase.rpc("leaderboard_get_my_subject_rank", {
+    const userId = state.user?.id || null;
+    let { data, error } = await window.supabase.rpc("leaderboard_get_my_subject_rank", {
       p_subject: normalizeSubject(subjectKey),
+      p_user_id: userId,
       p_week_id: state.weekId,
     });
+
+    if (error) {
+      console.warn("[leaderboard] my subject rank rpc retry:", error);
+      const retry = await window.supabase.rpc("leaderboard_get_my_subject_rank", {
+        p_subject: normalizeSubject(subjectKey),
+        p_user_id: userId,
+      });
+      data = retry.data;
+      error = retry.error;
+    }
+
     if (error) throw error;
     if (Array.isArray(data) && data.length > 0) return data[0];
     return null;
@@ -269,11 +295,12 @@
     if (elements.projectedStatus) elements.projectedStatus.textContent = "Loading projected rankings...";
     if (elements.projectedWrap) elements.projectedWrap.hidden = true;
     if (elements.projectedEmpty) elements.projectedEmpty.hidden = true;
+    let topRows = [];
+    let myRank = null;
 
     try {
-      const [topRows, myRank] = await Promise.all([fetchTopProjected(), fetchMyProjectedRank()]);
+      topRows = await fetchTopProjected();
       console.log("[leaderboard] top projected rows:", topRows.length);
-
       if (topRows.length === 0) {
         if (elements.projectedStatus) elements.projectedStatus.textContent = "";
         if (elements.projectedEmpty) elements.projectedEmpty.hidden = false;
@@ -282,19 +309,24 @@
         if (elements.projectedStatus) elements.projectedStatus.textContent = "";
         if (elements.projectedWrap) elements.projectedWrap.hidden = false;
       }
-
-      renderSelfRank(
-        elements.myProjectedRank,
-        myRank,
-        "You need at least 3 completed tests this week to appear."
-      );
     } catch (error) {
-      console.error("[leaderboard] projected section load error:", error);
+      console.error("[leaderboard] projected top load error:", error);
       if (elements.projectedStatus) {
         elements.projectedStatus.textContent = "Unable to load projected leaderboard right now.";
       }
-      renderSelfRank(elements.myProjectedRank, null, "Unable to load your position right now.");
     }
+
+    try {
+      myRank = await fetchMyProjectedRank();
+    } catch (error) {
+      console.error("[leaderboard] projected position load error:", error);
+    }
+
+    renderSelfRank(
+      elements.myProjectedRank,
+      myRank,
+      "You need at least 3 completed tests this week to appear."
+    );
   }
 
   async function loadSubjectSection(subjectKey) {
@@ -306,11 +338,11 @@
     if (elements.subjectWrap) elements.subjectWrap.hidden = true;
     if (elements.subjectEmpty) elements.subjectEmpty.hidden = true;
 
+    let topRows = [];
+    let myRank = null;
+
     try {
-      const [topRows, myRank] = await Promise.all([
-        fetchTopSubject(normalized),
-        fetchMySubjectRank(normalized),
-      ]);
+      topRows = await fetchTopSubject(normalized);
       console.log("[leaderboard] top subject rows:", normalized, topRows.length);
 
       if (topRows.length === 0) {
@@ -321,19 +353,24 @@
         if (elements.subjectStatus) elements.subjectStatus.textContent = "";
         if (elements.subjectWrap) elements.subjectWrap.hidden = false;
       }
-
-      renderSelfRank(
-        elements.mySubjectRank,
-        myRank,
-        "You need at least 2 completed tests in this subject this week to appear."
-      );
     } catch (error) {
-      console.error("[leaderboard] subject section load error:", error);
+      console.error("[leaderboard] subject top load error:", error);
       if (elements.subjectStatus) {
         elements.subjectStatus.textContent = "Unable to load subject leaderboard right now.";
       }
-      renderSelfRank(elements.mySubjectRank, null, "Unable to load your subject position right now.");
     }
+
+    try {
+      myRank = await fetchMySubjectRank(normalized);
+    } catch (error) {
+      console.error("[leaderboard] subject position load error:", error);
+    }
+
+    renderSelfRank(
+      elements.mySubjectRank,
+      myRank,
+      "You need at least 2 completed tests in this subject this week to appear."
+    );
   }
 
   function syncSubjectControls(tabButton) {
