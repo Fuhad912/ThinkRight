@@ -1657,7 +1657,7 @@ async function submitTest(arg) {
         try {
             const lastSaved = StorageManager.getLastResult ? StorageManager.getLastResult() : null;
             const clientRef = lastSaved?.clientRef || buildClientResultRef(lastSaved || {});
-            await saveResultToSupabase({
+            const savedToSupabase = await saveResultToSupabase({
                 clientRef,
                 userId,
                 subject: testState.subject,
@@ -1669,6 +1669,13 @@ async function submitTest(arg) {
                 autoSubmitted,
                 reason,
             });
+            if (savedToSupabase) {
+                await refreshWeeklyLeaderboardForResult({
+                    userId,
+                    subject: testState.subject,
+                    completedAt,
+                });
+            }
         } catch (e) {
             console.warn('[test] Result Supabase sync skipped/failed:', e);
         }
@@ -1786,6 +1793,30 @@ async function saveResultToSupabase(payload) {
         return true;
     } catch (e) {
         console.warn('[test] Supabase test_results upsert failed:', e);
+        return false;
+    }
+}
+
+async function refreshWeeklyLeaderboardForResult(payload) {
+    const { userId, subject, completedAt } = payload || {};
+    if (!userId) return false;
+    if (!window.supabase || typeof window.supabase.rpc !== 'function') return false;
+
+    try {
+        const { error } = await window.supabase.rpc('tr_refresh_rankings_for_result', {
+            p_user_id: userId,
+            p_subject: (subject || '').toString(),
+            p_completed_at: completedAt || new Date().toISOString(),
+        });
+
+        if (error) {
+            console.warn('[test] Weekly leaderboard refresh RPC error:', error);
+            return false;
+        }
+
+        return true;
+    } catch (e) {
+        console.warn('[test] Weekly leaderboard refresh RPC failed:', e);
         return false;
     }
 }
