@@ -10,11 +10,49 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <title>ThinkRight - Login</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/premium-ui.css">
+    <link rel="stylesheet" href="css/style.css?v=20260213a">
+    <link rel="stylesheet" href="css/premium-ui.css?v=20260213a">
 </head>
 <body class="auth-page page-auth page-login">
     <main class="auth-shell">
+        <section class="install-app-card" id="installAppCard" aria-live="polite">
+            <button
+                type="button"
+                id="installAppToggle"
+                class="install-app-toggle"
+                aria-expanded="false"
+                aria-controls="installAppPanel"
+            >
+                <span class="install-app-toggle-copy">
+                    <span class="install-app-toggle-title">Install ThinkRight App</span>
+                </span>
+                <span class="install-app-chevron" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </span>
+            </button>
+
+            <div id="installAppPanel" class="install-app-panel" role="region" aria-labelledby="installAppToggle">
+                <div class="install-app-panel-inner">
+                    <p class="install-app-description">Install ThinkRight for a full app-like experience: launch directly from your home screen, open in standalone mode without browser tabs, and access practice tools faster whenever you return.</p>
+
+                    <button
+                        type="button"
+                        id="loginInstallBtn"
+                        class="install-app-button"
+                        style="display: none;"
+                        aria-label="Install ThinkRight App"
+                    >Install App</button>
+
+                    <div class="install-app-steps">
+                        <p><strong>Android (Chrome/Edge/Brave):</strong> Open ThinkRight in your browser, tap the menu icon (three dots) at the top-right, then choose <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong> and confirm <strong>Add/Install</strong>. If you see the Install button above, you can tap that directly.</p>
+                        <p><strong>iPhone (Safari):</strong> Open ThinkRight in Safari, tap the <strong>Share</strong> icon (square with arrow), scroll and tap <strong>"Add to Home Screen"</strong>, then tap <strong>Add</strong> in the top-right corner.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="auth-hero">
             <p class="eyebrow">ThinkRight Platform</p>
             <h1>Welcome back</h1>
@@ -121,12 +159,13 @@
 
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
-    <script defer src="js/utils.js"></script>
-    <script defer src="js/auth.js"></script>
-    <script defer src="js/login.js"></script>
-    <script defer src="js/pwa-register.js"></script>
+    <script defer src="js/utils.js?v=20260213a"></script>
+    <script defer src="js/auth.js?v=20260213a"></script>
+    <script defer src="js/login.js?v=20260213a"></script>
+    <script defer src="js/pwa-register.js?v=20260213a"></script>
 </body>
 </html>
+
 
 
 
