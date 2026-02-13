@@ -5,6 +5,7 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('Login page initialized');
+    setupInstallAppCard();
 
     // Wait for Supabase to be initialized
     let retries = 0;
@@ -362,4 +363,75 @@ function showForgotPasswordModal() {
     });
 
     emailInput.focus();
+}
+
+/**
+ * Setup install card behaviour for login page.
+ * - Always shows platform instructions.
+ * - Shows the Install button only when beforeinstallprompt is available (Android browsers).
+ */
+function setupInstallAppCard() {
+    const card = document.getElementById('installAppCard');
+    const toggleBtn = document.getElementById('installAppToggle');
+    const panel = document.getElementById('installAppPanel');
+    const installBtn = document.getElementById('loginInstallBtn');
+    if (!card || !toggleBtn || !panel || !installBtn) return;
+
+    const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && (navigator.maxTouchPoints || 0) > 1);
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    let isOpen = false;
+
+    const setAccordionState = (open) => {
+        isOpen = open;
+        card.classList.toggle('is-open', open);
+        toggleBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+
+    setAccordionState(false);
+    toggleBtn.addEventListener('click', () => {
+        setAccordionState(!isOpen);
+    });
+
+    if (isStandalone) {
+        card.style.display = 'none';
+        return;
+    }
+
+    // iOS Safari does not expose beforeinstallprompt; show instructions only.
+    if (isIOS) {
+        installBtn.style.display = 'none';
+        return;
+    }
+
+    let deferredInstallPrompt = null;
+
+    window.addEventListener('beforeinstallprompt', (event) => {
+        event.preventDefault();
+        deferredInstallPrompt = event;
+        installBtn.style.display = 'inline-flex';
+    });
+
+    installBtn.addEventListener('click', async () => {
+        if (!deferredInstallPrompt) return;
+
+        installBtn.disabled = true;
+        installBtn.textContent = 'Installing...';
+
+        try {
+            deferredInstallPrompt.prompt();
+            await deferredInstallPrompt.userChoice;
+        } catch (error) {
+            console.error('Install prompt error:', error);
+        } finally {
+            deferredInstallPrompt = null;
+            installBtn.disabled = false;
+            installBtn.textContent = 'Install App';
+            installBtn.style.display = 'none';
+        }
+    });
+
+    window.addEventListener('appinstalled', () => {
+        installBtn.style.display = 'none';
+    });
 }
