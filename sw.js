@@ -10,7 +10,7 @@
   2) Chrome DevTools -> Application -> Service Workers: confirm /sw.js is active.
   3) Android Chrome -> Add to Home screen: app installs and opens in standalone mode.
 */
-const CACHE_VERSION = "thinkright-pwa-v1";
+const CACHE_VERSION = "thinkright-pwa-v2";
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const NAV_CACHE = `${CACHE_VERSION}-nav`;
 const ALLOWED_CACHES = [STATIC_CACHE, NAV_CACHE];
