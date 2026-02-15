@@ -13,7 +13,7 @@
     <title>ThinkRight - JAMB Practice Platform</title>
     <link rel="stylesheet" href="css/style.css?v=20260211d">
     <link rel="stylesheet" href="css/navbar.css?v=20260211d">
-    <link rel="stylesheet" href="css/premium-ui.css?v=20260215i">
+    <link rel="stylesheet" href="css/premium-ui.css?v=20260215j">
     <script defer src="https://checkout.flutterwave.com/v3.js"></script>
 </head>
 <body class="page-home">
@@ -135,6 +135,13 @@
                         </div>
                         <div class="tr-projection-state" id="trProjectionState">Loading your projection...</div>
                     </div>
+                    <article id="homeComparisonCard" class="tr-comparison-card" hidden>
+                        <h3 class="tr-comparison-title">This Week vs Others</h3>
+                        <p class="tr-comparison-line" data-tr-comparison-average hidden></p>
+                        <p class="tr-comparison-line" data-tr-comparison-percentile hidden></p>
+                        <p class="tr-comparison-rank" data-tr-comparison-rank hidden></p>
+                        <p class="tr-comparison-message" data-tr-comparison-message hidden></p>
+                    </article>
                 </div>
             </section>
 
@@ -239,12 +246,12 @@
     <script defer src="js/subscription-sync.js?v=20260211d"></script>
     <script defer src="js/jamb-countdown.js?v=20260215a"></script>
     <script defer src="js/projection-utils.js?v=20260215b"></script>
-    <script defer src="js/jamb-projection.js?v=20260215b"></script>
+    <script defer src="js/weekly-comparison.js?v=20260215a"></script>
+    <script defer src="js/jamb-projection.js?v=20260215c"></script>
     <script defer src="js/app.js?v=20260212f"></script>
     <script defer src="js/onboarding.js?v=20260211d"></script>
     <script defer src="js/navbar-load.js?v=20260212d"></script>
     <script defer src="js/pwa-register.js"></script>
 </body>
 </html>
-
 
