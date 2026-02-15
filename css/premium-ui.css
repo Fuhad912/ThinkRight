@@ -172,6 +172,47 @@ body.tr-loading {
     font-size: 1.05rem;
 }
 
+.jamb-countdown-card {
+    border: 1px solid var(--line-subtle);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, rgba(29, 78, 216, 0.08) 0%, var(--surface-bg) 46%, var(--surface-subtle) 100%);
+    box-shadow: var(--shadow-xs);
+    padding: clamp(14px, 2vw, 20px);
+}
+
+.page-home .jamb-countdown-card,
+.auth-page .jamb-countdown-card {
+    margin: 0 0 var(--space-3);
+}
+
+.jamb-countdown-title {
+    margin: 0 0 6px;
+    color: var(--accent-primary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.jamb-countdown-value {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: clamp(1.5rem, 1.15rem + 1vw, 2rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+}
+
+.jamb-countdown-subtext {
+    margin: 6px 0 0;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+}
+
+html[data-theme='dark'] .jamb-countdown-card {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.22) 0%, var(--surface-subtle) 48%, #0d1117 100%);
+}
+
 .status-banner {
     border: 1px solid var(--line-subtle);
     border-radius: var(--radius-lg);
@@ -923,6 +964,15 @@ button span,
 }
 
 @media (max-width: 640px) {
+    .jamb-countdown-card {
+        width: 100%;
+        padding: 14px;
+    }
+
+    .jamb-countdown-value {
+        font-size: 1.45rem;
+    }
+
     .overview-cards {
         gap: var(--space-2);
     }
