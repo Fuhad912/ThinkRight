@@ -75,6 +75,24 @@
     };
   }
 
+  function getReadinessLevel(score) {
+    const safeScore = clamp(Number(score) || 0, 0, MAX_SCORE);
+
+    if (safeScore <= 180) {
+      return { label: "Beginner", colorClass: "tr-readiness-badge--beginner" };
+    }
+    if (safeScore <= 240) {
+      return { label: "Improving", colorClass: "tr-readiness-badge--improving" };
+    }
+    if (safeScore <= 300) {
+      return { label: "Competitive", colorClass: "tr-readiness-badge--competitive" };
+    }
+    if (safeScore <= 350) {
+      return { label: "Distinction Range", colorClass: "tr-readiness-badge--distinction" };
+    }
+    return { label: "Elite", colorClass: "tr-readiness-badge--elite" };
+  }
+
   window.ThinkRightProjection = {
     WEIGHTS,
     MIN_TESTS,
@@ -83,5 +101,6 @@
     CALIBRATION_MULTIPLIER,
     calibrateProjectedScore,
     computeProjectedJambScore,
+    getReadinessLevel,
   };
 })();
