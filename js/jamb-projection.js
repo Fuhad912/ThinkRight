@@ -84,7 +84,7 @@
       return;
     }
 
-    const projection = computeProjectedJambScore(recent);
+    const projection = computeProjectionFromSharedHelper(recent);
     if (!projection) {
       renderState({
         mode: "info",
@@ -381,26 +381,15 @@
     return Math.max(0, Math.min(100, scaled));
   }
 
-  // Pure function: compute weighted projection from recent tests (most recent first).
-  function computeProjectedJambScore(recentTests) {
-    const weights = [0.35, 0.25, 0.2, 0.12, 0.08];
-    const scores = (recentTests || [])
-      .map((t) => Number(t?.score_percentage))
-      .filter((v) => Number.isFinite(v))
-      .slice(0, 5);
-
-    if (scores.length < 3) return null;
-
-    const usedWeights = weights.slice(0, scores.length);
-    const weightSum = usedWeights.reduce((a, b) => a + b, 0) || 1;
-    const weightedAvg =
-      scores.reduce((acc, score, idx) => acc + score * usedWeights[idx], 0) / weightSum;
-
-    const projected = Math.round((weightedAvg / 100) * 400);
-    const rangeLow = Math.max(0, projected - 12);
-    const rangeHigh = Math.min(400, projected + 12);
-
-    return { weightedAvg, projected, rangeLow, rangeHigh };
+  function computeProjectionFromSharedHelper(recentTests) {
+    if (
+      window.ThinkRightProjection &&
+      typeof window.ThinkRightProjection.computeProjectedJambScore === "function"
+    ) {
+      return window.ThinkRightProjection.computeProjectedJambScore(recentTests);
+    }
+    console.warn("[projection] Shared projection helper unavailable.");
+    return null;
   }
 
   function setupHowModal(button) {
@@ -422,7 +411,7 @@
           <li>We take your last 5 completed tests (most recent first).</li>
           <li>Recent tests carry more weight than older ones.</li>
           <li>We convert the weighted average score percentage to a UTME score out of 400.</li>
-          <li>We also show a small range to reflect normal performance variation.</li>
+          <li>Projection is calibrated to better reflect real exam conditions. It's an estimate, not a guarantee.</li>
         </ul>
         <div class="tr-projection-modal-note">This is an estimate, not a guarantee.</div>
       </div>
