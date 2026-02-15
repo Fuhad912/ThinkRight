@@ -1725,6 +1725,15 @@ function fnv1a32Hex(str) {
     return ('00000000' + h.toString(16)).slice(-8);
 }
 
+function toLocalDayKey(dateValue) {
+    const d = dateValue instanceof Date ? dateValue : new Date(dateValue);
+    if (Number.isNaN(d.getTime())) return null;
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
 async function saveResultToSupabase(payload) {
     const {
         clientRef,
@@ -1774,6 +1783,7 @@ async function saveResultToSupabase(payload) {
         auto_submitted: !!autoSubmitted,
         reason: (reason || '').toString(),
         completed_at: completedAt || new Date().toISOString(),
+        local_day: toLocalDayKey(completedAt || new Date()),
     };
 
     // Guard invalid numbers (avoid inserting NaN).
@@ -1782,9 +1792,19 @@ async function saveResultToSupabase(payload) {
     }
 
     try {
-        const { error } = await window.supabase
+        let { error } = await window.supabase
             .from('test_results')
             .upsert(row, { onConflict: 'client_ref', ignoreDuplicates: true });
+
+        // Backward compatibility for deployments that haven't added test_results.local_day yet.
+        if (error && /local_day/i.test(String(error.message || ''))) {
+            const fallbackRow = { ...row };
+            delete fallbackRow.local_day;
+            const retry = await window.supabase
+                .from('test_results')
+                .upsert(fallbackRow, { onConflict: 'client_ref', ignoreDuplicates: true });
+            error = retry.error;
+        }
 
         if (error) {
             console.warn('[test] Supabase test_results upsert error:', error);
