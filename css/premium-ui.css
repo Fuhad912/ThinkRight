@@ -3265,6 +3265,52 @@ html[data-theme='dark'] .page-test #reviewModal .review-question strong {
     color: var(--text-muted);
 }
 
+.tr-comparison-card {
+    margin-top: var(--space-2);
+    padding: 12px 14px;
+    border: 1px solid color-mix(in srgb, var(--accent-primary) 26%, var(--line-subtle));
+    border-radius: var(--radius-lg);
+    background: linear-gradient(145deg, color-mix(in srgb, var(--accent-soft) 52%, var(--surface-bg)) 0%, var(--surface-bg) 100%);
+}
+
+.tr-comparison-title {
+    margin: 0 0 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: 0.01em;
+}
+
+.tr-comparison-line {
+    margin: 0;
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+}
+
+.tr-comparison-line + .tr-comparison-line {
+    margin-top: 4px;
+}
+
+.tr-comparison-rank {
+    margin: 8px 0 0;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.tr-comparison-message {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.45;
+}
+
+.tr-comparison-card[data-state="locked"] {
+    border-color: var(--line-subtle);
+    background: var(--surface-subtle);
+}
+
 .tr-projection-modal {
     position: fixed;
     inset: 0;
@@ -3362,6 +3408,11 @@ html[data-theme='dark'] .page-test #reviewModal .review-question strong {
 
     .tr-projection-link {
         padding-inline: 0;
+    }
+
+    .tr-comparison-card {
+        width: 100%;
+        padding: 12px;
     }
 }
 
