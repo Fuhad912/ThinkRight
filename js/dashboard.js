@@ -327,6 +327,7 @@ async function loadDashboardData(userId) {
         console.log('✅ Test history calculated:', testHistory);
 
         renderDashboardProjection(userId);
+        await renderDashboardWeeklyComparison(userId);
 
         console.log('\n🎨 Rendering dashboard sections...\n');
         
@@ -401,6 +402,38 @@ function renderDashboardProjection(userId) {
         }
     } else {
         badgeEl.hidden = true;
+    }
+}
+
+async function renderDashboardWeeklyComparison(userId) {
+    const cardEl = document.getElementById('dashboardComparisonCard');
+    if (!cardEl) return;
+
+    const messageEl = cardEl.querySelector('[data-tr-comparison-message]');
+    cardEl.hidden = false;
+    cardEl.dataset.state = 'locked';
+    if (messageEl) {
+        messageEl.hidden = false;
+        messageEl.textContent = 'Loading weekly comparison...';
+    }
+
+    const helper = window.ThinkRightWeeklyComparison;
+    if (!helper || typeof helper.fetchMyWeeklyComparison !== 'function' || typeof helper.renderComparisonCard !== 'function') {
+        if (messageEl) {
+            messageEl.textContent = 'Comparison unavailable right now.';
+        }
+        return;
+    }
+
+    try {
+        const comparison = await helper.fetchMyWeeklyComparison({ userId });
+        helper.renderComparisonCard(cardEl, comparison);
+    } catch (error) {
+        console.warn('[dashboard] Weekly comparison unavailable:', error);
+        helper.renderComparisonCard(cardEl, {
+            qualifies: false,
+            message: 'Comparison unavailable right now.'
+        });
     }
 }
 
