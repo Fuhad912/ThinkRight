@@ -13,7 +13,7 @@
     <title>ThinkRight - JAMB Practice Platform</title>
     <link rel="stylesheet" href="css/style.css?v=20260211d">
     <link rel="stylesheet" href="css/navbar.css?v=20260211d">
-    <link rel="stylesheet" href="css/premium-ui.css?v=20260215j">
+    <link rel="stylesheet" href="css/premium-ui.css?v=20260215k">
     <script defer src="https://checkout.flutterwave.com/v3.js"></script>
 </head>
 <body class="page-home">
@@ -105,6 +105,15 @@
                 <p class="eyebrow">Academic Readiness Platform</p>
                 <h1>Practice smarter for every subject.</h1>
                 <p>Select a subject and run a timed test built around exam-ready question sets.</p>
+            </section>
+
+            <section id="practiceStreakPill" class="tr-streak-pill is-loading" hidden aria-live="polite">
+                <span class="tr-streak-pill__icon" aria-hidden="true">&#128293;</span>
+                <div class="tr-streak-pill__copy">
+                    <p class="tr-streak-pill__title" id="practiceStreakTitle">Loading streak...</p>
+                    <p class="tr-streak-pill__subtitle" id="practiceStreakSubtitle">Checking your practice consistency</p>
+                </div>
+                <button type="button" class="tr-streak-pill__cta" id="practiceStreakCta" hidden>Take a quick test</button>
             </section>
 
             <section class="jamb-countdown-card" data-jamb-countdown aria-live="polite">
@@ -247,6 +256,7 @@
     <script defer src="js/jamb-countdown.js?v=20260215a"></script>
     <script defer src="js/projection-utils.js?v=20260215b"></script>
     <script defer src="js/weekly-comparison.js?v=20260215a"></script>
+    <script defer src="js/practice-streak.js?v=20260215a"></script>
     <script defer src="js/jamb-projection.js?v=20260215c"></script>
     <script defer src="js/app.js?v=20260212f"></script>
     <script defer src="js/onboarding.js?v=20260211d"></script>
@@ -254,4 +264,3 @@
     <script defer src="js/pwa-register.js"></script>
 </body>
 </html>
-
