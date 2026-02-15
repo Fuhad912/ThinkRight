@@ -83,6 +83,123 @@ body.page-leaderboard {
   line-height: 1.4;
 }
 
+.page-leaderboard .leaderboard-my-rank-card {
+  margin-top: 14px;
+  border: 1px solid var(--line-subtle);
+  border-radius: var(--radius-md);
+  background: linear-gradient(145deg, var(--surface-bg) 0%, var(--surface-subtle) 100%);
+  padding: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-leaderboard .leaderboard-my-rank-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-primary);
+}
+
+.page-leaderboard .leaderboard-my-rank-status {
+  margin: 8px 0 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.page-leaderboard .leaderboard-my-rank-sensitive {
+  margin-top: 12px;
+  transition: filter 0.2s ease, opacity 0.2s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.page-leaderboard .leaderboard-my-rank-sensitive.is-blurred {
+  filter: blur(10px);
+  opacity: 0.35;
+  user-select: none;
+  pointer-events: none;
+}
+
+.page-leaderboard .leaderboard-my-rank-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.page-leaderboard .leaderboard-my-rank-item {
+  border: 1px solid var(--line-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--surface-bg);
+  padding: 10px;
+  min-width: 0;
+}
+
+.page-leaderboard .leaderboard-my-rank-label {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.page-leaderboard .leaderboard-my-rank-value {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.page-leaderboard .leaderboard-my-rank-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+  text-align: center;
+  z-index: 12;
+  pointer-events: auto;
+}
+
+.page-leaderboard .leaderboard-my-rank-overlay p {
+  margin: 0;
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.page-leaderboard .leaderboard-upgrade-btn {
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: var(--accent-primary);
+  color: #ffffff;
+  min-height: 40px;
+  padding: 10px 14px;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.page-leaderboard .leaderboard-my-rank-card.is-loading .leaderboard-my-rank-sensitive {
+  opacity: 0.6;
+}
+
+html[data-theme='dark'] .page-leaderboard .leaderboard-my-rank-overlay {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.page-leaderboard .leaderboard-upgrade-btn:hover {
+  background: var(--accent-primary-hover);
+}
+
 .page-leaderboard .leaderboard-table-wrap {
   margin-top: 12px;
   border: 1px solid var(--line-subtle);
@@ -318,6 +435,10 @@ body.page-leaderboard {
     padding: 10px 12px;
     font-size: 0.8rem;
   }
+
+  .page-leaderboard .leaderboard-my-rank-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* 640px: large phones / small phones landscape */
@@ -359,6 +480,14 @@ body.page-leaderboard {
   .page-leaderboard .leaderboard-self-rank {
     font-size: 0.84rem;
     padding: 10px 12px;
+  }
+
+  .page-leaderboard .leaderboard-my-rank-card {
+    padding: 12px;
+  }
+
+  .page-leaderboard .leaderboard-my-rank-grid {
+    grid-template-columns: 1fr;
   }
 }
 
