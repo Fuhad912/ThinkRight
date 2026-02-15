@@ -12,7 +12,7 @@
     <title>ThinkRight - Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/premium-ui.css?v=20260215h">
+    <link rel="stylesheet" href="css/premium-ui.css?v=20260215j">
     <script defer src="https://checkout.flutterwave.com/v3.js"></script>
 </head>
 <body class="dashboard-page page-dashboard">
@@ -107,6 +107,13 @@
                     <span id="dashboardProjectionScore">Projected JAMB: -- / 400</span>
                     <span id="dashboardProjectionBadge" class="tr-readiness-badge" hidden></span>
                 </p>
+                <article id="dashboardComparisonCard" class="tr-comparison-card" hidden>
+                    <h3 class="tr-comparison-title">This Week vs Others</h3>
+                    <p class="tr-comparison-line" data-tr-comparison-average hidden></p>
+                    <p class="tr-comparison-line" data-tr-comparison-percentile hidden></p>
+                    <p class="tr-comparison-rank" data-tr-comparison-rank hidden></p>
+                    <p class="tr-comparison-message" data-tr-comparison-message hidden></p>
+                </article>
             </section>
 
             <section id="tr-recommendations" class="dashboard-section tr-recos" hidden></section>
@@ -177,9 +184,10 @@
     <script defer src="js/subscription.js?v=20260211d"></script>
     <script defer src="js/subscription-sync.js?v=20260211d"></script>
     <script defer src="js/projection-utils.js?v=20260215b"></script>
+    <script defer src="js/weekly-comparison.js?v=20260215a"></script>
     <script defer src="js/components/dashboard-analytics.js"></script>
     <script defer src="js/components/dashboard-cards.js"></script>
-    <script defer src="js/dashboard.js?v=20260215c"></script>
+    <script defer src="js/dashboard.js?v=20260215d"></script>
     <script defer src="js/onboarding.js"></script>
     <script defer src="js/navbar-load.js?v=20260215a"></script>
     <script defer src="js/pwa-register.js"></script>
