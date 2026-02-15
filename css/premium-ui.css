@@ -1020,9 +1020,35 @@ button span,
     margin-top: var(--space-2);
 }
 
+.syllabus-entitlement-loader {
+    margin-bottom: var(--space-2);
+    padding: 10px 12px;
+    border: 1px solid var(--line-subtle);
+    border-radius: var(--radius-sm);
+    background: var(--surface-subtle);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.syllabus-grid.is-entitlement-loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
 .locked-overlay {
     background: rgba(13, 17, 23, 0.72);
     backdrop-filter: blur(2px);
+}
+
+.page-syllabus .syllabus-item.is-locked .locked-overlay {
+    pointer-events: none;
+    z-index: 11;
+}
+
+.page-syllabus .syllabus-item.is-locked .view-btn {
+    position: relative;
+    z-index: 12;
 }
 
 .lock-text,
