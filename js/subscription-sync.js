@@ -160,7 +160,22 @@
     };
 
     window.Subscription.canAccessSyllabus = function canAccessSyllabusByStatus() {
-      return window.Subscription.isPremium();
+      const row = window.Subscription.__latestSubscriptionRow;
+      const isAdmin = normalizePlan(row?.plan) === "admin";
+      const isPremium = window.Subscription.isPremium() === true;
+
+      if (window.ThinkRightEntitlements && typeof window.ThinkRightEntitlements.canAccessSyllabus === "function") {
+        try {
+          return window.ThinkRightEntitlements.canAccessSyllabus({
+            isPremium,
+            isAdmin
+          });
+        } catch (err) {
+          console.warn("canAccessSyllabus helper failed:", err);
+        }
+      }
+
+      return isAdmin || isPremium;
     };
 
     const originalEnsureValid = window.Subscription.ensureSubscriptionValid;
