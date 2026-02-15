@@ -1,492 +1,1023 @@
-(() => {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initProjection);
-  } else {
-    initProjection();
-  }
+/**
+ * THINKRIGHT - DASHBOARD PAGE
+ * 
+ * Displays user-specific performance analytics including:
+ * - Overview statistics (total tests, questions, accuracy)
+ * - Per-subject performance with progress bars
+ * - Complete test history table
+ * - Loading and empty states
+ * 
+ * Authentication: Protected - redirects to login if not authenticated
+ * Data Scope: All data filtered by current user ID
+ */
 
-  function initProjection() {
-    const howBtn = document.getElementById("trProjectionHowBtn");
-    const scoreEl = document.getElementById("trProjectionScore");
-    const badgeEl = document.getElementById("trProjectionBadge");
-    const rangeEl = document.getElementById("trProjectionRange");
-    const stateEl = document.getElementById("trProjectionState");
+// Flag used by a few legacy handlers; do not override browser history APIs.
+window.dashboardActive = true;
 
-    if (!scoreEl || !stateEl) return;
+let isDashboardLoaded = false;
+let isAuthCheckRunning = false;
+const dashboardCharts = {
+    scoreTrend: null,
+    subjectAverage: null
+};
 
-    setupHowModal(howBtn);
+// Update page status indicator
+function updatePageStatus(status, color = 'green') {
+    const indicator = document.getElementById('pageStatus');
+    if (indicator) {
+        indicator.textContent = status;
+        indicator.style.background = color;
+    }
+}
 
-    // Render quickly even if auth is still booting.
-    renderState({
-      mode: "loading",
-      message: "Loading your projection...",
-      scoreText: "-- / 400",
-      rangeText: "",
-      showRange: false,
-      readiness: null,
-      scoreEl,
-      badgeEl,
-      rangeEl,
-      stateEl,
-    });
-
-    loadProjection({ scoreEl, badgeEl, rangeEl, stateEl }).catch((err) => {
-      console.error("[projection] Failed to load projection:", err);
-      renderState({
-        mode: "info",
-        message: "Projection unavailable right now.",
-        scoreText: "-- / 400",
-        rangeText: "",
-        showRange: false,
-        readiness: null,
-        scoreEl,
-        badgeEl,
-        rangeEl,
-        stateEl,
-      });
-    });
-  }
-
-  async function loadProjection({ scoreEl, badgeEl, rangeEl, stateEl }) {
-    await waitForAuthInit(1500);
-
-    const user = await safeGetUser();
-    if (!user) {
-      renderState({
-        mode: "info",
-        message: "Log in and take at least 3 tests to get your projection.",
-        scoreText: "-- / 400",
-        rangeText: "",
-        showRange: false,
-        readiness: null,
-        scoreEl,
-        badgeEl,
-        rangeEl,
-        stateEl,
-      });
-      return;
+/**
+ * Show locked dashboard UI for non-premium users
+ */
+function showDashboardLockedMessage() {
+    const pageContent = document.getElementById('dashboardContent') || document.querySelector('.dashboard-main') || document.querySelector('main');
+    if (!pageContent) return;
+    
+    const existingOverlay = pageContent.querySelector('.dashboard-lock-overlay');
+    if (existingOverlay) {
+        existingOverlay.remove();
     }
 
-    // Best-effort: if this browser has local history, backfill it to Supabase so
-    // projections/dashboard are consistent across browsers/devices.
-    try {
-      await backfillLocalResultsToSupabase(user.id);
-    } catch (e) {
-      console.warn("[projection] Backfill warning:", e);
-    }
+    pageContent.classList.add('is-locked');
 
-    // Read recent tests from Supabase (preferred) or fall back to local stored results.
-    const recent = await fetchRecentTestsForProjection(user.id, 5);
-    if (!Array.isArray(recent) || recent.length < 3) {
-      renderState({
-        mode: "info",
-        message: "Take at least 3 tests to get your projection.",
-        scoreText: "-- / 400",
-        rangeText: "",
-        showRange: false,
-        readiness: null,
-        scoreEl,
-        badgeEl,
-        rangeEl,
-        stateEl,
-      });
-      return;
-    }
-
-    const projection = computeProjectionFromSharedHelper(recent);
-    if (!projection) {
-      renderState({
-        mode: "info",
-        message: "Take at least 3 tests to get your projection.",
-        scoreText: "-- / 400",
-        rangeText: "",
-        showRange: false,
-        readiness: null,
-        scoreEl,
-        badgeEl,
-        rangeEl,
-        stateEl,
-      });
-      return;
-    }
-
-    const readiness = getReadinessFromSharedHelper(projection.projected);
-
-    renderState({
-      mode: "ready",
-      message: "Based on your recent practice performance (estimate).",
-      scoreText: `${projection.projected} / 400`,
-      rangeText: `Estimated range: ${projection.rangeLow}\u2013${projection.rangeHigh}`,
-      showRange: true,
-      readiness,
-      scoreEl,
-      badgeEl,
-      rangeEl,
-      stateEl,
-    });
-  }
-
-  function renderState({
-    mode,
-    message,
-    scoreText,
-    rangeText,
-    showRange,
-    readiness,
-    scoreEl,
-    badgeEl,
-    rangeEl,
-    stateEl,
-  }) {
-    scoreEl.textContent = scoreText;
-    stateEl.textContent = message;
-    stateEl.dataset.mode = mode;
-    if (rangeEl) {
-      rangeEl.textContent = rangeText || "";
-      rangeEl.hidden = !showRange;
-    }
-    if (badgeEl) {
-      badgeEl.hidden = !readiness;
-      badgeEl.className = "tr-readiness-badge";
-      if (readiness && readiness.colorClass) {
-        badgeEl.classList.add(readiness.colorClass);
-        badgeEl.textContent = readiness.label;
-      } else {
-        badgeEl.textContent = "";
-      }
-    }
-  }
-
-  async function waitForAuthInit(maxMs) {
-    const start = Date.now();
-    while (Date.now() - start < maxMs) {
-      if (window.authInitialized) return true;
-      await sleep(80);
-    }
-    return false;
-  }
-
-  async function safeGetUser() {
-    try {
-      if (window.getCurrentUser && typeof window.getCurrentUser === "function") {
-        const u = await window.getCurrentUser().catch(() => null);
-        if (u) return u;
-      }
-    } catch (e) {
-      // ignore
-    }
-
-    try {
-      if (window.supabase && window.supabase.auth && typeof window.supabase.auth.getUser === "function") {
-        const { data } = await window.supabase.auth.getUser();
-        return data ? data.user : null;
-      }
-    } catch (e) {
-      // ignore
-    }
-
-    return null;
-  }
-
-  async function fetchRecentTestsForProjection(userId, limit) {
-    // Prefer Supabase when available (deployed environments).
-    const supa = await tryFetchRecentFromSupabase(userId, limit);
-    if (Array.isArray(supa) && supa.length > 0) return supa;
-
-    // Fallback: local results (this is what the app already uses for dashboard/history).
-    const local = getRecentFromLocalResults(userId, limit);
-    if (Array.isArray(local) && local.length > 0) return local;
-
-    return [];
-  }
-
-  async function tryFetchRecentFromSupabase(userId, limit) {
-    if (!window.supabase || typeof window.supabase.from !== "function") {
-      return [];
-    }
-
-    // We don't have a schema file in-repo for the results table.
-    // Try common table/column shapes without touching test logic.
-    const tableCandidates = ["test_results", "results", "user_test_results", "test_attempts"];
-    const userIdColumns = ["user_id", "userId", "uid"];
-    const orderColumns = ["completed_at", "created_at"];
-    const errors = [];
-
-    for (const table of tableCandidates) {
-      // 1) Try explicit user_id columns (most common).
-      for (const userCol of userIdColumns) {
-        for (const orderCol of orderColumns) {
-          try {
-            const { data, error } = await window.supabase
-              .from(table)
-              .select("*")
-              .eq(userCol, userId)
-              .order(orderCol, { ascending: false })
-              .limit(limit);
-            if (error) throw error;
-            const normalized = normalizeResultRows(data);
-            if (normalized.length > 0) return normalized;
-          } catch (e) {
-            errors.push(`${table}.${userCol}.${orderCol} -> ${e?.message || e}`);
-          }
-        }
-      }
-
-      // 2) Try without explicit filter (some schemas rely on RLS to scope to auth.uid()).
-      for (const orderCol of orderColumns) {
-        try {
-          const { data, error } = await window.supabase
-            .from(table)
-            .select("*")
-            .order(orderCol, { ascending: false })
-            .limit(limit);
-          if (error) throw error;
-          const normalized = normalizeResultRows(data);
-          if (normalized.length > 0) return normalized;
-        } catch (e) {
-          errors.push(`${table}.nofilter.${orderCol} -> ${e?.message || e}`);
-        }
-      }
-    }
-
-    console.warn("[projection] Unable to read recent results from Supabase.", errors);
-    return [];
-  }
-
-  function fnv1a32Hex(str) {
-    let h = 0x811c9dc5;
-    for (let i = 0; i < str.length; i++) {
-      h ^= str.charCodeAt(i);
-      h = (h + ((h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24))) >>> 0;
-    }
-    return ("00000000" + h.toString(16)).slice(-8);
-  }
-
-  function buildClientRef(r, userId) {
-    const uid = (userId || r?.userId || "").toString();
-    const subject = (r?.subject || "").toString();
-    const ts = (r?.timestamp || r?.completed_at || r?.completedAt || "").toString();
-    const score = Number(r?.score ?? r?.score_percentage ?? "");
-    const correct = Number(r?.correctCount ?? r?.correct_count ?? "");
-    const wrong = Number(r?.wrongCount ?? r?.wrong_count ?? "");
-    const total = Number(r?.totalQuestions ?? r?.total_questions ?? "");
-    const base = [uid, subject, ts, score, correct, wrong, total].join("|");
-    return "tr_" + fnv1a32Hex(base);
-  }
-
-  async function backfillLocalResultsToSupabase(userId) {
-    if (!userId) return 0;
-    if (!window.supabase || typeof window.supabase.from !== "function") return 0;
-
-    let allResults = [];
-    try {
-      const sm = (typeof StorageManager !== "undefined" && StorageManager) || window.StorageManager;
-      allResults = sm && typeof sm.getResults === "function" ? sm.getResults() : [];
-    } catch (e) {
-      allResults = [];
-    }
-    if (!Array.isArray(allResults) || allResults.length === 0) return 0;
-
-    const mine = allResults.filter((r) => r && r.userId === userId).slice(-200);
-    if (mine.length === 0) return 0;
-
-    const rows = [];
-    for (const r of mine) {
-      const clientRef = (r.clientRef || r.client_ref || buildClientRef(r, userId)).toString();
-      const scorePct = Number(r.score ?? r.score_percentage);
-      const correct = Number(r.correctCount ?? r.correct_count);
-      const wrong = Number(r.wrongCount ?? r.wrong_count);
-      const total = Number(r.totalQuestions ?? r.total_questions);
-      const completedAt = r.timestamp || r.completed_at || r.completedAt || new Date().toISOString();
-
-      if (!Number.isFinite(scorePct) || !Number.isFinite(correct) || !Number.isFinite(wrong) || !Number.isFinite(total)) continue;
-
-      rows.push({
-        client_ref: clientRef,
-        user_id: userId,
-        subject: (r.subject || "").toString(),
-        score_percentage: scorePct,
-        correct_count: correct,
-        wrong_count: wrong,
-        total_questions: total,
-        completed_at: completedAt,
-      });
-    }
-    if (rows.length === 0) return 0;
-
-    const { error } = await window.supabase
-      .from("test_results")
-      .upsert(rows, { onConflict: "client_ref", ignoreDuplicates: true });
-    if (error) {
-      // If the table isn't created yet, don't spam user-facing UI; just return.
-      console.warn("[projection] Backfill upsert error:", error);
-      return 0;
-    }
-    return rows.length;
-  }
-
-  function getRecentFromLocalResults(userId, limit) {
-    try {
-      const sm = (typeof StorageManager !== "undefined" && StorageManager) || window.StorageManager;
-      const allResults = sm && typeof sm.getResults === "function"
-        ? sm.getResults()
-        : (() => {
-          try {
-            const raw = localStorage.getItem("test_results");
-            return raw ? JSON.parse(raw) : [];
-          } catch (e) {
-            return [];
-          }
-        })();
-
-      if (!Array.isArray(allResults) || allResults.length === 0) return [];
-
-      const matched = allResults.filter((r) => r && r.userId === userId);
-      const anonymous = allResults.filter((r) => r && !r.userId);
-      // Prefer strict per-user results, else use anonymous legacy results, else fall back to all local data.
-      const scoped = matched.length > 0 ? matched : (anonymous.length > 0 ? anonymous : allResults);
-
-      const normalized = normalizeResultRows(scoped)
-        .filter((r) => r.completed_at)
-        .sort((a, b) => new Date(b.completed_at) - new Date(a.completed_at))
-        .slice(0, limit);
-
-      return normalized;
-    } catch (e) {
-      return [];
-    }
-  }
-
-  function normalizeResultRows(rows) {
-    if (!Array.isArray(rows)) return [];
-    return rows
-      .map((row) => {
-        const correctRaw =
-          row?.correctCount ??
-          row?.correct_count ??
-          row?.correct ??
-          row?.num_correct ??
-          null;
-        const totalRaw =
-          row?.totalQuestions ??
-          row?.total_questions ??
-          row?.total ??
-          row?.num_questions ??
-          null;
-
-        const scorePctRaw =
-          row?.score_percentage ??
-          row?.scorePercent ??
-          row?.percentage ??
-          row?.score ??
-          null;
-
-        let scorePct = toScorePercent(scorePctRaw);
-        if (!Number.isFinite(scorePct)) {
-          const correct = Number(correctRaw);
-          const total = Number(totalRaw);
-          if (Number.isFinite(correct) && Number.isFinite(total) && total > 0) {
-            scorePct = Math.max(0, Math.min(100, (correct / total) * 100));
-          }
-        }
-
-        const completedAt = row?.completed_at || row?.completedAt || row?.created_at || row?.timestamp || null;
-
-        return {
-          score_percentage: scorePct,
-          completed_at: completedAt,
-        };
-      })
-      .filter((r) => Number.isFinite(r.score_percentage));
-  }
-
-  function toScorePercent(value) {
-    const n = Number(value);
-    if (!Number.isFinite(n)) return null;
-    // If the backend stores 0-1 fractions, upscale.
-    const scaled = n <= 1 && n >= 0 ? n * 100 : n;
-    return Math.max(0, Math.min(100, scaled));
-  }
-
-  function computeProjectionFromSharedHelper(recentTests) {
-    if (
-      window.ThinkRightProjection &&
-      typeof window.ThinkRightProjection.computeProjectedJambScore === "function"
-    ) {
-      return window.ThinkRightProjection.computeProjectedJambScore(recentTests);
-    }
-    console.warn("[projection] Shared projection helper unavailable.");
-    return null;
-  }
-
-  function getReadinessFromSharedHelper(score) {
-    if (
-      window.ThinkRightProjection &&
-      typeof window.ThinkRightProjection.getReadinessLevel === "function"
-    ) {
-      return window.ThinkRightProjection.getReadinessLevel(score);
-    }
-    return null;
-  }
-
-  function setupHowModal(button) {
-    if (!button) return;
-
-    const modal = document.createElement("div");
-    modal.className = "tr-projection-modal";
-    modal.id = "trProjectionModal";
-    modal.style.display = "none";
-    modal.setAttribute("role", "dialog");
-    modal.setAttribute("aria-modal", "true");
-    modal.setAttribute("aria-labelledby", "trProjectionModalTitle");
-    modal.innerHTML = `
-      <div class="tr-projection-dialog">
-        <button type="button" class="tr-projection-close" aria-label="Close projection details">&times;</button>
-        <h3 id="trProjectionModalTitle">How it's calculated</h3>
-        <p>This is a simple estimate based on your most recent practice tests.</p>
-        <ul>
-          <li>We take your last 5 completed tests (most recent first).</li>
-          <li>Recent tests carry more weight than older ones.</li>
-          <li>We convert the weighted average score percentage to a UTME score out of 400.</li>
-          <li>Projection is calibrated to better reflect real exam conditions. It's an estimate, not a guarantee.</li>
-        </ul>
-        <div class="tr-projection-modal-note">This is an estimate, not a guarantee.</div>
-      </div>
+    const overlay = document.createElement('div');
+    overlay.className = 'dashboard-lock-overlay';
+    overlay.innerHTML = `
+        <div class="dashboard-lock-dialog" role="dialog" aria-modal="true" aria-labelledby="dashboardLockTitle">
+            <div class="dashboard-lock-icon" aria-hidden="true">&#128274;</div>
+            <h2 id="dashboardLockTitle">Dashboard is a Premium Feature</h2>
+            <p>Upgrade to a premium plan to unlock your full performance dashboard, analytics and history.</p>
+            <div class="dashboard-lock-actions">
+                <button class="dashboard-lock-upgrade" type="button">Upgrade Now</button>
+                <button class="dashboard-lock-back" type="button">Back to Tests</button>
+            </div>
+        </div>
     `;
 
-    document.body.appendChild(modal);
+    const upgradeBtn = overlay.querySelector('.dashboard-lock-upgrade');
+    const backBtn = overlay.querySelector('.dashboard-lock-back');
 
-    const open = () => {
-      modal.style.display = "flex";
-      document.body.classList.add("tr-modal-open");
-      const closeBtn = modal.querySelector(".tr-projection-close");
-      if (closeBtn) closeBtn.focus();
+    if (upgradeBtn) {
+        upgradeBtn.addEventListener('click', () => {
+            // Prefer the full pricing modal (requested). Fallback to paywall modal if needed.
+            if (window.Subscription && typeof window.Subscription.showPricingModal === 'function') {
+                window.Subscription.showPricingModal();
+                return;
+            }
+            if (typeof window.showPricingModal === 'function') {
+                window.showPricingModal();
+                return;
+            }
+            if (window.Subscription && typeof window.Subscription.showPaywallModal === 'function') {
+                window.Subscription.showPaywallModal('dashboard');
+                return;
+            }
+            console.log('Pricing modal unavailable.');
+        });
+    }
+
+    if (backBtn) {
+        backBtn.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+    }
+
+    pageContent.appendChild(overlay);
+    updatePageStatus('Premium Required', 'orange');
+    return;
+
+    pageContent.innerHTML = `
+        <div class="syllabus-locked" style="margin: 3rem auto; text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 1rem;">🔒</div>
+            <h2 style="margin-top: 0; color: var(--color-accent);">Dashboard is a Premium Feature</h2>
+            <p style="font-size: 1.1rem; color: var(--color-text-secondary); margin-bottom: 2rem;">
+                Upgrade to a premium plan to unlock your full performance dashboard, analytics and history.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <button onclick="window.Subscription.showPaywallModal('dashboard')" 
+                        style="background: var(--color-accent); color: white; border: none; padding: 0.875rem 2rem; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem;">
+                    Upgrade Now
+                </button>
+                <button onclick="window.location.href='index.html'"
+                        style="background: transparent; color: var(--color-accent); border: 2px solid var(--color-accent); padding: 0.75rem 2rem; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem;">
+                    Back to Tests
+                </button>
+            </div>
+        </div>
+    `;
+
+    updatePageStatus('Premium Required', 'orange');
+}
+
+// Initialize dashboard
+async function initDashboard() {
+    console.log('🎯 Starting dashboard initialization...');
+    updatePageStatus('Initializing...', 'blue');
+
+    try {
+        // Wait for subscription module to be available (loaded via script tag)
+        let subRetries = 0;
+        while ((!window.Subscription || typeof window.Subscription.init !== 'function') && subRetries < 30) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            subRetries++;
+        }
+
+        // ===== PREMIUM ACCESS CHECK =====
+        // Initialize subscription system
+        if (window.Subscription && typeof window.Subscription.init === 'function') {
+            const subInitialized = await window.Subscription.init();
+            if (!subInitialized) {
+                console.warn('⚠️ Subscription system failed to initialize');
+            }
+        } else {
+            console.warn('⚠️ Subscription module unavailable; continuing with guarded access checks');
+        }
+
+        // Strict check (DB-backed) to prevent free users bypassing via stale state.
+        const strictHasAccess = await hasPremiumDashboardAccess();
+        if (!strictHasAccess) {
+            console.log('ðŸš« User does not have premium access (strict check) - showing locked page');
+            showDashboardLockedMessage();
+            return;
+        }
+
+        // Check if user has premium access
+        try {
+            if (window.Subscription && typeof window.Subscription.canAccessDashboard === 'function' && !window.Subscription.canAccessDashboard()) {
+                console.log('🚫 User does not have premium access - showing locked page');
+                showDashboardLockedMessage();
+                return;
+            }
+            console.log('✅ Premium access verified - loading dashboard');
+            clearDashboardLockUI();
+        } catch (err) {
+            console.error('Error checking subscription access:', err);
+            // If subscription check fails, show locked UI as a safe default
+            showDashboardLockedMessage();
+            return;
+        }
+        // ===== END PREMIUM CHECK =====
+        // Wait for Supabase initialization
+        let retries = 0;
+        while (!window.authInitialized && retries < 20) {
+            console.log(`⏳ Waiting for Supabase init... (retry ${retries}/20)`);
+            await new Promise(resolve => setTimeout(resolve, 100));
+            retries++;
+        }
+
+        console.log('✅ Supabase initialization complete, window.authInitialized:', window.authInitialized);
+        
+        // Check if supabase client exists
+        if (window.supabase) {
+            console.log('✅ window.supabase client is available');
+        } else {
+            console.warn('⚠️ window.supabase not found, but will try getCurrentUser anyway');
+        }
+
+        // Check authentication and load dashboard
+        await checkAuthAndLoadDashboard();
+
+    } catch (error) {
+        console.error('❌ Dashboard initialization error:', error);
+        displayErrorMessage('Failed to initialize dashboard: ' + error.message);
+    }
+}
+
+// Check auth and load dashboard
+async function checkAuthAndLoadDashboard() {
+    // Prevent multiple calls
+    if (isAuthCheckRunning) {
+        console.warn('⚠️ Auth check already running, skipping...');
+        return;
+    }
+
+    isAuthCheckRunning = true;
+    console.log('🔐 Checking authentication...');
+
+    try {
+        // Try to get user from Supabase
+        let user = await getCurrentUser();
+        console.log('📌 getCurrentUser returned:', user);
+        
+        // If that fails, try to get session directly from Supabase
+        if (!user && window.supabase) {
+            console.log('⚠️ getCurrentUser returned null, trying getSession from Supabase...');
+            try {
+                const { data, error } = await window.supabase.auth.getSession();
+                console.log('🔍 getSession result:', { data, error });
+                
+                if (data && data.session && data.session.user) {
+                    user = data.session.user;
+                    console.log('✅ Found user from Supabase session');
+                }
+            } catch (sessionError) {
+                console.error('❌ Error getting session from Supabase:', sessionError);
+            }
+        }
+        
+        if (!user) {
+            console.log('❌ No authenticated session found - redirecting to login');
+            updatePageStatus('Redirecting to login...', 'orange');
+            window.dashboardActive = false;
+            window.location.href = 'login.html';
+            return;
+        }
+
+        console.log('✓ User ID:', user.id);
+        
+        // Access check already done at the top of initDashboard
+        console.log('🔍 Dashboard access verified - loading analytics...');
+        
+        console.log('✅ Dashboard access granted');
+        
+        // Display user info
+        displayUserInfo(user);
+
+        // Load dashboard data
+        await loadDashboardData(user.id);
+
+        // Setup event listeners
+        setupEventListeners();
+        
+        console.log('✅ Dashboard initialization complete!');
+
+    } catch (error) {
+        console.error('❌ Error in checkAuthAndLoadDashboard:', error);
+        console.error('Stack trace:', error.stack);
+        displayErrorMessage(`Authentication error: ${error.message}`);
+    } finally {
+        isAuthCheckRunning = false;
+    }
+}
+
+// Display user information in dashboard header
+function displayUserInfo(user) {
+    console.log('👤 Displaying user info. User object:', user);
+    const userEmailEl = document.getElementById('userEmail');
+    if (userEmailEl) {
+        const username = localStorage.getItem('thinkright_username') || user.email;
+        userEmailEl.textContent = username;
+        console.log('✅ Username set to:', username);
+    }
+    
+    const userInfo = document.getElementById('userInfo');
+    if (userInfo) {
+        userInfo.style.display = 'block';
+    }
+    
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.style.display = 'block';
+    }
+}
+
+// Handle logout action
+async function handleLogout() {
+    try {
+        console.log('🚪 Logout clicked');
+        window.dashboardActive = false;
+        const result = await logout();
+        if (result.success) {
+            console.log('✓ Logged out successfully');
+            window.location.href = 'login.html';
+        }
+    } catch (error) {
+        console.error('Error during logout:', error);
+    }
+}
+
+// Load and display all dashboard data
+async function loadDashboardData(userId) {
+    try {
+        console.log('🔄 Loading dashboard for userId:', userId);
+
+        // Cross-browser/device history: best-effort sync between localStorage and Supabase.
+        // Keeps existing UI/analytics intact (dashboard continues reading StorageManager.getResults()).
+        try {
+            await backfillLocalResultsToSupabase(userId);
+            await hydrateResultsFromSupabase(userId);
+        } catch (e) {
+            console.warn('[dashboard] Results sync warning:', e);
+        }
+        const allResults = StorageManager.getResults();
+        console.log('📦 All stored results:', allResults);
+        console.log('📊 Number of results:', allResults.length);
+        
+        // Log each result's userId for debugging
+        allResults.forEach((result, index) => {
+            console.log(`  Result ${index}: userId="${result.userId}", subject="${result.subject}", score=${result.score}%`);
+        });
+        
+        // Show loading spinner
+        showLoadingState();
+
+        // Calculate all analytics data
+        console.log('\n📊 Starting dashboard calculations...\n');
+        const overview = calculateOverview(userId);
+        console.log('✅ Overview calculated:', overview);
+        
+        const subjectsStats = getAllSubjectStats(userId);
+        console.log('✅ Subject stats calculated:', subjectsStats);
+        
+        const testHistory = formatTestHistory(userId);
+        console.log('✅ Test history calculated:', testHistory);
+
+        renderDashboardProjection(userId);
+        await renderDashboardWeeklyComparison(userId);
+
+        console.log('\n🎨 Rendering dashboard sections...\n');
+        
+        // Render all sections
+        renderDashboardSections(userId, overview, subjectsStats, testHistory);
+
+        // Hide loading spinner
+        hideLoadingState();
+        
+        // Mark dashboard as successfully loaded (prevents redirects)
+        isDashboardLoaded = true;
+        console.log('🔒 Dashboard loaded flag set to true');
+        
+        updatePageStatus('Dashboard Loaded ✓', 'green');
+        
+        console.log('\n✨ Dashboard fully loaded!\n');
+
+    } catch (error) {
+        console.error('Error loading dashboard data:', error);
+        displayErrorMessage('Failed to load dashboard. Please refresh the page.');
+    }
+}
+
+function renderDashboardProjection(userId) {
+    const lineEl = document.getElementById('dashboardProjectionLine');
+    const scoreEl = document.getElementById('dashboardProjectionScore');
+    const badgeEl = document.getElementById('dashboardProjectionBadge');
+    if (!lineEl || !scoreEl || !badgeEl) return;
+
+    const helper =
+        window.ThinkRightProjection &&
+        typeof window.ThinkRightProjection.computeProjectedJambScore === 'function'
+            ? window.ThinkRightProjection
+            : null;
+
+    if (!helper) {
+        lineEl.hidden = true;
+        return;
+    }
+
+    const scoped = getDashboardResults(userId)
+        .map((result) => ({
+            score_percentage: getDashboardScore(result),
+            completed_at: getDashboardCompletedAt(result),
+        }))
+        .filter((row) => Number.isFinite(Number(row.score_percentage)) && row.completed_at)
+        .sort((a, b) => new Date(b.completed_at) - new Date(a.completed_at))
+        .slice(0, 5);
+
+    const projection = helper.computeProjectedJambScore(scoped);
+    lineEl.hidden = false;
+
+    if (!projection) {
+        scoreEl.textContent = 'Projected JAMB: -- / 400';
+        badgeEl.hidden = true;
+        badgeEl.className = 'tr-readiness-badge';
+        return;
+    }
+
+    scoreEl.textContent = `Projected JAMB: ${projection.projected} / 400`;
+    const readiness =
+        typeof helper.getReadinessLevel === 'function'
+            ? helper.getReadinessLevel(projection.projected)
+            : null;
+
+    badgeEl.className = 'tr-readiness-badge';
+    if (readiness && readiness.label) {
+        badgeEl.hidden = false;
+        badgeEl.textContent = readiness.label;
+        if (readiness.colorClass) {
+            badgeEl.classList.add(readiness.colorClass);
+        }
+    } else {
+        badgeEl.hidden = true;
+    }
+}
+
+async function renderDashboardWeeklyComparison(userId) {
+    const cardEl = document.getElementById('dashboardComparisonCard');
+    if (!cardEl) return;
+
+    const messageEl = cardEl.querySelector('[data-tr-comparison-message]');
+    cardEl.hidden = false;
+    cardEl.dataset.state = 'locked';
+    if (messageEl) {
+        messageEl.hidden = false;
+        messageEl.textContent = 'Loading weekly comparison...';
+    }
+
+    const helper = window.ThinkRightWeeklyComparison;
+    if (!helper || typeof helper.fetchMyWeeklyComparison !== 'function' || typeof helper.renderComparisonCard !== 'function') {
+        if (messageEl) {
+            messageEl.textContent = 'Comparison unavailable right now.';
+        }
+        return;
+    }
+
+    try {
+        const comparison = await helper.fetchMyWeeklyComparison({ userId });
+        helper.renderComparisonCard(cardEl, comparison);
+    } catch (error) {
+        console.warn('[dashboard] Weekly comparison unavailable:', error);
+        helper.renderComparisonCard(cardEl, {
+            qualifies: false,
+            message: 'Comparison unavailable right now.'
+        });
+    }
+}
+
+// ============================================================================
+// RESULTS SYNC (Supabase <-> localStorage)
+// ============================================================================
+
+function dashboardFNV1a32Hex(str) {
+    let h = 0x811c9dc5;
+    for (let i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = (h + ((h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24))) >>> 0;
+    }
+    return ('00000000' + h.toString(16)).slice(-8);
+}
+
+function buildDashboardClientRef(result) {
+    const userId = (result?.userId || '').toString();
+    const subject = (result?.subject || '').toString();
+    const ts = (result?.timestamp || result?.completedAt || result?.completed_at || '').toString();
+    const score = Number(result?.score ?? result?.scorePercentage ?? result?.score_percentage ?? '');
+    const correct = Number(result?.correctCount ?? result?.correct_count ?? '');
+    const wrong = Number(result?.wrongCount ?? result?.wrong_count ?? '');
+    const total = Number(result?.totalQuestions ?? result?.total_questions ?? '');
+    const base = [userId, subject, ts, score, correct, wrong, total].join('|');
+    return 'tr_' + dashboardFNV1a32Hex(base);
+}
+
+async function backfillLocalResultsToSupabase(userId) {
+    if (!userId) return 0;
+    if (!window.supabase || typeof window.supabase.from !== 'function') return 0;
+
+    const all = StorageManager.getResults();
+    if (!Array.isArray(all) || all.length === 0) return 0;
+
+    const mine = all.filter((r) => r && r.userId === userId);
+    if (mine.length === 0) return 0;
+
+    // Bounded set to avoid huge payloads.
+    const slice = mine.slice(-200);
+    const rows = [];
+
+    for (const r of slice) {
+        const clientRef = (r.clientRef || r.client_ref || buildDashboardClientRef(r)).toString();
+        const scorePct = Number(r.score ?? r.score_percentage);
+        const correct = Number(r.correctCount ?? r.correct_count);
+        const wrong = Number(r.wrongCount ?? r.wrong_count);
+        const total = Number(r.totalQuestions ?? r.total_questions);
+        const completedAt = r.timestamp || r.completed_at || r.completedAt || new Date().toISOString();
+
+        if (!Number.isFinite(scorePct) || !Number.isFinite(correct) || !Number.isFinite(wrong) || !Number.isFinite(total)) continue;
+
+        rows.push({
+            client_ref: clientRef,
+            user_id: userId,
+            subject: (r.subject || '').toString(),
+            score_percentage: scorePct,
+            correct_count: correct,
+            wrong_count: wrong,
+            total_questions: total,
+            auto_submitted: !!r.autoSubmitted,
+            reason: (r.reason || '').toString(),
+            completed_at: completedAt,
+        });
+    }
+
+    if (rows.length === 0) return 0;
+
+    try {
+        const { error } = await window.supabase
+            .from('test_results')
+            .upsert(rows, { onConflict: 'client_ref', ignoreDuplicates: true });
+        if (error) {
+            console.warn('[dashboard] Backfill upsert error:', error);
+            return 0;
+        }
+        return rows.length;
+    } catch (e) {
+        console.warn('[dashboard] Backfill upsert failed:', e);
+        return 0;
+    }
+}
+
+async function hydrateResultsFromSupabase(userId) {
+    if (!userId) return 0;
+    if (!window.supabase || typeof window.supabase.from !== 'function') return 0;
+
+    try {
+        const { data, error } = await window.supabase
+            .from('test_results')
+            .select('id,client_ref,subject,score_percentage,correct_count,wrong_count,total_questions,time_taken_seconds,auto_submitted,reason,completed_at,created_at')
+            .eq('user_id', userId)
+            .order('completed_at', { ascending: true })
+            .limit(500);
+
+        if (error) {
+            console.warn('[dashboard] Hydrate select error:', error);
+            return 0;
+        }
+
+        const remote = Array.isArray(data) ? data : [];
+        if (remote.length === 0) return 0;
+
+        const local = StorageManager.getResults();
+        const safeLocal = Array.isArray(local) ? local : [];
+        const seen = new Set();
+        for (const r of safeLocal) {
+            if (r?.clientRef) seen.add(r.clientRef);
+            if (r?.client_ref) seen.add(r.client_ref);
+        }
+
+        let added = 0;
+        for (const row of remote) {
+            const clientRef = (row.client_ref || '').toString();
+            if (clientRef && seen.has(clientRef)) continue;
+
+            safeLocal.push({
+                remoteId: row.id,
+                clientRef: clientRef || undefined,
+                userId: userId,
+                subject: row.subject,
+                score: Number(row.score_percentage),
+                correctCount: Number(row.correct_count),
+                wrongCount: Number(row.wrong_count),
+                totalQuestions: Number(row.total_questions),
+                timestamp: row.completed_at || row.created_at || new Date().toISOString(),
+                autoSubmitted: !!row.auto_submitted,
+                reason: row.reason || '',
+            });
+            if (clientRef) seen.add(clientRef);
+            added++;
+        }
+
+        if (added > 0) {
+            localStorage.setItem('test_results', JSON.stringify(safeLocal));
+        }
+
+        return added;
+    } catch (e) {
+        console.warn('[dashboard] Hydrate failed:', e);
+        return 0;
+    }
+}
+
+// Render all dashboard sections
+function renderDashboardSections(userId, overview, subjectsStats, testHistory) {
+    // Check if user has any test data
+    if (!overview.hasData) {
+        console.log('ℹ️ No test data available');
+        renderEmptyState();
+        return;
+    }
+
+    console.log('✅ Data found! Rendering sections...');
+
+    // Render Overview Cards
+    const overviewEl = document.getElementById('overviewSection');
+    if (overviewEl) {
+        overviewEl.innerHTML = renderOverviewCards(overview);
+        console.log('📊 Overview section rendered');
+    }
+
+    // Render Subject Performance Cards
+    const subjectEl = document.getElementById('subjectSection');
+    if (subjectEl) {
+        subjectEl.innerHTML = renderSubjectCards(subjectsStats);
+        console.log('📈 Subject section rendered');
+    }
+
+    // Render Test History Table
+    const historyEl = document.getElementById('historySection');
+    if (historyEl) {
+        historyEl.innerHTML = renderTestHistoryTable(testHistory);
+        console.log('📋 History section rendered');
+    }
+
+    renderDashboardCharts(userId, subjectsStats);
+}
+
+function clearDashboardLockUI() {
+    const pageContent = document.getElementById('dashboardContent') || document.querySelector('.dashboard-main') || document.querySelector('main');
+    if (!pageContent) return;
+    pageContent.classList.remove('is-locked');
+    const overlay = pageContent.querySelector('.dashboard-lock-overlay');
+    if (overlay) overlay.remove();
+}
+
+/**
+ * Strict premium check for dashboard access based on the subscriptions table.
+ * Falls back to Subscription module if the direct DB check can't run.
+ *
+ * @returns {Promise<boolean>}
+ */
+async function hasPremiumDashboardAccess() {
+    const normalizePlan = (plan) => (plan || '').toString().trim().toLowerCase();
+    const isPaidPlan = (plan) => {
+        const key = normalizePlan(plan);
+        return key === 'monthly' || key === 'quarterly' || key === '3-month' || key === 'admin';
     };
 
-    const close = () => {
-      modal.style.display = "none";
-      document.body.classList.remove("tr-modal-open");
-      button.focus();
+    try {
+        const user = typeof getCurrentUser === 'function' ? await getCurrentUser() : null;
+        const userId = user?.id;
+        if (!userId) return false;
+
+        if (window.supabase && typeof window.supabase.from === 'function') {
+            const { data, error } = await window.supabase
+                .from('subscriptions')
+                .select('plan,status,expires_at,updated_at')
+                .eq('user_id', userId)
+                .order('updated_at', { ascending: false })
+                .limit(1)
+                .maybeSingle();
+
+            if (error && error.code !== 'PGRST116') {
+                console.warn('Subscription access check failed:', error);
+            } else if (data) {
+                const status = (data.status || '').toString().toLowerCase();
+                const plan = normalizePlan(data.plan);
+                const hasNotExpired = !data.expires_at || new Date(data.expires_at) > new Date();
+                return status === 'active' && hasNotExpired && isPaidPlan(plan);
+            } else {
+                return false;
+            }
+        }
+    } catch (error) {
+        console.warn('Strict dashboard access check warning:', error);
+    }
+
+    if (window.Subscription && typeof window.Subscription.canAccessDashboard === 'function') {
+        try {
+            return !!window.Subscription.canAccessDashboard();
+        } catch (fallbackError) {
+            console.warn('Fallback dashboard access check warning:', fallbackError);
+        }
+    }
+
+    return false;
+}
+
+/**
+ * Build and render dashboard charts.
+ * Uses existing stored test results only (no backend/data contract changes).
+ *
+ * @param {string} userId
+ * @param {Array} subjectsStats
+ */
+function renderDashboardCharts(userId, subjectsStats) {
+    if (typeof Chart === 'undefined') {
+        console.warn('Chart.js not available. Skipping chart render.');
+        return;
+    }
+
+    const trendCanvas = document.getElementById('scoreTrendChart');
+    const subjectCanvas = document.getElementById('subjectAverageChart');
+    if (!trendCanvas || !subjectCanvas) return;
+
+    const theme = getDashboardChartTheme();
+    const results = getDashboardResults(userId);
+
+    // Score trend (ordered by completed_at/timestamp ascending)
+    const trendData = results
+        .map((result) => ({
+            completedAt: getDashboardCompletedAt(result),
+            score: getDashboardScore(result)
+        }))
+        .filter((item) => item.completedAt && !Number.isNaN(item.score))
+        .sort((a, b) => new Date(a.completedAt) - new Date(b.completedAt));
+
+    const trendLabels = trendData.map((item, index) => {
+        const date = new Date(item.completedAt);
+        const month = date.toLocaleDateString('en-US', { month: 'short' });
+        const day = date.getDate();
+        return `${month} ${day} • ${index + 1}`;
+    });
+    const trendScores = trendData.map((item) => item.score);
+
+    toggleChartEmptyState('scoreTrendEmpty', trendScores.length === 0);
+    if (dashboardCharts.scoreTrend) {
+        dashboardCharts.scoreTrend.destroy();
+    }
+    dashboardCharts.scoreTrend = new Chart(trendCanvas, {
+        type: 'line',
+        data: {
+            labels: trendLabels,
+            datasets: [{
+                label: 'Score %',
+                data: trendScores,
+                borderColor: theme.accentColor,
+                backgroundColor: theme.accentFill,
+                borderWidth: 2,
+                pointRadius: 3,
+                pointHoverRadius: 4,
+                tension: 0.3,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    mode: 'index',
+                    intersect: false
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: theme.textMuted,
+                        maxRotation: 0,
+                        autoSkip: true,
+                        maxTicksLimit: 6
+                    },
+                    grid: {
+                        color: theme.gridColor
+                    }
+                },
+                y: {
+                    min: 0,
+                    max: 100,
+                    ticks: {
+                        color: theme.textMuted,
+                        callback: (value) => `${value}%`
+                    },
+                    grid: {
+                        color: theme.gridColor
+                    }
+                }
+            }
+        }
+    });
+
+    // Subject average scores
+    const subjectData = (subjectsStats || [])
+        .filter((subject) => subject.hasData)
+        .map((subject) => ({
+            label: subject.subject,
+            value: subject.accuracy
+        }))
+        .sort((a, b) => b.value - a.value);
+
+    toggleChartEmptyState('subjectAverageEmpty', subjectData.length === 0);
+    if (dashboardCharts.subjectAverage) {
+        dashboardCharts.subjectAverage.destroy();
+    }
+    dashboardCharts.subjectAverage = new Chart(subjectCanvas, {
+        type: 'bar',
+        data: {
+            labels: subjectData.map((item) => item.label),
+            datasets: [{
+                label: 'Average Score %',
+                data: subjectData.map((item) => item.value),
+                backgroundColor: theme.barFill,
+                borderColor: theme.accentColor,
+                borderWidth: 1,
+                borderRadius: 6,
+                maxBarThickness: 36
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: theme.textMuted
+                    },
+                    grid: {
+                        display: false
+                    }
+                },
+                y: {
+                    min: 0,
+                    max: 100,
+                    ticks: {
+                        color: theme.textMuted,
+                        callback: (value) => `${value}%`
+                    },
+                    grid: {
+                        color: theme.gridColor
+                    }
+                }
+            }
+        }
+    });
+}
+
+function getDashboardResults(userId) {
+    const allResults = StorageManager.getResults();
+    const hasAnyUserId = allResults.some((result) => !!result.userId);
+
+    if (!hasAnyUserId) {
+        return allResults;
+    }
+
+    const strictUserResults = allResults.filter((result) => result.userId === userId);
+    if (strictUserResults.length > 0) {
+        return strictUserResults;
+    }
+
+    return allResults.filter((result) => !result.userId);
+}
+
+function getDashboardCompletedAt(result) {
+    return result?.completed_at || result?.completedAt || result?.timestamp || null;
+}
+
+function getDashboardScore(result) {
+    const directScore = Number(result?.score);
+    if (Number.isFinite(directScore)) {
+        return Math.max(0, Math.min(100, Math.round(directScore)));
+    }
+
+    const correct = Number(result?.correctCount) || 0;
+    const total = Number(result?.totalQuestions) || 30;
+    if (total <= 0) return 0;
+
+    return Math.max(0, Math.min(100, Math.round((correct / total) * 100)));
+}
+
+function getDashboardChartTheme() {
+    const rootStyle = getComputedStyle(document.documentElement);
+    const textPrimary = rootStyle.getPropertyValue('--text-primary').trim() || '#101828';
+    const textMuted = rootStyle.getPropertyValue('--text-muted').trim() || '#667085';
+    const accent = rootStyle.getPropertyValue('--accent-primary').trim() || '#1d4ed8';
+    const grid = rootStyle.getPropertyValue('--line-subtle').trim() || '#d0d5dd';
+    return {
+        textPrimary,
+        textMuted,
+        accentColor: accent,
+        accentFill: 'rgba(29, 78, 216, 0.12)',
+        barFill: 'rgba(16, 24, 40, 0.2)',
+        gridColor: grid
     };
+}
 
-    button.addEventListener("click", (e) => {
-      e.preventDefault();
-      open();
+function toggleChartEmptyState(elementId, isEmpty) {
+    const emptyEl = document.getElementById(elementId);
+    if (emptyEl) {
+        emptyEl.hidden = !isEmpty;
+    }
+}
+
+function destroyDashboardCharts() {
+    if (dashboardCharts.scoreTrend) {
+        dashboardCharts.scoreTrend.destroy();
+        dashboardCharts.scoreTrend = null;
+    }
+    if (dashboardCharts.subjectAverage) {
+        dashboardCharts.subjectAverage.destroy();
+        dashboardCharts.subjectAverage = null;
+    }
+}
+
+// Render empty state
+function renderEmptyState() {
+    const overviewEl = document.getElementById('overviewSection');
+    const subjectEl = document.getElementById('subjectSection');
+    const historyEl = document.getElementById('historySection');
+
+    if (overviewEl) overviewEl.innerHTML = createEmptyState('No test data yet. Take your first test to get started!');
+    if (subjectEl) subjectEl.innerHTML = createEmptyState('Complete a test to see your subject performance.');
+    if (historyEl) historyEl.innerHTML = createEmptyState('Your test history will appear here after you take a test.');
+    destroyDashboardCharts();
+    toggleChartEmptyState('scoreTrendEmpty', true);
+    toggleChartEmptyState('subjectAverageEmpty', true);
+
+    isDashboardLoaded = true;
+    updatePageStatus('Dashboard Loaded ✓', 'green');
+}
+
+// Show loading state
+function showLoadingState() {
+    const content = document.getElementById('dashboardContent');
+    if (content) {
+        const loading = document.getElementById('loadingState');
+        if (loading) loading.style.display = 'flex';
+        content.style.opacity = '0.5';
+    }
+}
+
+// Hide loading state
+function hideLoadingState() {
+    const loading = document.getElementById('loadingState');
+    if (loading) loading.style.display = 'none';
+    const content = document.getElementById('dashboardContent');
+    if (content) content.style.opacity = '1';
+}
+
+// Display error message
+function displayErrorMessage(message) {
+    console.error('⚠️ Error:', message);
+    const errorEl = document.getElementById('errorMessage');
+    if (errorEl) {
+        errorEl.textContent = message;
+        errorEl.style.display = 'block';
+    }
+}
+
+// Setup event listeners
+function setupEventListeners() {
+    // Logout button
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.removeEventListener('click', handleLogout);
+        logoutBtn.addEventListener('click', handleLogout);
+    }
+
+    // Refresh button
+    const refreshBtn = document.getElementById('refreshBtn');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+            console.log('🔄 Refresh clicked');
+            refreshDashboard();
+        });
+    }
+
+    // Theme toggle
+    const themeToggle = document.getElementById('themeToggle');
+    if (themeToggle) {
+        themeToggle.addEventListener('click', toggleTheme);
+    }
+}
+
+
+
+// Refresh dashboard data
+async function refreshDashboard() {
+    try {
+        console.log('🔄 Refreshing dashboard...');
+        updatePageStatus('Refreshing...', 'orange');
+        
+        const user = await getCurrentUser();
+        if (user) {
+            await loadDashboardData(user.id);
+        }
+    } catch (error) {
+        console.error('Error refreshing dashboard:', error);
+        displayErrorMessage('Failed to refresh dashboard.');
+    }
+}
+
+// Toggle theme
+function toggleTheme() {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    const newTheme = isDark ? 'light' : 'dark';
+    
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    const icon = document.querySelector('.theme-icon');
+    if (icon) {
+        icon.textContent = isDark ? '🌙' : '☀️';
+    }
+}
+
+// Start dashboard when DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        initDashboard();
     });
+} else {
+    initDashboard();
+}
 
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) close();
-    });
+// Heartbeat to confirm dashboard stays active
+setInterval(() => {
+    if (isDashboardLoaded) {
+        console.log('💚 Dashboard still active and responsive');
+        updatePageStatus('Dashboard Active ✓', 'green');
+    }
+}, 2000);
 
-    const closeBtn = modal.querySelector(".tr-projection-close");
-    if (closeBtn) closeBtn.addEventListener("click", close);
+console.log('✅ Dashboard script loaded successfully');
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && modal.style.display === "flex") close();
-    });
-  }
-
-  function sleep(ms) {
-    return new Promise((r) => setTimeout(r, ms));
-  }
-})();
+// Expose refresh function globally
+window.refreshDashboard = refreshDashboard;
