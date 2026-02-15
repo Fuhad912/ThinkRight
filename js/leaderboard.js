@@ -1,4 +1,15 @@
 (function () {
+  const DEV_MODE = (
+    window.location.hostname === "localhost"
+    || window.location.hostname === "127.0.0.1"
+    || window.location.search.includes("debugLeaderboard=1")
+  );
+
+  function devLog(label, payload) {
+    if (!DEV_MODE) return;
+    console.log(label, payload);
+  }
+
   const SUBJECTS = [
     { key: "english", label: "English" },
     { key: "mathematics", label: "Mathematics" },
@@ -17,6 +28,13 @@
     user: null,
     weekId: null,
     activeSubject: "english",
+    access: {
+      isPremium: false,
+      isAdmin: false,
+      isExplicitFree: false,
+    },
+    accessLoading: true,
+    entitlementDebugLogged: false,
   };
 
   const elements = {
@@ -25,7 +43,15 @@
     projectedWrap: document.getElementById("projectedTableWrap"),
     projectedBody: document.getElementById("projectedBody"),
     projectedEmpty: document.getElementById("projectedEmpty"),
-    myProjectedRank: document.getElementById("myProjectedRank"),
+    projectedMyRankCard: document.getElementById("projectedMyRankCard"),
+    projectedMyRankStatus: document.getElementById("projectedMyRankStatus"),
+    projectedMyRankSensitive: document.getElementById("projectedMyRankSensitive"),
+    projectedMyRankValue: document.getElementById("projectedMyRankValue"),
+    projectedMyScoreValue: document.getElementById("projectedMyScoreValue"),
+    projectedMyPercentileItem: document.getElementById("projectedMyPercentileItem"),
+    projectedMyPercentileValue: document.getElementById("projectedMyPercentileValue"),
+    projectedMyRankOverlay: document.getElementById("projectedMyRankOverlay"),
+    projectedMyRankUpgradeBtn: document.getElementById("projectedMyRankUpgradeBtn"),
     subjectTabs: document.getElementById("subjectTabs"),
     subjectSelect: document.getElementById("subjectSelect"),
     subjectStatus: document.getElementById("subjectStatus"),
@@ -34,6 +60,127 @@
     subjectEmpty: document.getElementById("subjectEmpty"),
     mySubjectRank: document.getElementById("mySubjectRank"),
   };
+
+  function normalizePlan(plan) {
+    return String(plan || "")
+      .trim()
+      .toLowerCase()
+      .replace(/_/g, "-")
+      .replace(/\s+/g, "");
+  }
+
+  function isPaidPlan(plan) {
+    const normalized = normalizePlan(plan);
+    return normalized === "monthly"
+      || normalized === "quarter"
+      || normalized === "quarterly"
+      || normalized === "3-month"
+      || normalized === "3-months"
+      || normalized === "3months"
+      || normalized === "3month";
+  }
+
+  function boolish(value) {
+    if (value === true) return true;
+    const normalized = String(value || "").trim().toLowerCase();
+    return normalized === "true"
+      || normalized === "1"
+      || normalized === "yes"
+      || normalized === "y"
+      || normalized === "on";
+  }
+
+  function isActiveLikeStatus(status) {
+    const normalized = String(status || "active").trim().toLowerCase();
+    return normalized === "active" || normalized === "trial";
+  }
+
+  function getLiveAccessSnapshot() {
+    const userMeta = state.user?.user_metadata || {};
+    const appMeta = state.user?.app_metadata || {};
+    const subscriptionRow = window.Subscription?.__latestSubscriptionRow
+      || (typeof window.Subscription?.getSubscription === "function" ? window.Subscription.getSubscription() : null)
+      || null;
+    const premiumMeta = typeof window.Subscription?.getPremiumStatus === "function"
+      ? window.Subscription.getPremiumStatus()
+      : null;
+    const plan = normalizePlan(subscriptionRow?.plan || premiumMeta?.subscription_plan);
+    const role = String(appMeta.role || userMeta.role || "").toLowerCase();
+
+    let isPremium = false;
+    if (window.Subscription && typeof window.Subscription.isPremium === "function") {
+      isPremium = window.Subscription.isPremium() === true;
+    } else if (window.Subscription && typeof window.Subscription.canAccessDashboard === "function") {
+      isPremium = window.Subscription.canAccessDashboard() === true;
+    } else {
+      isPremium = boolish(userMeta.is_premium) || boolish(appMeta.is_premium);
+    }
+
+    const isAdmin = (
+      role === "admin"
+      || boolish(userMeta.is_admin)
+      || boolish(appMeta.is_admin)
+      || plan === "admin"
+    );
+
+    return {
+      isPremium: isPremium === true || isAdmin === true,
+      isAdmin: isAdmin === true,
+      plan,
+      subscriptionRow,
+      premiumMeta,
+    };
+  }
+
+  // Uses the same shared entitlement source used by the rest of the app.
+  async function resolveAccessFlags() {
+    const userMeta = state.user?.user_metadata || {};
+    const appMeta = state.user?.app_metadata || {};
+    let isPremium = false;
+    let isAdmin = false;
+    let entitlementLoaded = false;
+    let raw = null;
+
+    if (window.Subscription && typeof window.Subscription.init === "function") {
+      try {
+        const initOk = await window.Subscription.init();
+        if (initOk === true) entitlementLoaded = true;
+      } catch (_err) {
+        // ignore
+      }
+    }
+
+    const snapshot = getLiveAccessSnapshot();
+    const subscriptionRow = snapshot.subscriptionRow;
+    const premiumMeta = snapshot.premiumMeta;
+
+    if (subscriptionRow || premiumMeta) {
+      entitlementLoaded = true;
+    }
+
+    const plan = normalizePlan(subscriptionRow?.plan || premiumMeta?.subscription_plan);
+    const role = String(appMeta.role || userMeta.role || "").toLowerCase();
+
+    isPremium = snapshot.isPremium === true;
+    isAdmin = snapshot.isAdmin === true || role === "admin";
+
+    const access = {
+      isAdmin: isAdmin === true,
+      isPremium: isPremium === true || isAdmin === true,
+      isExplicitFree: entitlementLoaded ? (!isPremium && !isAdmin) : false,
+      entitlementLoaded: entitlementLoaded === true,
+    };
+
+    raw = subscriptionRow || premiumMeta || { userMeta, appMeta };
+    devLog("[entitlement]", {
+      userId: state.user?.id || null,
+      isAdmin: access.isAdmin,
+      isPremium: access.isPremium,
+      raw,
+    });
+
+    return access;
+  }
 
   function isSupabaseReady() {
     return !!(window.supabase && typeof window.supabase.rpc === "function");
@@ -54,9 +201,9 @@
   }
 
   function getMedal(rank) {
-    if (rank === 1) return "🥇";
-    if (rank === 2) return "🥈";
-    if (rank === 3) return "🥉";
+    if (rank === 1) return "\u{1F947}";
+    if (rank === 2) return "\u{1F948}";
+    if (rank === 3) return "\u{1F949}";
     return "";
   }
 
@@ -256,6 +403,144 @@
     return null;
   }
 
+  async function fetchMyComparison() {
+    if (window.ThinkRightWeeklyComparison && typeof window.ThinkRightWeeklyComparison.fetchMyWeeklyComparison === "function") {
+      return window.ThinkRightWeeklyComparison.fetchMyWeeklyComparison({
+        userId: state.user?.id || null,
+        weekId: state.weekId,
+      });
+    }
+    return null;
+  }
+
+  function setProjectedMyRankBlur(blurred) {
+    if (!elements.projectedMyRankSensitive || !elements.projectedMyRankOverlay) return;
+    elements.projectedMyRankCard?.classList.toggle("is-locked", blurred);
+    elements.projectedMyRankSensitive.classList.toggle("is-blurred", blurred);
+    elements.projectedMyRankOverlay.hidden = !blurred;
+    if (!blurred) {
+      elements.projectedMyRankOverlay.style.display = "none";
+    } else {
+      elements.projectedMyRankOverlay.style.removeProperty("display");
+    }
+  }
+
+  function forceUnlockMyRankUI() {
+    if (!elements.projectedMyRankSensitive || !elements.projectedMyRankOverlay) return;
+    elements.projectedMyRankCard?.classList.remove("is-locked");
+    elements.projectedMyRankSensitive.classList.remove("is-blurred");
+    elements.projectedMyRankOverlay.hidden = true;
+    elements.projectedMyRankOverlay.style.display = "none";
+  }
+
+  function setMaskedMyRankValues() {
+    elements.projectedMyRankValue.textContent = "â€¢â€¢â€¢";
+    elements.projectedMyScoreValue.textContent = "â€¢â€¢â€¢";
+    elements.projectedMyPercentileValue.textContent = "â€¢â€¢â€¢";
+    elements.projectedMyPercentileItem.hidden = false;
+  }
+
+  function formatPercentileText(percentile) {
+    const value = Number(percentile);
+    if (!Number.isFinite(value)) return "";
+    return `Above ${Math.max(0, Math.min(100, Math.round(value)))}% of active users`;
+  }
+
+  function openPricingModal() {
+    if (window.Subscription && typeof window.Subscription.showPricingModal === "function") {
+      window.Subscription.showPricingModal();
+      return;
+    }
+    if (typeof window.showPricingModal === "function") {
+      window.showPricingModal();
+    }
+  }
+
+  function renderProjectedMyRankCard(topRows, myRank, myComparison) {
+    const card = elements.projectedMyRankCard;
+    if (!card) return;
+
+    card.hidden = false;
+    card.classList.toggle("is-loading", state.accessLoading === true);
+    forceUnlockMyRankUI();
+
+    if (state.accessLoading) {
+      elements.projectedMyRankStatus.textContent = "Checking your access...";
+      elements.projectedMyRankValue.textContent = "--";
+      elements.projectedMyScoreValue.textContent = "-- / 400";
+      elements.projectedMyPercentileItem.hidden = true;
+      return;
+    }
+
+    const selfFromTop = Array.isArray(topRows)
+      ? topRows.find((row) => String(row.user_id) === String(state.user?.id))
+      : null;
+    const rankNum = Number(myRank?.rank ?? myComparison?.rank ?? selfFromTop?.rank);
+    const scoreNum = Number(myRank?.projected_score ?? myComparison?.myProjectedScore ?? selfFromTop?.projected_score);
+    const hasNumbers = Number.isFinite(rankNum) && Number.isFinite(scoreNum);
+    const qualifies = myRank?.qualifies === true || myComparison?.qualifies === true || hasNumbers;
+    const inTop10 = Array.isArray(topRows) && topRows.some((row) => String(row.user_id) === String(state.user?.id));
+    const liveAccess = getLiveAccessSnapshot();
+    const isAdmin = state.access.isAdmin === true || liveAccess.isAdmin === true;
+    const isPremium = state.access.isPremium === true || liveAccess.isPremium === true;
+
+    if (!qualifies || !hasNumbers) {
+      const eligibilityMessage = String(myRank?.message || myComparison?.message || "Take at least 3 tests this week to get ranked.");
+      if (isAdmin || isPremium) {
+        elements.projectedMyRankStatus.textContent = "Your weekly rank is updating. Complete more tests to appear.";
+      } else {
+        elements.projectedMyRankStatus.textContent = eligibilityMessage.includes("excluded")
+          ? "Take at least 3 tests this week to get ranked."
+          : eligibilityMessage;
+      }
+      elements.projectedMyRankValue.textContent = "--";
+      elements.projectedMyScoreValue.textContent = "-- / 400";
+      elements.projectedMyPercentileItem.hidden = true;
+      forceUnlockMyRankUI();
+      return;
+    }
+
+    // Final gate for this card: show unlocked when inTop10 OR admin OR premium.
+    const canSee = inTop10 || isAdmin || isPremium;
+    const shouldBlur = !(canSee || isAdmin || isPremium);
+    if (DEV_MODE && !state.entitlementDebugLogged) {
+      console.log("[leaderboard entitlement]", {
+        entitlementLoaded: state.accessLoading !== true,
+        isPremium,
+        isAdmin,
+        inTop10,
+        access: state.access,
+        liveAccess,
+      });
+      state.entitlementDebugLogged = true;
+    }
+    devLog("[rankCard]", { inTop10, shouldBlur });
+    if (shouldBlur) {
+      elements.projectedMyRankStatus.textContent = "Your weekly ranking details are available on Premium.";
+      setMaskedMyRankValues();
+      setProjectedMyRankBlur(true);
+      return;
+    }
+
+    forceUnlockMyRankUI();
+    elements.projectedMyRankValue.textContent = `#${rankNum}`;
+    elements.projectedMyScoreValue.textContent = `${Math.round(scoreNum)} / 400`;
+
+    const percentileValue = Number(myComparison?.percentile);
+    if (Number.isFinite(percentileValue)) {
+      elements.projectedMyPercentileValue.textContent = formatPercentileText(percentileValue);
+      elements.projectedMyPercentileItem.hidden = false;
+    } else {
+      elements.projectedMyPercentileItem.hidden = true;
+    }
+    if (inTop10) {
+      elements.projectedMyRankStatus.textContent = "You're currently #" + rankNum + " 🎉";
+      return;
+    }
+
+    elements.projectedMyRankStatus.textContent = "Your rank this week: #" + rankNum;
+  }
+
   async function fetchTopSubject(subjectKey) {
     if (!isSupabaseReady()) throw new Error("Supabase client unavailable.");
     const { data, error } = await window.supabase.rpc("leaderboard_get_top_subject", {
@@ -297,6 +582,17 @@
     if (elements.projectedEmpty) elements.projectedEmpty.hidden = true;
     let topRows = [];
     let myRank = null;
+    let myComparison = null;
+
+    renderProjectedMyRankCard(topRows, myRank, myComparison);
+
+    if (state.accessLoading) {
+      try {
+        state.access = await resolveAccessFlags();
+      } finally {
+        state.accessLoading = state.access.entitlementLoaded !== true;
+      }
+    }
 
     try {
       topRows = await fetchTopProjected();
@@ -316,17 +612,24 @@
       }
     }
 
-    try {
-      myRank = await fetchMyProjectedRank();
-    } catch (error) {
-      console.error("[leaderboard] projected position load error:", error);
+    const [myRankResult, myComparisonResult] = await Promise.allSettled([
+      fetchMyProjectedRank(),
+      fetchMyComparison(),
+    ]);
+
+    if (myRankResult.status === "fulfilled") {
+      myRank = myRankResult.value;
+    } else {
+      console.error("[leaderboard] projected position load error:", myRankResult.reason);
     }
 
-    renderSelfRank(
-      elements.myProjectedRank,
-      myRank,
-      "You need at least 3 completed tests this week to appear."
-    );
+    if (myComparisonResult.status === "fulfilled") {
+      myComparison = myComparisonResult.value;
+    } else {
+      console.warn("[leaderboard] comparison load warning:", myComparisonResult.reason);
+    }
+
+    renderProjectedMyRankCard(topRows, myRank, myComparison);
   }
 
   async function loadSubjectSection(subjectKey) {
@@ -451,8 +754,14 @@
     }
 
     state.user = user;
+    state.accessLoading = true;
     state.weekId = await fetchCurrentWeekId();
     setWeekLabel(state.weekId);
+
+    if (elements.projectedMyRankUpgradeBtn && elements.projectedMyRankUpgradeBtn.dataset.bound !== "true") {
+      elements.projectedMyRankUpgradeBtn.dataset.bound = "true";
+      elements.projectedMyRankUpgradeBtn.addEventListener("click", openPricingModal);
+    }
 
     buildSubjectTabs();
     await Promise.all([loadProjectedSection(), loadSubjectSection(state.activeSubject)]);
@@ -464,3 +773,4 @@
     initLeaderboard();
   }
 })();
+
