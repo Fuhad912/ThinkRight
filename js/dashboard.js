@@ -219,39 +219,11 @@ async function checkAuthAndLoadDashboard() {
             }
         }
         
-        // If still no user, check if there's test data - if yes, user must be logged in
         if (!user) {
-            console.log('⚠️ No user object found, checking for test data...');
-            const allResults = StorageManager.getResults();
-            console.log('📊 Test results found:', allResults.length);
-            
-            if (allResults && allResults.length > 0) {
-                console.log('✅ Found test data! User must be logged in. Creating dummy user object...');
-                // Create a minimal user object from the test data
-                // The userId should be in the first test result
-                const firstResult = allResults[0];
-                if (firstResult && firstResult.userId) {
-                    user = {
-                        id: firstResult.userId,
-                        email: localStorage.getItem('thinkright_username') || 'User'
-                    };
-                    console.log('✅ Created user object from test data:', user);
-                }
-            } else {
-                console.log('❌ No test data found, user is not authenticated');
-                console.log('ℹ️ Redirecting to login page...');
-                updatePageStatus('Redirecting to login...', 'orange');
-                setTimeout(() => {
-                    window.dashboardActive = false;
-                    window.location.href = 'login.html';
-                }, 500);
-                return;
-            }
-        }
-        
-        if (!user) {
-            console.log('❌ Still no user found');
-            displayErrorMessage('Please log in to view your dashboard');
+            console.log('❌ No authenticated session found - redirecting to login');
+            updatePageStatus('Redirecting to login...', 'orange');
+            window.dashboardActive = false;
+            window.location.href = 'login.html';
             return;
         }
 
@@ -354,6 +326,8 @@ async function loadDashboardData(userId) {
         const testHistory = formatTestHistory(userId);
         console.log('✅ Test history calculated:', testHistory);
 
+        renderDashboardProjection(userId);
+
         console.log('\n🎨 Rendering dashboard sections...\n');
         
         // Render all sections
@@ -373,6 +347,60 @@ async function loadDashboardData(userId) {
     } catch (error) {
         console.error('Error loading dashboard data:', error);
         displayErrorMessage('Failed to load dashboard. Please refresh the page.');
+    }
+}
+
+function renderDashboardProjection(userId) {
+    const lineEl = document.getElementById('dashboardProjectionLine');
+    const scoreEl = document.getElementById('dashboardProjectionScore');
+    const badgeEl = document.getElementById('dashboardProjectionBadge');
+    if (!lineEl || !scoreEl || !badgeEl) return;
+
+    const helper =
+        window.ThinkRightProjection &&
+        typeof window.ThinkRightProjection.computeProjectedJambScore === 'function'
+            ? window.ThinkRightProjection
+            : null;
+
+    if (!helper) {
+        lineEl.hidden = true;
+        return;
+    }
+
+    const scoped = getDashboardResults(userId)
+        .map((result) => ({
+            score_percentage: getDashboardScore(result),
+            completed_at: getDashboardCompletedAt(result),
+        }))
+        .filter((row) => Number.isFinite(Number(row.score_percentage)) && row.completed_at)
+        .sort((a, b) => new Date(b.completed_at) - new Date(a.completed_at))
+        .slice(0, 5);
+
+    const projection = helper.computeProjectedJambScore(scoped);
+    lineEl.hidden = false;
+
+    if (!projection) {
+        scoreEl.textContent = 'Projected JAMB: -- / 400';
+        badgeEl.hidden = true;
+        badgeEl.className = 'tr-readiness-badge';
+        return;
+    }
+
+    scoreEl.textContent = `Projected JAMB: ${projection.projected} / 400`;
+    const readiness =
+        typeof helper.getReadinessLevel === 'function'
+            ? helper.getReadinessLevel(projection.projected)
+            : null;
+
+    badgeEl.className = 'tr-readiness-badge';
+    if (readiness && readiness.label) {
+        badgeEl.hidden = false;
+        badgeEl.textContent = readiness.label;
+        if (readiness.colorClass) {
+            badgeEl.classList.add(readiness.colorClass);
+        }
+    } else {
+        badgeEl.hidden = true;
     }
 }
 
