@@ -8,6 +8,7 @@
   function initProjection() {
     const howBtn = document.getElementById("trProjectionHowBtn");
     const scoreEl = document.getElementById("trProjectionScore");
+    const badgeEl = document.getElementById("trProjectionBadge");
     const rangeEl = document.getElementById("trProjectionRange");
     const stateEl = document.getElementById("trProjectionState");
 
@@ -22,12 +23,14 @@
       scoreText: "-- / 400",
       rangeText: "",
       showRange: false,
+      readiness: null,
       scoreEl,
+      badgeEl,
       rangeEl,
       stateEl,
     });
 
-    loadProjection({ scoreEl, rangeEl, stateEl }).catch((err) => {
+    loadProjection({ scoreEl, badgeEl, rangeEl, stateEl }).catch((err) => {
       console.error("[projection] Failed to load projection:", err);
       renderState({
         mode: "info",
@@ -35,14 +38,16 @@
         scoreText: "-- / 400",
         rangeText: "",
         showRange: false,
+        readiness: null,
         scoreEl,
+        badgeEl,
         rangeEl,
         stateEl,
       });
     });
   }
 
-  async function loadProjection({ scoreEl, rangeEl, stateEl }) {
+  async function loadProjection({ scoreEl, badgeEl, rangeEl, stateEl }) {
     await waitForAuthInit(1500);
 
     const user = await safeGetUser();
@@ -53,7 +58,9 @@
         scoreText: "-- / 400",
         rangeText: "",
         showRange: false,
+        readiness: null,
         scoreEl,
+        badgeEl,
         rangeEl,
         stateEl,
       });
@@ -77,7 +84,9 @@
         scoreText: "-- / 400",
         rangeText: "",
         showRange: false,
+        readiness: null,
         scoreEl,
+        badgeEl,
         rangeEl,
         stateEl,
       });
@@ -92,12 +101,16 @@
         scoreText: "-- / 400",
         rangeText: "",
         showRange: false,
+        readiness: null,
         scoreEl,
+        badgeEl,
         rangeEl,
         stateEl,
       });
       return;
     }
+
+    const readiness = getReadinessFromSharedHelper(projection.projected);
 
     renderState({
       mode: "ready",
@@ -105,7 +118,9 @@
       scoreText: `${projection.projected} / 400`,
       rangeText: `Estimated range: ${projection.rangeLow}\u2013${projection.rangeHigh}`,
       showRange: true,
+      readiness,
       scoreEl,
+      badgeEl,
       rangeEl,
       stateEl,
     });
@@ -117,7 +132,9 @@
     scoreText,
     rangeText,
     showRange,
+    readiness,
     scoreEl,
+    badgeEl,
     rangeEl,
     stateEl,
   }) {
@@ -127,6 +144,16 @@
     if (rangeEl) {
       rangeEl.textContent = rangeText || "";
       rangeEl.hidden = !showRange;
+    }
+    if (badgeEl) {
+      badgeEl.hidden = !readiness;
+      badgeEl.className = "tr-readiness-badge";
+      if (readiness && readiness.colorClass) {
+        badgeEl.classList.add(readiness.colorClass);
+        badgeEl.textContent = readiness.label;
+      } else {
+        badgeEl.textContent = "";
+      }
     }
   }
 
@@ -389,6 +416,16 @@
       return window.ThinkRightProjection.computeProjectedJambScore(recentTests);
     }
     console.warn("[projection] Shared projection helper unavailable.");
+    return null;
+  }
+
+  function getReadinessFromSharedHelper(score) {
+    if (
+      window.ThinkRightProjection &&
+      typeof window.ThinkRightProjection.getReadinessLevel === "function"
+    ) {
+      return window.ThinkRightProjection.getReadinessLevel(score);
+    }
     return null;
   }
 
