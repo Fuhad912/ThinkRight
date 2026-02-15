@@ -1,423 +1,335 @@
 /**
- * THINKRIGHT - SYLLABUS PAGE APPLICATION
- * 
- * This module handles the syllabus download page including:
- * - Authentication check (redirects to login if not authenticated)
- * - Hamburger menu initialization for mobile
- * - PDF preview functionality (opens in new tab)
- * - Dark/light theme toggle
- * 
- * User Flow:
- * 1. Check if user is logged in (if not, redirect to login.html)
- * 2. User arrives at syllabus.html
- * 3. Sees 9 subject syllabus cards with download buttons
- * 4. Clicks "View Syllabus" to preview PDF in new tab
- * 5. Can use dashboard link or return to practice tests
+ * ThinkRight Syllabus Page
+ * Single-source gating via window.ThinkRightEntitlements.canViewSyllabus(...)
  */
+(function () {
+  "use strict";
 
-// ============================================================================
-// DOM REFERENCES
-// ============================================================================
+  const DEV_MODE =
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1" ||
+    window.location.search.includes("debugEntitlements=1");
 
-const viewButtons = document.querySelectorAll('.view-btn');
-const logoutBtnDesktop = document.getElementById('logoutBtn');
-const logoutBtnMobile = document.getElementById('logoutBtnMobile');
-
-// ============================================================================
-// INITIALIZATION
-// 
-// Run when page loads to verify authentication and setup interactions.
-// ============================================================================
-
-document.addEventListener('DOMContentLoaded', async function() {
-    console.log('🎓 Syllabus page loaded');
-    
-    // Check authentication first (must be done before anything else)
-    await checkAuth();
-    console.log('✅ Auth check complete');
-    
-    // Initialize subscription system and check syllabus access
-    await window.Subscription?.init();
-    if (window.Subscription && typeof window.Subscription.ensureSubscriptionValid === 'function') {
-        await window.Subscription.ensureSubscriptionValid().catch(() => null);
+  const logDev = (...args) => {
+    if (DEV_MODE) {
+      console.log("[syllabus]", ...args);
     }
-    if (window.Subscription && typeof window.Subscription.refreshMetadata === 'function') {
-        await window.Subscription.refreshMetadata().catch(() => null);
-    }
-    const accessStatus = window.Subscription?.getAccessStatus();
-    console.log('📊 Access Status:', accessStatus);
-    
-    // Always allow access to syllabus page, but lock individual subjects for free users
-    const isPremium = window.Subscription?.isPremium();
-    console.log('👑 User is premium:', isPremium);
-    
-    // Initialize hamburger menu for mobile
-    initHamburgerMenu();
-    console.log('✅ Hamburger menu initialized');
-    
-    // Initialize syllabus view buttons
-    const premiumForSyllabus = await resolvePremiumStatusForSyllabus();
-    initSyllabusButtons(premiumForSyllabus);
-    console.log('✅ Syllabus buttons initialized');
-    
-    // Setup logout handlers
-    setupLogoutHandlers();
-    console.log('✅ Logout handlers setup');
-    
-    // Setup theme toggle
-    setupThemeToggle();
-    console.log('✅ Theme toggle setup');
-    
-    // Animate page load
-    animatePageLoad();
-    console.log('✅ Page animations complete');
-    
-    console.log('✅ Syllabus page ready');
-});
+  };
 
-async function resolvePremiumStatusForSyllabus() {
+  const FALLBACK_FREE_SUBJECTS = new Set(["english", "math"]);
+
+  document.addEventListener("DOMContentLoaded", initSyllabusPage);
+
+  async function initSyllabusPage() {
     try {
-        const base = window.Subscription && typeof window.Subscription.isPremium === 'function'
-            ? !!window.Subscription.isPremium()
-            : false;
-        if (base) return true;
+      setSyllabusEntitlementLoading(true);
+      animatePageLoad();
 
-        // Canonical fallback: read subscriptions row directly.
-        if (!window.supabase || typeof getCurrentUser !== 'function') return base;
-        const user = await getCurrentUser();
-        if (!user) return base;
+      const user = await checkAuth();
+      if (!user) return;
 
-        const { data, error } = await window.supabase
-            .from('subscriptions')
-            .select('plan,status,expires_at,updated_at')
-            .eq('user_id', user.id)
-            .order('updated_at', { ascending: false })
-            .limit(1)
-            .maybeSingle();
+      const entitlement = await getEntitlement(user.id);
+      const entitlementFlags = {
+        isPremium: entitlement.isPremium === true,
+        isAdmin: entitlement.isAdmin === true,
+      };
 
-        if (error && error.code !== 'PGRST116') {
-            console.warn('subscriptions premium fallback read failed:', error);
-            // Unknown state (fail-open in UI, enforce on click).
-            return null;
-        }
-        if (!data) return base;
+      logDev("entitlement loaded", {
+        user_id: user.id,
+        isPremium: entitlementFlags.isPremium,
+        isAdmin: entitlementFlags.isAdmin,
+      });
 
-        const status = (data.status || 'active').toString().trim().toLowerCase();
-        const rawPlan = (data.plan || '').toString().trim().toLowerCase();
-        const compactPlan = rawPlan.replace(/\\s+/g, '').replace(/_/g, '-');
-        const normalizedPlan = compactPlan === 'quarterly' ? '3-month' : compactPlan;
-        const isPaidPlan = normalizedPlan === 'monthly' || normalizedPlan === '3-month' || normalizedPlan === 'admin';
-        const notExpired = !data.expires_at || new Date(data.expires_at) > new Date();
+      initSyllabusButtons(entitlementFlags);
+    } catch (error) {
+      console.error("Syllabus initialization failed:", error);
+      initSyllabusButtons({ isPremium: false, isAdmin: false });
+    } finally {
+      setSyllabusEntitlementLoading(false);
+    }
+  }
 
-        return status === 'active' && isPaidPlan && notExpired;
-    } catch (err) {
-        console.warn('resolvePremiumStatusForSyllabus error:', err);
+  async function checkAuth() {
+    try {
+      let retries = 0;
+      while (!window.authInitialized && retries < 30) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+        retries += 1;
+      }
+
+      if (typeof window.getCurrentUser !== "function") {
+        window.location.href =
+          "login.html?next=" + encodeURIComponent(window.location.pathname);
         return null;
+      }
+
+      const user = await window.getCurrentUser();
+      if (!user) {
+        window.location.href =
+          "login.html?next=" + encodeURIComponent(window.location.pathname);
+        return null;
+      }
+
+      return user;
+    } catch (error) {
+      console.error("Auth check failed:", error);
+      window.location.href =
+        "login.html?next=" + encodeURIComponent(window.location.pathname);
+      return null;
     }
-}
+  }
 
-/**
- * Show locked syllabus message to trial/unpaid users
- */
-function showSyllabusLockedMessage() {
-    const pageContent = document.querySelector('.syllabus-content') || document.querySelector('main');
-    
-    if (!pageContent) return;
-    
-    pageContent.innerHTML = `
-        <div class="syllabus-locked" style="margin: 3rem auto; text-align: center;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">🔒</div>
-            <h2 style="margin-top: 0; color: var(--color-accent);">Syllabus is a Premium Feature</h2>
-            <p style="font-size: 1.1rem; color: var(--color-text-secondary); margin-bottom: 2rem;">
-                Upgrade to the 3-month subscription plan to unlock exclusive syllabus PDFs and study materials.
-            </p>
-            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <button id="syllabusUpgradeBtn" type="button"
-                        style="background: var(--color-accent); color: white; border: none; padding: 0.875rem 2rem; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem;">
-                    Upgrade Now
-                </button>
-                <button id="syllabusBackBtn" type="button"
-                        style="background: transparent; color: var(--color-accent); border: 2px solid var(--color-accent); padding: 0.75rem 2rem; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem;">
-                    Back to Tests
-                </button>
-            </div>
-        </div>
-    `;
+  async function getEntitlement(userId) {
+    if (window.Subscription && typeof window.Subscription.init === "function") {
+      await window.Subscription.init().catch(() => null);
+    }
+    if (
+      window.Subscription &&
+      typeof window.Subscription.ensureSubscriptionValid === "function"
+    ) {
+      await window.Subscription.ensureSubscriptionValid().catch(() => null);
+    }
 
-    // CSP-safe wiring (no inline onclick).
-    const upgradeBtn = document.getElementById('syllabusUpgradeBtn');
-    if (upgradeBtn) {
-        upgradeBtn.addEventListener('click', () => {
-            if (window.Subscription && typeof window.Subscription.showPricingModal === 'function') {
-                window.Subscription.showPricingModal();
-            } else if (window.Subscription && typeof window.Subscription.showPaywallModal === 'function') {
-                window.Subscription.showPaywallModal('syllabus');
-            }
+    if (
+      window.ThinkRightEntitlements &&
+      typeof window.ThinkRightEntitlements.fetchSyllabusEntitlement ===
+        "function"
+    ) {
+      try {
+        return await window.ThinkRightEntitlements.fetchSyllabusEntitlement({
+          supabase: window.supabase,
+          userId,
         });
+      } catch (error) {
+        console.warn("Entitlement fetch failed, using subscription fallback:", error);
+      }
     }
 
-    const backBtn = document.getElementById('syllabusBackBtn');
-    if (backBtn) {
-        backBtn.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
+    const subscriptionPlanRaw =
+      (window.Subscription && typeof window.Subscription.getSubscription === "function"
+        ? window.Subscription.getSubscription()?.plan
+        : "") || "";
+    const subscriptionPlan = subscriptionPlanRaw.toString().trim().toLowerCase();
+
+    return {
+      isPremium:
+        window.Subscription && typeof window.Subscription.isPremium === "function"
+          ? window.Subscription.isPremium() === true
+          : false,
+      isAdmin: subscriptionPlan === "admin",
+    };
+  }
+
+  function setSyllabusEntitlementLoading(isLoading) {
+    const loader = document.getElementById("syllabusEntitlementLoader");
+    const grid = document.querySelector(".syllabus-grid");
+    const buttons = document.querySelectorAll(".view-btn");
+
+    if (loader) {
+      loader.hidden = !isLoading;
+      loader.setAttribute("aria-busy", isLoading ? "true" : "false");
     }
-}
 
-// ============================================================================
-// SYLLABUS BUTTON HANDLER
-// 
-// Open PDF files in new tabs for preview.
-// ============================================================================
+    if (grid) {
+      grid.classList.toggle("is-entitlement-loading", isLoading);
+    }
 
-/**
- * Initialize view syllabus button event listeners
- */
-function initSyllabusButtons(premiumOverride) {
-    const isPremium = typeof premiumOverride === 'boolean'
-        ? premiumOverride
-        : window.Subscription?.isPremium();
-    const freeSubjects = ['Use-of-English.pdf', 'Mathematics.pdf'];
-    
-    viewButtons.forEach(button => {
-        const filename = button.getAttribute('data-file');
-        const isFreeSubject = freeSubjects.includes(filename);
-
-        // Reset any previous lock state before applying current rules.
-        button.disabled = false;
-        button.style.background = '';
-        button.style.cursor = '';
-        const syllabusItem = button.closest('.syllabus-item');
-        if (syllabusItem) {
-            const existingOverlay = syllabusItem.querySelector('.locked-overlay');
-            if (existingOverlay) existingOverlay.remove();
-        }
-        
-        if (!isPremium && !isFreeSubject) {
-            // Lock button for free users
-            button.disabled = true;
-            button.textContent = '🔒 Premium Only';
-            button.style.background = '#ccc';
-            button.style.cursor = 'not-allowed';
-            
-            // Add locked overlay to the syllabus item
-            if (syllabusItem) {
-                const overlay = document.createElement('div');
-                overlay.className = 'locked-overlay';
-                overlay.innerHTML = `
-                    <div class="locked-content">
-                        <div class="lock-icon">🔒</div>
-                        <div class="lock-text">Premium Required</div>
-                        <div class="lock-subtext">Upgrade to access this syllabus</div>
-                    </div>
-                `;
-                syllabusItem.appendChild(overlay);
-            }
-        } else {
-            // Enable button for premium users or free subjects
-            if (button.dataset.bound !== 'true') {
-                button.dataset.bound = 'true';
-                button.addEventListener('click', function() {
-                    handleViewSyllabus(filename);
-                });
-            }
-        }
+    buttons.forEach((button) => {
+      const defaultLabel =
+        button.dataset.defaultLabel || button.textContent.trim() || "View Syllabus";
+      button.dataset.defaultLabel = defaultLabel;
+      button.disabled = isLoading;
+      button.style.cursor = isLoading ? "wait" : "";
+      button.textContent = isLoading ? "Checking access..." : defaultLabel;
     });
-    
-    console.log(`✓ Initialized ${viewButtons.length} syllabus view buttons (${isPremium ? 'all enabled' : 'free subjects enabled'})`);
-}
+  }
 
-/**
- * Handle View Syllabus button click
- * Opens PDF in new tab for preview
- * 
- * @param {string} filename - PDF filename (e.g., 'Use-of-English.pdf')
- */
-function handleViewSyllabus(filename) {
-    const pdfPath = `assets/syllabus/${filename}`;
-    
-    // Open PDF in new tab
-    const newWindow = window.open(pdfPath, '_blank');
-    
-    if (newWindow) {
-        console.log(`✓ Opened syllabus: ${filename}`);
-        // Browser's security will handle the new tab
-    } else {
-        console.error(`⚠️ Failed to open syllabus: ${filename}`);
-        // Fallback: try direct download if new tab blocked
-        const link = document.createElement('a');
-        link.href = pdfPath;
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+  function initSyllabusButtons(entitlement) {
+    const buttons = document.querySelectorAll(".view-btn");
+
+    buttons.forEach((button) => {
+      const card = button.closest(".syllabus-item");
+      const subjectName =
+        card && card.querySelector("h3")
+          ? card.querySelector("h3").textContent.trim()
+          : "";
+      const normalizedSubject =
+        window.ThinkRightEntitlements &&
+        typeof window.ThinkRightEntitlements.normalizeSubject === "function"
+          ? window.ThinkRightEntitlements.normalizeSubject(subjectName)
+          : normalizeSubjectFallback(subjectName);
+
+      let canView = false;
+      if (
+        window.ThinkRightEntitlements &&
+        typeof window.ThinkRightEntitlements.canViewSyllabus === "function"
+      ) {
+        canView = window.ThinkRightEntitlements.canViewSyllabus({
+          subjectName,
+          isPremium: entitlement.isPremium === true,
+          isAdmin: entitlement.isAdmin === true,
+        });
+      } else {
+        canView =
+          FALLBACK_FREE_SUBJECTS.has(normalizedSubject) ||
+          entitlement.isPremium === true ||
+          entitlement.isAdmin === true;
+      }
+
+      button.dataset.subject = subjectName;
+      button.dataset.canView = canView ? "true" : "false";
+
+      logDev("subject gating", {
+        subjectName,
+        normalizedSubject,
+        canView,
+      });
+
+      applyCardAccessState({ card, button, canView });
+      bindViewClick(button);
+    });
+
+    logDev("render branch", "unlocked/locked per-card applied");
+  }
+
+  function applyCardAccessState({ card, button, canView }) {
+    const defaultLabel = button.dataset.defaultLabel || "View Syllabus";
+
+    if (!card) {
+      button.textContent = canView ? defaultLabel : "Premium Only";
+      return;
     }
-}
 
-// ============================================================================
-// LOGOUT HANDLER
-// ============================================================================
-
-/**
- * Setup logout button event listeners
- */
-function setupLogoutHandlers() {
-    if (logoutBtnDesktop) {
-        logoutBtnDesktop.addEventListener('click', handleLogout);
-        console.log('✓ Desktop logout button listener attached');
+    if (canView) {
+      card.classList.remove("is-locked");
+      button.textContent = defaultLabel;
+      removeLockedOverlay(card);
+      return;
     }
-    
-    if (logoutBtnMobile) {
-        logoutBtnMobile.addEventListener('click', handleLogout);
-        console.log('✓ Mobile logout button listener attached');
+
+    card.classList.add("is-locked");
+    button.textContent = "Premium Only";
+    ensureLockedOverlay(card);
+  }
+
+  function ensureLockedOverlay(card) {
+    let overlay = card.querySelector(".locked-overlay");
+    if (!overlay) {
+      overlay = document.createElement("div");
+      overlay.className = "locked-overlay";
+      overlay.innerHTML =
+        '<div class="locked-content">' +
+        '<div class="lock-icon">🔒</div>' +
+        '<div class="lock-text">Premium Required</div>' +
+        '<div class="lock-subtext">Upgrade to access this syllabus</div>' +
+        "</div>";
+      card.appendChild(overlay);
     }
-}
+  }
 
-/**
- * Handle logout action
- */
-async function handleLogout() {
-    const logoutBtnDesktop = document.getElementById('logoutBtn');
-    const logoutBtnMobile = document.getElementById('logoutBtnMobile');
-    
-    // Disable buttons during logout
-    if (logoutBtnDesktop) logoutBtnDesktop.disabled = true;
-    if (logoutBtnMobile) logoutBtnMobile.disabled = true;
-    
-    const result = await logout();
-    
-    if (result.success) {
-        console.log('✅ Logged out successfully');
-        window.location.href = 'login.html';
-    } else {
-        console.error('❌ Logout failed:', result.error);
-        // Re-enable buttons
-        if (logoutBtnDesktop) logoutBtnDesktop.disabled = false;
-        if (logoutBtnMobile) logoutBtnMobile.disabled = false;
+  function removeLockedOverlay(card) {
+    const overlay = card.querySelector(".locked-overlay");
+    if (overlay) {
+      overlay.remove();
     }
-}
+  }
 
-// ============================================================================
-// THEME TOGGLE
-// ============================================================================
+  function bindViewClick(button) {
+    if (button.dataset.boundClick === "true") return;
 
-/**
- * Setup theme toggle functionality
- */
-function setupThemeToggle() {
-    const themeToggleBtn = document.getElementById('themeToggle');
-    const mobileThemeToggle = document.getElementById('mobileThemeToggle');
-    
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', toggleTheme);
-    }
-    
-    if (mobileThemeToggle) {
-        mobileThemeToggle.addEventListener('click', toggleTheme);
-    }
-    
-    // Load saved theme preference - use standard 'theme' key
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    applyTheme(savedTheme);
-}
+    button.dataset.boundClick = "true";
+    button.addEventListener("click", () => {
+      const subjectName = button.dataset.subject || "";
+      const fileName = button.getAttribute("data-file") || "";
+      const canView = button.dataset.canView === "true";
 
-/**
- * Toggle between light and dark themes
- */
-function toggleTheme() {
-    const html = document.documentElement;
-    const currentTheme = html.getAttribute('data-theme') || 'light';
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    
-    applyTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    
-    console.log(`🎨 Theme switched to: ${newTheme}`);
-}
-
-/**
- * Apply theme to the document
- * 
- * @param {string} theme - 'light' or 'dark'
- */
-function applyTheme(theme) {
-    const html = document.documentElement;
-    html.setAttribute('data-theme', theme);
-    
-    // Update icon
-    const themeIcon = document.querySelector('.theme-icon');
-    if (themeIcon) {
-        themeIcon.textContent = theme === 'light' ? '🌙' : '☀️';
-    }
-}
-
-// ============================================================================
-// ANIMATIONS
-// ============================================================================
-
-/**
- * Animate page load with staggered card entrance
- */
-function animatePageLoad() {
-    const syllabusItems = document.querySelectorAll('.syllabus-item');
-    const welcomeSection = document.querySelector('.welcome-section');
-    
-    // Only animate if GSAP is available and there are items to animate
-    if (typeof gsap === 'undefined' || !syllabusItems.length) {
-        console.log('⚠️ GSAP not available or no cards found, skipping animations');
+      if (canView) {
+        logDev("view click", { subjectName, branch: "open" });
+        openSyllabusFile(fileName);
         return;
-    }
-    
-    // Animate title (fade in from top)
-    if (welcomeSection) {
-        gsap.fromTo(welcomeSection, 
-            { opacity: 0, y: -20 },
-            { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
-        );
-    }
-    
-    // Stagger animate cards (fade in from bottom)
-    gsap.fromTo(syllabusItems,
-        { opacity: 0, y: 20 },
-        { 
-            opacity: 1, 
-            y: 0,
-            duration: 0.5,
-            stagger: 0.08,
-            ease: 'power2.out',
-            delay: 0.2
-        }
-    );
-    
-    console.log(`✓ Animated ${syllabusItems.length} syllabus cards`);
-}
+      }
 
-/**
- * Add hover lift effect to syllabus cards
- */
-function addCardHoverAnimations() {
-    const syllabusItems = document.querySelectorAll('.syllabus-item');
-    
-    syllabusItems.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            gsap.to(this, {
-                duration: 0.3,
-                y: -8,
-                boxShadow: '0 12px 24px rgba(0,0,0,0.15)',
-                ease: 'power2.out'
-            });
-        });
-        
-        card.addEventListener('mouseleave', function() {
-            gsap.to(this, {
-                duration: 0.3,
-                y: 0,
-                boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-                ease: 'power2.out'
-            });
-        });
+      logDev("view click", { subjectName, branch: "premium-only" });
+      showPremiumOnlyPrompt();
     });
-}
+  }
 
-// Log completion
-console.log('📄 syllabus.js module loaded');
+  function openSyllabusFile(fileName) {
+    if (!fileName) {
+      console.error("Missing syllabus file name");
+      return;
+    }
+
+    const pdfPath = `assets/syllabus/${fileName}`;
+    const win = window.open(pdfPath, "_blank", "noopener");
+
+    if (win) return;
+
+    // Fallback when popups are blocked.
+    const link = document.createElement("a");
+    link.href = pdfPath;
+    link.target = "_blank";
+    link.rel = "noopener";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+
+  function showPremiumOnlyPrompt() {
+    if (window.Subscription && typeof window.Subscription.showPricingModal === "function") {
+      window.Subscription.showPricingModal();
+      return;
+    }
+
+    if (window.Subscription && typeof window.Subscription.showPaywallModal === "function") {
+      window.Subscription.showPaywallModal("syllabus");
+      return;
+    }
+
+    alert("Premium only. Upgrade to access this syllabus.");
+  }
+
+  function normalizeSubjectFallback(name) {
+    const normalized = (name || "")
+      .toString()
+      .trim()
+      .toLowerCase()
+      .replace(/[_-]+/g, " ")
+      .replace(/\s+/g, " ");
+
+    if (normalized === "english" || normalized === "use of english") return "english";
+    if (normalized === "mathematics" || normalized === "math" || normalized === "maths") {
+      return "math";
+    }
+
+    return normalized;
+  }
+
+  function animatePageLoad() {
+    const syllabusItems = document.querySelectorAll(".syllabus-item");
+    const welcomeSection = document.querySelector(".welcome-section");
+
+    if (typeof window.gsap === "undefined" || !syllabusItems.length) return;
+
+    if (welcomeSection) {
+      window.gsap.fromTo(
+        welcomeSection,
+        { opacity: 0, y: -16 },
+        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }
+      );
+    }
+
+    window.gsap.fromTo(
+      syllabusItems,
+      { opacity: 0, y: 16 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.4,
+        stagger: 0.06,
+        ease: "power2.out",
+        delay: 0.12,
+      }
+    );
+  }
+})();
