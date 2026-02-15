@@ -12,7 +12,7 @@
     <title>ThinkRight - Dashboard</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/premium-ui.css?v=20260212e">
+    <link rel="stylesheet" href="css/premium-ui.css?v=20260215h">
     <script defer src="https://checkout.flutterwave.com/v3.js"></script>
 </head>
 <body class="dashboard-page page-dashboard">
@@ -103,6 +103,10 @@
                 <p class="eyebrow">Performance Analytics</p>
                 <h1 class="dashboard-title">Academic Dashboard</h1>
                 <p class="dashboard-subtitle">Track your progress with clean, measurable insights across tests, subjects, and consistency.</p>
+                <p id="dashboardProjectionLine" class="dashboard-projection-line" hidden>
+                    <span id="dashboardProjectionScore">Projected JAMB: -- / 400</span>
+                    <span id="dashboardProjectionBadge" class="tr-readiness-badge" hidden></span>
+                </p>
             </section>
 
             <section id="tr-recommendations" class="dashboard-section tr-recos" hidden></section>
@@ -169,14 +173,15 @@
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
     <script defer src="js/utils.js?v=20260211d"></script>
-    <script defer src="js/auth.js?v=20260211d"></script>
+    <script defer src="js/auth.js?v=20260215a"></script>
     <script defer src="js/subscription.js?v=20260211d"></script>
     <script defer src="js/subscription-sync.js?v=20260211d"></script>
+    <script defer src="js/projection-utils.js?v=20260215b"></script>
     <script defer src="js/components/dashboard-analytics.js"></script>
     <script defer src="js/components/dashboard-cards.js"></script>
-    <script defer src="js/dashboard.js"></script>
+    <script defer src="js/dashboard.js?v=20260215c"></script>
     <script defer src="js/onboarding.js"></script>
-    <script defer src="js/navbar-load.js?v=20260212d"></script>
+    <script defer src="js/navbar-load.js?v=20260215a"></script>
     <script defer src="js/pwa-register.js"></script>
 </body>
 </html>
