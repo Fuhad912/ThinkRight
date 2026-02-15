@@ -12,8 +12,8 @@
     <title>ThinkRight - Weekly Leaderboard</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/premium-ui.css">
-    <link rel="stylesheet" href="css/leaderboard.css?v=20260212d">
+    <link rel="stylesheet" href="css/premium-ui.css?v=20260215j">
+    <link rel="stylesheet" href="css/leaderboard.css?v=20260215b">
     <script defer src="https://checkout.flutterwave.com/v3.js"></script>
 </head>
 <body class="page-leaderboard">
@@ -121,7 +121,36 @@
                     </table>
                 </div>
                 <p id="projectedEmpty" class="leaderboard-empty" hidden>No projected rankings yet for this week.</p>
-                <p id="myProjectedRank" class="leaderboard-self-rank"></p>
+
+                <article class="leaderboard-my-rank-card" id="projectedMyRankCard" hidden>
+                    <header class="leaderboard-my-rank-header">
+                        <h3>Your ranking this week</h3>
+                    </header>
+
+                    <p class="leaderboard-my-rank-status" id="projectedMyRankStatus"></p>
+
+                    <div class="leaderboard-my-rank-sensitive" id="projectedMyRankSensitive">
+                        <div class="leaderboard-my-rank-grid">
+                            <div class="leaderboard-my-rank-item">
+                                <span class="leaderboard-my-rank-label">Rank</span>
+                                <span class="leaderboard-my-rank-value" id="projectedMyRankValue">--</span>
+                            </div>
+                            <div class="leaderboard-my-rank-item">
+                                <span class="leaderboard-my-rank-label">Projected Score</span>
+                                <span class="leaderboard-my-rank-value" id="projectedMyScoreValue">-- / 400</span>
+                            </div>
+                            <div class="leaderboard-my-rank-item" id="projectedMyPercentileItem" hidden>
+                                <span class="leaderboard-my-rank-label">Percentile</span>
+                                <span class="leaderboard-my-rank-value" id="projectedMyPercentileValue">--</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="leaderboard-my-rank-overlay" id="projectedMyRankOverlay" hidden>
+                        <p>Premium feature: Upgrade to view your weekly rank</p>
+                        <button type="button" class="leaderboard-upgrade-btn" id="projectedMyRankUpgradeBtn">Upgrade</button>
+                    </div>
+                </article>
             </section>
 
             <section class="leaderboard-card">
@@ -164,8 +193,9 @@
     <script defer src="js/auth.js"></script>
     <script defer src="js/subscription.js"></script>
     <script defer src="js/subscription-sync.js"></script>
+    <script defer src="js/weekly-comparison.js?v=20260215b"></script>
     <script defer src="js/navbar-load.js?v=20260212d"></script>
-    <script defer src="js/leaderboard.js?v=20260212e"></script>
+    <script defer src="js/leaderboard.js?v=20260215m"></script>
     <script defer src="js/pwa-register.js"></script>
 </body>
 </html>
