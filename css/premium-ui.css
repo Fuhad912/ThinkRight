@@ -381,6 +381,16 @@ body.tr-loading {
     color: var(--text-secondary);
 }
 
+.dashboard-projection-line {
+    margin: 10px 0 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
 .page-dashboard .section-title {
     margin: 0 0 var(--space-2);
     font-size: var(--text-h3);
@@ -3125,6 +3135,72 @@ html[data-theme='dark'] .page-test #reviewModal .review-question strong {
     color: var(--text-primary);
 }
 
+.tr-projection-score-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.tr-readiness-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--line-subtle);
+    background: var(--surface-subtle);
+    color: var(--text-primary);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.tr-readiness-badge--beginner {
+    background: color-mix(in srgb, #f59e0b 14%, var(--surface-bg));
+    border-color: color-mix(in srgb, #f59e0b 42%, var(--line-subtle));
+    color: color-mix(in srgb, #7a2e00 80%, var(--text-primary));
+}
+
+.tr-readiness-badge--improving {
+    background: color-mix(in srgb, #0ea5e9 12%, var(--surface-bg));
+    border-color: color-mix(in srgb, #0284c7 42%, var(--line-subtle));
+    color: color-mix(in srgb, #075985 78%, var(--text-primary));
+}
+
+.tr-readiness-badge--competitive {
+    background: color-mix(in srgb, #2563eb 12%, var(--surface-bg));
+    border-color: color-mix(in srgb, #1d4ed8 44%, var(--line-subtle));
+    color: color-mix(in srgb, #1d4ed8 82%, var(--text-primary));
+}
+
+.tr-readiness-badge--distinction {
+    background: color-mix(in srgb, #16a34a 12%, var(--surface-bg));
+    border-color: color-mix(in srgb, #15803d 42%, var(--line-subtle));
+    color: color-mix(in srgb, #14532d 86%, var(--text-primary));
+}
+
+.tr-readiness-badge--elite {
+    background: color-mix(in srgb, #0f766e 14%, var(--surface-bg));
+    border-color: color-mix(in srgb, #0f766e 45%, var(--line-subtle));
+    color: color-mix(in srgb, #115e59 86%, var(--text-primary));
+}
+
+.leaderboard-score-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.leaderboard-score-text {
+    white-space: nowrap;
+}
+
 .tr-projection-range {
     color: var(--text-secondary);
     font-weight: 600;
@@ -3219,6 +3295,19 @@ html[data-theme='dark'] .page-test #reviewModal .review-question strong {
     .tr-projection-head {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    .tr-projection-score-wrap {
+        width: 100%;
+        justify-content: flex-start;
+    }
+
+    .dashboard-projection-line {
+        width: 100%;
+    }
+
+    .leaderboard-score-wrap {
+        justify-content: flex-start;
     }
 
     .tr-projection-link {
