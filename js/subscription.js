@@ -540,7 +540,25 @@ function canAccessTests() {
  * Check if user can access syllabus (requires premium)
  */
 function canAccessSyllabus() {
-    return isPremium();
+    const premium = isPremium() === true;
+    const normalizedPlan = ((subscriptionState.subscription?.plan || getPremiumStatus().subscription_plan || '')
+        .toString()
+        .trim()
+        .toLowerCase());
+    const admin = normalizedPlan === 'admin';
+
+    if (window.ThinkRightEntitlements && typeof window.ThinkRightEntitlements.canAccessSyllabus === 'function') {
+        try {
+            return window.ThinkRightEntitlements.canAccessSyllabus({
+                isPremium: premium,
+                isAdmin: admin
+            });
+        } catch (error) {
+            console.warn('canAccessSyllabus helper failed:', error);
+        }
+    }
+
+    return admin || premium;
 }
 
 /**
