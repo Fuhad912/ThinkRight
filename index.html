@@ -13,7 +13,7 @@
     <title>ThinkRight - JAMB Practice Platform</title>
     <link rel="stylesheet" href="css/style.css?v=20260211d">
     <link rel="stylesheet" href="css/navbar.css?v=20260211d">
-    <link rel="stylesheet" href="css/premium-ui.css?v=20260212e">
+    <link rel="stylesheet" href="css/premium-ui.css?v=20260215h">
     <script defer src="https://checkout.flutterwave.com/v3.js"></script>
 </head>
 <body class="page-home">
@@ -121,7 +121,10 @@
 
                     <div class="tr-projection-body" id="trProjectionBody" aria-live="polite">
                         <div class="tr-projection-main">
-                            <div class="tr-projection-score" id="trProjectionScore">-- / 400</div>
+                            <div class="tr-projection-score-wrap">
+                                <div class="tr-projection-score" id="trProjectionScore">-- / 400</div>
+                                <span id="trProjectionBadge" class="tr-readiness-badge" hidden></span>
+                            </div>
                             <div class="tr-projection-range" id="trProjectionRange" hidden></div>
                         </div>
                         <div class="tr-projection-state" id="trProjectionState">Loading your projection...</div>
@@ -228,8 +231,8 @@
     <script defer src="js/auth.js?v=20260211d"></script>
     <script defer src="js/subscription.js?v=20260211d"></script>
     <script defer src="js/subscription-sync.js?v=20260211d"></script>
-    <script defer src="js/projection-utils.js?v=20260215a"></script>
-    <script defer src="js/jamb-projection.js?v=20260215a"></script>
+    <script defer src="js/projection-utils.js?v=20260215b"></script>
+    <script defer src="js/jamb-projection.js?v=20260215b"></script>
     <script defer src="js/app.js?v=20260212f"></script>
     <script defer src="js/onboarding.js?v=20260211d"></script>
     <script defer src="js/navbar-load.js?v=20260212d"></script>
