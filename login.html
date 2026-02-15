@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <title>ThinkRight - Login</title>
     <link rel="stylesheet" href="css/style.css?v=20260213a">
-    <link rel="stylesheet" href="css/premium-ui.css?v=20260213a">
+    <link rel="stylesheet" href="css/premium-ui.css?v=20260215i">
 </head>
 <body class="auth-page page-auth page-login">
     <main class="auth-shell">
@@ -51,6 +51,12 @@
                     </div>
                 </div>
             </div>
+        </section>
+
+        <section class="jamb-countdown-card" data-jamb-countdown aria-live="polite">
+            <p class="jamb-countdown-title">JAMB Countdown</p>
+            <p class="jamb-countdown-value" data-countdown-days>-- days remaining</p>
+            <p class="jamb-countdown-subtext" data-countdown-date>Exam starts Apr 16, 2026</p>
         </section>
 
         <section class="auth-hero">
@@ -161,6 +167,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
     <script defer src="js/utils.js?v=20260213a"></script>
     <script defer src="js/auth.js?v=20260213a"></script>
+    <script defer src="js/jamb-countdown.js?v=20260215a"></script>
     <script defer src="js/login.js?v=20260213a"></script>
     <script defer src="js/pwa-register.js?v=20260213a"></script>
 </body>
