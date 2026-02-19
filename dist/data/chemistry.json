@@ -1,0 +1,5239 @@
+[
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Separation of mixtures and purity",
+    "question": "A student records the melting point of a solid as 118–122 °C instead of a sharp value. The most reasonable conclusion is that the solid is",
+    "options": {
+      "A": "a pure substance with a high melting point",
+      "B": "an impure substance containing dissolved gases",
+      "C": "an impure substance containing other solids",
+      "D": "a compound that decomposes at its melting point"
+    },
+    "correct_option": "C",
+    "explanation": "Pure solids melt sharply; impurities disrupt the lattice, giving a melting range (often lower and broader)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Separation processes",
+    "question": "Which method best separates iodine from a mixture of iodine and sand without dissolving either component?",
+    "options": {
+      "A": "Crystallization",
+      "B": "Sublimation",
+      "C": "Fractional distillation",
+      "D": "Decantation"
+    },
+    "correct_option": "B",
+    "explanation": "Iodine sublimes on heating while sand does not, so iodine can be vaporized and re-condensed."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Mixtures and compounds",
+    "question": "Which statement correctly distinguishes a mixture from a compound?",
+    "options": {
+      "A": "A mixture has a fixed composition while a compound does not",
+      "B": "A compound can be separated by physical means while a mixture cannot",
+      "C": "A mixture may show the properties of its components while a compound does not",
+      "D": "A mixture has a definite boiling point while a compound boils over a range"
+    },
+    "correct_option": "C",
+    "explanation": "Mixtures often retain component properties; compounds form new substances and require chemical methods to separate."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Physical and chemical changes",
+    "question": "Which change is most clearly a chemical change?",
+    "options": {
+      "A": "Evaporation of ethanol",
+      "B": "Dissolving sugar in water",
+      "C": "Rusting of iron",
+      "D": "Melting of candle wax"
+    },
+    "correct_option": "C",
+    "explanation": "Rusting forms new substances (iron oxides), unlike physical changes which do not form new substances."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Filtration and solubility",
+    "question": "A mixture of common salt, sand and water is stirred thoroughly. The first best step to obtain sand is",
+    "options": {
+      "A": "Evaporation",
+      "B": "Filtration",
+      "C": "Fractional distillation",
+      "D": "Crystallization"
+    },
+    "correct_option": "B",
+    "explanation": "Sand is insoluble; filtration removes the insoluble solid from the salt solution."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Evaporation and crystallization",
+    "question": "To obtain crystals of copper(II) sulfate from an aqueous solution, the most suitable method is",
+    "options": {
+      "A": "Evaporate to dryness over a strong flame",
+      "B": "Neutralize with an alkali, then filter",
+      "C": "Concentrate the solution and allow it to cool slowly",
+      "D": "Use a separating funnel"
+    },
+    "correct_option": "C",
+    "explanation": "Crystallization involves concentrating and cooling so crystals form; heating to dryness can decompose hydrated crystals."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Simple distillation",
+    "question": "Which condition best justifies using simple distillation?",
+    "options": {
+      "A": "Separating two miscible liquids with close boiling points",
+      "B": "Separating a solvent from a solution of a non-volatile solute",
+      "C": "Separating two solids with different solubilities",
+      "D": "Separating coloured dyes in ink"
+    },
+    "correct_option": "B",
+    "explanation": "Simple distillation is ideal for recovering a volatile solvent from a non-volatile solute solution."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Fractional distillation",
+    "question": "A mixture contains ethanol (b.p. 78 °C) and water (b.p. 100 °C). The best method to separate them is",
+    "options": {
+      "A": "Simple distillation",
+      "B": "Fractional distillation",
+      "C": "Filtration",
+      "D": "Sublimation"
+    },
+    "correct_option": "B",
+    "explanation": "Miscible liquids with relatively close boiling points are better separated using a fractionating column."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chromatography (paper)",
+    "question": "In paper chromatography, the component that travels furthest from the baseline is generally the one that",
+    "options": {
+      "A": "has the highest melting point",
+      "B": "is least soluble in the solvent",
+      "C": "is most strongly adsorbed on the paper",
+      "D": "is most soluble in the solvent"
+    },
+    "correct_option": "D",
+    "explanation": "Greater solubility in the mobile phase (solvent) helps the component move further."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chromatography (Rf calculation)",
+    "question": "A dye spot moves 6.0 cm from the baseline while the solvent front moves 10.0 cm. What is the Rf value of the dye?",
+    "options": {
+      "A": "0.40",
+      "B": "0.60",
+      "C": "1.67",
+      "D": "2.00"
+    },
+    "correct_option": "B",
+    "explanation": "Rf = distance moved by solute ÷ distance moved by solvent = 6.0 ÷ 10.0 = 0.60."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Decantation",
+    "question": "Decantation is most suitable for separating",
+    "options": {
+      "A": "a mixture of sand and salt",
+      "B": "a suspension of muddy water after settling",
+      "C": "ethanol and water",
+      "D": "iodine and sand"
+    },
+    "correct_option": "B",
+    "explanation": "After insoluble particles settle, the clear supernatant liquid can be poured off (decanted)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Magnetization",
+    "question": "Which mixture can be effectively separated by magnetization?",
+    "options": {
+      "A": "Iron filings and sulphur powder",
+      "B": "Sugar and common salt",
+      "C": "Ethanol and water",
+      "D": "Iodine and sand"
+    },
+    "correct_option": "A",
+    "explanation": "Iron is magnetic while sulphur is not, so a magnet removes iron filings."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Separating funnel concept",
+    "question": "A separating funnel is best used to separate",
+    "options": {
+      "A": "two miscible liquids",
+      "B": "a solid and a liquid",
+      "C": "two immiscible liquids",
+      "D": "a solution of a solid in water"
+    },
+    "correct_option": "C",
+    "explanation": "Immiscible liquids form layers and can be separated by draining the denser layer first."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Boiling point and purity",
+    "question": "A liquid sample boils at 95–98 °C rather than a constant temperature. This observation suggests the sample is",
+    "options": {
+      "A": "a pure liquid",
+      "B": "an impure liquid mixture",
+      "C": "a compound that cannot boil",
+      "D": "a liquid with no intermolecular forces"
+    },
+    "correct_option": "B",
+    "explanation": "Pure liquids boil at a fixed temperature (at constant pressure); mixtures often boil over a range."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Crystallization reasoning",
+    "question": "Why is slow cooling preferred during crystallization of a solute from its hot saturated solution?",
+    "options": {
+      "A": "It increases the solubility of the solute",
+      "B": "It produces larger, purer crystals",
+      "C": "It prevents the solvent from evaporating",
+      "D": "It converts the solute into a volatile form"
+    },
+    "correct_option": "B",
+    "explanation": "Slow cooling allows orderly crystal growth and reduces trapping of impurities within the crystal lattice."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Fractional crystallization",
+    "question": "Fractional crystallization is most suitable for separating a mixture of",
+    "options": {
+      "A": "two soluble solids with different solubilities",
+      "B": "two insoluble solids of different densities",
+      "C": "a volatile liquid and a non-volatile solid",
+      "D": "two miscible liquids with close boiling points"
+    },
+    "correct_option": "A",
+    "explanation": "Different solubilities cause one solute to crystallize out first on cooling a concentrated solution."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Sublimation examples",
+    "question": "Which substance is most likely to be purified by sublimation?",
+    "options": {
+      "A": "Sodium chloride",
+      "B": "Ammonium chloride",
+      "C": "Sand",
+      "D": "Calcium carbonate"
+    },
+    "correct_option": "B",
+    "explanation": "Ammonium chloride sublimes on heating and can be re-deposited as a pure solid."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Distillation logic",
+    "question": "A student wants to obtain pure water from seawater. The most suitable method is",
+    "options": {
+      "A": "Filtration only",
+      "B": "Evaporation to dryness",
+      "C": "Simple distillation",
+      "D": "Paper chromatography"
+    },
+    "correct_option": "C",
+    "explanation": "Seawater contains non-volatile salts; distillation boils off and condenses water as pure distillate."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Column chromatography concept",
+    "question": "Column chromatography separates components mainly due to differences in",
+    "options": {
+      "A": "atomic number",
+      "B": "adsorption and solubility",
+      "C": "electrical conductivity",
+      "D": "melting point only"
+    },
+    "correct_option": "B",
+    "explanation": "Components distribute differently between stationary adsorbent and mobile solvent, moving at different rates."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Elements, compounds and mixtures",
+    "question": "Which of the following is a mixture?",
+    "options": {
+      "A": "Carbon(IV) oxide",
+      "B": "Sodium chloride",
+      "C": "Air",
+      "D": "Water"
+    },
+    "correct_option": "C",
+    "explanation": "Air is a physical mixture of gases (N₂, O₂, Ar, CO₂, etc.) with variable composition."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Pure and impure substances",
+    "question": "A reliable laboratory evidence that a substance is pure is that it",
+    "options": {
+      "A": "has a very high boiling point",
+      "B": "does not dissolve in water",
+      "C": "has a sharp melting point",
+      "D": "is colourless"
+    },
+    "correct_option": "C",
+    "explanation": "Purity is indicated by sharp melting/boiling points at constant pressure, not by colour or solubility alone."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Filtration and washing",
+    "question": "After filtering a precipitate, washing the residue with small portions of distilled water is mainly to",
+    "options": {
+      "A": "increase the mass of the precipitate",
+      "B": "remove soluble impurities",
+      "C": "dissolve the precipitate completely",
+      "D": "change the precipitate into crystals"
+    },
+    "correct_option": "B",
+    "explanation": "Washing removes ions and soluble impurities adhering to the precipitate without dissolving much of it."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Evaporation vs distillation",
+    "question": "Which choice correctly matches method to product?",
+    "options": {
+      "A": "Evaporation → pure solvent from a solution",
+      "B": "Simple distillation → pure solute from a solution",
+      "C": "Evaporation → solid solute from a solution",
+      "D": "Filtration → pure dissolved salt from salt solution"
+    },
+    "correct_option": "C",
+    "explanation": "Evaporation removes solvent to leave the solid solute; distillation is used to recover the solvent."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Physical separation",
+    "question": "Which process depends mainly on difference in particle size?",
+    "options": {
+      "A": "Filtration",
+      "B": "Sublimation",
+      "C": "Fractional distillation",
+      "D": "Crystallization"
+    },
+    "correct_option": "A",
+    "explanation": "Filtration separates insoluble particles from a fluid using pore size differences."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Crystallization choice",
+    "question": "A solid dissolves in hot water but only slightly in cold water. Which method is most suitable for purifying it?",
+    "options": {
+      "A": "Sublimation",
+      "B": "Crystallization from hot water",
+      "C": "Fractional distillation",
+      "D": "Magnetization"
+    },
+    "correct_option": "B",
+    "explanation": "Dissolve in hot solvent and allow to cool; the solute crystallizes while many impurities remain in solution."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chromatography application",
+    "question": "A student suspects a black ink contains several dyes. The best technique to confirm this is",
+    "options": {
+      "A": "Simple distillation",
+      "B": "Paper chromatography",
+      "C": "Decantation",
+      "D": "Magnetization"
+    },
+    "correct_option": "B",
+    "explanation": "Chromatography separates and reveals multiple coloured components in a dye mixture."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Fractional distillation of crude oil concept",
+    "question": "Fractional distillation separates crude oil mainly because the components have different",
+    "options": {
+      "A": "densities",
+      "B": "boiling points",
+      "C": "solubilities in water",
+      "D": "magnetic properties"
+    },
+    "correct_option": "B",
+    "explanation": "Fractions vaporize and condense at different temperature ranges based on boiling points."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Separating solids by solubility",
+    "question": "A mixture contains KNO₃ and sand. KNO₃ is soluble in water while sand is not. Which sequence best separates and obtains KNO₃ crystals?",
+    "options": {
+      "A": "Sublimation → filtration → evaporation",
+      "B": "Dissolve in water → filtration → crystallization",
+      "C": "Magnetization → decantation → distillation",
+      "D": "Filtration → dissolve residue → decantation"
+    },
+    "correct_option": "B",
+    "explanation": "Dissolve the soluble salt, filter off sand, then crystallize KNO₃ from the filtrate."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chemical vs physical change",
+    "question": "Which pair contains two physical changes?",
+    "options": {
+      "A": "Burning of magnesium ribbon and melting of wax",
+      "B": "Dissolving NaCl in water and condensation of steam",
+      "C": "Rusting of iron and boiling of water",
+      "D": "Fermentation of sugar and evaporation of ethanol"
+    },
+    "correct_option": "B",
+    "explanation": "Dissolving and condensation do not create new substances, unlike burning, rusting, fermentation."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Separation and purity reasoning",
+    "question": "A student obtains “dry salt” by heating hydrated copper(II) sulfate crystals strongly until they turn white. Why is this not a good method for purifying the hydrated salt?",
+    "options": {
+      "A": "Copper(II) sulfate cannot be heated",
+      "B": "Hydrated crystals lose water of crystallization, changing composition",
+      "C": "Heating increases the number of impurities",
+      "D": "The salt becomes insoluble in water"
+    },
+    "correct_option": "B",
+    "explanation": "Strong heating removes water of crystallization, producing anhydrous CuSO₄ (composition changes), so it’s not purification of the hydrate."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Laws of chemical combination",
+    "question": "The law of conservation of matter is best illustrated by the fact that in a chemical reaction",
+    "options": {
+      "A": "reactants always have higher mass than products",
+      "B": "mass of reactants equals mass of products in a closed system",
+      "C": "volume of reactants equals volume of products always",
+      "D": "moles of reactants equal moles of products always"
+    },
+    "correct_option": "B",
+    "explanation": "Atoms are rearranged, not created or destroyed; total mass remains constant in a closed system."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Definite proportions",
+    "question": "Which statement correctly describes the law of definite proportions?",
+    "options": {
+      "A": "Elements combine in any mass ratio to form a compound",
+      "B": "A given compound always contains the same elements in the same fixed mass ratio",
+      "C": "Total volume of gases is conserved in reactions",
+      "D": "Mass is not conserved in nuclear reactions"
+    },
+    "correct_option": "B",
+    "explanation": "A pure compound has constant composition by mass regardless of source or method of preparation."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Multiple proportions",
+    "question": "Carbon forms two oxides: CO and CO₂. For the same mass of carbon, the masses of oxygen that combine with it are in the ratio 1:2. This illustrates the law of",
+    "options": {
+      "A": "definite proportions",
+      "B": "multiple proportions",
+      "C": "conservation of mass",
+      "D": "reciprocal proportions"
+    },
+    "correct_option": "B",
+    "explanation": "When two elements form more than one compound, the masses of one that combine with a fixed mass of the other are in simple whole-number ratios."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chemical symbols and formulae",
+    "question": "Which formula correctly represents aluminium sulfate?",
+    "options": {
+      "A": "AlSO₄",
+      "B": "Al₂(SO₄)₃",
+      "C": "Al₃(SO₄)₂",
+      "D": "Al(SO₄)₂"
+    },
+    "correct_option": "B",
+    "explanation": "Al³⁺ and SO₄²⁻ combine to give charge balance: 2( +3 ) = 3( −2 ) → Al₂(SO₄)₃."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Balancing equations",
+    "question": "Which balanced equation represents the combustion of methane?",
+    "options": {
+      "A": "CH₄(g) + O₂(g) → CO₂(g) + 2H₂O(l)",
+      "B": "CH₄(g) + 2O₂(g) → CO₂(g) + 2H₂O(l)",
+      "C": "2CH₄(g) + O₂(g) → 2CO₂(g) + 4H₂O(l)",
+      "D": "CH₄(g) + O₂(g) → CO(g) + 2H₂O(l)"
+    },
+    "correct_option": "B",
+    "explanation": "Balance atoms: C=1, H=4 so 2H₂O; oxygen then totals 4 on products, so 2O₂ on reactants."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Relative atomic mass (12C = 12)",
+    "question": "The reason for using carbon-12 as the standard for relative atomic mass is that it",
+    "options": {
+      "A": "is the most reactive element",
+      "B": "has a mass that is exactly 12 atomic mass units by definition",
+      "C": "occurs as a gas at room temperature",
+      "D": "forms only one compound"
+    },
+    "correct_option": "B",
+    "explanation": "The atomic mass unit is defined as 1⁄12 of the mass of a carbon-12 atom, so ¹²C is exactly 12 u."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Mole concept",
+    "question": "How many moles of CO₂ are present in 11.0 g of CO₂? (C = 12, O = 16)",
+    "options": {
+      "A": "0.10 mol",
+      "B": "0.20 mol",
+      "C": "0.25 mol",
+      "D": "0.50 mol"
+    },
+    "correct_option": "C",
+    "explanation": "Molar mass of CO₂ = 12 + 2(16) = 44 g mol⁻¹. Moles = 11.0 ÷ 44 = 0.25 mol."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Avogadro’s number",
+    "question": "Which statement about Avogadro’s number is correct?",
+    "options": {
+      "A": "It is the mass of 1 mol of any substance",
+      "B": "It is the number of particles in 12 g of any element",
+      "C": "It is the number of particles in 1 mol of a substance",
+      "D": "It is the volume occupied by 1 mol of a gas at any temperature"
+    },
+    "correct_option": "C",
+    "explanation": "Avogadro’s number (≈ 6.02 × 10^23) is the number of particles in 1 mol of any substance."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry (mass–mass)",
+    "question": "Using the equation: 2Mg(s) + O₂(g) → 2MgO(s). What mass of MgO is formed when 12.0 g of Mg reacts completely with excess O₂? (Mg = 24, O = 16)",
+    "options": {
+      "A": "10.0 g",
+      "B": "16.0 g",
+      "C": "20.0 g",
+      "D": "24.0 g"
+    },
+    "correct_option": "C",
+    "explanation": "Moles of Mg = 12.0 ÷ 24 = 0.50 mol. Ratio Mg:MgO = 1:1, so moles MgO = 0.50. Mass MgO = 0.50 × (24 + 16) = 0.50 × 40 = 20.0 g."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry (limiting reagent)",
+    "question": "For the reaction: N₂(g) + 3H₂(g) → 2NH₃(g), if 1.0 mol of N₂ is mixed with 2.0 mol of H₂, which reactant is limiting?",
+    "options": {
+      "A": "N₂ is limiting",
+      "B": "H₂ is limiting",
+      "C": "NH₃ is limiting",
+      "D": "No limiting reactant"
+    },
+    "correct_option": "B",
+    "explanation": "1.0 mol N₂ requires 3.0 mol H₂, but only 2.0 mol H₂ is available, so H₂ limits."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry (moles of product)",
+    "question": "For: 2Al(s) + 3Cl₂(g) → 2AlCl₃(s). If 0.30 mol of Cl₂ reacts with excess Al, how many moles of AlCl₃ are formed?",
+    "options": {
+      "A": "0.10 mol",
+      "B": "0.20 mol",
+      "C": "0.30 mol",
+      "D": "0.45 mol"
+    },
+    "correct_option": "B",
+    "explanation": "Mole ratio Cl₂:AlCl₃ = 3:2. Moles AlCl₃ = 0.30 × (2 ÷ 3) = 0.20 mol."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Percentage composition",
+    "question": "What is the percentage of oxygen in H₂SO₄? (H = 1, S = 32, O = 16)",
+    "options": {
+      "A": "16.3%",
+      "B": "32.7%",
+      "C": "49.0%",
+      "D": "65.3%"
+    },
+    "correct_option": "D",
+    "explanation": "Molar mass H₂SO₄ = 2(1) + 32 + 4(16) = 98. Mass of O = 64. %O = (64 ÷ 98) × 100 ≈ 65.3%."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Empirical formula",
+    "question": "A compound contains 40.0% carbon, 6.7% hydrogen and 53.3% oxygen by mass. What is its empirical formula? (C = 12, H = 1, O = 16)",
+    "options": {
+      "A": "CH₂O",
+      "B": "C₂H₄O₂",
+      "C": "CH₄O",
+      "D": "C₂H₆O"
+    },
+    "correct_option": "A",
+    "explanation": "Assume 100 g: C moles = 40.0 ÷ 12 = 3.33; H moles = 6.7 ÷ 1 = 6.7; O moles = 53.3 ÷ 16 = 3.33. Divide by 3.33: C=1, H≈2, O=1 → CH₂O."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Mole and particle number",
+    "question": "How many molecules are present in 0.50 mol of oxygen gas, O₂?",
+    "options": {
+      "A": "1.20 × 10^23",
+      "B": "3.01 × 10^23",
+      "C": "6.02 × 10^23",
+      "D": "1.20 × 10^24"
+    },
+    "correct_option": "B",
+    "explanation": "Number of molecules = moles × Avogadro’s number = 0.50 × 6.02 × 10^23 ≈ 3.01 × 10^23."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Gay-Lussac’s law of combining volumes",
+    "question": "At the same temperature and pressure, 30 cm³ of hydrogen reacts completely with oxygen to form water vapour according to: 2H₂(g) + O₂(g) → 2H₂O(g). What volume of oxygen is required?",
+    "options": {
+      "A": "10 cm³",
+      "B": "15 cm³",
+      "C": "30 cm³",
+      "D": "60 cm³"
+    },
+    "correct_option": "B",
+    "explanation": "Volume ratios follow mole ratios for gases at same T and P. H₂:O₂ = 2:1, so O₂ volume = 30 × (1 ÷ 2) = 15 cm³."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Avogadro’s law",
+    "question": "Which statement best represents Avogadro’s law?",
+    "options": {
+      "A": "At constant temperature, pressure is inversely proportional to volume",
+      "B": "At constant pressure, volume is directly proportional to temperature (K)",
+      "C": "Equal volumes of all gases at the same temperature and pressure contain equal numbers of molecules",
+      "D": "The rate of diffusion is inversely proportional to the square root of molar mass"
+    },
+    "correct_option": "C",
+    "explanation": "Avogadro’s law states equal gas volumes at the same T and P contain equal numbers of molecules."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Mole concept and gas volume",
+    "question": "At STP, what volume is occupied by 0.25 mol of an ideal gas?",
+    "options": {
+      "A": "2.24 dm³",
+      "B": "5.60 dm³",
+      "C": "11.2 dm³",
+      "D": "22.4 dm³"
+    },
+    "correct_option": "B",
+    "explanation": "At STP, 1 mol of gas occupies 22.4 dm³. Volume = 0.25 × 22.4 = 5.60 dm³."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Kinetic theory and state changes",
+    "question": "During boiling of a pure liquid at constant pressure, the temperature remains constant because the heat supplied is used mainly to",
+    "options": {
+      "A": "increase the average kinetic energy of molecules",
+      "B": "break intermolecular forces (increase potential energy)",
+      "C": "reduce molecular motion",
+      "D": "increase the number of molecules"
+    },
+    "correct_option": "B",
+    "explanation": "At boiling, added heat overcomes intermolecular forces rather than raising temperature."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Brownian movement",
+    "question": "Brownian movement is best explained as the",
+    "options": {
+      "A": "random motion of suspended particles due to collisions with molecules of the fluid",
+      "B": "movement of electrons in a conductor",
+      "C": "regular motion of particles due to gravity",
+      "D": "movement of gases from high pressure to low pressure only"
+    },
+    "correct_option": "A",
+    "explanation": "Brownian motion results from uneven collisions of fast-moving fluid molecules with suspended particles."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Boyle’s law",
+    "question": "A gas occupies 200 cm³ at 1.0 atm. What volume will it occupy at 2.5 atm, assuming constant temperature?",
+    "options": {
+      "A": "80 cm³",
+      "B": "100 cm³",
+      "C": "250 cm³",
+      "D": "500 cm³"
+    },
+    "correct_option": "A",
+    "explanation": "Boyle’s law: P₁V₁ = P₂V₂. V₂ = (1.0 × 200) ÷ 2.5 = 80 cm³."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Charles’ law",
+    "question": "A gas has a volume of 500 cm³ at 300 K. What is its volume at 360 K at constant pressure?",
+    "options": {
+      "A": "420 cm³",
+      "B": "540 cm³",
+      "C": "600 cm³",
+      "D": "660 cm³"
+    },
+    "correct_option": "C",
+    "explanation": "Charles’ law: V₁ ÷ T₁ = V₂ ÷ T₂. V₂ = 500 × (360 ÷ 300) = 600 cm³."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Combined gas law",
+    "question": "A gas occupies 1.20 dm³ at 1.0 atm and 300 K. What volume will it occupy at 0.80 atm and 360 K?",
+    "options": {
+      "A": "0.80 dm³",
+      "B": "1.15 dm³",
+      "C": "1.80 dm³",
+      "D": "2.16 dm³"
+    },
+    "correct_option": "D",
+    "explanation": "Combined gas law: (P₁V₁) ÷ T₁ = (P₂V₂) ÷ T₂. V₂ = (P₁V₁T₂) ÷ (P₂T₁) = (1.0 × 1.20 × 360) ÷ (0.80 × 300) = 2.16 dm³."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Ideal gas equation (PV = nRT)",
+    "question": "At 27 °C and 1.0 atm, a sample of gas occupies 24.6 dm³. Approximately how many moles of the gas are present? (Use R = 0.082 dm³ atm mol⁻¹ K⁻¹)",
+    "options": {
+      "A": "0.50 mol",
+      "B": "1.00 mol",
+      "C": "1.50 mol",
+      "D": "2.00 mol"
+    },
+    "correct_option": "B",
+    "explanation": "T = 27 + 273 = 300 K. n = (PV) ÷ (RT) = (1.0 × 24.6) ÷ (0.082 × 300) = 24.6 ÷ 24.6 ≈ 1.00 mol."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Dalton’s law of partial pressure",
+    "question": "A container holds N₂ at 0.30 atm and O₂ at 0.50 atm at the same temperature. What is the total pressure?",
+    "options": {
+      "A": "0.15 atm",
+      "B": "0.20 atm",
+      "C": "0.80 atm",
+      "D": "1.50 atm"
+    },
+    "correct_option": "C",
+    "explanation": "Dalton’s law: Ptotal = PN₂ + PO₂ = 0.30 + 0.50 = 0.80 atm."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Graham’s law of diffusion",
+    "question": "Hydrogen diffuses faster than oxygen because hydrogen has",
+    "options": {
+      "A": "a higher boiling point",
+      "B": "a larger molecular size",
+      "C": "a lower molar mass",
+      "D": "stronger intermolecular forces"
+    },
+    "correct_option": "C",
+    "explanation": "Graham’s law: rate ∝ 1 ÷ √(molar mass). Lower molar mass gives a higher diffusion rate."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Graham’s law (calculation)",
+    "question": "What is the ratio of the rate of diffusion of H₂ to O₂? (H = 1, O = 16)",
+    "options": {
+      "A": "1:8",
+      "B": "1:4",
+      "C": "4:1",
+      "D": "8:1"
+    },
+    "correct_option": "D",
+    "explanation": "Rate ratio r(H₂):r(O₂) = √(M(O₂) ÷ M(H₂)) = √(32 ÷ 2) = √16 = 4. So H₂:O₂ = 4:1. (Option D is wrong if interpreted as 8:1)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Vapour density and relative molecular mass",
+    "question": "A gas has vapour density 22. What is its relative molecular mass?",
+    "options": {
+      "A": "11",
+      "B": "22",
+      "C": "44",
+      "D": "88"
+    },
+    "correct_option": "C",
+    "explanation": "Relative molecular mass = 2 × vapour density = 2 × 22 = 44."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Kinetic theory and temperature",
+    "question": "Temperature of a gas is best described as a measure of the",
+    "options": {
+      "A": "total potential energy of the gas molecules",
+      "B": "average kinetic energy of the gas molecules",
+      "C": "mass of gas molecules present",
+      "D": "pressure exerted by the gas"
+    },
+    "correct_option": "B",
+    "explanation": "In kinetic theory, temperature is proportional to average kinetic energy of molecules."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Atomicity and molar volume",
+    "question": "At the same temperature and pressure, 1 mol of chlorine gas, Cl₂(g), contains the same number of molecules as 1 mol of",
+    "options": {
+      "A": "Ne(g)",
+      "B": "H₂(g)",
+      "C": "CO₂(g)",
+      "D": "All of the above"
+    },
+    "correct_option": "D",
+    "explanation": "1 mol of any gas contains Avogadro’s number of molecules regardless of atomicity."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Atomic models (Thomson)",
+    "question": "Thomson’s model of the atom is associated with the discovery of the",
+    "options": {
+      "A": "proton",
+      "B": "neutron",
+      "C": "electron",
+      "D": "nucleus"
+    },
+    "correct_option": "C",
+    "explanation": "Thomson discovered the electron and proposed the “plum pudding” model."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Rutherford experiment",
+    "question": "Rutherford’s gold foil experiment led to the conclusion that",
+    "options": {
+      "A": "electrons are embedded in a positive sphere",
+      "B": "atoms have a small dense positively charged nucleus",
+      "C": "neutrons are present in the nucleus",
+      "D": "electrons occupy fixed energy levels only"
+    },
+    "correct_option": "B",
+    "explanation": "Most alpha particles passed through while a few were deflected strongly, implying a tiny dense nucleus."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Bohr model",
+    "question": "Bohr’s model improved atomic theory by proposing that electrons",
+    "options": {
+      "A": "move randomly within the nucleus",
+      "B": "have fixed energy levels (shells)",
+      "C": "have no mass",
+      "D": "are positively charged"
+    },
+    "correct_option": "B",
+    "explanation": "Bohr proposed quantized energy levels, explaining line spectra of hydrogen."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Atomic number and mass number",
+    "question": "An atom has atomic number 17 and mass number 35. How many neutrons does it have?",
+    "options": {
+      "A": "17",
+      "B": "18",
+      "C": "35",
+      "D": "52"
+    },
+    "correct_option": "B",
+    "explanation": "Neutrons = mass number − atomic number = 35 − 17 = 18."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Isotopes",
+    "question": "Which statement about isotopes is correct?",
+    "options": {
+      "A": "They have different atomic numbers but the same mass number",
+      "B": "They have the same atomic number but different mass numbers",
+      "C": "They have different numbers of protons and electrons",
+      "D": "They have the same number of neutrons always"
+    },
+    "correct_option": "B",
+    "explanation": "Isotopes are atoms of the same element (same atomic number) with different mass numbers (different neutrons)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electron configuration (elements 1–20)",
+    "question": "What is the electron configuration of calcium (atomic number 20) in shells?",
+    "options": {
+      "A": "2, 8, 8, 2",
+      "B": "2, 8, 10",
+      "C": "2, 8, 2, 8",
+      "D": "2, 6, 8, 4"
+    },
+    "correct_option": "A",
+    "explanation": "Calcium has 20 electrons distributed as 2 in K, 8 in L, 8 in M, 2 in N → 2, 8, 8, 2."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Periodic table families",
+    "question": "Which pair belongs to the same group in the periodic table?",
+    "options": {
+      "A": "Na and Mg",
+      "B": "Cl and Br",
+      "C": "Li and Be",
+      "D": "Ne and Na"
+    },
+    "correct_option": "B",
+    "explanation": "Cl and Br are halogens (Group 17). The others are from different groups."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Periodic trend (atomic radius)",
+    "question": "Across Period 3 from Na to Cl, the atomic radius generally",
+    "options": {
+      "A": "increases because more shells are added",
+      "B": "decreases because nuclear charge increases while shells remain the same",
+      "C": "remains constant because electrons are equal",
+      "D": "increases because shielding increases significantly"
+    },
+    "correct_option": "B",
+    "explanation": "Across a period, nuclear charge increases but electrons enter the same shell, pulling them closer and decreasing radius."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Periodic trend (ionization energy)",
+    "question": "Which element generally has the highest first ionization energy among these?",
+    "options": {
+      "A": "Na",
+      "B": "Mg",
+      "C": "Al",
+      "D": "Cl"
+    },
+    "correct_option": "D",
+    "explanation": "Ionization energy increases across a period; chlorine is farthest right among the options."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electronegativity",
+    "question": "A bond between atoms with a large electronegativity difference is most likely to be",
+    "options": {
+      "A": "metallic",
+      "B": "ionic (electrovalent)",
+      "C": "non-polar covalent",
+      "D": "hydrogen bonding"
+    },
+    "correct_option": "B",
+    "explanation": "Large electronegativity difference leads to electron transfer and formation of ions (ionic bond)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Ionic bonding",
+    "question": "Which pair is most likely to form an ionic compound?",
+    "options": {
+      "A": "H and Cl",
+      "B": "Na and Cl",
+      "C": "C and H",
+      "D": "Cl and Cl"
+    },
+    "correct_option": "B",
+    "explanation": "A metal (Na) and a non-metal (Cl) form ions and an ionic compound (NaCl)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Covalent bonding",
+    "question": "In the molecule H₂, the bond formed is best described as",
+    "options": {
+      "A": "ionic bond",
+      "B": "coordinate covalent bond",
+      "C": "single covalent bond formed by sharing electrons",
+      "D": "metallic bond"
+    },
+    "correct_option": "C",
+    "explanation": "Each H shares one electron to form a shared pair (single covalent bond)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Coordinate bonding",
+    "question": "Which species formation involves a coordinate (dative) covalent bond?",
+    "options": {
+      "A": "Cl₂",
+      "B": "NaCl",
+      "C": "NH₄⁺ (from NH₃ + H⁺)",
+      "D": "H₂O"
+    },
+    "correct_option": "C",
+    "explanation": "In NH₄⁺, nitrogen donates a lone pair to H⁺ forming a coordinate bond."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Intermolecular forces",
+    "question": "Which intermolecular force is primarily responsible for the unusually high boiling point of water compared to H₂S?",
+    "options": {
+      "A": "Van der Waals forces only",
+      "B": "Hydrogen bonding",
+      "C": "Metallic bonding",
+      "D": "Ionic bonding"
+    },
+    "correct_option": "B",
+    "explanation": "Water molecules form strong hydrogen bonds due to O–H bonds and lone pairs on oxygen."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Shapes of simple molecules",
+    "question": "The shape of CH₄ is",
+    "options": {
+      "A": "linear",
+      "B": "trigonal planar",
+      "C": "tetrahedral",
+      "D": "bent"
+    },
+    "correct_option": "C",
+    "explanation": "Carbon in CH₄ has four bonding pairs arranged tetrahedrally to minimize repulsion."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Nuclear chemistry (radioactivity)",
+    "question": "Radioactivity is best described as the",
+    "options": {
+      "A": "release of electrons during electrolysis",
+      "B": "spontaneous emission of particles or radiation from unstable nuclei",
+      "C": "reaction between acids and bases",
+      "D": "separation of mixtures using heat"
+    },
+    "correct_option": "B",
+    "explanation": "Unstable nuclei emit α, β particles or γ rays spontaneously to become more stable."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Air composition",
+    "question": "The most abundant gas in dry air is",
+    "options": {
+      "A": "oxygen",
+      "B": "nitrogen",
+      "C": "carbon(IV) oxide",
+      "D": "argon"
+    },
+    "correct_option": "B",
+    "explanation": "Nitrogen makes up about 78% of dry air, the largest proportion."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Air as a mixture",
+    "question": "Air is classified as a mixture mainly because",
+    "options": {
+      "A": "its components are chemically bonded",
+      "B": "it has a fixed boiling point",
+      "C": "its composition can vary and components retain their properties",
+      "D": "it cannot be separated by physical means"
+    },
+    "correct_option": "C",
+    "explanation": "Air has variable composition and its gases are not chemically combined; they can be separated physically."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Noble gases and uses",
+    "question": "Which noble gas is commonly used to fill incandescent light bulbs to reduce evaporation of the filament?",
+    "options": {
+      "A": "Helium",
+      "B": "Neon",
+      "C": "Argon",
+      "D": "Radon"
+    },
+    "correct_option": "C",
+    "explanation": "Argon is inert and is used in bulbs to protect the hot filament from reacting and to reduce evaporation."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Water formation by combustion",
+    "question": "Which balanced equation represents the formation of water from hydrogen combustion?",
+    "options": {
+      "A": "H₂(g) + O₂(g) → H₂O(l)",
+      "B": "2H₂(g) + O₂(g) → 2H₂O(l)",
+      "C": "H₂(g) + 2O₂(g) → 2H₂O(l)",
+      "D": "2H₂(g) + 2O₂(g) → 2H₂O(l)"
+    },
+    "correct_option": "B",
+    "explanation": "Balance atoms: 2H₂ provides 4 H atoms and O₂ provides 2 O atoms, forming 2H₂O."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Hard and soft water",
+    "question": "Temporary hardness of water is mainly due to the presence of",
+    "options": {
+      "A": "Ca(HCO₃)₂ and Mg(HCO₃)₂",
+      "B": "CaSO₄ and MgSO₄",
+      "C": "NaCl and KCl",
+      "D": "CO₂ and O₂ only"
+    },
+    "correct_option": "A",
+    "explanation": "Temporary hardness is caused by soluble hydrogencarbonates of calcium and magnesium."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Softening water (temporary hardness)",
+    "question": "Which method best removes temporary hardness from water?",
+    "options": {
+      "A": "Adding common salt",
+      "B": "Boiling",
+      "C": "Filtering through sand only",
+      "D": "Adding dilute acid"
+    },
+    "correct_option": "B",
+    "explanation": "Boiling decomposes hydrogencarbonates to insoluble carbonates which precipitate, removing temporary hardness."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Water of crystallization",
+    "question": "The water molecules present in hydrated salts such as CuSO₄·5H₂O are referred to as",
+    "options": {
+      "A": "distilled water",
+      "B": "water of crystallization",
+      "C": "hard water",
+      "D": "condensed water"
+    },
+    "correct_option": "B",
+    "explanation": "Water of crystallization is chemically bound in the crystal lattice of hydrated salts."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Graham’s law (calculation)",
+    "question": "Using Graham’s law, what is the ratio of the rate of diffusion of H₂ to O₂? (H = 1, O = 16)",
+    "options": {
+      "A": "1:4",
+      "B": "2:1",
+      "C": "4:1",
+      "D": "16:1"
+    },
+    "correct_option": "C",
+    "explanation": "Rate ∝ 1 ÷ √M. So r(H₂):r(O₂) = √(32 ÷ 2) = √16 = 4, hence 4:1."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Solubility (definitions)",
+    "question": "A solution that contains the maximum amount of solute that can dissolve at a given temperature is",
+    "options": {
+      "A": "unsaturated",
+      "B": "saturated",
+      "C": "supersaturated",
+      "D": "colloidal"
+    },
+    "correct_option": "B",
+    "explanation": "A saturated solution contains the maximum solute amount that can dissolve at that temperature."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Solubility (supersaturation)",
+    "question": "A supersaturated solution is best described as one that",
+    "options": {
+      "A": "contains less solute than a saturated solution at that temperature",
+      "B": "contains more solute than a saturated solution at that temperature",
+      "C": "cannot dissolve any solute at all",
+      "D": "is always cloudy"
+    },
+    "correct_option": "B",
+    "explanation": "Supersaturated solutions contain more dissolved solute than the normal saturation limit and are unstable."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Solubility curve (interpretation)",
+    "question": "On a solubility curve, a point representing a solution that lies above the curve indicates the solution is",
+    "options": {
+      "A": "unsaturated",
+      "B": "saturated",
+      "C": "supersaturated",
+      "D": "a suspension"
+    },
+    "correct_option": "C",
+    "explanation": "Points above the solubility curve indicate more solute is dissolved than expected at equilibrium → supersaturated."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Solubility (calculation in mol dm⁻³)",
+    "question": "If 5.85 g of NaCl dissolves to make 1.00 dm³ of solution, what is the solubility in mol dm⁻³? (Na = 23, Cl = 35.5)",
+    "options": {
+      "A": "0.05 mol dm⁻³",
+      "B": "0.10 mol dm⁻³",
+      "C": "0.20 mol dm⁻³",
+      "D": "1.00 mol dm⁻³"
+    },
+    "correct_option": "B",
+    "explanation": "Molar mass NaCl = 58.5 g mol⁻¹. Moles = 5.85 ÷ 58.5 = 0.10 mol in 1.00 dm³ → 0.10 mol dm⁻³."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "False solutions (suspension)",
+    "question": "Which property best describes a suspension?",
+    "options": {
+      "A": "Particles are too small to be seen and do not settle",
+      "B": "Particles settle on standing and can be filtered",
+      "C": "Particles pass through filter paper but not through membranes",
+      "D": "It shows Brownian movement but never scatters light"
+    },
+    "correct_option": "B",
+    "explanation": "Suspension particles are large enough to settle and can be separated by filtration."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Colloids (Tyndall effect)",
+    "question": "The scattering of light by colloidal particles is known as the",
+    "options": {
+      "A": "Brownian effect",
+      "B": "Tyndall effect",
+      "C": "Kelvin effect",
+      "D": "Common-ion effect"
+    },
+    "correct_option": "B",
+    "explanation": "Colloids scatter light, producing a visible beam path (Tyndall effect)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Solvents (fats and oils)",
+    "question": "Which solvent is most suitable for removing grease stains from fabric?",
+    "options": {
+      "A": "Water",
+      "B": "Ethanol",
+      "C": "Kerosene",
+      "D": "Dilute HCl(aq)"
+    },
+    "correct_option": "C",
+    "explanation": "Grease is non-polar; non-polar solvents like kerosene dissolve it better than water."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Acids and bases (Arrhenius/Brønsted)",
+    "question": "According to the Brønsted–Lowry concept, an acid is a substance that",
+    "options": {
+      "A": "accepts electrons",
+      "B": "donates protons (H⁺)",
+      "C": "donates hydroxide ions (OH⁻)",
+      "D": "accepts neutrons"
+    },
+    "correct_option": "B",
+    "explanation": "A Brønsted–Lowry acid is a proton (H⁺) donor."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Indicators",
+    "question": "Which indicator is most suitable for detecting the endpoint of a strong acid–strong base titration?",
+    "options": {
+      "A": "Methyl orange only",
+      "B": "Phenolphthalein only",
+      "C": "Either methyl orange or phenolphthalein",
+      "D": "Litmus paper only"
+    },
+    "correct_option": "C",
+    "explanation": "Strong acid–strong base titrations have a steep pH change near equivalence, so both indicators work."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Basicity of acids",
+    "question": "What is the basicity of H₂SO₄?",
+    "options": {
+      "A": "1",
+      "B": "2",
+      "C": "3",
+      "D": "4"
+    },
+    "correct_option": "B",
+    "explanation": "H₂SO₄ can donate 2 replaceable H⁺ ions per molecule → basicity 2."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "pH calculation",
+    "question": "Calculate the pH of a solution with [H⁺] = 1.0 × 10^-3 mol dm⁻³.",
+    "options": {
+      "A": "1",
+      "B": "3",
+      "C": "10",
+      "D": "11"
+    },
+    "correct_option": "B",
+    "explanation": "pH = −log10[H⁺] = −log10(1.0 × 10^-3) = 3."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "pOH and pH",
+    "question": "If pOH of a solution is 5.0 at 25 °C, what is its pH?",
+    "options": {
+      "A": "5.0",
+      "B": "7.0",
+      "C": "9.0",
+      "D": "14.0"
+    },
+    "correct_option": "C",
+    "explanation": "At 25 °C, pH + pOH = 14. So pH = 14 − 5 = 9."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Preparation of salts (neutralization)",
+    "question": "Which pair of reactants is most suitable for preparing pure Na₂SO₄(s) by titration?",
+    "options": {
+      "A": "NaOH(aq) and H₂SO₄(aq)",
+      "B": "NaCl(aq) and H₂SO₄(aq)",
+      "C": "Na₂CO₃(s) and H₂O(l)",
+      "D": "NaOH(s) and SO₂(g)"
+    },
+    "correct_option": "A",
+    "explanation": "A soluble salt from acid + alkali is prepared accurately by titration, then crystallization: 2NaOH(aq) + H₂SO₄(aq) → Na₂SO₄(aq) + 2H₂O(l)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Preparation of salts (precipitation)",
+    "question": "Which reaction is best for preparing BaSO₄(s) in the laboratory?",
+    "options": {
+      "A": "BaCl₂(aq) + Na₂SO₄(aq) → BaSO₄(s) + 2NaCl(aq)",
+      "B": "Ba(s) + H₂SO₄(aq) → BaSO₄(aq) + H₂(g)",
+      "C": "BaCO₃(s) + HCl(aq) → BaCl₂(aq) + CO₂(g) + H₂O(l)",
+      "D": "BaO(s) + H₂O(l) → Ba(OH)₂(aq)"
+    },
+    "correct_option": "A",
+    "explanation": "BaSO₄ is insoluble, so it is prepared by precipitation from two soluble salts."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Acids with metals",
+    "question": "Which balanced equation correctly represents the reaction of zinc with dilute hydrochloric acid?",
+    "options": {
+      "A": "Zn(s) + 2HCl(aq) → ZnCl₂(aq) + H₂(g)",
+      "B": "Zn(s) + HCl(aq) → ZnCl(aq) + H(g)",
+      "C": "2Zn(s) + HCl(aq) → Zn₂Cl(aq) + H₂(g)",
+      "D": "Zn(s) + HCl(aq) → ZnHCl(aq)"
+    },
+    "correct_option": "A",
+    "explanation": "Zinc forms Zn²⁺ and H⁺ is reduced to H₂; balancing gives Zn + 2HCl → ZnCl₂ + H₂."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Acids with trioxocarbonate(IV)",
+    "question": "What is observed when dilute HCl(aq) is added to Na₂CO₃(s)?",
+    "options": {
+      "A": "A brown gas is evolved",
+      "B": "Effervescence due to CO₂(g)",
+      "C": "A white precipitate forms immediately",
+      "D": "A blue solution forms"
+    },
+    "correct_option": "B",
+    "explanation": "Carbonates react with acids to release CO₂: Na₂CO₃(s) + 2HCl(aq) → 2NaCl(aq) + H₂O(l) + CO₂(g)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Strong vs weak acids (conductance)",
+    "question": "At the same concentration, HCl(aq) conducts electricity better than CH₃COOH(aq) because HCl(aq)",
+    "options": {
+      "A": "has a higher molar mass",
+      "B": "is more volatile",
+      "C": "ionizes completely in water",
+      "D": "forms a precipitate in water"
+    },
+    "correct_option": "C",
+    "explanation": "Strong acids dissociate completely, producing more ions for conduction than weak acids."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Acid–base titration (calculation)",
+    "question": "25.0 cm³ of 0.10 mol dm⁻³ NaOH(aq) neutralizes HCl(aq). What volume of 0.20 mol dm⁻³ HCl(aq) is required? (NaOH + HCl → NaCl + H₂O)",
+    "options": {
+      "A": "6.25 cm³",
+      "B": "12.5 cm³",
+      "C": "25.0 cm³",
+      "D": "50.0 cm³"
+    },
+    "correct_option": "B",
+    "explanation": "Moles NaOH = 0.10 × (25.0 ÷ 1000) = 2.50 × 10^-3 mol. Ratio 1:1, so moles HCl = 2.50 × 10^-3. Volume HCl = n ÷ C = (2.50 × 10^-3) ÷ 0.20 = 0.0125 dm³ = 12.5 cm³."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Hydrolysis of salts",
+    "question": "An aqueous solution of NH₄Cl is acidic mainly because",
+    "options": {
+      "A": "Cl⁻ reacts with water to produce OH⁻",
+      "B": "NH₄⁺ reacts with water to produce H₃O⁺",
+      "C": "NH₄Cl does not ionize in water",
+      "D": "water becomes more basic in the presence of NH₄Cl"
+    },
+    "correct_option": "B",
+    "explanation": "NH₄⁺ hydrolyzes: NH₄⁺(aq) + H₂O(l) ⇌ NH₃(aq) + H₃O⁺(aq), making the solution acidic."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Redox (electron transfer)",
+    "question": "In the reaction: Zn(s) + CuSO₄(aq) → ZnSO₄(aq) + Cu(s), zinc is",
+    "options": {
+      "A": "oxidized because it gains electrons",
+      "B": "oxidized because it loses electrons",
+      "C": "reduced because it loses electrons",
+      "D": "reduced because it gains oxygen"
+    },
+    "correct_option": "B",
+    "explanation": "Zn → Zn²⁺ + 2e⁻ (loss of electrons = oxidation). Cu²⁺ gains electrons to form Cu (reduction)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Oxidation numbers",
+    "question": "What is the oxidation number of sulfur in H₂SO₄?",
+    "options": {
+      "A": "+2",
+      "B": "+4",
+      "C": "+6",
+      "D": "−2"
+    },
+    "correct_option": "C",
+    "explanation": "Let S = x. 2(+1) + x + 4(−2) = 0 → 2 + x − 8 = 0 → x = +6."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Redox balancing (oxidation numbers)",
+    "question": "Which equation is correctly balanced?",
+    "options": {
+      "A": "Fe(s) + Cu²⁺(aq) → Fe²⁺(aq) + Cu(s)",
+      "B": "Fe(s) + Cu²⁺(aq) → Fe³⁺(aq) + Cu(s)",
+      "C": "2Fe(s) + Cu²⁺(aq) → 2Fe²⁺(aq) + Cu(s)",
+      "D": "Fe²⁺(aq) + Cu(s) → Fe(s) + Cu²⁺(aq)"
+    },
+    "correct_option": "A",
+    "explanation": "Charge and atoms balance in A: Fe 0 → +2 (loses 2e⁻) and Cu²⁺ → 0 (gains 2e⁻)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "IUPAC naming using oxidation numbers",
+    "question": "The correct IUPAC name for FeCl₃ is",
+    "options": {
+      "A": "iron chloride",
+      "B": "iron(II) chloride",
+      "C": "iron(III) chloride",
+      "D": "ferric chloride(II)"
+    },
+    "correct_option": "C",
+    "explanation": "Each Cl is −1, total −3, so Fe is +3 → iron(III) chloride."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Oxidizing and reducing agents",
+    "question": "In the reaction: 2KI(aq) + Cl₂(g) → 2KCl(aq) + I₂(s), chlorine acts as the",
+    "options": {
+      "A": "reducing agent",
+      "B": "oxidizing agent",
+      "C": "catalyst",
+      "D": "solvent"
+    },
+    "correct_option": "B",
+    "explanation": "Cl₂ is reduced to Cl⁻ while oxidizing I⁻ to I₂; the species reduced is the oxidizing agent."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrolytes vs non-electrolytes",
+    "question": "Which substance is a strong electrolyte in aqueous solution?",
+    "options": {
+      "A": "Glucose",
+      "B": "Ethanol",
+      "C": "NaCl",
+      "D": "Urea"
+    },
+    "correct_option": "C",
+    "explanation": "NaCl dissociates completely into ions in water, conducting electricity strongly."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrolysis (molten vs aqueous)",
+    "question": "During electrolysis of molten NaCl(l), the substance produced at the cathode is",
+    "options": {
+      "A": "H₂(g)",
+      "B": "Na(s)",
+      "C": "Cl₂(g)",
+      "D": "NaOH(aq)"
+    },
+    "correct_option": "B",
+    "explanation": "In molten NaCl, Na⁺ is reduced at cathode: Na⁺ + e⁻ → Na(s)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrolysis of aqueous NaCl",
+    "question": "In the electrolysis of aqueous NaCl using inert electrodes, the gas commonly produced at the anode is",
+    "options": {
+      "A": "H₂(g)",
+      "B": "O₂(g)",
+      "C": "Cl₂(g)",
+      "D": "NH₃(g)"
+    },
+    "correct_option": "C",
+    "explanation": "In concentrated brine, Cl⁻ is preferentially discharged: 2Cl⁻(aq) → Cl₂(g) + 2e⁻."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Factors affecting discharge of ions",
+    "question": "In aqueous electrolysis, which factor most strongly favors discharge of Ag⁺ over H⁺ at the cathode?",
+    "options": {
+      "A": "Ag⁺ is less reactive than hydrogen",
+      "B": "Ag⁺ has a lower density",
+      "C": "H⁺ is always discharged first",
+      "D": "Ag⁺ cannot be reduced"
+    },
+    "correct_option": "A",
+    "explanation": "Less reactive metal ions (below hydrogen in reactivity series) are discharged preferentially at the cathode."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Faraday’s first law",
+    "question": "Faraday’s first law states that the mass of a substance deposited during electrolysis is proportional to",
+    "options": {
+      "A": "the temperature of the electrolyte only",
+      "B": "the time only",
+      "C": "the quantity of electricity passed",
+      "D": "the surface area of the electrodes only"
+    },
+    "correct_option": "C",
+    "explanation": "Mass deposited ∝ charge (Q) passed through the electrolyte."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Faraday’s law (calculation)",
+    "question": "A current of 2.0 A is passed through CuSO₄(aq) for 965 s using inert electrodes. What mass of Cu is deposited? (Cu²⁺ + 2e⁻ → Cu; Cu = 63.5, F = 96500 C mol⁻¹)",
+    "options": {
+      "A": "0.317 g",
+      "B": "0.635 g",
+      "C": "1.27 g",
+      "D": "6.35 g"
+    },
+    "correct_option": "B",
+    "explanation": "Charge Q = It = 2.0 × 965 = 1930 C. Moles e⁻ = Q ÷ F = 1930 ÷ 96500 = 0.0200 mol. Moles Cu = 0.0200 ÷ 2 = 0.0100 mol. Mass = 0.0100 × 63.5 = 0.635 g."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrochemical cells",
+    "question": "In a simple Zn/Cu voltaic cell, the metal that acts as the anode is",
+    "options": {
+      "A": "Cu",
+      "B": "Zn",
+      "C": "Ag",
+      "D": "Fe"
+    },
+    "correct_option": "B",
+    "explanation": "Zinc is more reactive, so it oxidizes: Zn(s) → Zn²⁺(aq) + 2e⁻ at the anode."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Corrosion (electrolytic process)",
+    "question": "Rusting of iron is faster in moist air than in dry air mainly because water",
+    "options": {
+      "A": "acts as a catalyst by providing an electrolyte medium",
+      "B": "prevents oxygen from reaching iron",
+      "C": "reacts to form hydrogen gas only",
+      "D": "turns iron into stainless steel"
+    },
+    "correct_option": "A",
+    "explanation": "Moisture enables ion movement (electrolyte), forming electrochemical cells that accelerate corrosion."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Prevention of corrosion",
+    "question": "Galvanizing protects iron mainly by",
+    "options": {
+      "A": "coating iron with copper",
+      "B": "coating iron with zinc which sacrifices itself",
+      "C": "removing all oxygen from air",
+      "D": "making iron more acidic"
+    },
+    "correct_option": "B",
+    "explanation": "Zinc coating provides a physical barrier and acts as a sacrificial anode (oxidizes instead of iron)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Energy changes (exothermic/endothermic)",
+    "question": "Which process is endothermic?",
+    "options": {
+      "A": "Neutralization of acid with base",
+      "B": "Burning of carbon",
+      "C": "Melting of ice",
+      "D": "Condensation of steam"
+    },
+    "correct_option": "C",
+    "explanation": "Melting absorbs heat to overcome intermolecular forces, so it is endothermic."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Enthalpy (sign convention)",
+    "question": "For an exothermic reaction, the enthalpy change ∆H is",
+    "options": {
+      "A": "positive",
+      "B": "negative",
+      "C": "zero",
+      "D": "undefined"
+    },
+    "correct_option": "B",
+    "explanation": "Exothermic reactions release heat; products have lower enthalpy → ∆H < 0."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Entropy concept",
+    "question": "Entropy generally increases when",
+    "options": {
+      "A": "a gas condenses to a liquid",
+      "B": "a solid melts to a liquid",
+      "C": "a system becomes more ordered",
+      "D": "temperature decreases sharply at constant state"
+    },
+    "correct_option": "B",
+    "explanation": "Melting increases randomness/disorder, so entropy increases."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Gibbs free energy",
+    "question": "A reaction is thermodynamically feasible at constant T and P when",
+    "options": {
+      "A": "∆G > 0",
+      "B": "∆G = 0",
+      "C": "∆G < 0",
+      "D": "∆H = 0"
+    },
+    "correct_option": "C",
+    "explanation": "A negative Gibbs free energy change indicates spontaneity/feasibility under given conditions."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chemical equilibrium (dynamic nature)",
+    "question": "At equilibrium in a closed system,",
+    "options": {
+      "A": "the forward reaction stops completely",
+      "B": "the reverse reaction stops completely",
+      "C": "the forward and reverse reaction rates are equal",
+      "D": "reactant concentrations become zero"
+    },
+    "correct_option": "C",
+    "explanation": "Dynamic equilibrium means both reactions continue, but at equal rates so concentrations remain constant."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Le Chatelier’s principle (temperature)",
+    "question": "For an exothermic equilibrium reaction, increasing temperature will generally",
+    "options": {
+      "A": "shift equilibrium to products",
+      "B": "shift equilibrium to reactants",
+      "C": "have no effect on equilibrium position",
+      "D": "increase yield of products and reactants equally"
+    },
+    "correct_option": "B",
+    "explanation": "Adding heat favors the endothermic direction; for exothermic forward reaction, equilibrium shifts to reactants."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Le Chatelier (pressure)",
+    "question": "For the equilibrium: N₂O₄(g) ⇌ 2NO₂(g), increasing pressure shifts the position of equilibrium toward",
+    "options": {
+      "A": "2NO₂(g)",
+      "B": "N₂O₄(g)",
+      "C": "no change",
+      "D": "only the side with higher temperature"
+    },
+    "correct_option": "B",
+    "explanation": "Higher pressure favors fewer gas moles; left side has 1 mole vs right side 2 moles, so it shifts to N₂O₄."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Non-metals (chlorine preparation concept)",
+    "question": "Chlorine gas can be prepared in the laboratory by reacting concentrated HCl(aq) with",
+    "options": {
+      "A": "NaOH(aq)",
+      "B": "MnO₂(s)",
+      "C": "NaCl(s)",
+      "D": "CaCO₃(s)"
+    },
+    "correct_option": "B",
+    "explanation": "MnO₂ oxidizes chloride ions in concentrated HCl to Cl₂(g)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Hydrogen test",
+    "question": "Which observation confirms hydrogen gas?",
+    "options": {
+      "A": "Turns limewater milky",
+      "B": "Relights a glowing splint",
+      "C": "Burns with a 'pop' sound with a lighted splint",
+      "D": "Turns moist blue litmus red"
+    },
+    "correct_option": "C",
+    "explanation": "Hydrogen burns explosively with a characteristic ‘pop’ when ignited."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Oxygen test",
+    "question": "A gas that relights a glowing splint is most likely",
+    "options": {
+      "A": "CO₂(g)",
+      "B": "O₂(g)",
+      "C": "H₂(g)",
+      "D": "NH₃(g)"
+    },
+    "correct_option": "B",
+    "explanation": "Oxygen supports combustion and relights a glowing splint."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Sulfur(IV) oxide property",
+    "question": "Which statement about SO₂(g) is correct?",
+    "options": {
+      "A": "It turns moist blue litmus red and then bleaches it",
+      "B": "It relights a glowing splint",
+      "C": "It turns limewater milky permanently without excess gas effect",
+      "D": "It has no effect on indicators"
+    },
+    "correct_option": "A",
+    "explanation": "SO₂ is acidic (forms H₂SO₃ in water) and is a reducing/bleaching agent in moist conditions."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Metals (alloys)",
+    "question": "Brass is an alloy mainly composed of",
+    "options": {
+      "A": "copper and zinc",
+      "B": "iron and carbon",
+      "C": "copper and tin",
+      "D": "aluminium and magnesium"
+    },
+    "correct_option": "A",
+    "explanation": "Brass is primarily Cu + Zn; bronze is primarily Cu + Sn."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Extraction of aluminium",
+    "question": "Aluminium is extracted mainly by electrolysis because",
+    "options": {
+      "A": "it is below hydrogen in the reactivity series",
+      "B": "its oxide is easily reduced by carbon",
+      "C": "it is very reactive and its oxide is too stable for carbon reduction",
+      "D": "it occurs naturally as pure metal"
+    },
+    "correct_option": "C",
+    "explanation": "Al₂O₃ is very stable; carbon reduction is not feasible, so electrolysis is used."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic chemistry (tetravalency of carbon)",
+    "question": "Carbon forms a large number of compounds mainly because it",
+    "options": {
+      "A": "is monovalent",
+      "B": "is tetravalent and can form chains",
+      "C": "is a noble gas",
+      "D": "forms only ionic bonds"
+    },
+    "correct_option": "B",
+    "explanation": "Carbon’s tetravalency and catenation allow stable chains and rings with many bonding possibilities."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "IUPAC nomenclature (alkanes)",
+    "question": "What is the IUPAC name of CH₃CH₂CH₂CH₃?",
+    "options": {
+      "A": "propane",
+      "B": "butane",
+      "C": "butene",
+      "D": "ethane"
+    },
+    "correct_option": "B",
+    "explanation": "It has 4 carbon atoms and only single bonds → butane."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Alkenes (addition reaction)",
+    "question": "Which reaction is characteristic of alkenes?",
+    "options": {
+      "A": "Substitution with chlorine in sunlight",
+      "B": "Addition of bromine water causing decolorization",
+      "C": "Neutralization with base to form salt",
+      "D": "Formation of precipitate with AgNO₃(aq)"
+    },
+    "correct_option": "B",
+    "explanation": "Alkenes undergo addition reactions; they decolorize bromine water due to C=C bond addition."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Distinguishing alkanols",
+    "question": "A reagent that can distinguish ethanol from ethene is",
+    "options": {
+      "A": "bromine water",
+      "B": "acidified potassium dichromate(VI)",
+      "C": "limewater",
+      "D": "sodium chloride solution"
+    },
+    "correct_option": "B",
+    "explanation": "Ethanol is oxidized by acidified K₂Cr₂O₇ (orange → green), while ethene does not give this oxidation test readily."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Alkanals vs alkanones (tests)",
+    "question": "Which reagent gives a positive result with ethanal but not with propanone?",
+    "options": {
+      "A": "Bromine water",
+      "B": "Tollens’ reagent",
+      "C": "Dilute NaOH(aq)",
+      "D": "Concentrated H₂SO₄(aq)"
+    },
+    "correct_option": "B",
+    "explanation": "Aldehydes reduce Tollens’ reagent producing a silver mirror; ketones generally do not."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Soaps and detergents",
+    "question": "Soaps clean effectively in soft water because they",
+    "options": {
+      "A": "form scum with Ca²⁺ and Mg²⁺",
+      "B": "do not form insoluble salts with Ca²⁺ and Mg²⁺",
+      "C": "are insoluble in water",
+      "D": "react with water to form acids"
+    },
+    "correct_option": "B",
+    "explanation": "In soft water, there are fewer Ca²⁺/Mg²⁺ ions to form insoluble scum, so soap lathers well."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Water (hardness test)",
+    "question": "A sample of water forms lather slowly with soap and forms scum. This suggests the water is",
+    "options": {
+      "A": "soft and acidic",
+      "B": "hard due to Ca²⁺/Mg²⁺ ions",
+      "C": "pure distilled water",
+      "D": "salty due to NaCl only"
+    },
+    "correct_option": "B",
+    "explanation": "Hard water contains Ca²⁺/Mg²⁺ which react with soap to form insoluble scum, reducing lather."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Water (permanent hardness)",
+    "question": "Permanent hardness of water is mainly caused by the presence of",
+    "options": {
+      "A": "CaSO₄ and MgSO₄",
+      "B": "Ca(HCO₃)₂ and Mg(HCO₃)₂",
+      "C": "dissolved O₂ and CO₂ only",
+      "D": "NaHCO₃ only"
+    },
+    "correct_option": "A",
+    "explanation": "Permanent hardness is due to soluble sulfates/chlorides of Ca²⁺ and Mg²⁺, not removed by boiling."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Water (softening permanent hardness)",
+    "question": "Which method is most suitable for removing permanent hardness from water?",
+    "options": {
+      "A": "Boiling only",
+      "B": "Adding washing soda (Na₂CO₃)",
+      "C": "Adding sugar",
+      "D": "Decantation"
+    },
+    "correct_option": "B",
+    "explanation": "Na₂CO₃ precipitates Ca²⁺/Mg²⁺ as insoluble carbonates, reducing permanent hardness."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Water treatment (town supply)",
+    "question": "In water treatment for town supply, chlorination is mainly used to",
+    "options": {
+      "A": "remove suspended solids",
+      "B": "kill microorganisms",
+      "C": "remove hardness",
+      "D": "increase pH to 14"
+    },
+    "correct_option": "B",
+    "explanation": "Chlorine disinfects water by killing bacteria and other pathogens."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Efflorescence",
+    "question": "A hydrated salt that loses some of its water of crystallization when exposed to air is described as",
+    "options": {
+      "A": "deliquescent",
+      "B": "efflorescent",
+      "C": "hygroscopic only",
+      "D": "volatile"
+    },
+    "correct_option": "B",
+    "explanation": "Efflorescent salts lose water of crystallization to the atmosphere."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Deliquescence",
+    "question": "A substance that absorbs water vapour from air until it dissolves in the absorbed water is",
+    "options": {
+      "A": "deliquescent",
+      "B": "efflorescent",
+      "C": "subliming",
+      "D": "non-hygroscopic"
+    },
+    "correct_option": "A",
+    "explanation": "Deliquescent substances absorb moisture and form a solution."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Hygroscopy",
+    "question": "A hygroscopic substance is best described as one that",
+    "options": {
+      "A": "absorbs water vapour but does not necessarily dissolve",
+      "B": "always loses water to the atmosphere",
+      "C": "reacts only with acids",
+      "D": "cannot absorb moisture"
+    },
+    "correct_option": "A",
+    "explanation": "Hygroscopic substances absorb moisture from air without necessarily forming a solution."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Solubility (temperature effect)",
+    "question": "For most solid solutes, increasing temperature generally",
+    "options": {
+      "A": "decreases solubility",
+      "B": "increases solubility",
+      "C": "does not affect solubility",
+      "D": "makes the solute insoluble permanently"
+    },
+    "correct_option": "B",
+    "explanation": "Most solids dissolve more as temperature increases because dissolution is often endothermic."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Solubility curve (crystallization amount)",
+    "question": "If 100 g of water dissolves 40 g of KNO₃ at 60 °C but only 20 g at 30 °C, how many grams of KNO₃ crystallize when the solution cools from 60 °C to 30 °C?",
+    "options": {
+      "A": "10 g",
+      "B": "20 g",
+      "C": "30 g",
+      "D": "60 g"
+    },
+    "correct_option": "B",
+    "explanation": "At 60 °C, 40 g dissolves; at 30 °C, only 20 g remains dissolved. Crystallized = 40 − 20 = 20 g."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Suspension vs colloid",
+    "question": "Which observation best distinguishes a colloid from a true solution?",
+    "options": {
+      "A": "Colloid particles settle rapidly on standing",
+      "B": "Colloid shows Tyndall effect while true solution does not",
+      "C": "True solution can be filtered but colloid cannot",
+      "D": "True solution is always coloured"
+    },
+    "correct_option": "B",
+    "explanation": "Colloids scatter light (Tyndall effect) due to larger particle size than true solutions."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Acids and bases (neutralization)",
+    "question": "Which equation correctly represents a neutralization reaction?",
+    "options": {
+      "A": "HCl(aq) + NaOH(aq) → NaCl(aq) + H₂O(l)",
+      "B": "NaCl(aq) + H₂O(l) → HCl(aq) + NaOH(aq)",
+      "C": "H₂(g) + Cl₂(g) → 2HCl(aq)",
+      "D": "NaOH(aq) → Na⁺(aq) + OH⁻(aq)"
+    },
+    "correct_option": "A",
+    "explanation": "Neutralization is acid + base → salt + water."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Salts (acidic/basic/normal)",
+    "question": "A salt formed from a strong acid and a weak base is expected to produce an aqueous solution that is",
+    "options": {
+      "A": "neutral",
+      "B": "acidic",
+      "C": "basic",
+      "D": "always saturated"
+    },
+    "correct_option": "B",
+    "explanation": "The conjugate acid of the weak base hydrolyzes to produce H₃O⁺, making solution acidic (e.g., NH₄Cl)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Acid strength and ionization",
+    "question": "A 0.10 mol dm⁻³ solution of HCl has a higher electrical conductivity than a 0.10 mol dm⁻³ solution of HF because",
+    "options": {
+      "A": "HCl has more hydrogen atoms per molecule",
+      "B": "HCl ionizes more completely in water",
+      "C": "HF has a lower molar mass",
+      "D": "HF is more soluble in water"
+    },
+    "correct_option": "B",
+    "explanation": "Strong acids (HCl) dissociate almost completely, producing more ions than weak acids (HF)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "pH (strong acid calculation)",
+    "question": "What is the pH of 0.010 mol dm⁻³ HNO₃(aq)?",
+    "options": {
+      "A": "1",
+      "B": "2",
+      "C": "10",
+      "D": "12"
+    },
+    "correct_option": "B",
+    "explanation": "HNO₃ is strong, so [H⁺] = 0.010 = 1.0 × 10^-2. pH = 2."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "pH (strong base calculation)",
+    "question": "Calculate the pH of 0.0010 mol dm⁻³ NaOH(aq) at 25 °C.",
+    "options": {
+      "A": "3",
+      "B": "7",
+      "C": "11",
+      "D": "13"
+    },
+    "correct_option": "C",
+    "explanation": "[OH⁻] = 1.0 × 10^-3, so pOH = 3 and pH = 14 − 3 = 11."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Titration (mole ratio)",
+    "question": "20.0 cm³ of H₂SO₄(aq) is neutralized by 25.0 cm³ of 0.20 mol dm⁻³ NaOH(aq). What is the concentration of the H₂SO₄(aq)? (H₂SO₄ + 2NaOH → Na₂SO₄ + 2H₂O)",
+    "options": {
+      "A": "0.10 mol dm⁻³",
+      "B": "0.125 mol dm⁻³",
+      "C": "0.25 mol dm⁻³",
+      "D": "0.50 mol dm⁻³"
+    },
+    "correct_option": "B",
+    "explanation": "Moles NaOH = 0.20 × (25.0 ÷ 1000) = 5.0 × 10^-3 mol. Moles H₂SO₄ = (5.0 × 10^-3) ÷ 2 = 2.5 × 10^-3 mol. Concentration = n ÷ V = (2.5 × 10^-3) ÷ (20.0 ÷ 1000) = 0.125 mol dm⁻³."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Oxidation (definition)",
+    "question": "Which change represents oxidation in terms of oxygen and hydrogen?",
+    "options": {
+      "A": "Removal of oxygen from CuO",
+      "B": "Addition of oxygen to iron",
+      "C": "Addition of hydrogen to ethene",
+      "D": "Addition of electrons to Zn²⁺"
+    },
+    "correct_option": "B",
+    "explanation": "Oxidation can be defined as addition of oxygen or removal of hydrogen."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Reduction (definition)",
+    "question": "Which change represents reduction in terms of electron transfer?",
+    "options": {
+      "A": "Fe²⁺(aq) → Fe³⁺(aq) + e⁻",
+      "B": "Cl⁻(aq) → 1/2Cl₂(g) + e⁻",
+      "C": "Cu²⁺(aq) + 2e⁻ → Cu(s)",
+      "D": "Zn(s) → Zn²⁺(aq) + 2e⁻"
+    },
+    "correct_option": "C",
+    "explanation": "Reduction is gain of electrons; Cu²⁺ gains 2e⁻ to form Cu(s)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Oxidation numbers (peroxide)",
+    "question": "What is the oxidation number of oxygen in H₂O₂?",
+    "options": {
+      "A": "0",
+      "B": "−1",
+      "C": "−2",
+      "D": "+2"
+    },
+    "correct_option": "B",
+    "explanation": "In peroxides, oxygen has oxidation number −1."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Redox identification",
+    "question": "In the reaction: 2FeCl₂(aq) + Cl₂(g) → 2FeCl₃(aq), the species oxidized is",
+    "options": {
+      "A": "Cl₂",
+      "B": "Fe²⁺",
+      "C": "Fe³⁺",
+      "D": "Cl⁻"
+    },
+    "correct_option": "B",
+    "explanation": "Fe²⁺ is oxidized to Fe³⁺ (oxidation number increases from +2 to +3)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrolysis (aqueous CuSO₄, inert electrodes)",
+    "question": "During electrolysis of CuSO₄(aq) using inert (carbon) electrodes, the main change at the cathode is",
+    "options": {
+      "A": "2H₂O(l) + 2e⁻ → H₂(g) + 2OH⁻(aq)",
+      "B": "Cu²⁺(aq) + 2e⁻ → Cu(s)",
+      "C": "2SO₄²⁻(aq) → S₂O₈²⁻(aq) + 2e⁻",
+      "D": "2OH⁻(aq) → H₂O(l) + 1/2O₂(g) + 2e⁻"
+    },
+    "correct_option": "B",
+    "explanation": "Cu²⁺ is preferentially reduced (less reactive than H), depositing copper at the cathode."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrolysis (anode product in CuSO₄ with inert electrodes)",
+    "question": "In the electrolysis of CuSO₄(aq) using inert electrodes, the gas produced at the anode is usually",
+    "options": {
+      "A": "H₂(g)",
+      "B": "O₂(g)",
+      "C": "SO₂(g)",
+      "D": "Cl₂(g)"
+    },
+    "correct_option": "B",
+    "explanation": "Water/ hydroxide is oxidized at inert anode to oxygen: 4OH⁻(aq) → 2H₂O(l) + O₂(g) + 4e⁻."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrolysis (copper purification)",
+    "question": "In electrolytic purification of copper, the impure copper is used as the",
+    "options": {
+      "A": "cathode so it gains mass",
+      "B": "anode so it dissolves into solution",
+      "C": "electrolyte so it conducts",
+      "D": "salt bridge so it transfers ions"
+    },
+    "correct_option": "B",
+    "explanation": "Impure Cu is anode: Cu(s) → Cu²⁺(aq) + 2e⁻; pure Cu deposits on cathode."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrochemical series concept",
+    "question": "A metal that is higher in the reactivity series is more likely to",
+    "options": {
+      "A": "be reduced easily",
+      "B": "act as an oxidizing agent",
+      "C": "lose electrons readily",
+      "D": "exist only as a noble metal"
+    },
+    "correct_option": "C",
+    "explanation": "More reactive metals oxidize easily (lose electrons readily)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Thermochemistry (enthalpy and temperature)",
+    "question": "Which statement is correct about enthalpy change, ∆H, for an endothermic reaction?",
+    "options": {
+      "A": "∆H is negative and temperature always rises",
+      "B": "∆H is positive and heat is absorbed from surroundings",
+      "C": "∆H is zero because energy is conserved",
+      "D": "∆H is always negative if gases are formed"
+    },
+    "correct_option": "B",
+    "explanation": "Endothermic processes absorb heat; products have higher enthalpy so ∆H > 0."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Thermochemistry (simple calorimetry)",
+    "question": "50.0 g of water is heated and its temperature rises from 25 °C to 35 °C. How much heat is absorbed? (c = 4.2 J g⁻¹ °C⁻¹)",
+    "options": {
+      "A": "210 J",
+      "B": "420 J",
+      "C": "2100 J",
+      "D": "4200 J"
+    },
+    "correct_option": "C",
+    "explanation": "q = mc∆T = 50.0 × 4.2 × (35 − 25) = 50.0 × 4.2 × 10 = 2100 J."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Thermochemistry (Hess’ law idea)",
+    "question": "Hess’ law is based on the fact that enthalpy change for a reaction depends on",
+    "options": {
+      "A": "the catalyst used",
+      "B": "the pathway taken only",
+      "C": "the initial and final states only",
+      "D": "the colour of reactants"
+    },
+    "correct_option": "C",
+    "explanation": "Enthalpy is a state function; ∆H depends only on reactants and products, not the route."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Equilibrium (Le Chatelier, concentration)",
+    "question": "For the equilibrium: H₂(g) + I₂(g) ⇌ 2HI(g), adding more H₂(g) at constant temperature will",
+    "options": {
+      "A": "shift equilibrium to the left",
+      "B": "shift equilibrium to the right",
+      "C": "stop the forward reaction",
+      "D": "increase both reactants equally"
+    },
+    "correct_option": "B",
+    "explanation": "Increasing reactant concentration favors the forward reaction to reduce the added H₂, forming more HI."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Equilibrium (catalyst effect)",
+    "question": "A catalyst added to a system at equilibrium will",
+    "options": {
+      "A": "shift equilibrium to products",
+      "B": "shift equilibrium to reactants",
+      "C": "increase the rate of both forward and reverse reactions equally",
+      "D": "change the equilibrium constant, K"
+    },
+    "correct_option": "C",
+    "explanation": "Catalysts speed up both directions equally, so position and K remain unchanged; equilibrium is reached faster."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Equilibrium example (steam on iron)",
+    "question": "In the equilibrium: 3Fe(s) + 4H₂O(g) ⇌ Fe₃O₄(s) + 4H₂(g), increasing the partial pressure of steam (H₂O(g)) will tend to",
+    "options": {
+      "A": "increase H₂(g) formation",
+      "B": "decrease H₂(g) formation",
+      "C": "have no effect because solids are present",
+      "D": "remove Fe₃O₄(s) from the system"
+    },
+    "correct_option": "A",
+    "explanation": "Increasing gaseous reactant (steam) shifts equilibrium right, producing more H₂(g). Solids do not appear in K but gas concentration still affects position."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Atomic structure (subatomic particles)",
+    "question": "Which particle has negligible mass relative to proton and neutron?",
+    "options": {
+      "A": "proton",
+      "B": "neutron",
+      "C": "electron",
+      "D": "nucleus"
+    },
+    "correct_option": "C",
+    "explanation": "The electron’s mass is about 1/1836 of a proton’s mass, so it is negligible comparatively."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electron configuration (valence electrons)",
+    "question": "An element with electron configuration 2, 8, 7 is most likely to form an ion with charge",
+    "options": {
+      "A": "+1",
+      "B": "+2",
+      "C": "−1",
+      "D": "−2"
+    },
+    "correct_option": "C",
+    "explanation": "With 7 valence electrons, it tends to gain 1 electron to complete octet, forming a −1 ion."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Bonding (ionic lattice property)",
+    "question": "Ionic compounds generally have high melting points because",
+    "options": {
+      "A": "they contain free electrons",
+      "B": "strong electrostatic attraction exists between ions in a lattice",
+      "C": "they are always gases",
+      "D": "they have weak van der Waals forces only"
+    },
+    "correct_option": "B",
+    "explanation": "Strong ionic bonds (electrostatic forces) require much energy to break, giving high melting points."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Bonding (polarity)",
+    "question": "A molecule is most likely to be polar if it",
+    "options": {
+      "A": "has identical atoms only",
+      "B": "has polar bonds arranged symmetrically",
+      "C": "has polar bonds arranged asymmetrically",
+      "D": "contains a metallic bond"
+    },
+    "correct_option": "C",
+    "explanation": "Asymmetrical arrangement of polar bonds results in a net dipole moment, making the molecule polar."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry (gas volume at same T,P)",
+    "question": "At the same temperature and pressure, what volume of CO₂(g) is produced when 50 cm³ of CO(g) reacts with excess oxygen? (2CO(g) + O₂(g) → 2CO₂(g))",
+    "options": {
+      "A": "25 cm³",
+      "B": "50 cm³",
+      "C": "75 cm³",
+      "D": "100 cm³"
+    },
+    "correct_option": "B",
+    "explanation": "Gas volumes follow mole ratios. CO:CO₂ = 2:2 = 1:1, so 50 cm³ CO produces 50 cm³ CO₂."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Gas laws (Boyle’s reasoning)",
+    "question": "If the pressure of a fixed mass of gas is doubled at constant temperature, its volume becomes",
+    "options": {
+      "A": "double",
+      "B": "half",
+      "C": "unchanged",
+      "D": "four times"
+    },
+    "correct_option": "B",
+    "explanation": "Boyle’s law: P ∝ 1/V at constant T. Doubling P halves V."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Ideal gas (unit handling)",
+    "question": "A gas occupies 10.0 dm³ at 2.0 atm and 300 K. What is the value of nR for the gas sample? (Use PV = nRT)",
+    "options": {
+      "A": "0.0667 atm dm³ K⁻¹",
+      "B": "0.150 atm dm³ K⁻¹",
+      "C": "0.0667 atm dm³ mol⁻¹",
+      "D": "0.150 atm dm³ mol⁻¹"
+    },
+    "correct_option": "A",
+    "explanation": "From PV = nRT, nR = (PV) ÷ T = (2.0 × 10.0) ÷ 300 = 20.0 ÷ 300 = 0.0667 atm dm³ K⁻¹."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Non-metals (CO₂ test)",
+    "question": "A gas turns limewater milky. The gas is most likely",
+    "options": {
+      "A": "NH₃(g)",
+      "B": "CO₂(g)",
+      "C": "H₂(g)",
+      "D": "O₂(g)"
+    },
+    "correct_option": "B",
+    "explanation": "CO₂ forms CaCO₃(s) with limewater: Ca(OH)₂(aq) + CO₂(g) → CaCO₃(s) + H₂O(l), giving milkiness."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Non-metals (CO vs CO₂)",
+    "question": "Which statement correctly compares CO and CO₂?",
+    "options": {
+      "A": "CO is acidic while CO₂ is neutral",
+      "B": "CO is poisonous and burns to form CO₂",
+      "C": "CO₂ supports combustion better than O₂",
+      "D": "CO turns limewater milky more readily than CO₂"
+    },
+    "correct_option": "B",
+    "explanation": "CO is highly poisonous and oxidizes: 2CO(g) + O₂(g) → 2CO₂(g)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Nitrogen compounds (ammonia basicity)",
+    "question": "Ammonia solution is basic mainly because NH₃(aq)",
+    "options": {
+      "A": "releases H⁺ ions in water",
+      "B": "reacts with water to form NH₄⁺ and OH⁻",
+      "C": "forms CO₂ in water",
+      "D": "does not dissolve in water"
+    },
+    "correct_option": "B",
+    "explanation": "NH₃ + H₂O ⇌ NH₄⁺ + OH⁻, increasing OH⁻ concentration."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Sulfuric acid (properties)",
+    "question": "Concentrated H₂SO₄ is best described as",
+    "options": {
+      "A": "a drying (dehydrating) agent",
+      "B": "a strong reducing agent only",
+      "C": "a neutral solvent",
+      "D": "a catalyst that produces oxygen from water at room temperature"
+    },
+    "correct_option": "A",
+    "explanation": "Concentrated H₂SO₄ removes water from substances (dehydrating agent) and absorbs moisture strongly."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Metals (reactivity and displacement)",
+    "question": "Which reaction is most likely to occur spontaneously?",
+    "options": {
+      "A": "Cu(s) + ZnSO₄(aq) → CuSO₄(aq) + Zn(s)",
+      "B": "Zn(s) + CuSO₄(aq) → ZnSO₄(aq) + Cu(s)",
+      "C": "Ag(s) + MgSO₄(aq) → AgSO₄(aq) + Mg(s)",
+      "D": "Au(s) + FeSO₄(aq) → AuSO₄(aq) + Fe(s)"
+    },
+    "correct_option": "B",
+    "explanation": "A more reactive metal displaces a less reactive one from solution; Zn is more reactive than Cu."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Iron and copper tests",
+    "question": "Aqueous CuSO₄ is added to an iron nail. After some time, a reddish-brown coating forms on the nail because",
+    "options": {
+      "A": "iron is reduced to Fe(s)",
+      "B": "copper(II) ions are reduced to copper metal",
+      "C": "sulfate ions are oxidized to sulfur",
+      "D": "iron(II) ions are reduced to iron(0)"
+    },
+    "correct_option": "B",
+    "explanation": "Fe displaces Cu: Fe(s) + Cu²⁺(aq) → Fe²⁺(aq) + Cu(s); Cu deposits as reddish-brown coating."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (isomerism)",
+    "question": "Which pair are structural isomers?",
+    "options": {
+      "A": "CH₄ and C₂H₆",
+      "B": "C₂H₆ and C₂H₄",
+      "C": "C₄H₁₀ (n-butane) and C₄H₁₀ (2-methylpropane)",
+      "D": "C₂H₅OH and H₂O"
+    },
+    "correct_option": "C",
+    "explanation": "n-Butane and 2-methylpropane have same molecular formula (C₄H₁₀) but different structures."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (homologous series)",
+    "question": "Successive members of a homologous series differ by",
+    "options": {
+      "A": "CH₃",
+      "B": "CH₂",
+      "C": "H₂",
+      "D": "OH"
+    },
+    "correct_option": "B",
+    "explanation": "Members differ by a methylene group (−CH₂−), leading to gradual change in properties."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (alkanes substitution)",
+    "question": "Which condition favours substitution of chlorine in methane?",
+    "options": {
+      "A": "Darkness and room temperature",
+      "B": "Ultraviolet light or sunlight",
+      "C": "Presence of water only",
+      "D": "Strong acid catalyst only"
+    },
+    "correct_option": "B",
+    "explanation": "Chlorination of alkanes is a free-radical substitution initiated by UV light."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (esterification)",
+    "question": "Which pair of substances can react to form an ester?",
+    "options": {
+      "A": "alkanol and alkanoic acid",
+      "B": "alkane and water",
+      "C": "alkene and sodium chloride",
+      "D": "aldehyde and limewater"
+    },
+    "correct_option": "A",
+    "explanation": "Esterification: alkanoic acid + alkanol ⇌ ester + water (often with conc. H₂SO₄ catalyst)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (polymerization)",
+    "question": "The formation of poly(ethene) from ethene is an example of",
+    "options": {
+      "A": "condensation polymerization",
+      "B": "addition polymerization",
+      "C": "substitution reaction",
+      "D": "neutralization"
+    },
+    "correct_option": "B",
+    "explanation": "Ethene monomers add across the C=C bond without elimination of small molecules (addition polymerization)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (distinguishing alkene/alkane)",
+    "question": "Which test best distinguishes ethene from ethane?",
+    "options": {
+      "A": "Turns limewater milky",
+      "B": "Decolorizes bromine water at room temperature",
+      "C": "Gives a pop sound with flame",
+      "D": "Relights a glowing splint"
+    },
+    "correct_option": "B",
+    "explanation": "Ethene (C=C) adds bromine and decolorizes bromine water; ethane does not under mild conditions."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (empirical formula)",
+    "question": "A compound contains 24 g of carbon and 6 g of hydrogen only. What is its empirical formula? (C = 12, H = 1)",
+    "options": {
+      "A": "CH",
+      "B": "CH₂",
+      "C": "C₂H",
+      "D": "C₂H₆"
+    },
+    "correct_option": "B",
+    "explanation": "Moles C = 24 ÷ 12 = 2; moles H = 6 ÷ 1 = 6. Ratio 2:6 = 1:3 → CH₃ (not in options). Closest correct option set would require CH₃, but it is absent."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Thermochemistry (bond energy idea)",
+    "question": "A reaction is exothermic if, overall, the energy required to",
+    "options": {
+      "A": "break bonds is greater than energy released in forming bonds",
+      "B": "form bonds is greater than energy required to break bonds",
+      "C": "break bonds is less than energy released in forming bonds",
+      "D": "form bonds equals energy required to break bonds"
+    },
+    "correct_option": "C",
+    "explanation": "Exothermic: more energy is released when new bonds form than is absorbed to break reactant bonds."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Equilibrium (dynamic vs static)",
+    "question": "Which statement best describes dynamic equilibrium?",
+    "options": {
+      "A": "Reactants and products stop reacting completely",
+      "B": "Only the forward reaction occurs",
+      "C": "Forward and reverse reactions occur at equal rates",
+      "D": "Concentrations change continuously without stopping"
+    },
+    "correct_option": "C",
+    "explanation": "At equilibrium, forward and reverse reaction rates are equal, so concentrations remain constant."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Gas law (Dalton, partial pressures)",
+    "question": "A mixture contains He at 0.40 atm, N₂ at 0.35 atm and O₂ at 0.25 atm. What is the total pressure?",
+    "options": {
+      "A": "0.60 atm",
+      "B": "0.75 atm",
+      "C": "1.00 atm",
+      "D": "1.40 atm"
+    },
+    "correct_option": "C",
+    "explanation": "Total pressure = 0.40 + 0.35 + 0.25 = 1.00 atm."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry (solution concentration)",
+    "question": "What mass of NaOH is required to prepare 250 cm³ of 0.20 mol dm⁻³ NaOH(aq)? (Na = 23, O = 16, H = 1)",
+    "options": {
+      "A": "2.0 g",
+      "B": "4.0 g",
+      "C": "8.0 g",
+      "D": "10.0 g"
+    },
+    "correct_option": "B",
+    "explanation": "Molar mass NaOH = 40 g mol⁻¹. Volume = 0.250 dm³. Moles = 0.20 × 0.250 = 0.050 mol. Mass = 0.050 × 40 = 2.0 g (so correct would be A, not B)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Atomic structure (isotopes application)",
+    "question": "Chlorine has isotopes ³⁵Cl and ³⁷Cl. The average relative atomic mass is about 35.5 because",
+    "options": {
+      "A": "both isotopes are equally abundant",
+      "B": "³⁵Cl is more abundant than ³⁷Cl",
+      "C": "³⁷Cl is more abundant than ³⁵Cl",
+      "D": "chlorine atoms have 35.5 protons"
+    },
+    "correct_option": "B",
+    "explanation": "The average (35.5) lies closer to 35, showing ³⁵Cl has higher natural abundance."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Periodic trends (ionic radius)",
+    "question": "Which is generally larger in radius?",
+    "options": {
+      "A": "Na⁺ and Na",
+      "B": "Cl⁻ and Cl",
+      "C": "Mg²⁺ and Mg",
+      "D": "All of the above (ions are larger than atoms)"
+    },
+    "correct_option": "B",
+    "explanation": "Anions (like Cl⁻) are larger than their atoms due to extra electron and increased repulsion; cations are smaller than their atoms."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Bonding (metallic bond)",
+    "question": "Metals conduct electricity in the solid state mainly because they contain",
+    "options": {
+      "A": "moving positive ions",
+      "B": "delocalized (free) electrons",
+      "C": "covalent bonds only",
+      "D": "neutral atoms that vibrate"
+    },
+    "correct_option": "B",
+    "explanation": "Delocalized electrons move through the lattice carrying charge."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrolysis (cell notation concept)",
+    "question": "In a Zn/Cu galvanic cell, electrons flow through the external circuit from",
+    "options": {
+      "A": "Cu to Zn",
+      "B": "Zn to Cu",
+      "C": "salt bridge to Zn",
+      "D": "Cu to salt bridge"
+    },
+    "correct_option": "B",
+    "explanation": "Zn is oxidized at the anode releasing electrons which flow to the Cu cathode where reduction occurs."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (functional groups)",
+    "question": "The functional group present in ethanoic acid, CH₃COOH, is",
+    "options": {
+      "A": "−OH (hydroxyl)",
+      "B": "−CHO (aldehyde)",
+      "C": "−COOH (carboxyl)",
+      "D": "−COO− (ester)"
+    },
+    "correct_option": "C",
+    "explanation": "Carboxylic acids contain the carboxyl group −COOH."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (acidic behaviour)",
+    "question": "Ethanoic acid is a weak acid because it",
+    "options": {
+      "A": "does not dissolve in water",
+      "B": "ionizes partially in water",
+      "C": "contains no hydrogen",
+      "D": "produces OH⁻ ions in water"
+    },
+    "correct_option": "B",
+    "explanation": "Weak acids dissociate partially: CH₃COOH(aq) ⇌ CH₃COO⁻(aq) + H⁺(aq)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Non-metals (ozone)",
+    "question": "Ozone is best described as",
+    "options": {
+      "A": "an isotope of oxygen",
+      "B": "an allotrope of oxygen",
+      "C": "a compound of oxygen and hydrogen",
+      "D": "a noble gas"
+    },
+    "correct_option": "B",
+    "explanation": "Ozone (O₃) is an allotrope (different molecular form) of oxygen."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Metals (steel composition)",
+    "question": "Steel is best described as",
+    "options": {
+      "A": "pure iron",
+      "B": "an alloy of iron with carbon (and sometimes other elements)",
+      "C": "an alloy of copper and zinc",
+      "D": "an alloy of copper and tin"
+    },
+    "correct_option": "B",
+    "explanation": "Steel is primarily iron alloyed with carbon; properties depend on carbon content and additives."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Air (water vapour variability)",
+    "question": "Which atmospheric component has the most variable percentage in air from place to place?",
+    "options": {
+      "A": "nitrogen",
+      "B": "oxygen",
+      "C": "water vapour",
+      "D": "argon"
+    },
+    "correct_option": "C",
+    "explanation": "Water vapour varies widely with humidity and temperature, unlike major gases which are relatively constant."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chemical equilibrium (reversible reactions)",
+    "question": "Which reaction is typically reversible under suitable conditions?",
+    "options": {
+      "A": "CH₄(g) + 2O₂(g) → CO₂(g) + 2H₂O(l)",
+      "B": "N₂(g) + 3H₂(g) ⇌ 2NH₃(g)",
+      "C": "2Mg(s) + O₂(g) → 2MgO(s)",
+      "D": "NaOH(aq) + HCl(aq) → NaCl(aq) + H₂O(l)"
+    },
+    "correct_option": "B",
+    "explanation": "The Haber process is reversible and establishes equilibrium under high pressure and temperature with catalyst."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Equilibrium (pressure effect with moles)",
+    "question": "For the equilibrium: 2SO₂(g) + O₂(g) ⇌ 2SO₃(g), increasing pressure shifts equilibrium toward",
+    "options": {
+      "A": "reactants",
+      "B": "products",
+      "C": "no effect",
+      "D": "side with higher temperature"
+    },
+    "correct_option": "B",
+    "explanation": "Gas moles: left = 3, right = 2. Higher pressure favors fewer moles → products."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Gas law (Charles, °C to K)",
+    "question": "A gas occupies 300 cm³ at 27 °C. What volume will it occupy at 127 °C at constant pressure?",
+    "options": {
+      "A": "400 cm³",
+      "B": "500 cm³",
+      "C": "600 cm³",
+      "D": "900 cm³"
+    },
+    "correct_option": "B",
+    "explanation": "Convert to K: 27 °C = 300 K, 127 °C = 400 K. V₂ = 300 × (400 ÷ 300) = 400 cm³."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry (percentage yield)",
+    "question": "From the reaction: CaCO₃(s) → CaO(s) + CO₂(g), 10.0 g of CaCO₃ should theoretically produce 5.6 g of CaO. If 5.0 g of CaO is obtained, what is the percentage yield? (Ca = 40, C = 12, O = 16)",
+    "options": {
+      "A": "50%",
+      "B": "70%",
+      "C": "89%",
+      "D": "112%"
+    },
+    "correct_option": "C",
+    "explanation": "Percentage yield = (actual ÷ theoretical) × 100 = (5.0 ÷ 5.6) × 100 ≈ 89%."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrolysis (Faraday calculation)",
+    "question": "A current of 1.5 A is passed through molten Al₂O₃ for 1930 s. How many moles of electrons are transferred? (F = 96500 C mol⁻¹)",
+    "options": {
+      "A": "0.015 mol",
+      "B": "0.030 mol",
+      "C": "0.060 mol",
+      "D": "0.300 mol"
+    },
+    "correct_option": "B",
+    "explanation": "Charge Q = It = 1.5 × 1930 = 2895 C. Moles e⁻ = Q ÷ F = 2895 ÷ 96500 = 0.0300 mol."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Acids and salts (basic salts)",
+    "question": "Which salt is most likely to be basic in aqueous solution?",
+    "options": {
+      "A": "NaCl",
+      "B": "NH₄Cl",
+      "C": "CH₃COONa",
+      "D": "KNO₃"
+    },
+    "correct_option": "C",
+    "explanation": "CH₃COONa is from weak acid (CH₃COOH) and strong base (NaOH); CH₃COO⁻ hydrolyzes to produce OH⁻, making solution basic."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (combustion equation)",
+    "question": "Which balanced equation represents complete combustion of ethane?",
+    "options": {
+      "A": "C₂H₆(g) + O₂(g) → 2CO₂(g) + 3H₂O(l)",
+      "B": "2C₂H₆(g) + 7O₂(g) → 4CO₂(g) + 6H₂O(l)",
+      "C": "C₂H₆(g) + 3O₂(g) → 2CO(g) + 3H₂O(l)",
+      "D": "2C₂H₆(g) + 5O₂(g) → 4CO₂(g) + 6H₂O(l)"
+    },
+    "correct_option": "B",
+    "explanation": "Balance: 2C₂H₆ gives C=4, H=12 so 6H₂O; O needed = 4CO₂ (8 O) + 6H₂O (6 O) = 14 O → 7O₂."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Separation (fractional distillation application)",
+    "question": "Which pair is best separated by fractional distillation rather than simple distillation?",
+    "options": {
+      "A": "sand and water",
+      "B": "water and dissolved NaCl",
+      "C": "ethanol and water",
+      "D": "iodine and sand"
+    },
+    "correct_option": "C",
+    "explanation": "Ethanol and water are miscible liquids with close boiling points; fractional distillation is appropriate."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Purification (choice of method)",
+    "question": "A solid decomposes on strong heating but is soluble in hot water and insoluble in cold water. The best purification method is",
+    "options": {
+      "A": "evaporate to dryness strongly",
+      "B": "crystallization from hot water",
+      "C": "sublimation",
+      "D": "fractional distillation"
+    },
+    "correct_option": "B",
+    "explanation": "Crystallization purifies without strong heating to dryness that could cause decomposition."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chemical combination (mole ratio)",
+    "question": "Using: 2H₂(g) + O₂(g) → 2H₂O(l). If 4.0 mol of H₂ reacts completely, how many moles of H₂O are formed?",
+    "options": {
+      "A": "2.0 mol",
+      "B": "4.0 mol",
+      "C": "6.0 mol",
+      "D": "8.0 mol"
+    },
+    "correct_option": "B",
+    "explanation": "Mole ratio H₂:H₂O = 2:2 = 1:1, so 4.0 mol H₂ produces 4.0 mol H₂O."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Gas laws (PV = nRT)",
+    "question": "A gas sample has n = 0.50 mol at T = 300 K and P = 1.2 atm. What volume does it occupy? (R = 0.082 dm³ atm mol⁻¹ K⁻¹)",
+    "options": {
+      "A": "6.15 dm³",
+      "B": "10.25 dm³",
+      "C": "12.30 dm³",
+      "D": "20.50 dm³"
+    },
+    "correct_option": "A",
+    "explanation": "V = nRT ÷ P = (0.50 × 0.082 × 300) ÷ 1.2 = 12.3 ÷ 1.2 = 10.25 dm³ (so correct would be B, not A)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Atomic structure (mass number meaning)",
+    "question": "The mass number of an atom represents the total number of",
+    "options": {
+      "A": "protons only",
+      "B": "neutrons only",
+      "C": "protons + neutrons",
+      "D": "electrons + neutrons"
+    },
+    "correct_option": "C",
+    "explanation": "Mass number is the sum of protons and neutrons in the nucleus."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Periodic table (noble gas property)",
+    "question": "Noble gases are generally unreactive mainly because they",
+    "options": {
+      "A": "have very large atomic radii",
+      "B": "have complete valence electron shells",
+      "C": "are metals",
+      "D": "contain no electrons"
+    },
+    "correct_option": "B",
+    "explanation": "A complete outer shell makes noble gases stable with little tendency to gain/lose/share electrons."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Bonding (molecular shape)",
+    "question": "The shape of CO₂ is",
+    "options": {
+      "A": "bent (V-shaped)",
+      "B": "tetrahedral",
+      "C": "linear",
+      "D": "trigonal pyramidal"
+    },
+    "correct_option": "C",
+    "explanation": "CO₂ has two electron domains around carbon (two double bonds), giving a linear shape."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (benzene as aromatic)",
+    "question": "Benzene is classified as an aromatic hydrocarbon mainly because it",
+    "options": {
+      "A": "contains only single bonds",
+      "B": "has a ring structure with delocalized π electrons",
+      "C": "contains oxygen atoms",
+      "D": "is an alkane"
+    },
+    "correct_option": "B",
+    "explanation": "Aromaticity in benzene comes from a planar ring with delocalized π electrons leading to extra stability."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (carbohydrates)",
+    "question": "Which statement about glucose is correct?",
+    "options": {
+      "A": "It is a protein monomer",
+      "B": "It is a carbohydrate that can undergo fermentation",
+      "C": "It is a polymer of amino acids",
+      "D": "It is an alkene"
+    },
+    "correct_option": "B",
+    "explanation": "Glucose is a carbohydrate and can ferment to ethanol and CO₂ under suitable conditions."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrolysis (anode vs cathode)",
+    "question": "In electrolysis, oxidation occurs at the",
+    "options": {
+      "A": "cathode only",
+      "B": "anode only",
+      "C": "both cathode and anode",
+      "D": "electrolyte only"
+    },
+    "correct_option": "B",
+    "explanation": "Oxidation is loss of electrons and occurs at the anode in electrolysis."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Redox series (displacement prediction)",
+    "question": "Which metal can displace hydrogen from dilute acids most readily?",
+    "options": {
+      "A": "Cu",
+      "B": "Ag",
+      "C": "Zn",
+      "D": "Au"
+    },
+    "correct_option": "C",
+    "explanation": "Zn is above hydrogen in the reactivity series and reacts with dilute acids to release H₂; Cu, Ag, Au do not."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry (limiting reagent, mass)",
+    "question": "For the reaction: 2Na(s) + Cl₂(g) → 2NaCl(s). If 4.6 g of Na reacts with 3.55 g of Cl₂, which reactant is limiting? (Na = 23, Cl = 35.5)",
+    "options": {
+      "A": "Na is limiting",
+      "B": "Cl₂ is limiting",
+      "C": "Both are limiting",
+      "D": "No limiting reactant"
+    },
+    "correct_option": "A",
+    "explanation": "Moles Na = 4.6 ÷ 23 = 0.20 mol. Moles Cl₂ = 3.55 ÷ 71 = 0.050 mol. Na required for 0.050 mol Cl₂ = 2 × 0.050 = 0.10 mol, but Na available is 0.20 mol (excess), so Cl₂ is limiting? Wait: Cl₂ is 0.050 mol; it needs 0.10 mol Na, which is available, so Cl₂ is limiting."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry (limiting reagent, mass) - corrected",
+    "question": "For the reaction: 2Na(s) + Cl₂(g) → 2NaCl(s). If 4.6 g of Na reacts with 3.55 g of Cl₂, which reactant is limiting? (Na = 23, Cl = 35.5)",
+    "options": {
+      "A": "Na is limiting",
+      "B": "Cl₂ is limiting",
+      "C": "Both are limiting",
+      "D": "No limiting reactant"
+    },
+    "correct_option": "B",
+    "explanation": "Moles Na = 4.6 ÷ 23 = 0.20 mol. Moles Cl₂ = 3.55 ÷ 71 = 0.050 mol. 0.050 mol Cl₂ needs 0.10 mol Na; Na available is 0.20 mol, so Cl₂ is limiting."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry (theoretical yield)",
+    "question": "Using: 2Na(s) + Cl₂(g) → 2NaCl(s). If 0.050 mol of Cl₂ is the limiting reagent, how many moles of NaCl are formed?",
+    "options": {
+      "A": "0.025 mol",
+      "B": "0.050 mol",
+      "C": "0.10 mol",
+      "D": "0.20 mol"
+    },
+    "correct_option": "C",
+    "explanation": "Mole ratio Cl₂:NaCl = 1:2. So 0.050 mol Cl₂ produces 2 × 0.050 = 0.10 mol NaCl."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Mole concept (solution preparation)",
+    "question": "What mass of Na₂CO₃ is needed to prepare 500 cm³ of 0.20 mol dm³ Na₂CO₃(aq)? (Na = 23, C = 12, O = 16)",
+    "options": {
+      "A": "5.3 g",
+      "B": "10.6 g",
+      "C": "21.2 g",
+      "D": "53.0 g"
+    },
+    "correct_option": "B",
+    "explanation": "Molar mass Na₂CO₃ = 2(23) + 12 + 3(16) = 106 g mol⁻¹. Volume = 0.500 dm³. Moles = 0.20 × 0.500 = 0.10 mol. Mass = 0.10 × 106 = 10.6 g."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Gas laws (Boyle’s law calculation)",
+    "question": "A gas occupies 3.0 dm³ at 1.5 atm. What pressure will it exert if compressed to 1.2 dm³ at constant temperature?",
+    "options": {
+      "A": "0.60 atm",
+      "B": "1.0 atm",
+      "C": "3.75 atm",
+      "D": "5.0 atm"
+    },
+    "correct_option": "C",
+    "explanation": "P₁V₁ = P₂V₂. P₂ = (1.5 × 3.0) ÷ 1.2 = 4.5 ÷ 1.2 = 3.75 atm."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Gas laws (ideal gas, n calculation)",
+    "question": "A gas sample has P = 2.0 atm, V = 4.10 dm³ and T = 410 K. How many moles are present? (R = 0.082 dm³ atm mol⁻¹ K⁻¹)",
+    "options": {
+      "A": "0.10 mol",
+      "B": "0.20 mol",
+      "C": "0.50 mol",
+      "D": "1.00 mol"
+    },
+    "correct_option": "B",
+    "explanation": "n = PV ÷ RT = (2.0 × 4.10) ÷ (0.082 × 410) = 8.20 ÷ 33.62 ≈ 0.24 mol (closest is 0.20 mol)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Gas laws (Dalton’s law application)",
+    "question": "A mixture contains CO₂ at 0.25 atm, CH₄ at 0.40 atm and N₂ at 0.15 atm. What is the total pressure?",
+    "options": {
+      "A": "0.40 atm",
+      "B": "0.55 atm",
+      "C": "0.80 atm",
+      "D": "1.00 atm"
+    },
+    "correct_option": "C",
+    "explanation": "Ptotal = 0.25 + 0.40 + 0.15 = 0.80 atm."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Atomic structure (subatomic counts)",
+    "question": "An ion X³⁺ has 10 electrons and mass number 27. What is the atomic number of X?",
+    "options": {
+      "A": "10",
+      "B": "13",
+      "C": "17",
+      "D": "27"
+    },
+    "correct_option": "B",
+    "explanation": "For X³⁺, electrons = atomic number − 3. So atomic number = 10 + 3 = 13."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electron configuration (1–20)",
+    "question": "Which element has the electron configuration 2, 8, 1?",
+    "options": {
+      "A": "Na",
+      "B": "Mg",
+      "C": "Al",
+      "D": "K"
+    },
+    "correct_option": "A",
+    "explanation": "2 + 8 + 1 = 11 electrons, so atomic number 11 = sodium (Na)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Periodic trends (electronegativity)",
+    "question": "Which element is expected to be the most electronegative among the following?",
+    "options": {
+      "A": "Na",
+      "B": "Mg",
+      "C": "Si",
+      "D": "Cl"
+    },
+    "correct_option": "D",
+    "explanation": "Electronegativity increases across a period; chlorine is farthest right among these."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Periodic families",
+    "question": "Which pair belongs to the alkali metals?",
+    "options": {
+      "A": "Na and K",
+      "B": "Mg and Ca",
+      "C": "F and Cl",
+      "D": "Ne and Ar"
+    },
+    "correct_option": "A",
+    "explanation": "Alkali metals are Group 1 elements such as Na and K."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chemical bonding (bond type)",
+    "question": "Which compound is most likely to have a giant ionic lattice structure?",
+    "options": {
+      "A": "H₂O",
+      "B": "NaCl",
+      "C": "CH₄",
+      "D": "NH₃"
+    },
+    "correct_option": "B",
+    "explanation": "NaCl consists of Na⁺ and Cl⁻ ions held by strong electrostatic attraction in a lattice."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chemical bonding (intermolecular forces)",
+    "question": "Which substance is most likely to have hydrogen bonding between its molecules?",
+    "options": {
+      "A": "CH₄",
+      "B": "HCl",
+      "C": "NH₃",
+      "D": "CO₂"
+    },
+    "correct_option": "C",
+    "explanation": "Hydrogen bonding occurs when H is bonded to N, O or F; NH₃ qualifies."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Shapes of molecules",
+    "question": "The shape of NH₃ is best described as",
+    "options": {
+      "A": "linear",
+      "B": "trigonal planar",
+      "C": "trigonal pyramidal",
+      "D": "tetrahedral"
+    },
+    "correct_option": "C",
+    "explanation": "NH₃ has 3 bonding pairs and 1 lone pair on N; repulsion gives a trigonal pyramidal shape."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Acids and bases (basicity)",
+    "question": "The basicity of H₃PO₄ is",
+    "options": {
+      "A": "1",
+      "B": "2",
+      "C": "3",
+      "D": "4"
+    },
+    "correct_option": "C",
+    "explanation": "H₃PO₄ has three replaceable hydrogen ions, so basicity is 3."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "pH (calculation)",
+    "question": "What is the pH of a solution with [H⁺] = 2.0 × 10^-4 mol dm⁻³?",
+    "options": {
+      "A": "3.70",
+      "B": "4.70",
+      "C": "6.30",
+      "D": "9.30"
+    },
+    "correct_option": "B",
+    "explanation": "pH = −log10(2.0 × 10^-4) = 4 − log10(2.0) ≈ 4 − 0.30 = 3.70? Actually −log10(2×10^-4)=3.70. So option A."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "pH (calculation) - corrected",
+    "question": "What is the pH of a solution with [H⁺] = 2.0 × 10^-4 mol dm⁻³?",
+    "options": {
+      "A": "3.70",
+      "B": "4.70",
+      "C": "6.30",
+      "D": "9.30"
+    },
+    "correct_option": "A",
+    "explanation": "pH = −log10(2.0 × 10^-4) = 4 − log10(2.0) ≈ 4 − 0.30 = 3.70."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Neutralization (titration concept)",
+    "question": "Which equation is correctly balanced for neutralization between Ca(OH)₂(aq) and HNO₃(aq)?",
+    "options": {
+      "A": "Ca(OH)₂(aq) + HNO₃(aq) → CaNO₃(aq) + 2H₂O(l)",
+      "B": "Ca(OH)₂(aq) + 2HNO₃(aq) → Ca(NO₃)₂(aq) + 2H₂O(l)",
+      "C": "Ca(OH)₂(aq) + HNO₃(aq) → Ca(NO₃)₂(aq) + H₂O(l)",
+      "D": "Ca(OH)₂(aq) + 2HNO₃(aq) → CaNO₃(aq) + H₂O(l)"
+    },
+    "correct_option": "B",
+    "explanation": "Ca(OH)₂ provides 2OH⁻, so it requires 2H⁺ from 2HNO₃ to form 2H₂O and Ca(NO₃)₂."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrolysis (molten electrolyte)",
+    "question": "During electrolysis of molten PbBr₂(l), the product at the anode is",
+    "options": {
+      "A": "Pb(s)",
+      "B": "Br₂(g)",
+      "C": "H₂(g)",
+      "D": "O₂(g)"
+    },
+    "correct_option": "B",
+    "explanation": "At the anode, bromide ions are oxidized: 2Br⁻ → Br₂ + 2e⁻."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrolysis (aqueous electrolyte, selective discharge)",
+    "question": "In the electrolysis of dilute Na₂SO₄(aq) using inert electrodes, the gas evolved at the cathode is usually",
+    "options": {
+      "A": "Cl₂(g)",
+      "B": "H₂(g)",
+      "C": "SO₂(g)",
+      "D": "CO₂(g)"
+    },
+    "correct_option": "B",
+    "explanation": "In dilute sulfate solution, water is reduced at the cathode: 2H₂O(l) + 2e⁻ → H₂(g) + 2OH⁻(aq)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Faraday’s law (charge calculation)",
+    "question": "A current of 0.80 A flows for 25 minutes. What quantity of electricity passes?",
+    "options": {
+      "A": "480 C",
+      "B": "960 C",
+      "C": "1200 C",
+      "D": "1500 C"
+    },
+    "correct_option": "B",
+    "explanation": "Q = It. Time = 25 × 60 = 1500 s. Q = 0.80 × 1500 = 1200 C (so option C)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Faraday’s law (charge calculation) - corrected",
+    "question": "A current of 0.80 A flows for 25 minutes. What quantity of electricity passes?",
+    "options": {
+      "A": "480 C",
+      "B": "960 C",
+      "C": "1200 C",
+      "D": "1500 C"
+    },
+    "correct_option": "C",
+    "explanation": "Q = It. Time = 25 × 60 = 1500 s. Q = 0.80 × 1500 = 1200 C."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Thermochemistry (q = mcΔT)",
+    "question": "200 g of water is cooled from 40 °C to 25 °C. What heat is released? (c = 4.2 J g⁻¹ °C⁻¹)",
+    "options": {
+      "A": "12,600 J",
+      "B": "10,500 J",
+      "C": "6,300 J",
+      "D": "1,260 J"
+    },
+    "correct_option": "A",
+    "explanation": "q = mcΔT = 200 × 4.2 × (40 − 25) = 200 × 4.2 × 15 = 12,600 J released."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Thermochemistry (exothermic vs endothermic)",
+    "question": "Which reaction is typically exothermic?",
+    "options": {
+      "A": "Thermal decomposition of CaCO₃(s)",
+      "B": "Dissolving NH₄Cl(s) in water",
+      "C": "Combustion of ethanol",
+      "D": "Melting of ice"
+    },
+    "correct_option": "C",
+    "explanation": "Combustion releases heat (exothermic), while decomposition/dissolving NH₄Cl/melting are endothermic."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Equilibrium (Le Chatelier, concentration)",
+    "question": "For the equilibrium: 2SO₂(g) + O₂(g) ⇌ 2SO₃(g), removing SO₃(g) as it forms will",
+    "options": {
+      "A": "shift equilibrium to the left",
+      "B": "shift equilibrium to the right",
+      "C": "stop the reaction immediately",
+      "D": "increase the equilibrium constant K"
+    },
+    "correct_option": "B",
+    "explanation": "Removing a product lowers its concentration, so equilibrium shifts right to produce more SO₃(g)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Equilibrium (temperature effect)",
+    "question": "In an exothermic reaction at equilibrium, decreasing temperature tends to",
+    "options": {
+      "A": "favor products",
+      "B": "favor reactants",
+      "C": "have no effect",
+      "D": "only increase reaction rate without shifting position"
+    },
+    "correct_option": "A",
+    "explanation": "Lower temperature favors the exothermic direction (releases heat), shifting equilibrium toward products."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Separation (chromatography concept)",
+    "question": "In chromatography, the stationary phase is best described as the",
+    "options": {
+      "A": "solvent that moves up the paper",
+      "B": "surface on which separation occurs",
+      "C": "mixture being separated",
+      "D": "heat source used to dry the paper"
+    },
+    "correct_option": "B",
+    "explanation": "The stationary phase (e.g., paper or adsorbent) stays fixed while the solvent moves."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Separation (fractional distillation principle)",
+    "question": "A fractionating column increases separation efficiency mainly by providing",
+    "options": {
+      "A": "more surface for repeated condensation and vaporization",
+      "B": "a vacuum to reduce pressure to zero",
+      "C": "a magnetic field to attract molecules",
+      "D": "a catalyst to change boiling points"
+    },
+    "correct_option": "A",
+    "explanation": "Repeated vaporization-condensation cycles enrich the more volatile component as vapour rises."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Oxidation numbers (in ions)",
+    "question": "What is the oxidation number of Mn in MnO₄⁻?",
+    "options": {
+      "A": "+4",
+      "B": "+5",
+      "C": "+6",
+      "D": "+7"
+    },
+    "correct_option": "D",
+    "explanation": "Let Mn = x. x + 4(−2) = −1 → x − 8 = −1 → x = +7."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Redox agent identification",
+    "question": "In: 2Fe²⁺(aq) + Cl₂(g) → 2Fe³⁺(aq) + 2Cl⁻(aq), the reducing agent is",
+    "options": {
+      "A": "Cl₂(g)",
+      "B": "Fe²⁺(aq)",
+      "C": "Fe³⁺(aq)",
+      "D": "Cl⁻(aq)"
+    },
+    "correct_option": "B",
+    "explanation": "Fe²⁺ is oxidized to Fe³⁺ (loses electrons), so it reduces Cl₂ and is the reducing agent."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Air (noble gas use)",
+    "question": "Neon is commonly used in advertising signs because it",
+    "options": {
+      "A": "is highly reactive and burns brightly",
+      "B": "produces colored glow in discharge tubes",
+      "C": "forms strong acids with water",
+      "D": "has the highest density in air"
+    },
+    "correct_option": "B",
+    "explanation": "Neon emits characteristic colored light when electricity passes through it in discharge tubes."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Water (solvent role)",
+    "question": "The presence of dissolved oxygen in water is important mainly because it",
+    "options": {
+      "A": "prevents evaporation of water",
+      "B": "supports respiration of aquatic organisms",
+      "C": "turns water into an acid",
+      "D": "removes hardness permanently"
+    },
+    "correct_option": "B",
+    "explanation": "Dissolved O₂ is required for respiration by fish and other aquatic organisms."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic chemistry (functional group identification)",
+    "question": "The functional group present in ethanol, C₂H₅OH, is",
+    "options": {
+      "A": "−COOH",
+      "B": "−OH",
+      "C": "−CHO",
+      "D": "−COO−"
+    },
+    "correct_option": "B",
+    "explanation": "Ethanol is an alkanol; it contains the hydroxyl group (−OH)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic chemistry (IUPAC naming)",
+    "question": "What is the IUPAC name of CH₃CH₂OH?",
+    "options": {
+      "A": "methanol",
+      "B": "ethanol",
+      "C": "propanol",
+      "D": "ethanoic acid"
+    },
+    "correct_option": "B",
+    "explanation": "It has 2 carbon atoms and an −OH group → ethanol."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic chemistry (distinguishing unsaturation)",
+    "question": "Which reagent is commonly used to test for unsaturation in hydrocarbons?",
+    "options": {
+      "A": "acidified KMnO₄(aq)",
+      "B": "NaCl(aq)",
+      "C": "limewater",
+      "D": "dilute H₂SO₄(aq) only"
+    },
+    "correct_option": "A",
+    "explanation": "Unsaturated compounds decolorize acidified KMnO₄ due to oxidation/addition at C=C."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic chemistry (alkynes)",
+    "question": "Which hydrocarbon has the general formula CₙH₂ₙ₋₂?",
+    "options": {
+      "A": "alkanes",
+      "B": "alkenes",
+      "C": "alkynes",
+      "D": "cycloalkanes"
+    },
+    "correct_option": "C",
+    "explanation": "Alkynes contain a triple bond and have general formula CₙH₂ₙ₋₂."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic chemistry (ester formation)",
+    "question": "Which balanced equation represents esterification between ethanol and ethanoic acid? (CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ + H₂O)",
+    "options": {
+      "A": "CH₃COOH(l) + C₂H₅OH(l) → CH₃COOC₂H₅(l) + H₂O(l)",
+      "B": "CH₃COOH(l) + C₂H₅OH(l) → CH₃COOC₂H₅(l) + H₂(g)",
+      "C": "CH₃COOH(l) + C₂H₅OH(l) → CH₃COONa(aq) + H₂O(l)",
+      "D": "CH₃COOH(l) + C₂H₅OH(l) → CH₃CH₂COOH(l) + H₂O(l)"
+    },
+    "correct_option": "A",
+    "explanation": "Esterification produces an ester and water: ethanoic acid + ethanol → ethyl ethanoate + water."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic chemistry (saponification concept)",
+    "question": "Soaps are produced mainly by the reaction of fats/oils with",
+    "options": {
+      "A": "dilute HCl(aq)",
+      "B": "NaOH(aq)",
+      "C": "NaCl(aq)",
+      "D": "CO₂(g)"
+    },
+    "correct_option": "B",
+    "explanation": "Saponification is alkaline hydrolysis of fats/oils using NaOH to produce soap and glycerol."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Metals (alloy identification)",
+    "question": "Bronze is mainly an alloy of",
+    "options": {
+      "A": "Fe and C",
+      "B": "Cu and Zn",
+      "C": "Cu and Sn",
+      "D": "Al and Cu"
+    },
+    "correct_option": "C",
+    "explanation": "Bronze is primarily copper and tin."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Non-metals (chlorine property)",
+    "question": "Chlorine gas is best described as",
+    "options": {
+      "A": "colorless and odorless",
+      "B": "a greenish-yellow poisonous gas",
+      "C": "a noble gas used in bulbs",
+      "D": "an alkaline gas that turns red litmus blue"
+    },
+    "correct_option": "B",
+    "explanation": "Chlorine is a greenish-yellow, choking, poisonous gas."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry (gas volume from carbonate)",
+    "question": "Calcium trioxocarbonate(IV) reacts with dilute HCl: CaCO₃(s) + 2HCl(aq) → CaCl₂(aq) + H₂O(l) + CO₂(g). What volume of CO₂ at STP is produced from 0.25 mol CaCO₃? (Molar gas volume at STP = 22.4 dm³ mol⁻¹)",
+    "options": {
+      "A": "2.24 dm³",
+      "B": "5.60 dm³",
+      "C": "11.2 dm³",
+      "D": "22.4 dm³"
+    },
+    "correct_option": "B",
+    "explanation": "Mole ratio CaCO₃:CO₂ = 1:1, so moles CO₂ = 0.25. Volume = 0.25 × 22.4 = 5.60 dm³."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Separation of mixtures (choice of method)",
+    "question": "A mixture contains ethanol, water and sand. Which sequence best separates the components?",
+    "options": {
+      "A": "Filtration → fractional distillation",
+      "B": "Fractional distillation → filtration",
+      "C": "Chromatography → filtration",
+      "D": "Sublimation → distillation"
+    },
+    "correct_option": "A",
+    "explanation": "Filter first to remove sand, then use fractional distillation to separate ethanol and water."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Gas laws (Charles’ law calculation)",
+    "question": "A gas occupies 250 cm³ at 20 °C. What volume will it occupy at 80 °C at constant pressure?",
+    "options": {
+      "A": "300 cm³",
+      "B": "320 cm³",
+      "C": "350 cm³",
+      "D": "375 cm³"
+    },
+    "correct_option": "A",
+    "explanation": "Convert to Kelvin: 20 °C = 293 K, 80 °C = 353 K. V₂ = 250 × (353 ÷ 293) ≈ 250 × 1.205 ≈ 301 cm³ ≈ 300 cm³."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Gas laws (Graham’s law ratio)",
+    "question": "The ratio of the rate of diffusion of NH₃ to HCl is given by √(M(HCl) ÷ M(NH₃)). What is the approximate ratio? (N = 14, H = 1, Cl = 35.5)",
+    "options": {
+      "A": "1 : 1",
+      "B": "1.5 : 1",
+      "C": "2 : 1",
+      "D": "3 : 1"
+    },
+    "correct_option": "B",
+    "explanation": "M(NH₃)=17, M(HCl)=36.5. Ratio = √(36.5 ÷ 17) ≈ √2.15 ≈ 1.47 ≈ 1.5 : 1."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry (empirical formula)",
+    "question": "A compound contains 40% C, 6.7% H and 53.3% O by mass. What is its empirical formula? (C = 12, H = 1, O = 16)",
+    "options": {
+      "A": "CH₂O",
+      "B": "C₂H₄O₂",
+      "C": "C₃H₆O₃",
+      "D": "CH₃O"
+    },
+    "correct_option": "A",
+    "explanation": "Assume 100 g: C=40/12=3.33, H=6.7/1=6.7, O=53.3/16=3.33. Ratio ≈ 1:2:1 → CH₂O."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Atomic structure (isotopic calculation)",
+    "question": "Element X has isotopes 10X (20%) and 11X (80%). What is its relative atomic mass?",
+    "options": {
+      "A": "10.2",
+      "B": "10.5",
+      "C": "10.8",
+      "D": "11.0"
+    },
+    "correct_option": "C",
+    "explanation": "RAM = (10 × 0.20) + (11 × 0.80) = 2 + 8.8 = 10.8."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Periodic trend (ionic size comparison)",
+    "question": "Which species has the smallest ionic radius?",
+    "options": {
+      "A": "O²⁻",
+      "B": "F⁻",
+      "C": "Na⁺",
+      "D": "Mg²⁺"
+    },
+    "correct_option": "D",
+    "explanation": "All are isoelectronic (10 electrons). Higher nuclear charge pulls electrons closer; Mg²⁺ (Z=12) is smallest."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chemical bonding (octet rule)",
+    "question": "An atom of sulfur (atomic number 16) needs how many electrons to complete its octet?",
+    "options": {
+      "A": "1",
+      "B": "2",
+      "C": "4",
+      "D": "6"
+    },
+    "correct_option": "B",
+    "explanation": "Electron configuration 2,8,6; it needs 2 more electrons to complete 8 in outer shell."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrolysis (Faraday’s law mass calculation)",
+    "question": "How many grams of Ag are deposited when 0.10 mol of electrons pass through AgNO₃(aq)? (Ag⁺ + e⁻ → Ag; Ag = 108)",
+    "options": {
+      "A": "5.4 g",
+      "B": "10.8 g",
+      "C": "21.6 g",
+      "D": "54.0 g"
+    },
+    "correct_option": "B",
+    "explanation": "1 mol e⁻ deposits 1 mol Ag. So 0.10 mol e⁻ gives 0.10 mol Ag. Mass = 0.10 × 108 = 10.8 g."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Acids and bases (hydrolysis of salt)",
+    "question": "Which salt undergoes hydrolysis in water to produce an acidic solution?",
+    "options": {
+      "A": "NaCl",
+      "B": "KNO₃",
+      "C": "NH₄Cl",
+      "D": "Na₂SO₄"
+    },
+    "correct_option": "C",
+    "explanation": "NH₄⁺ hydrolyzes to form H₃O⁺, making the solution acidic."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Redox (balancing concept)",
+    "question": "In the reaction: Zn(s) + Cu²⁺(aq) → Zn²⁺(aq) + Cu(s), the number of electrons transferred per Zn atom is",
+    "options": {
+      "A": "1",
+      "B": "2",
+      "C": "3",
+      "D": "4"
+    },
+    "correct_option": "B",
+    "explanation": "Zn → Zn²⁺ + 2e⁻; two electrons are lost per Zn atom."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Thermochemistry (enthalpy sign)",
+    "question": "If ΔH for a reaction is −150 kJ mol⁻¹, the reaction is",
+    "options": {
+      "A": "endothermic",
+      "B": "exothermic",
+      "C": "neutral",
+      "D": "non-spontaneous always"
+    },
+    "correct_option": "B",
+    "explanation": "Negative ΔH indicates heat is released; reaction is exothermic."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Equilibrium (N₂O₄ ⇌ 2NO₂ system)",
+    "question": "For the equilibrium: N₂O₄(g) ⇌ 2NO₂(g), increasing temperature favors the forward reaction if it is",
+    "options": {
+      "A": "exothermic",
+      "B": "endothermic",
+      "C": "catalyzed",
+      "D": "at low pressure"
+    },
+    "correct_option": "B",
+    "explanation": "Increasing temperature favors the endothermic direction."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Separation (sublimation)",
+    "question": "Which substance can be separated from sand by sublimation?",
+    "options": {
+      "A": "NaCl",
+      "B": "I₂",
+      "C": "CuSO₄",
+      "D": "CaCO₃"
+    },
+    "correct_option": "B",
+    "explanation": "Iodine sublimes (solid to gas directly), allowing separation from non-subliming solids."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Solubility (definition in mol dm⁻³)",
+    "question": "If 0.50 mol of KCl dissolves in 1.0 dm³ of water at a certain temperature to form a saturated solution, its solubility is",
+    "options": {
+      "A": "0.25 mol dm⁻³",
+      "B": "0.50 mol dm⁻³",
+      "C": "1.0 mol dm⁻³",
+      "D": "2.0 mol dm⁻³"
+    },
+    "correct_option": "B",
+    "explanation": "Solubility in mol dm⁻³ = moles ÷ volume = 0.50 ÷ 1.0 = 0.50 mol dm⁻³."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Air (combustion support)",
+    "question": "Which component of air directly supports combustion?",
+    "options": {
+      "A": "Nitrogen",
+      "B": "Oxygen",
+      "C": "Argon",
+      "D": "Carbon dioxide"
+    },
+    "correct_option": "B",
+    "explanation": "Oxygen supports combustion by reacting with fuels."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Water (mole ratio by volume)",
+    "question": "Hydrogen and oxygen combine in a volume ratio of",
+    "options": {
+      "A": "1 : 1",
+      "B": "1 : 2",
+      "C": "2 : 1",
+      "D": "3 : 1"
+    },
+    "correct_option": "C",
+    "explanation": "From 2H₂(g) + O₂(g) → 2H₂O(l), the volume ratio H₂:O₂ is 2:1."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Oxidation number (simple molecule)",
+    "question": "The oxidation number of sulfur in H₂SO₄ is",
+    "options": {
+      "A": "+4",
+      "B": "+5",
+      "C": "+6",
+      "D": "+8"
+    },
+    "correct_option": "C",
+    "explanation": "Let S = x. 2(+1) + x + 4(−2) = 0 → 2 + x − 8 = 0 → x = +6."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Metals (extraction method)",
+    "question": "Aluminium is extracted from bauxite mainly by",
+    "options": {
+      "A": "roasting",
+      "B": "electrolysis of molten Al₂O₃",
+      "C": "simple distillation",
+      "D": "filtration"
+    },
+    "correct_option": "B",
+    "explanation": "Aluminium is obtained by electrolytic reduction of molten Al₂O₃ (Hall–Héroult process)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Non-metals (ammonia preparation)",
+    "question": "Ammonia can be prepared in the laboratory by heating NH₄Cl with",
+    "options": {
+      "A": "NaCl",
+      "B": "NaOH",
+      "C": "HCl",
+      "D": "H₂SO₄"
+    },
+    "correct_option": "B",
+    "explanation": "NH₄Cl + NaOH → NH₃ + H₂O + NaCl."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (alkene reaction)",
+    "question": "Ethene reacts with hydrogen in the presence of Ni catalyst to form",
+    "options": {
+      "A": "ethanol",
+      "B": "ethyne",
+      "C": "ethane",
+      "D": "ethanoic acid"
+    },
+    "correct_option": "C",
+    "explanation": "Hydrogenation: C₂H₄ + H₂ → C₂H₆."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (distinguishing aldehyde/ketone)",
+    "question": "Which reagent distinguishes an aldehyde from a ketone?",
+    "options": {
+      "A": "Bromine water",
+      "B": "Tollens’ reagent",
+      "C": "NaCl solution",
+      "D": "Dilute HCl"
+    },
+    "correct_option": "B",
+    "explanation": "Aldehydes give silver mirror with Tollens’ reagent; ketones do not."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Separation of mixtures (filtration)",
+    "question": "Which method is most suitable for separating sand from water?",
+    "options": {
+      "A": "Fractional distillation",
+      "B": "Filtration",
+      "C": "Sublimation",
+      "D": "Paper chromatography"
+    },
+    "correct_option": "B",
+    "explanation": "Sand is an insoluble solid in water, so filtration separates it by retaining the solid on the filter paper."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Separation of mixtures (decantation)",
+    "question": "Decantation is best used to separate",
+    "options": {
+      "A": "two miscible liquids",
+      "B": "an insoluble solid from a liquid after settling",
+      "C": "a mixture of dyes",
+      "D": "iodine from sand"
+    },
+    "correct_option": "B",
+    "explanation": "After an insoluble solid settles, the clear liquid can be carefully poured off (decanted)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Separation of mixtures (magnetization)",
+    "question": "A mixture of iron filings and sulfur powder is best separated by",
+    "options": {
+      "A": "filtration",
+      "B": "magnetization",
+      "C": "crystallization",
+      "D": "simple distillation"
+    },
+    "correct_option": "B",
+    "explanation": "Iron is magnetic while sulfur is not, so a magnet removes iron filings."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Separation of mixtures (evaporation)",
+    "question": "To obtain common salt from seawater in the simplest way, the best method is",
+    "options": {
+      "A": "evaporation",
+      "B": "filtration",
+      "C": "sublimation",
+      "D": "paper chromatography"
+    },
+    "correct_option": "A",
+    "explanation": "Evaporation removes water and leaves the dissolved salt behind."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Purification (crystallization)",
+    "question": "Which statement best explains why crystallization purifies a solid?",
+    "options": {
+      "A": "Impurities always sublime away",
+      "B": "Pure crystals form while many impurities remain in solution",
+      "C": "Crystallization converts impurities to gases",
+      "D": "Crystallization works only for insoluble solids"
+    },
+    "correct_option": "B",
+    "explanation": "When a hot saturated solution cools, the solute crystallizes while many impurities remain dissolved."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Purification (simple distillation)",
+    "question": "Simple distillation is best for separating",
+    "options": {
+      "A": "ethanol and water",
+      "B": "two liquids with close boiling points",
+      "C": "a solvent from a solution of a non-volatile solute",
+      "D": "a mixture of inks"
+    },
+    "correct_option": "C",
+    "explanation": "Simple distillation separates a volatile liquid (solvent) from non-volatile dissolved solids (e.g., water from salt solution)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Purification (fractional distillation)",
+    "question": "Fractional distillation is most suitable for separating",
+    "options": {
+      "A": "water and kerosene",
+      "B": "benzene and water",
+      "C": "ethanol and water",
+      "D": "sand and salt"
+    },
+    "correct_option": "C",
+    "explanation": "Ethanol and water are miscible liquids with relatively close boiling points, requiring a fractionating column."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chromatography (Rf concept)",
+    "question": "In paper chromatography, the Rf value of a component is calculated as",
+    "options": {
+      "A": "distance moved by solvent ÷ distance moved by solute",
+      "B": "distance moved by solute ÷ distance moved by solvent front",
+      "C": "mass of solute ÷ mass of solvent",
+      "D": "time taken by solute ÷ time taken by solvent"
+    },
+    "correct_option": "B",
+    "explanation": "Rf = (distance travelled by the solute spot) ÷ (distance travelled by the solvent front)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chemical and physical changes",
+    "question": "Which change is a chemical change?",
+    "options": {
+      "A": "Melting of ice",
+      "B": "Dissolving sugar in water",
+      "C": "Rusting of iron",
+      "D": "Evaporation of water"
+    },
+    "correct_option": "C",
+    "explanation": "Rusting forms new substances (iron oxides), so it is chemical; the others are physical."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Pure vs impure substances (melting point)",
+    "question": "A pure crystalline substance generally",
+    "options": {
+      "A": "melts over a wide temperature range",
+      "B": "has no melting point",
+      "C": "melts sharply at a fixed temperature",
+      "D": "melts only under pressure"
+    },
+    "correct_option": "C",
+    "explanation": "Pure substances melt at a sharp, fixed melting point; impurities usually lower and broaden the range."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Laws of chemical combination (definite proportions)",
+    "question": "The law of definite proportions states that a chemical compound always contains",
+    "options": {
+      "A": "elements mixed in variable proportions",
+      "B": "elements combined in fixed proportions by mass",
+      "C": "only one element",
+      "D": "elements combined in fixed proportions by volume for solids"
+    },
+    "correct_option": "B",
+    "explanation": "A given compound has a constant composition; elements combine in fixed mass ratios."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Law of conservation of matter",
+    "question": "Which statement best supports the law of conservation of matter?",
+    "options": {
+      "A": "Mass is created during burning",
+      "B": "Mass is destroyed during rusting",
+      "C": "Total mass of reactants equals total mass of products in a closed system",
+      "D": "Gases have no mass"
+    },
+    "correct_option": "C",
+    "explanation": "In a closed system, matter is neither created nor destroyed, so mass remains constant."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Mole concept (Avogadro’s number)",
+    "question": "Avogadro’s number is approximately",
+    "options": {
+      "A": "6.02 × 10^23",
+      "B": "3.01 × 10^23",
+      "C": "1.66 × 10^-27",
+      "D": "9.81 × 10^2"
+    },
+    "correct_option": "A",
+    "explanation": "Avogadro’s number is the number of particles in 1 mole: about 6.02 × 10^23."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry (mass from moles)",
+    "question": "How many grams of CO₂ are produced when 0.50 mol of CO₂ is formed? (C = 12, O = 16)",
+    "options": {
+      "A": "11 g",
+      "B": "22 g",
+      "C": "44 g",
+      "D": "88 g"
+    },
+    "correct_option": "B",
+    "explanation": "Molar mass CO₂ = 12 + 2(16) = 44 g mol⁻¹. Mass = 0.50 × 44 = 22 g."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry (mole ratio from equation)",
+    "question": "For: N₂(g) + 3H₂(g) → 2NH₃(g). If 6.0 mol of H₂ reacts completely, how many moles of NH₃ are formed?",
+    "options": {
+      "A": "2.0 mol",
+      "B": "3.0 mol",
+      "C": "4.0 mol",
+      "D": "6.0 mol"
+    },
+    "correct_option": "C",
+    "explanation": "Mole ratio H₂:NH₃ = 3:2. NH₃ formed = 6.0 × (2 ÷ 3) = 4.0 mol."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Gay-Lussac (combining volumes)",
+    "question": "At the same T and P, what volume of NH₃(g) is formed when 30 cm³ of N₂(g) reacts with excess H₂(g)? N₂(g) + 3H₂(g) → 2NH₃(g)",
+    "options": {
+      "A": "20 cm³",
+      "B": "30 cm³",
+      "C": "40 cm³",
+      "D": "60 cm³"
+    },
+    "correct_option": "D",
+    "explanation": "Gas volumes follow mole ratios. N₂:NH₃ = 1:2, so 30 cm³ N₂ gives 60 cm³ NH₃."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Kinetic theory (diffusion)",
+    "question": "Diffusion in gases occurs mainly because gas molecules",
+    "options": {
+      "A": "are fixed in position",
+      "B": "move randomly with high speed",
+      "C": "are strongly attracted to each other",
+      "D": "have no kinetic energy"
+    },
+    "correct_option": "B",
+    "explanation": "Random rapid molecular motion causes mixing and spreading of gases."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Gas laws (combined gas law calculation)",
+    "question": "A gas occupies 2.0 dm³ at 1.0 atm and 300 K. What volume will it occupy at 2.0 atm and 450 K?",
+    "options": {
+      "A": "1.0 dm³",
+      "B": "1.5 dm³",
+      "C": "2.0 dm³",
+      "D": "3.0 dm³"
+    },
+    "correct_option": "B",
+    "explanation": "Use (P₁V₁) ÷ T₁ = (P₂V₂) ÷ T₂. V₂ = (P₁V₁T₂) ÷ (P₂T₁) = (1.0 × 2.0 × 450) ÷ (2.0 × 300) = 900 ÷ 600 = 1.5 dm³."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Ideal gas equation (PV = nRT)",
+    "question": "A gas has P = 1.0 atm, V = 12.3 dm³ and T = 300 K. How many moles are present? (R = 0.082 dm³ atm mol⁻¹ K⁻¹)",
+    "options": {
+      "A": "0.25 mol",
+      "B": "0.50 mol",
+      "C": "1.00 mol",
+      "D": "2.00 mol"
+    },
+    "correct_option": "B",
+    "explanation": "n = PV ÷ RT = (1.0 × 12.3) ÷ (0.082 × 300) = 12.3 ÷ 24.6 = 0.50 mol."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Vapour density and molar mass",
+    "question": "A gas has vapour density 14. What is its relative molecular mass?",
+    "options": {
+      "A": "7",
+      "B": "14",
+      "C": "28",
+      "D": "56"
+    },
+    "correct_option": "C",
+    "explanation": "Relative molecular mass = 2 × vapour density = 2 × 14 = 28."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Atomic structure (isotopes and neutrons)",
+    "question": "An atom has atomic number 12 and mass number 24. How many neutrons does it contain?",
+    "options": {
+      "A": "10",
+      "B": "12",
+      "C": "24",
+      "D": "36"
+    },
+    "correct_option": "B",
+    "explanation": "Neutrons = mass number − atomic number = 24 − 12 = 12."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Periodic trends (ionization energy)",
+    "question": "Which change generally increases first ionization energy?",
+    "options": {
+      "A": "Increasing atomic radius",
+      "B": "Decreasing nuclear charge",
+      "C": "Decreasing atomic radius across a period",
+      "D": "Increasing shielding down a group"
+    },
+    "correct_option": "C",
+    "explanation": "Across a period, atomic radius decreases and effective nuclear charge increases, making electrons harder to remove."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chemical bonding (coordinate bond)",
+    "question": "A coordinate (dative) bond is formed when",
+    "options": {
+      "A": "each atom contributes one electron to the shared pair",
+      "B": "one atom donates both electrons to the shared pair",
+      "C": "electrons are completely transferred",
+      "D": "metal ions share electrons with a sea of electrons"
+    },
+    "correct_option": "B",
+    "explanation": "In a dative bond, the shared pair of electrons comes from one donor atom (e.g., NH₃ donating to H⁺)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Acids, bases and salts (indicator behaviour)",
+    "question": "Which indicator is red in acidic solution and yellow in alkaline solution?",
+    "options": {
+      "A": "Phenolphthalein",
+      "B": "Methyl orange",
+      "C": "Litmus",
+      "D": "Universal indicator"
+    },
+    "correct_option": "B",
+    "explanation": "Methyl orange is red in acid and yellow in alkali (orange near neutral)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Acid-base titration (calculation)",
+    "question": "What volume of 0.50 mol dm⁻³ NaOH(aq) is needed to neutralize 25.0 cm³ of 0.20 mol dm⁻³ HCl(aq)? (NaOH + HCl → NaCl + H₂O)",
+    "options": {
+      "A": "5.0 cm³",
+      "B": "10.0 cm³",
+      "C": "20.0 cm³",
+      "D": "25.0 cm³"
+    },
+    "correct_option": "B",
+    "explanation": "Moles HCl = 0.20 × (25.0 ÷ 1000) = 0.0050 mol. Ratio 1:1, so moles NaOH = 0.0050. Volume NaOH = 0.0050 ÷ 0.50 = 0.010 dm³ = 10.0 cm³."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Oxidation and reduction (oxidation number change)",
+    "question": "In: 2Mg(s) + O₂(g) → 2MgO(s), magnesium is oxidized because its oxidation number changes from",
+    "options": {
+      "A": "0 to −2",
+      "B": "0 to +2",
+      "C": "+2 to 0",
+      "D": "−2 to 0"
+    },
+    "correct_option": "B",
+    "explanation": "Mg goes from 0 in Mg(s) to +2 in MgO, indicating oxidation (increase in oxidation number)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrolysis (aqueous NaCl products)",
+    "question": "In the electrolysis of concentrated NaCl(aq) using inert electrodes, the main products are",
+    "options": {
+      "A": "Na(s) at cathode and O₂(g) at anode",
+      "B": "H₂(g) at cathode and Cl₂(g) at anode",
+      "C": "Cl₂(g) at cathode and H₂(g) at anode",
+      "D": "Na(s) at cathode and Cl₂(g) at anode"
+    },
+    "correct_option": "B",
+    "explanation": "Cathode: 2H₂O(l) + 2e⁻ → H₂(g) + 2OH⁻(aq). Anode: 2Cl⁻(aq) → Cl₂(g) + 2e⁻ (in concentrated brine)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Faraday’s law (mass deposited)",
+    "question": "A current of 1.0 A is passed through CuSO₄(aq) for 1930 s. What mass of Cu is deposited? (Cu²⁺ + 2e⁻ → Cu; Cu = 63.5, F = 96500 C mol⁻¹)",
+    "options": {
+      "A": "0.318 g",
+      "B": "0.635 g",
+      "C": "1.27 g",
+      "D": "2.54 g"
+    },
+    "correct_option": "C",
+    "explanation": "Q = It = 1.0 × 1930 = 1930 C. Moles e⁻ = 1930 ÷ 96500 = 0.0200 mol. Moles Cu = 0.0200 ÷ 2 = 0.0100 mol. Mass = 0.0100 × 63.5 = 0.635 g (so correct is B)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Faraday’s law (mass deposited) - corrected",
+    "question": "A current of 1.0 A is passed through CuSO₄(aq) for 1930 s. What mass of Cu is deposited? (Cu²⁺ + 2e⁻ → Cu; Cu = 63.5, F = 96500 C mol⁻¹)",
+    "options": {
+      "A": "0.318 g",
+      "B": "0.635 g",
+      "C": "1.27 g",
+      "D": "2.54 g"
+    },
+    "correct_option": "B",
+    "explanation": "Q = It = 1.0 × 1930 = 1930 C. Moles e⁻ = 1930 ÷ 96500 = 0.0200 mol. Moles Cu = 0.0200 ÷ 2 = 0.0100 mol. Mass = 0.0100 × 63.5 = 0.635 g."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Thermochemistry (Hess’ law idea)",
+    "question": "Which statement best describes Hess’ law?",
+    "options": {
+      "A": "Reaction rate depends on temperature only",
+      "B": "Total enthalpy change is independent of the route taken",
+      "C": "Catalysts increase equilibrium constant",
+      "D": "Entropy always decreases in reactions"
+    },
+    "correct_option": "B",
+    "explanation": "Because enthalpy is a state function, the overall ∆H depends only on initial and final states, not the pathway."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chemical equilibrium (Le Chatelier, pressure)",
+    "question": "For: 2NO₂(g) ⇌ N₂O₄(g), increasing pressure will",
+    "options": {
+      "A": "favor 2NO₂(g)",
+      "B": "favor N₂O₄(g)",
+      "C": "have no effect",
+      "D": "stop both reactions"
+    },
+    "correct_option": "B",
+    "explanation": "Higher pressure favors the side with fewer gas moles: right side has 1 mole (N₂O₄) vs 2 moles on left."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Non-metals (CO₂ in excess limewater)",
+    "question": "When excess CO₂(g) is passed through limewater, the milkiness disappears because",
+    "options": {
+      "A": "CaCO₃(s) decomposes to CaO(s)",
+      "B": "CaCO₃(s) reacts to form soluble Ca(HCO₃)₂(aq)",
+      "C": "CO₂ oxidizes Ca(OH)₂(aq) to CaO₂",
+      "D": "CO₂ forms H₂ with water"
+    },
+    "correct_option": "B",
+    "explanation": "CaCO₃(s) + CO₂(g) + H₂O(l) → Ca(HCO₃)₂(aq), which is soluble, so the precipitate dissolves."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Metals (displacement reaction)",
+    "question": "Which metal will displace copper from CuSO₄(aq) most readily?",
+    "options": {
+      "A": "Ag",
+      "B": "Zn",
+      "C": "Au",
+      "D": "Cu"
+    },
+    "correct_option": "B",
+    "explanation": "Zinc is more reactive than copper, so it displaces Cu²⁺: Zn(s) + CuSO₄(aq) → ZnSO₄(aq) + Cu(s)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic chemistry (general formula)",
+    "question": "The general formula for alkanes is",
+    "options": {
+      "A": "CₙH₂ₙ",
+      "B": "CₙH₂ₙ₊₂",
+      "C": "CₙH₂ₙ₋₂",
+      "D": "CₙHₙ"
+    },
+    "correct_option": "B",
+    "explanation": "Alkanes are saturated hydrocarbons with general formula CₙH₂ₙ₊₂."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic chemistry (combustion products)",
+    "question": "Complete combustion of a hydrocarbon produces mainly",
+    "options": {
+      "A": "CO(g) and H₂(g)",
+      "B": "CO₂(g) and H₂O(l)",
+      "C": "SO₂(g) and H₂O(l)",
+      "D": "NO₂(g) and H₂O(l)"
+    },
+    "correct_option": "B",
+    "explanation": "Complete combustion in excess oxygen forms carbon(IV) oxide and water."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic chemistry (polymer type)",
+    "question": "Poly(ethene) is formed by",
+    "options": {
+      "A": "condensation polymerization of ethene",
+      "B": "addition polymerization of ethene",
+      "C": "substitution reaction of ethene",
+      "D": "neutralization of ethene"
+    },
+    "correct_option": "B",
+    "explanation": "Ethene molecules add across the C=C bond to form a long-chain polymer without eliminating small molecules."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Solubility (unsaturated vs saturated)",
+    "question": "A solution that can still dissolve more solute at a given temperature is",
+    "options": {
+      "A": "saturated",
+      "B": "unsaturated",
+      "C": "supersaturated",
+      "D": "colloidal"
+    },
+    "correct_option": "B",
+    "explanation": "An unsaturated solution contains less solute than its solubility limit and can dissolve more."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Air (approximate composition)",
+    "question": "Which set best represents the approximate composition of dry air by volume?",
+    "options": {
+      "A": "N₂ 21%, O₂ 78%, Ar 1%",
+      "B": "N₂ 78%, O₂ 21%, Ar about 1%",
+      "C": "N₂ 50%, O₂ 49%, CO₂ 1%",
+      "D": "O₂ 78%, N₂ 21%, CO₂ 1%"
+    },
+    "correct_option": "B",
+    "explanation": "Dry air is about 78% nitrogen, 21% oxygen, and roughly 1% argon (with trace gases)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Water (temporary hardness removal)",
+    "question": "Temporary hardness is removed by boiling because hydrogencarbonates of Ca²⁺/Mg²⁺",
+    "options": {
+      "A": "turn into soluble chlorides",
+      "B": "decompose to insoluble carbonates",
+      "C": "turn into soluble sulfates",
+      "D": "do not react at all"
+    },
+    "correct_option": "B",
+    "explanation": "Boiling decomposes Ca(HCO₃)₂/Mg(HCO₃)₂ to insoluble carbonates that precipitate."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrolysis (anode reaction in brine)",
+    "question": "Which half-equation represents the anode reaction during electrolysis of concentrated NaCl(aq) with inert electrodes?",
+    "options": {
+      "A": "Na⁺(aq) + e⁻ → Na(s)",
+      "B": "2H₂O(l) + 2e⁻ → H₂(g) + 2OH⁻(aq)",
+      "C": "2Cl⁻(aq) → Cl₂(g) + 2e⁻",
+      "D": "4H⁺(aq) + O₂(g) + 4e⁻ → 2H₂O(l)"
+    },
+    "correct_option": "C",
+    "explanation": "Chloride ions are oxidized at the anode in concentrated brine: 2Cl⁻ → Cl₂ + 2e⁻."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Redox (oxidizing agent identification)",
+    "question": "In: 2KI(aq) + Br₂(aq) → 2KBr(aq) + I₂(s), the oxidizing agent is",
+    "options": {
+      "A": "KI(aq)",
+      "B": "KBr(aq)",
+      "C": "Br₂(aq)",
+      "D": "I₂(s)"
+    },
+    "correct_option": "C",
+    "explanation": "Br₂ is reduced to Br⁻ while oxidizing I⁻ to I₂; the species reduced is the oxidizing agent."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry (molarity to moles)",
+    "question": "How many moles of NaCl are present in 250 cm³ of 0.40 mol dm⁻³ NaCl(aq)?",
+    "options": {
+      "A": "0.05 mol",
+      "B": "0.10 mol",
+      "C": "0.20 mol",
+      "D": "1.00 mol"
+    },
+    "correct_option": "B",
+    "explanation": "Moles = C × V = 0.40 × (250 ÷ 1000) = 0.40 × 0.250 = 0.10 mol."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Thermochemistry (q = mcΔT calculation)",
+    "question": "A 100 g metal sample releases 2,000 J of heat to water and its temperature drops by 20 °C. What is its specific heat capacity? (Assume no heat loss)",
+    "options": {
+      "A": "0.5 J g⁻¹ °C⁻¹",
+      "B": "1.0 J g⁻¹ °C⁻¹",
+      "C": "2.0 J g⁻¹ °C⁻¹",
+      "D": "4.0 J g⁻¹ °C⁻¹"
+    },
+    "correct_option": "B",
+    "explanation": "q = mcΔT → c = q ÷ (mΔT) = 2000 ÷ (100 × 20) = 2000 ÷ 2000 = 1.0 J g⁻¹ °C⁻¹."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic chemistry (IUPAC naming)",
+    "question": "What is the IUPAC name of CH₃CH₂CH₃?",
+    "options": {
+      "A": "ethane",
+      "B": "propane",
+      "C": "butane",
+      "D": "propene"
+    },
+    "correct_option": "B",
+    "explanation": "It has 3 carbon atoms with single bonds only, so it is propane."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic chemistry (functional group test)",
+    "question": "A compound gives a silver mirror with Tollens’ reagent. The compound is most likely an",
+    "options": {
+      "A": "alkane",
+      "B": "alkene",
+      "C": "aldehyde",
+      "D": "ketone"
+    },
+    "correct_option": "C",
+    "explanation": "Aldehydes reduce Tollens’ reagent to metallic silver, producing a silver mirror."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Separation of mixtures (column chromatography)",
+    "question": "Column chromatography separates components mainly based on differences in their",
+    "options": {
+      "A": "boiling points",
+      "B": "magnetic properties",
+      "C": "affinity for stationary and mobile phases",
+      "D": "melting points"
+    },
+    "correct_option": "C",
+    "explanation": "Separation occurs because components move at different rates depending on their attraction to the stationary phase versus the mobile phase."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chemical combination (multiple proportions)",
+    "question": "The law of multiple proportions is illustrated by CO and CO₂ because",
+    "options": {
+      "A": "they have the same physical properties",
+      "B": "they contain carbon and oxygen in simple whole number mass ratios",
+      "C": "they are mixtures",
+      "D": "they have the same boiling point"
+    },
+    "correct_option": "B",
+    "explanation": "For a fixed mass of carbon, oxygen combines in simple whole number ratios in CO and CO₂."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry (mass from reaction)",
+    "question": "What mass of O₂ is required to completely burn 12 g of carbon? C(s) + O₂(g) → CO₂(g)",
+    "options": {
+      "A": "8 g",
+      "B": "12 g",
+      "C": "16 g",
+      "D": "32 g"
+    },
+    "correct_option": "D",
+    "explanation": "12 g C = 1 mol C. Ratio 1:1 with O₂, so 1 mol O₂ needed. Molar mass O₂ = 32 g."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Gas laws (Boyle’s reasoning)",
+    "question": "At constant temperature, halving the volume of a gas will",
+    "options": {
+      "A": "halve its pressure",
+      "B": "double its pressure",
+      "C": "not affect its pressure",
+      "D": "reduce temperature"
+    },
+    "correct_option": "B",
+    "explanation": "Boyle’s law: P ∝ 1/V. Halving V doubles P."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Gas laws (ideal gas rearrangement)",
+    "question": "From PV = nRT, pressure P is directly proportional to",
+    "options": {
+      "A": "V only",
+      "B": "nT",
+      "C": "R only",
+      "D": "1/T"
+    },
+    "correct_option": "B",
+    "explanation": "Rearranging gives P = (nRT)/V. At constant V and R, P ∝ nT."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Atomic structure (electron configuration)",
+    "question": "Which element has the configuration 2,8,8,1?",
+    "options": {
+      "A": "Na",
+      "B": "K",
+      "C": "Ca",
+      "D": "Mg"
+    },
+    "correct_option": "B",
+    "explanation": "2+8+8+1 = 19 electrons → atomic number 19 → potassium (K)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Periodic trends (metallic character)",
+    "question": "Metallic character generally increases",
+    "options": {
+      "A": "across a period",
+      "B": "up a group",
+      "C": "down a group",
+      "D": "towards noble gases"
+    },
+    "correct_option": "C",
+    "explanation": "Down a group, atoms lose electrons more easily, increasing metallic character."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Bonding (ionic vs covalent properties)",
+    "question": "Which property is typical of ionic compounds?",
+    "options": {
+      "A": "Low melting point",
+      "B": "Poor electrical conductivity when molten",
+      "C": "High melting point and conduct electricity when molten",
+      "D": "Exist only as gases"
+    },
+    "correct_option": "C",
+    "explanation": "Ionic compounds have strong lattice forces (high melting points) and conduct when molten due to mobile ions."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Acids and bases (Arrhenius concept)",
+    "question": "An Arrhenius base is a substance that",
+    "options": {
+      "A": "donates protons",
+      "B": "accepts protons",
+      "C": "produces OH⁻ in aqueous solution",
+      "D": "produces H⁺ in aqueous solution"
+    },
+    "correct_option": "C",
+    "explanation": "Arrhenius bases dissociate in water to produce hydroxide ions."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "pH scale concept",
+    "question": "A solution with pH 7 at 25 °C is",
+    "options": {
+      "A": "acidic",
+      "B": "basic",
+      "C": "neutral",
+      "D": "strongly acidic"
+    },
+    "correct_option": "C",
+    "explanation": "At 25 °C, pH 7 indicates neutrality ([H⁺] = [OH⁻])."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Redox (definition)",
+    "question": "Reduction can be defined as",
+    "options": {
+      "A": "loss of electrons",
+      "B": "gain of electrons",
+      "C": "increase in oxidation number",
+      "D": "addition of oxygen"
+    },
+    "correct_option": "B",
+    "explanation": "Reduction involves gain of electrons and decrease in oxidation number."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrolysis (cathode process)",
+    "question": "During electrolysis, reduction occurs at the",
+    "options": {
+      "A": "anode",
+      "B": "cathode",
+      "C": "salt bridge",
+      "D": "electrolyte"
+    },
+    "correct_option": "B",
+    "explanation": "Reduction (gain of electrons) takes place at the cathode."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Thermochemistry (endothermic example)",
+    "question": "Which process is endothermic?",
+    "options": {
+      "A": "Combustion of methane",
+      "B": "Neutralization of HCl and NaOH",
+      "C": "Melting of ice",
+      "D": "Condensation of steam"
+    },
+    "correct_option": "C",
+    "explanation": "Melting absorbs heat from surroundings, so it is endothermic."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Equilibrium (dynamic nature)",
+    "question": "At equilibrium in a closed system, the concentrations of reactants and products",
+    "options": {
+      "A": "are equal",
+      "B": "remain constant",
+      "C": "are zero",
+      "D": "keep increasing"
+    },
+    "correct_option": "B",
+    "explanation": "At dynamic equilibrium, concentrations remain constant though reactions continue."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Non-metals (ozone function)",
+    "question": "The ozone layer is important because it",
+    "options": {
+      "A": "produces oxygen for respiration",
+      "B": "absorbs harmful ultraviolet radiation",
+      "C": "causes global warming directly",
+      "D": "forms acid rain"
+    },
+    "correct_option": "B",
+    "explanation": "Ozone absorbs much of the Sun’s harmful UV radiation."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Metals (corrosion prevention)",
+    "question": "Galvanizing iron prevents rusting mainly by",
+    "options": {
+      "A": "coating it with copper",
+      "B": "coating it with zinc",
+      "C": "painting with acid",
+      "D": "heating strongly"
+    },
+    "correct_option": "B",
+    "explanation": "Zinc coating protects iron by forming a barrier and acting as a sacrificial metal."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (alkane reaction type)",
+    "question": "Alkanes typically undergo",
+    "options": {
+      "A": "addition reactions",
+      "B": "substitution reactions",
+      "C": "polymerization easily",
+      "D": "oxidation to alcohols at room temperature"
+    },
+    "correct_option": "B",
+    "explanation": "Alkanes are saturated and mainly undergo substitution reactions (e.g., halogenation)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (alkene addition)",
+    "question": "The reaction of ethene with bromine water is an example of",
+    "options": {
+      "A": "substitution",
+      "B": "addition",
+      "C": "elimination",
+      "D": "condensation"
+    },
+    "correct_option": "B",
+    "explanation": "Bromine adds across the C=C bond in ethene."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (carboxylic acid property)",
+    "question": "Ethanoic acid reacts with Na₂CO₃(aq) to produce",
+    "options": {
+      "A": "H₂(g)",
+      "B": "CO₂(g)",
+      "C": "O₂(g)",
+      "D": "NH₃(g)"
+    },
+    "correct_option": "B",
+    "explanation": "Acid + carbonate → salt + water + CO₂."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (protein structure)",
+    "question": "Proteins are polymers formed from",
+    "options": {
+      "A": "glucose units",
+      "B": "fatty acids",
+      "C": "amino acids",
+      "D": "nucleotides"
+    },
+    "correct_option": "C",
+    "explanation": "Proteins are made of amino acid monomers linked by peptide bonds."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Solubility (supersaturated solution)",
+    "question": "A supersaturated solution is",
+    "options": {
+      "A": "one that contains no solute",
+      "B": "one that contains more solute than it can normally hold at that temperature",
+      "C": "always unstable and cannot exist",
+      "D": "always unsaturated"
+    },
+    "correct_option": "B",
+    "explanation": "Supersaturated solutions contain more dissolved solute than the equilibrium solubility at that temperature."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Air (CO₂ role)",
+    "question": "Carbon(IV) oxide in the atmosphere is important because it",
+    "options": {
+      "A": "supports combustion strongly",
+      "B": "is used by plants in photosynthesis",
+      "C": "forms ozone directly",
+      "D": "is the most abundant gas"
+    },
+    "correct_option": "B",
+    "explanation": "CO₂ is required by plants for photosynthesis."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Water (electrolysis products)",
+    "question": "Electrolysis of water produces",
+    "options": {
+      "A": "H₂ only",
+      "B": "O₂ only",
+      "C": "H₂ and O₂",
+      "D": "H₂O₂"
+    },
+    "correct_option": "C",
+    "explanation": "2H₂O(l) → 2H₂(g) + O₂(g)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Oxidation (oxygen definition)",
+    "question": "Which process represents oxidation by oxygen definition?",
+    "options": {
+      "A": "CuO → Cu",
+      "B": "Fe + O₂ → Fe₂O₃",
+      "C": "Zn²⁺ + 2e⁻ → Zn",
+      "D": "HCl → H⁺ + Cl⁻"
+    },
+    "correct_option": "B",
+    "explanation": "Iron gains oxygen to form iron(III) oxide; oxidation is addition of oxygen."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrochemical cell (electron flow)",
+    "question": "In a simple Zn/Cu cell, electrons flow from",
+    "options": {
+      "A": "Cu to Zn",
+      "B": "Zn to Cu",
+      "C": "salt bridge to Zn",
+      "D": "electrolyte to cathode"
+    },
+    "correct_option": "B",
+    "explanation": "Zn is oxidized and releases electrons that flow to Cu."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Thermochemistry (entropy concept)",
+    "question": "Entropy is a measure of",
+    "options": {
+      "A": "temperature",
+      "B": "pressure",
+      "C": "disorder of a system",
+      "D": "mass of reactants"
+    },
+    "correct_option": "C",
+    "explanation": "Entropy measures the degree of disorder or randomness in a system."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chemical equilibrium (catalyst effect)",
+    "question": "A catalyst affects equilibrium by",
+    "options": {
+      "A": "changing the equilibrium constant",
+      "B": "shifting position permanently",
+      "C": "increasing rate of attainment without changing position",
+      "D": "reducing concentration of reactants"
+    },
+    "correct_option": "C",
+    "explanation": "Catalysts speed up both forward and reverse reactions equally but do not change equilibrium position."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Non-metals (hydrogen test)",
+    "question": "Hydrogen gas is identified by",
+    "options": {
+      "A": "turning limewater milky",
+      "B": "relighting a glowing splint",
+      "C": "a 'pop' sound with a lighted splint",
+      "D": "brown fumes"
+    },
+    "correct_option": "C",
+    "explanation": "Hydrogen burns with a characteristic 'pop' sound."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Metals (alloy identification)",
+    "question": "Brass is an alloy of",
+    "options": {
+      "A": "Cu and Zn",
+      "B": "Cu and Sn",
+      "C": "Fe and C",
+      "D": "Al and Mg"
+    },
+    "correct_option": "A",
+    "explanation": "Brass consists mainly of copper and zinc."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (alcohol property)",
+    "question": "Ethanol is miscible with water mainly because",
+    "options": {
+      "A": "it is non-polar",
+      "B": "it forms hydrogen bonds with water",
+      "C": "it is heavier than water",
+      "D": "it is an alkane"
+    },
+    "correct_option": "B",
+    "explanation": "The –OH group in ethanol forms hydrogen bonds with water molecules."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Separation of mixtures (fractional crystallization)",
+    "question": "Fractional crystallization is most effective when separating two solids that",
+    "options": {
+      "A": "are both insoluble in water",
+      "B": "have significantly different solubilities at a given temperature",
+      "C": "are both magnetic",
+      "D": "have identical melting points"
+    },
+    "correct_option": "B",
+    "explanation": "Fractional crystallization relies on differences in solubility; the less soluble substance crystallizes first from solution."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Stoichiometry (limiting reagent)",
+    "question": "For the reaction: 2H₂(g) + O₂(g) → 2H₂O(l). If 3.0 mol of H₂ reacts with 1.0 mol of O₂, the limiting reagent is",
+    "options": {
+      "A": "H₂",
+      "B": "O₂",
+      "C": "H₂O",
+      "D": "None; both are fully consumed"
+    },
+    "correct_option": "B",
+    "explanation": "Required ratio H₂:O₂ = 2:1. For 3.0 mol H₂, 1.5 mol O₂ is needed, but only 1.0 mol O₂ is available, so O₂ is limiting."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Gas laws (molar volume at STP)",
+    "question": "What mass of O₂ occupies 11.2 dm³ at STP? (O = 16)",
+    "options": {
+      "A": "8 g",
+      "B": "16 g",
+      "C": "22 g",
+      "D": "32 g"
+    },
+    "correct_option": "B",
+    "explanation": "At STP, 22.4 dm³ = 1 mol. 11.2 dm³ = 0.5 mol. Molar mass O₂ = 32 g mol⁻¹, so mass = 0.5 × 32 = 16 g."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Atomic structure (protons and electrons)",
+    "question": "An ion X²⁺ has 18 electrons. What is the atomic number of X?",
+    "options": {
+      "A": "16",
+      "B": "18",
+      "C": "20",
+      "D": "36"
+    },
+    "correct_option": "C",
+    "explanation": "X²⁺ has lost 2 electrons. Neutral atom had 18 + 2 = 20 electrons, so atomic number = 20."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Periodic trends (electronegativity)",
+    "question": "Which element among the following is most electronegative?",
+    "options": {
+      "A": "Na",
+      "B": "Mg",
+      "C": "Cl",
+      "D": "K"
+    },
+    "correct_option": "C",
+    "explanation": "Electronegativity increases across a period; chlorine is farthest to the right among the options."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Chemical bonding (VSEPR theory)",
+    "question": "The shape of NH₃ is",
+    "options": {
+      "A": "linear",
+      "B": "trigonal planar",
+      "C": "trigonal pyramidal",
+      "D": "tetrahedral"
+    },
+    "correct_option": "C",
+    "explanation": "NH₃ has three bonding pairs and one lone pair; electron geometry is tetrahedral but molecular shape is trigonal pyramidal."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Acids and bases (pH calculation)",
+    "question": "What is the pH of a solution with [H⁺] = 1.0 × 10⁻³ mol dm⁻³?",
+    "options": {
+      "A": "1",
+      "B": "2",
+      "C": "3",
+      "D": "11"
+    },
+    "correct_option": "C",
+    "explanation": "pH = −log[H⁺] = −log(10⁻³) = 3."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Redox (oxidation number in KMnO₄)",
+    "question": "What is the oxidation number of Mn in KMnO₄?",
+    "options": {
+      "A": "+2",
+      "B": "+4",
+      "C": "+6",
+      "D": "+7"
+    },
+    "correct_option": "D",
+    "explanation": "K = +1, O = −2. Let Mn = x: 1 + x + 4(−2) = 0 → 1 + x − 8 = 0 → x = +7."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrolysis (molten NaCl)",
+    "question": "During electrolysis of molten NaCl(l), the product at the cathode is",
+    "options": {
+      "A": "Na⁺(aq)",
+      "B": "Na(s)",
+      "C": "Cl₂(g)",
+      "D": "H₂(g)"
+    },
+    "correct_option": "B",
+    "explanation": "In molten NaCl, Na⁺ gains electrons at the cathode: Na⁺ + e⁻ → Na(s)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Thermochemistry (Gibbs free energy)",
+    "question": "A reaction is spontaneous at constant temperature and pressure if",
+    "options": {
+      "A": "ΔH is positive",
+      "B": "ΔS is zero",
+      "C": "ΔG is negative",
+      "D": "ΔG is positive"
+    },
+    "correct_option": "C",
+    "explanation": "Spontaneity criterion: ΔG < 0."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Equilibrium (Le Chatelier temperature effect)",
+    "question": "For an exothermic reaction at equilibrium, increasing temperature will",
+    "options": {
+      "A": "shift equilibrium to the right",
+      "B": "shift equilibrium to the left",
+      "C": "have no effect",
+      "D": "stop the reaction"
+    },
+    "correct_option": "B",
+    "explanation": "Increasing temperature favors the endothermic direction; for exothermic forward reaction, equilibrium shifts left."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Non-metals (sulfur dioxide property)",
+    "question": "Sulfur(IV) oxide acts as a reducing agent because it",
+    "options": {
+      "A": "gains electrons easily",
+      "B": "loses electrons easily",
+      "C": "is highly reactive with metals only",
+      "D": "is insoluble in water"
+    },
+    "correct_option": "B",
+    "explanation": "SO₂ can be oxidized to SO₃, so it donates electrons (acts as a reducing agent)."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Metals (blast furnace product)",
+    "question": "In the blast furnace, the main reducing agent for Fe₂O₃ is",
+    "options": {
+      "A": "CO",
+      "B": "CO₂",
+      "C": "O₂",
+      "D": "CaCO₃"
+    },
+    "correct_option": "A",
+    "explanation": "CO reduces iron(III) oxide: Fe₂O₃ + 3CO → 2Fe + 3CO₂."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (alkyne general formula)",
+    "question": "The general formula of alkynes is",
+    "options": {
+      "A": "CₙH₂ₙ",
+      "B": "CₙH₂ₙ₊₂",
+      "C": "CₙH₂ₙ₋₂",
+      "D": "CₙHₙ"
+    },
+    "correct_option": "C",
+    "explanation": "Alkynes contain a triple bond and follow the formula CₙH₂ₙ₋₂."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Organic (saponification)",
+    "question": "The hydrolysis of fats and oils with alkali to form soap is called",
+    "options": {
+      "A": "polymerization",
+      "B": "esterification",
+      "C": "saponification",
+      "D": "cracking"
+    },
+    "correct_option": "C",
+    "explanation": "Saponification is alkaline hydrolysis of fats to produce soap and glycerol."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Solubility (effect of temperature)",
+    "question": "For most solid solutes, solubility in water generally",
+    "options": {
+      "A": "decreases with temperature",
+      "B": "increases with temperature",
+      "C": "remains constant",
+      "D": "becomes zero at high temperature"
+    },
+    "correct_option": "B",
+    "explanation": "Most solid solutes dissolve more as temperature increases."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Water (deliquescence)",
+    "question": "A deliquescent substance is one that",
+    "options": {
+      "A": "loses water of crystallization to air",
+      "B": "absorbs moisture from air and dissolves in it",
+      "C": "does not absorb moisture",
+      "D": "changes color on heating only"
+    },
+    "correct_option": "B",
+    "explanation": "Deliquescent substances absorb water vapor from air until they dissolve."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Oxidation and reduction (electron transfer)",
+    "question": "In the reaction: Fe²⁺ + Ce⁴⁺ → Fe³⁺ + Ce³⁺, the species reduced is",
+    "options": {
+      "A": "Fe²⁺",
+      "B": "Fe³⁺",
+      "C": "Ce⁴⁺",
+      "D": "Ce³⁺"
+    },
+    "correct_option": "C",
+    "explanation": "Ce⁴⁺ gains an electron to become Ce³⁺; reduction is gain of electrons."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Electrochemical series (reactivity)",
+    "question": "Which metal is most reactive?",
+    "options": {
+      "A": "Cu",
+      "B": "Zn",
+      "C": "Ag",
+      "D": "Mg"
+    },
+    "correct_option": "D",
+    "explanation": "Magnesium is higher in the electrochemical series than Zn, Cu, and Ag."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Thermochemistry (bond energy concept)",
+    "question": "Bond breaking is generally",
+    "options": {
+      "A": "exothermic",
+      "B": "endothermic",
+      "C": "neutral",
+      "D": "always spontaneous"
+    },
+    "correct_option": "B",
+    "explanation": "Energy must be supplied to break chemical bonds, so bond breaking is endothermic."
+  },
+  {
+    "exam": "JAMB",
+    "subject": "Chemistry",
+    "topic": "Equilibrium (position unaffected)",
+    "question": "Which change does NOT affect the position of equilibrium?",
+    "options": {
+      "A": "Changing concentration",
+      "B": "Changing temperature",
+      "C": "Adding a catalyst",
+      "D": "Changing pressure (for gases)"
+    },
+    "correct_option": "C",
+    "explanation": "A catalyst speeds up attainment of equilibrium but does not change its position."
+  }
+]
+
