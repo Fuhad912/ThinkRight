@@ -1,0 +1,3683 @@
+[
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "History of Computing",
+"question": "The major contribution of Charles Babbage’s Analytical Engine to modern computing is that it introduced the concept of",
+"options": {
+"A": "Cloud storage systems",
+"B": "A programmable machine using punched cards",
+"C": "Graphical user interfaces",
+"D": "Wireless data transmission"
+},
+"correct_option": "B",
+"explanation": "The Analytical Engine was designed as a programmable mechanical computer using punched cards, forming the basis of modern programmable systems."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "History of Computing",
+"question": "The ENIAC differed from earlier mechanical calculators mainly because it",
+"options": {
+"A": "Used vacuum tubes for electronic computation",
+"B": "Was portable and battery powered",
+"C": "Used magnetic disks for storage",
+"D": "Supported internet connectivity"
+},
+"correct_option": "A",
+"explanation": "ENIAC was one of the first electronic computers and used vacuum tubes instead of mechanical parts for computation."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Classification by Generation",
+"question": "A computer that uses integrated circuits instead of individual transistors belongs to the",
+"options": {
+"A": "First generation",
+"B": "Second generation",
+"C": "Third generation",
+"D": "Fourth generation"
+},
+"correct_option": "C",
+"explanation": "Third-generation computers used integrated circuits, replacing individual transistors used in second-generation systems."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Classification by Purpose",
+"question": "An Automated Teller Machine (ATM) is best classified as a",
+"options": {
+"A": "General-purpose computer",
+"B": "Hybrid computer",
+"C": "Special-purpose computer",
+"D": "Supercomputer"
+},
+"correct_option": "C",
+"explanation": "An ATM performs specific banking tasks and is therefore a special-purpose computer."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Hardware and Software",
+"question": "An operating system is essential in a computing system because it",
+"options": {
+"A": "Increases internet speed",
+"B": "Acts as an interface between hardware and user applications",
+"C": "Replaces the CPU",
+"D": "Converts data into binary"
+},
+"correct_option": "B",
+"explanation": "The operating system manages hardware resources and provides an interface between hardware and application software."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Logic Circuits",
+"question": "A logic gate that outputs 1 only when both inputs are 1 is the",
+"options": {
+"A": "OR gate",
+"B": "NOT gate",
+"C": "AND gate",
+"D": "XOR gate"
+},
+"correct_option": "C",
+"explanation": "An AND gate produces output 1 only when all its inputs are 1."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Data Representation",
+"question": "The decimal number 10 is represented in binary as",
+"options": {
+"A": "1001",
+"B": "1010",
+"C": "1100",
+"D": "1110"
+},
+"correct_option": "B",
+"explanation": "10 in decimal equals 1010 in binary (8 + 2)."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Data and Information",
+"question": "Which option best distinguishes information from data?",
+"options": {
+"A": "Data is processed facts while information is raw facts",
+"B": "Information is meaningless figures",
+"C": "Information is processed data that is meaningful",
+"D": "Data cannot be stored electronically"
+},
+"correct_option": "C",
+"explanation": "Information is processed data that has meaning and can support decision-making."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Word Processing",
+"question": "To apply the same formatting style to multiple sections of a document quickly in MS Word, the most efficient tool is",
+"options": {
+"A": "Find and Replace",
+"B": "Format Painter",
+"C": "Spell Checker",
+"D": "Mail Merge"
+},
+"correct_option": "B",
+"explanation": "Format Painter copies formatting from one section and applies it to others efficiently."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Spreadsheet",
+"question": "In MS Excel, the formula =AVERAGE(A1:A5) will",
+"options": {
+"A": "Add values from A1 to A5",
+"B": "Multiply values from A1 to A5",
+"C": "Compute the mean of values from A1 to A5",
+"D": "Count non-empty cells in A1 to A5"
+},
+"correct_option": "C",
+"explanation": "The AVERAGE function calculates the arithmetic mean of selected cells."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Database Basics",
+"question": "In a relational database, a primary key is important because it",
+"options": {
+"A": "Encrypts all records",
+"B": "Uniquely identifies each record",
+"C": "Stores backup data",
+"D": "Formats tables automatically"
+},
+"correct_option": "B",
+"explanation": "A primary key uniquely identifies each record in a table."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Graphics Package",
+"question": "Vector graphics are preferred over bitmap graphics for logo design because they",
+"options": {
+"A": "Have larger file sizes",
+"B": "Can be resized without losing quality",
+"C": "Require internet access",
+"D": "Contain only photographs"
+},
+"correct_option": "B",
+"explanation": "Vector graphics are resolution-independent and can be resized without distortion."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Presentation Package",
+"question": "In PowerPoint, slide transitions are used to",
+"options": {
+"A": "Insert charts",
+"B": "Animate text within a slide",
+"C": "Control movement between slides",
+"D": "Correct spelling errors"
+},
+"correct_option": "C",
+"explanation": "Slide transitions determine how one slide changes to another during presentation."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Web Design",
+"question": "In web design, the <a> tag in HTML is primarily used to",
+"options": {
+"A": "Insert images",
+"B": "Create hyperlinks",
+"C": "Format text",
+"D": "Define headings"
+},
+"correct_option": "B",
+"explanation": "The anchor (<a>) tag creates hyperlinks to other pages or resources."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "File Organisation",
+"question": "Sequential file organisation is most suitable when",
+"options": {
+"A": "Records are frequently updated randomly",
+"B": "Data is processed in order from start to end",
+"C": "Fast random access is required",
+"D": "Encryption is needed"
+},
+"correct_option": "B",
+"explanation": "Sequential organisation processes records in a fixed order, suitable for batch processing."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Handling Files",
+"question": "Regularly backing up files primarily protects against",
+"options": {
+"A": "Slow processing speed",
+"B": "Hardware theft only",
+"C": "Data loss due to system failure",
+"D": "Typing errors"
+},
+"correct_option": "C",
+"explanation": "Backups help recover data in case of crashes or failures."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Booting Process",
+"question": "A warm boot differs from a cold boot because it",
+"options": {
+"A": "Starts the computer after power off",
+"B": "Restarts the system without turning off power",
+"C": "Deletes all files",
+"D": "Requires external storage"
+},
+"correct_option": "B",
+"explanation": "A warm boot restarts the computer without shutting down the power completely."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Maintenance",
+"question": "Installing antivirus software mainly helps to",
+"options": {
+"A": "Increase RAM size",
+"B": "Detect and remove malicious software",
+"C": "Upgrade hardware drivers",
+"D": "Format storage devices"
+},
+"correct_option": "B",
+"explanation": "Antivirus software detects and removes malware."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "ICT",
+"question": "ICT stands for",
+"options": {
+"A": "Integrated Computer Technology",
+"B": "Information and Communication Technology",
+"C": "Internet Control Transmission",
+"D": "Internal Computing Technique"
+},
+"correct_option": "B",
+"explanation": "ICT means Information and Communication Technology."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Internet",
+"question": "A web browser’s main function is to",
+"options": {
+"A": "Design websites",
+"B": "Store database tables",
+"C": "Retrieve and display web pages",
+"D": "Compile programs"
+},
+"correct_option": "C",
+"explanation": "Web browsers access, retrieve, and display web content."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Electronic Mail",
+"question": "In the email address user@example.com, 'example.com' represents the",
+"options": {
+"A": "Username",
+"B": "Protocol",
+"C": "Domain name",
+"D": "Password"
+},
+"correct_option": "C",
+"explanation": "The domain name identifies the mail server hosting the email account."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Networking",
+"question": "A device that connects multiple computers within a local network and forwards data intelligently is a",
+"options": {
+"A": "Hub",
+"B": "Router",
+"C": "Switch",
+"D": "Modem"
+},
+"correct_option": "C",
+"explanation": "A switch forwards data to specific devices using MAC addresses."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "WWW",
+"question": "HTTP is mainly used for",
+"options": {
+"A": "Sending emails",
+"B": "Transferring web pages",
+"C": "Encrypting passwords",
+"D": "Compiling programs"
+},
+"correct_option": "B",
+"explanation": "HTTP (HyperText Transfer Protocol) transfers web pages over the internet."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Languages",
+"question": "A high-level programming language requires a translator because it",
+"options": {
+"A": "Is written in binary",
+"B": "Cannot be understood directly by the CPU",
+"C": "Is faster than machine code",
+"D": "Has no syntax rules"
+},
+"correct_option": "B",
+"explanation": "High-level languages must be translated into machine code for the CPU to execute them."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Algorithm",
+"question": "An algorithm must be finite, meaning it",
+"options": {
+"A": "Runs forever",
+"B": "Has a limited number of steps",
+"C": "Uses flowcharts only",
+"D": "Is written in English"
+},
+"correct_option": "B",
+"explanation": "An algorithm must terminate after a finite number of steps."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Flowchart",
+"question": "The diamond symbol in a flowchart represents",
+"options": {
+"A": "Start/Stop",
+"B": "Process",
+"C": "Decision",
+"D": "Input/Output"
+},
+"correct_option": "C",
+"explanation": "A diamond symbol indicates a decision or branching point."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Structure",
+"question": "Which operator is used for comparison in most programming languages?",
+"options": {
+"A": "=",
+"B": "==",
+"C": "+",
+"D": "%"
+},
+"correct_option": "B",
+"explanation": "The == operator is commonly used for equality comparison."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "SDLC",
+"question": "The first stage of the System Development Life Cycle is usually",
+"options": {
+"A": "Testing",
+"B": "Implementation",
+"C": "Requirement analysis",
+"D": "Maintenance"
+},
+"correct_option": "C",
+"explanation": "Requirement analysis defines system needs before design and development."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "AI",
+"question": "Artificial Intelligence is best described as",
+"options": {
+"A": "Human intelligence replacing machines",
+"B": "Machines performing tasks that require human-like intelligence",
+"C": "Hardware automation only",
+"D": "Binary data processing"
+},
+"correct_option": "B",
+"explanation": "AI involves machines simulating human intelligence."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Robotics",
+"question": "A sensor in a robotic system is responsible for",
+"options": {
+"A": "Executing movement",
+"B": "Processing decisions",
+"C": "Detecting environmental changes",
+"D": "Providing power supply"
+},
+"correct_option": "C",
+"explanation": "Sensors collect environmental data for robotic systems."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Cybersecurity",
+"question": "Phishing attacks primarily aim to",
+"options": {
+"A": "Improve network speed",
+"B": "Steal sensitive information by deception",
+"C": "Fix software bugs",
+"D": "Enhance encryption"
+},
+"correct_option": "B",
+"explanation": "Phishing tricks users into revealing sensitive information."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Ethics",
+"question": "Using pirated software violates computer ethics because it",
+"options": {
+"A": "Improves system speed",
+"B": "Reduces file size",
+"C": "Infringes on intellectual property rights",
+"D": "Increases compatibility"
+},
+"correct_option": "C",
+"explanation": "Pirated software violates copyright and intellectual property laws."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "History of Computing",
+"question": "Ada Lovelace is historically significant in computing because she",
+"options": {
+"A": "Built the first electronic computer",
+"B": "Developed the first computer virus",
+"C": "Wrote the first algorithm intended for a machine",
+"D": "Invented the microprocessor"
+},
+"correct_option": "C",
+"explanation": "Ada Lovelace wrote an algorithm for Babbage’s Analytical Engine, making her the first computer programmer."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "History of Computing",
+"question": "The main advantage of transistors over vacuum tubes in second-generation computers was that transistors",
+"options": {
+"A": "Consumed more power",
+"B": "Were larger in size",
+"C": "Were smaller, faster and more reliable",
+"D": "Required mechanical cooling"
+},
+"correct_option": "C",
+"explanation": "Transistors were smaller, more reliable, consumed less power, and generated less heat than vacuum tubes."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Classification by Size",
+"question": "A university using a powerful central computer to support hundreds of users simultaneously is most likely using a",
+"options": {
+"A": "Microcomputer",
+"B": "Minicomputer",
+"C": "Mainframe",
+"D": "Tablet"
+},
+"correct_option": "C",
+"explanation": "Mainframes are designed to support many users and large-scale processing tasks."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Classification by Type",
+"question": "A computer system used in weather forecasting that processes both continuous and discrete data is classified as a",
+"options": {
+"A": "Digital computer",
+"B": "Analog computer",
+"C": "Hybrid computer",
+"D": "Embedded computer"
+},
+"correct_option": "C",
+"explanation": "Hybrid computers combine features of analog and digital systems, suitable for scientific simulations like weather forecasting."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Hardware",
+"question": "The primary function of the CPU’s control unit is to",
+"options": {
+"A": "Store user files permanently",
+"B": "Coordinate and direct operations of the computer",
+"C": "Display graphics",
+"D": "Connect to the internet"
+},
+"correct_option": "B",
+"explanation": "The control unit directs and coordinates all activities within the CPU and other components."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Software Types",
+"question": "A compiler differs from an interpreter because a compiler",
+"options": {
+"A": "Translates code line by line during execution",
+"B": "Translates the entire program before execution",
+"C": "Is a type of hardware",
+"D": "Does not detect syntax errors"
+},
+"correct_option": "B",
+"explanation": "A compiler translates the whole program into machine code before execution."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Characteristics of Computers",
+"question": "Which characteristic of computers ensures that repeated calculations produce the same result under the same conditions?",
+"options": {
+"A": "Versatility",
+"B": "Accuracy",
+"C": "Speed",
+"D": "Automation"
+},
+"correct_option": "B",
+"explanation": "Accuracy ensures consistent and correct output when given the same input and instructions."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Data Representation",
+"question": "The hexadecimal number A represents which decimal value?",
+"options": {
+"A": "8",
+"B": "9",
+"C": "10",
+"D": "11"
+},
+"correct_option": "C",
+"explanation": "In hexadecimal, A represents decimal value 10."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Digitization",
+"question": "Converting a printed document into editable text using a scanner and OCR software is an example of",
+"options": {
+"A": "Data compression",
+"B": "Digitization",
+"C": "Encryption",
+"D": "Debugging"
+},
+"correct_option": "B",
+"explanation": "Digitization involves converting analog information into digital form."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Word Processing",
+"question": "Mail Merge in MS Word is most useful when",
+"options": {
+"A": "Editing a single paragraph",
+"B": "Creating personalized letters for many recipients",
+"C": "Inserting charts",
+"D": "Protecting documents with passwords"
+},
+"correct_option": "B",
+"explanation": "Mail Merge allows users to create multiple personalized documents efficiently."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Spreadsheet",
+"question": "If cell A1 contains 5 and A2 contains 3, what will be the result of the formula =A1^A2?",
+"options": {
+"A": "15",
+"B": "125",
+"C": "8",
+"D": "2"
+},
+"correct_option": "B",
+"explanation": "The ^ operator represents exponentiation. 5 raised to the power of 3 equals 125."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Database",
+"question": "In a student database, separating student details into different related tables helps to",
+"options": {
+"A": "Increase redundancy",
+"B": "Improve data consistency and reduce duplication",
+"C": "Slow down queries",
+"D": "Remove primary keys"
+},
+"correct_option": "B",
+"explanation": "Normalization reduces redundancy and improves consistency in relational databases."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Graphics",
+"question": "In CorelDraw, grouping objects is useful because it",
+"options": {
+"A": "Deletes selected shapes",
+"B": "Combines multiple objects for easy movement and editing",
+"C": "Exports files automatically",
+"D": "Reduces image resolution"
+},
+"correct_option": "B",
+"explanation": "Grouping allows multiple objects to be manipulated as a single unit."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Presentation",
+"question": "The Slide Master feature in PowerPoint is mainly used to",
+"options": {
+"A": "Insert audio files",
+"B": "Apply consistent formatting to all slides",
+"C": "Animate images",
+"D": "Print handouts"
+},
+"correct_option": "B",
+"explanation": "Slide Master controls uniform layout and design across slides."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Web Design",
+"question": "CSS is primarily used in web design to",
+"options": {
+"A": "Structure content",
+"B": "Handle database queries",
+"C": "Style and format web pages",
+"D": "Encrypt web data"
+},
+"correct_option": "C",
+"explanation": "CSS controls the presentation and layout of web pages."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "File Access Methods",
+"question": "Direct (random) file access is most suitable when",
+"options": {
+"A": "Records must be read in order",
+"B": "Immediate access to specific records is required",
+"C": "Files are printed sequentially",
+"D": "Backup is unavailable"
+},
+"correct_option": "B",
+"explanation": "Random access allows quick retrieval of specific records without scanning the entire file."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Data Loss",
+"question": "Using a UPS (Uninterruptible Power Supply) mainly helps to prevent data loss caused by",
+"options": {
+"A": "Virus infection",
+"B": "Power failure",
+"C": "Hacking",
+"D": "Slow processor speed"
+},
+"correct_option": "B",
+"explanation": "A UPS provides temporary power during outages, preventing sudden shutdowns."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Booting",
+"question": "During booting, the BIOS or UEFI primarily performs the function of",
+"options": {
+"A": "Running user applications",
+"B": "Checking hardware components before loading the OS",
+"C": "Connecting to Wi-Fi",
+"D": "Formatting the hard drive"
+},
+"correct_option": "B",
+"explanation": "BIOS/UEFI initializes hardware and loads the operating system."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "ICT Application",
+"question": "Using online banking platforms to transfer funds is an example of ICT application in",
+"options": {
+"A": "Entertainment",
+"B": "Healthcare",
+"C": "Finance",
+"D": "Agriculture"
+},
+"correct_option": "C",
+"explanation": "Online banking is an ICT application in the financial sector."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Internet Services",
+"question": "Cloud storage services such as Google Drive are mainly used for",
+"options": {
+"A": "Compiling programs",
+"B": "Remote data storage and access",
+"C": "Formatting disks",
+"D": "Creating viruses"
+},
+"correct_option": "B",
+"explanation": "Cloud storage enables users to store and access data remotely via the internet."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Networking",
+"question": "A star topology has the advantage that",
+"options": {
+"A": "Failure of one device affects the entire network",
+"B": "It requires no central device",
+"C": "Faults in one cable do not disrupt other connections",
+"D": "It is cheaper than all other topologies"
+},
+"correct_option": "C",
+"explanation": "In star topology, devices connect to a central hub, so failure of one cable does not affect others."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "WWW",
+"question": "HTTPS differs from HTTP because it",
+"options": {
+"A": "Transfers larger files only",
+"B": "Encrypts communication for security",
+"C": "Is slower by design",
+"D": "Cannot display images"
+},
+"correct_option": "B",
+"explanation": "HTTPS encrypts data to provide secure communication over the web."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "High Level Languages",
+"question": "One major advantage of high-level languages over low-level languages is that they",
+"options": {
+"A": "Are machine-dependent",
+"B": "Are easier to read and write",
+"C": "Execute directly without translation",
+"D": "Use only binary digits"
+},
+"correct_option": "B",
+"explanation": "High-level languages are user-friendly and closer to human language."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Algorithm Properties",
+"question": "An algorithm must have clearly defined inputs and outputs to ensure",
+"options": {
+"A": "Ambiguity",
+"B": "Infinite looping",
+"C": "Correctness and clarity",
+"D": "Faster hardware speed"
+},
+"correct_option": "C",
+"explanation": "Clearly defined inputs and outputs ensure the algorithm works correctly and unambiguously."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Structure",
+"question": "A loop structure in programming is mainly used to",
+"options": {
+"A": "Stop program execution",
+"B": "Repeat a set of instructions",
+"C": "Store permanent data",
+"D": "Translate code"
+},
+"correct_option": "B",
+"explanation": "Loops allow repeated execution of instructions while a condition holds."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "SDLC",
+"question": "Testing in SDLC is important because it",
+"options": {
+"A": "Increases hardware size",
+"B": "Ensures the system meets specified requirements",
+"C": "Replaces requirement analysis",
+"D": "Eliminates documentation"
+},
+"correct_option": "B",
+"explanation": "Testing verifies that the system meets requirements and functions correctly."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "AI Branches",
+"question": "Natural Language Processing (NLP) focuses on enabling computers to",
+"options": {
+"A": "Assemble hardware components",
+"B": "Understand and process human language",
+"C": "Increase processor speed",
+"D": "Replace databases"
+},
+"correct_option": "B",
+"explanation": "NLP enables machines to understand and interact using human language."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Robotics Applications",
+"question": "Industrial robots are commonly used in manufacturing because they",
+"options": {
+"A": "Reduce internet cost",
+"B": "Improve precision and efficiency",
+"C": "Replace software updates",
+"D": "Store databases"
+},
+"correct_option": "B",
+"explanation": "Robots enhance productivity through precision and consistent performance."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Cybersecurity",
+"question": "Two-factor authentication improves security by",
+"options": {
+"A": "Using two passwords only",
+"B": "Requiring two different forms of verification",
+"C": "Doubling internet speed",
+"D": "Encrypting files automatically"
+},
+"correct_option": "B",
+"explanation": "Two-factor authentication uses two verification methods to enhance security."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Ethics",
+"question": "Accessing someone’s private files without permission is unethical because it violates",
+"options": {
+"A": "System speed",
+"B": "Hardware compatibility",
+"C": "Privacy rights",
+"D": "File compression rules"
+},
+"correct_option": "C",
+"explanation": "Unauthorized access infringes on privacy and ethical standards."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "History of Computing",
+"question": "Herman Hollerith’s punched card system became significant because it",
+"options": {
+"A": "Introduced cloud computing",
+"B": "Improved data processing for census analysis",
+"C": "Created the first laptop",
+"D": "Enabled wireless networking"
+},
+"correct_option": "B",
+"explanation": "Hollerith’s punched card system was used to efficiently process large amounts of census data."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Classification by Generation",
+"question": "The use of microprocessors marked the beginning of the",
+"options": {
+"A": "First generation",
+"B": "Second generation",
+"C": "Third generation",
+"D": "Fourth generation"
+},
+"correct_option": "D",
+"explanation": "Fourth-generation computers are characterized by the use of microprocessors."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Hardware Components",
+"question": "Which memory type retains data even when power is turned off?",
+"options": {
+"A": "RAM",
+"B": "Cache",
+"C": "ROM",
+"D": "Register"
+},
+"correct_option": "C",
+"explanation": "ROM (Read Only Memory) is non-volatile and retains data without power."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Software Types",
+"question": "An example of utility software is a program that",
+"options": {
+"A": "Edits videos",
+"B": "Manages files and optimizes system performance",
+"C": "Designs websites",
+"D": "Compiles source code"
+},
+"correct_option": "B",
+"explanation": "Utility software performs maintenance tasks such as disk cleanup and file management."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Logic Circuits",
+"question": "The NOT gate is unique because it",
+"options": {
+"A": "Requires two inputs",
+"B": "Produces output identical to input",
+"C": "Inverts the input signal",
+"D": "Performs addition"
+},
+"correct_option": "C",
+"explanation": "A NOT gate outputs the opposite of the input signal."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Data Representation",
+"question": "The ASCII code is primarily used to represent",
+"options": {
+"A": "Images",
+"B": "Characters and text",
+"C": "Audio signals",
+"D": "Binary fractions"
+},
+"correct_option": "B",
+"explanation": "ASCII represents text characters using numeric codes."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Word Processing",
+"question": "To protect a Word document from unauthorized editing, the most appropriate action is to",
+"options": {
+"A": "Print the document",
+"B": "Apply password protection",
+"C": "Change font style",
+"D": "Insert a table"
+},
+"correct_option": "B",
+"explanation": "Password protection restricts unauthorized access or editing."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Spreadsheet",
+"question": "Conditional formatting in Excel is useful because it",
+"options": {
+"A": "Deletes duplicate records",
+"B": "Highlights cells based on specified rules",
+"C": "Creates pivot tables automatically",
+"D": "Encrypts worksheets"
+},
+"correct_option": "B",
+"explanation": "Conditional formatting visually highlights data based on defined conditions."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Database",
+"question": "A foreign key in a relational database is used to",
+"options": {
+"A": "Delete tables",
+"B": "Link records between tables",
+"C": "Encrypt data",
+"D": "Sort records automatically"
+},
+"correct_option": "B",
+"explanation": "A foreign key establishes relationships between tables."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Graphics Package",
+"question": "In graphic design, layers are important because they",
+"options": {
+"A": "Increase file corruption",
+"B": "Allow independent editing of design elements",
+"C": "Reduce image resolution",
+"D": "Automatically compress images"
+},
+"correct_option": "B",
+"explanation": "Layers allow designers to edit specific parts without affecting others."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Presentation Package",
+"question": "Embedding a video in PowerPoint ensures that the video",
+"options": {
+"A": "Is deleted after presentation",
+"B": "Remains part of the presentation file",
+"C": "Requires internet access to play",
+"D": "Cannot be resized"
+},
+"correct_option": "B",
+"explanation": "Embedding includes the video file within the presentation itself."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Web Design",
+"question": "Responsive web design ensures that a website",
+"options": {
+"A": "Loads only on desktops",
+"B": "Adjusts layout to different screen sizes",
+"C": "Uses only HTML",
+"D": "Has fixed dimensions"
+},
+"correct_option": "B",
+"explanation": "Responsive design adapts to various screen sizes like phones and tablets."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "File Classification",
+"question": "Classifying files based on their usage frequency helps to",
+"options": {
+"A": "Delete important data",
+"B": "Improve storage management",
+"C": "Encrypt files automatically",
+"D": "Increase virus attacks"
+},
+"correct_option": "B",
+"explanation": "Proper classification enhances efficient storage and retrieval."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Data Security",
+"question": "Encryption protects data by",
+"options": {
+"A": "Deleting unnecessary files",
+"B": "Converting data into unreadable form without a key",
+"C": "Increasing storage space",
+"D": "Backing up data"
+},
+"correct_option": "B",
+"explanation": "Encryption encodes data to prevent unauthorized access."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Booting Process",
+"question": "Shutting down a computer properly is important because it",
+"options": {
+"A": "Speeds up the processor",
+"B": "Prevents potential data corruption",
+"C": "Deletes temporary files permanently",
+"D": "Updates hardware drivers automatically"
+},
+"correct_option": "B",
+"explanation": "Proper shutdown ensures files are closed correctly, preventing corruption."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Maintenance",
+"question": "Regular disk cleanup helps to",
+"options": {
+"A": "Increase virus infection",
+"B": "Free up storage space and improve performance",
+"C": "Reduce monitor brightness",
+"D": "Disable the operating system"
+},
+"correct_option": "B",
+"explanation": "Disk cleanup removes unnecessary files, improving system efficiency."
+},
+{
+"exam": "JAMB",
+"subject": "Communication Systems",
+"question": "Video conferencing tools are examples of ICT used mainly for",
+"options": {
+"A": "Data encryption",
+"B": "Remote communication and collaboration",
+"C": "Programming",
+"D": "Hardware repair"
+},
+"correct_option": "B",
+"explanation": "Video conferencing facilitates real-time communication over distance."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Application of ICT",
+"question": "E-learning platforms demonstrate ICT application in",
+"options": {
+"A": "Transportation",
+"B": "Education",
+"C": "Manufacturing",
+"D": "Construction"
+},
+"correct_option": "B",
+"explanation": "E-learning applies ICT to deliver educational content online."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Internet Browsers",
+"question": "A browser bookmark is used to",
+"options": {
+"A": "Delete browsing history",
+"B": "Save frequently visited web pages for quick access",
+"C": "Block advertisements",
+"D": "Increase download speed"
+},
+"correct_option": "B",
+"explanation": "Bookmarks allow users to quickly revisit saved websites."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Electronic Mail",
+"question": "The 'CC' field in an email allows a user to",
+"options": {
+"A": "Hide recipients",
+"B": "Send copies to additional recipients visibly",
+"C": "Encrypt messages",
+"D": "Delete attachments"
+},
+"correct_option": "B",
+"explanation": "CC (Carbon Copy) sends a visible copy of the email to other recipients."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Networking",
+"question": "A router primarily functions to",
+"options": {
+"A": "Connect devices within the same LAN only",
+"B": "Direct data between different networks",
+"C": "Increase monitor resolution",
+"D": "Translate programming languages"
+},
+"correct_option": "B",
+"explanation": "Routers connect and route data between different networks."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "WWW",
+"question": "The acronym URL stands for",
+"options": {
+"A": "Universal Resource Locator",
+"B": "Uniform Resource Locator",
+"C": "Unified Routing Link",
+"D": "User Resource Location"
+},
+"correct_option": "B",
+"explanation": "URL means Uniform Resource Locator."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Languages",
+"question": "Machine language is considered low-level because it",
+"options": {
+"A": "Uses English-like words",
+"B": "Is directly understood by the computer hardware",
+"C": "Requires no translation",
+"D": "Is easy to debug"
+},
+"correct_option": "B",
+"explanation": "Machine language consists of binary instructions directly executed by the CPU."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Flowchart",
+"question": "The parallelogram symbol in a flowchart represents",
+"options": {
+"A": "Decision",
+"B": "Process",
+"C": "Input/Output",
+"D": "Connector"
+},
+"correct_option": "C",
+"explanation": "A parallelogram represents input or output operations."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Structure",
+"question": "A variable in programming is best described as",
+"options": {
+"A": "A fixed value that never changes",
+"B": "A named storage location for data",
+"C": "A hardware component",
+"D": "A type of virus"
+},
+"correct_option": "B",
+"explanation": "A variable stores data values that can change during program execution."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Robotics",
+"question": "One disadvantage of using robots in industry is that they",
+"options": {
+"A": "Increase human employment opportunities",
+"B": "May reduce certain job roles",
+"C": "Require no maintenance",
+"D": "Have emotions"
+},
+"correct_option": "B",
+"explanation": "Automation can reduce the need for certain manual labor roles."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Security",
+"question": "A strong password is effective because it",
+"options": {
+"A": "Is short and simple",
+"B": "Uses predictable words",
+"C": "Combines letters, numbers and symbols",
+"D": "Is shared among users"
+},
+"correct_option": "C",
+"explanation": "Strong passwords combine different character types to increase security."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Ethics",
+"question": "Responsibility for system failure due to poor coding lies mainly with the",
+"options": {
+"A": "End user",
+"B": "Programmer or developer",
+"C": "Printer manufacturer",
+"D": "Internet provider"
+},
+"correct_option": "B",
+"explanation": "Developers are responsible for ensuring reliable and well-tested code."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "History of Computing",
+"question": "The key improvement introduced by fifth-generation computers is the emphasis on",
+"options": {
+"A": "Mechanical processing",
+"B": "Artificial intelligence and parallel processing",
+"C": "Vacuum tube technology",
+"D": "Manual data entry"
+},
+"correct_option": "B",
+"explanation": "Fifth-generation computers focus on artificial intelligence, machine learning and parallel processing."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Classification by Purpose",
+"question": "A smartphone used for browsing, gaming and communication is classified as a",
+"options": {
+"A": "Special-purpose computer",
+"B": "Hybrid computer",
+"C": "General-purpose computer",
+"D": "Supercomputer"
+},
+"correct_option": "C",
+"explanation": "Smartphones perform multiple tasks and are therefore general-purpose computers."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Overview of Computing Systems",
+"question": "Firmware is best described as software that",
+"options": {
+"A": "Is permanently stored in hardware memory",
+"B": "Runs only online",
+"C": "Is installed temporarily",
+"D": "Cannot be updated"
+},
+"correct_option": "A",
+"explanation": "Firmware is software embedded in hardware components, usually stored in ROM or flash memory."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Hardware",
+"question": "The main function of cache memory is to",
+"options": {
+"A": "Store permanent user files",
+"B": "Provide high-speed data access to the CPU",
+"C": "Replace the hard drive",
+"D": "Manage internet connections"
+},
+"correct_option": "B",
+"explanation": "Cache memory stores frequently used data to speed up CPU operations."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Operating Systems",
+"question": "Multitasking in an operating system allows a computer to",
+"options": {
+"A": "Run only one program at a time",
+"B": "Perform multiple tasks seemingly at the same time",
+"C": "Increase hardware size",
+"D": "Delete background processes permanently"
+},
+"correct_option": "B",
+"explanation": "Multitasking enables the OS to manage several applications concurrently."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Data Representation",
+"question": "Which number system uses base 8?",
+"options": {
+"A": "Binary",
+"B": "Decimal",
+"C": "Octal",
+"D": "Hexadecimal"
+},
+"correct_option": "C",
+"explanation": "The octal number system is base 8."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Digitization",
+"question": "Sampling rate in digital audio mainly affects",
+"options": {
+"A": "File name",
+"B": "Sound quality",
+"C": "Monitor brightness",
+"D": "Keyboard speed"
+},
+"correct_option": "B",
+"explanation": "Higher sampling rates generally improve digital sound quality."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Word Processing",
+"question": "Track Changes in MS Word is useful when",
+"options": {
+"A": "Printing multiple copies",
+"B": "Collaboratively reviewing and editing a document",
+"C": "Encrypting files",
+"D": "Inserting equations"
+},
+"correct_option": "B",
+"explanation": "Track Changes allows multiple users to review and monitor edits."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Spreadsheet",
+"question": "A Pivot Table in Excel is primarily used to",
+"options": {
+"A": "Delete duplicate data",
+"B": "Summarize and analyze large datasets",
+"C": "Format text automatically",
+"D": "Create animations"
+},
+"correct_option": "B",
+"explanation": "Pivot Tables summarize and analyze data efficiently."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Database",
+"question": "A query in a database is used to",
+"options": {
+"A": "Design forms",
+"B": "Retrieve specific information based on criteria",
+"C": "Format tables",
+"D": "Delete the database permanently"
+},
+"correct_option": "B",
+"explanation": "Queries extract specific data based on defined conditions."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Graphics Package",
+"question": "The use of gradients in graphic design helps to",
+"options": {
+"A": "Flatten images",
+"B": "Create smooth transitions between colours",
+"C": "Reduce file size drastically",
+"D": "Encrypt pictures"
+},
+"correct_option": "B",
+"explanation": "Gradients blend colours smoothly for visual effects."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Presentation Package",
+"question": "Presenter View in PowerPoint allows the presenter to",
+"options": {
+"A": "Hide slides permanently",
+"B": "See notes and upcoming slides while audience sees only the current slide",
+"C": "Delete animations",
+"D": "Print slides automatically"
+},
+"correct_option": "B",
+"explanation": "Presenter View shows notes and preview slides for the presenter only."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Web Design",
+"question": "In HTML, the <head> section mainly contains",
+"options": {
+"A": "Visible page content",
+"B": "Metadata and page information",
+"C": "Images only",
+"D": "User passwords"
+},
+"correct_option": "B",
+"explanation": "The <head> section includes metadata, title and links to styles/scripts."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Concept of Files",
+"question": "A file extension such as .pdf helps the operating system to",
+"options": {
+"A": "Increase file size",
+"B": "Determine the file type and associated program",
+"C": "Encrypt the file",
+"D": "Delete the file"
+},
+"correct_option": "B",
+"explanation": "File extensions identify file formats and associated applications."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Handling Files",
+"question": "Defragmentation of a hard drive helps to",
+"options": {
+"A": "Delete viruses",
+"B": "Organize fragmented data for faster access",
+"C": "Encrypt folders",
+"D": "Format the disk"
+},
+"correct_option": "B",
+"explanation": "Defragmentation rearranges scattered data for improved performance."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Booting Process",
+"question": "Cold booting occurs when a computer is started",
+"options": {
+"A": "Without power interruption",
+"B": "After being completely powered off",
+"C": "From sleep mode",
+"D": "Using restart option only"
+},
+"correct_option": "B",
+"explanation": "Cold booting happens when the system starts from a powered-off state."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Maintenance",
+"question": "Updating software regularly helps to",
+"options": {
+"A": "Reduce system security",
+"B": "Fix bugs and patch security vulnerabilities",
+"C": "Increase hardware damage",
+"D": "Delete personal files"
+},
+"correct_option": "B",
+"explanation": "Software updates often fix bugs and improve security."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Communication Systems",
+"question": "VoIP technology allows users to",
+"options": {
+"A": "Store data offline",
+"B": "Make voice calls over the internet",
+"C": "Encrypt databases",
+"D": "Compile programs"
+},
+"correct_option": "B",
+"explanation": "Voice over Internet Protocol enables voice communication via the internet."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Internet",
+"question": "Clearing browser cache primarily helps to",
+"options": {
+"A": "Increase permanent storage",
+"B": "Resolve loading issues and free temporary space",
+"C": "Delete system files",
+"D": "Improve hardware speed"
+},
+"correct_option": "B",
+"explanation": "Clearing cache removes temporary files that may cause display or loading issues."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Electronic Mail",
+"question": "Spam filters are designed to",
+"options": {
+"A": "Delete all emails",
+"B": "Identify and separate unwanted messages",
+"C": "Encrypt attachments",
+"D": "Increase inbox storage"
+},
+"correct_option": "B",
+"explanation": "Spam filters detect and move unwanted emails to a separate folder."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Networking",
+"question": "A LAN differs from a WAN mainly in terms of",
+"options": {
+"A": "Security protocols",
+"B": "Geographical coverage area",
+"C": "Operating systems",
+"D": "Programming languages"
+},
+"correct_option": "B",
+"explanation": "LAN covers a small area, while WAN covers large geographical areas."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "World Wide Web",
+"question": "The inventor of the World Wide Web is",
+"options": {
+"A": "Bill Gates",
+"B": "Tim Berners-Lee",
+"C": "Alan Turing",
+"D": "Steve Jobs"
+},
+"correct_option": "B",
+"explanation": "Tim Berners-Lee invented the World Wide Web in 1989."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Languages",
+"question": "An advantage of object-oriented programming is that it",
+"options": {
+"A": "Eliminates the need for algorithms",
+"B": "Encourages code reuse through classes and objects",
+"C": "Prevents debugging",
+"D": "Uses only binary instructions"
+},
+"correct_option": "B",
+"explanation": "OOP promotes reuse and modularity using classes and objects."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Algorithm",
+"question": "An ambiguous algorithm is problematic because it",
+"options": {
+"A": "Runs too fast",
+"B": "Produces unclear or inconsistent results",
+"C": "Uses fewer steps",
+"D": "Consumes less memory"
+},
+"correct_option": "B",
+"explanation": "Ambiguity causes confusion and unreliable outputs."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Structure",
+"question": "A function in programming is mainly used to",
+"options": {
+"A": "Store hardware components",
+"B": "Break a program into reusable blocks of code",
+"C": "Encrypt variables",
+"D": "Replace loops"
+},
+"correct_option": "B",
+"explanation": "Functions modularize code into reusable sections."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "System Development Life Cycle",
+"question": "The maintenance phase of SDLC involves",
+"options": {
+"A": "Ignoring system errors",
+"B": "Updating and correcting the system after deployment",
+"C": "Writing initial requirements",
+"D": "Designing flowcharts"
+},
+"correct_option": "B",
+"explanation": "Maintenance ensures the system continues to function effectively after deployment."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Artificial Intelligence",
+"question": "Machine learning is a branch of AI that focuses on",
+"options": {
+"A": "Manual coding only",
+"B": "Systems learning from data to improve performance",
+"C": "Replacing hardware",
+"D": "Formatting files"
+},
+"correct_option": "B",
+"explanation": "Machine learning enables systems to learn patterns from data."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Robotics",
+"question": "An actuator in a robot is responsible for",
+"options": {
+"A": "Sensing temperature",
+"B": "Producing movement or action",
+"C": "Storing programs",
+"D": "Encrypting data"
+},
+"correct_option": "B",
+"explanation": "Actuators convert control signals into physical movement."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Ethics",
+"question": "Implementing access control in an organization mainly protects against",
+"options": {
+"A": "Hardware overheating",
+"B": "Unauthorized data access",
+"C": "Slow typing speed",
+"D": "Low battery power"
+},
+"correct_option": "B",
+"explanation": "Access control restricts system use to authorized individuals only."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "History of Computing",
+"question": "The introduction of graphical user interfaces (GUI) significantly improved computing because it",
+"options": {
+"A": "Eliminated the need for hardware",
+"B": "Allowed users to interact using icons and visual elements instead of command lines",
+"C": "Increased binary processing speed",
+"D": "Replaced operating systems"
+},
+"correct_option": "B",
+"explanation": "GUI made computers more user-friendly by enabling interaction through icons, windows and menus."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Classification by Size",
+"question": "A supercomputer is most suitable for",
+"options": {
+"A": "Typing documents",
+"B": "Simple web browsing",
+"C": "Complex scientific simulations and calculations",
+"D": "Sending emails"
+},
+"correct_option": "C",
+"explanation": "Supercomputers handle highly complex and large-scale computational tasks."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Hardware and Software",
+"question": "Application software differs from system software because it",
+"options": {
+"A": "Manages hardware directly",
+"B": "Performs specific user-related tasks",
+"C": "Is stored only in ROM",
+"D": "Controls booting process"
+},
+"correct_option": "B",
+"explanation": "Application software is designed to perform specific tasks for users, such as word processing or browsing."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Operating Systems",
+"question": "Process scheduling in an operating system ensures that",
+"options": {
+"A": "Files are permanently deleted",
+"B": "CPU time is allocated efficiently among tasks",
+"C": "Internet speed increases",
+"D": "Hardware is replaced automatically"
+},
+"correct_option": "B",
+"explanation": "Process scheduling manages CPU allocation among running programs."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Data Representation",
+"question": "The binary equivalent of decimal number 15 is",
+"options": {
+"A": "1011",
+"B": "1111",
+"C": "1101",
+"D": "1001"
+},
+"correct_option": "B",
+"explanation": "15 in decimal equals 1111 in binary (8+4+2+1)."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Digitization",
+"question": "Increasing image resolution primarily results in",
+"options": {
+"A": "Lower image quality",
+"B": "More detailed images and larger file sizes",
+"C": "Automatic encryption",
+"D": "Faster internet speed"
+},
+"correct_option": "B",
+"explanation": "Higher resolution increases detail but also increases file size."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Word Processing",
+"question": "Using headers and footers in a document is most useful for",
+"options": {
+"A": "Deleting paragraphs",
+"B": "Adding consistent information like page numbers on every page",
+"C": "Changing font colours",
+"D": "Encrypting the document"
+},
+"correct_option": "B",
+"explanation": "Headers and footers provide repeated information such as page numbers and titles."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Spreadsheet",
+"question": "The IF function in Excel is mainly used to",
+"options": {
+"A": "Delete empty rows",
+"B": "Perform conditional evaluation",
+"C": "Sort data automatically",
+"D": "Insert charts"
+},
+"correct_option": "B",
+"explanation": "The IF function performs logical tests and returns values based on conditions."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Database",
+"question": "Data redundancy in databases is undesirable because it",
+"options": {
+"A": "Improves consistency",
+"B": "Increases storage efficiency",
+"C": "May cause inconsistencies and waste storage space",
+"D": "Enhances query speed"
+},
+"correct_option": "C",
+"explanation": "Redundant data can lead to inconsistencies and unnecessary storage use."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Graphics Package",
+"question": "Cropping an image in a graphics package mainly helps to",
+"options": {
+"A": "Change its colour mode",
+"B": "Remove unwanted outer areas",
+"C": "Increase file corruption",
+"D": "Convert it to text"
+},
+"correct_option": "B",
+"explanation": "Cropping removes unwanted portions of an image."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Presentation Package",
+"question": "Animations in PowerPoint should be used carefully because excessive animations can",
+"options": {
+"A": "Improve clarity always",
+"B": "Distract the audience from the main content",
+"C": "Increase slide security",
+"D": "Reduce file size"
+},
+"correct_option": "B",
+"explanation": "Too many animations may distract from the presentation message."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Web Design",
+"question": "A website’s homepage should primarily",
+"options": {
+"A": "Contain only advertisements",
+"B": "Provide an overview and easy navigation to other sections",
+"C": "Hide important information",
+"D": "Block user access"
+},
+"correct_option": "B",
+"explanation": "The homepage serves as the main entry point and navigation hub."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Concept of Files",
+"question": "A read-only file attribute prevents users from",
+"options": {
+"A": "Opening the file",
+"B": "Viewing the file",
+"C": "Modifying the file content",
+"D": "Copying the file"
+},
+"correct_option": "C",
+"explanation": "Read-only files can be viewed but not modified."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Handling Files",
+"question": "Cloud backup solutions are advantageous because they",
+"options": {
+"A": "Depend only on local storage",
+"B": "Provide off-site data recovery options",
+"C": "Delete files automatically",
+"D": "Require no internet"
+},
+"correct_option": "B",
+"explanation": "Cloud backups allow data recovery even if local devices fail."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Booting Process",
+"question": "Restarting a computer to install updates is an example of",
+"options": {
+"A": "Cold booting only",
+"B": "Warm booting",
+"C": "Formatting",
+"D": "Defragmentation"
+},
+"correct_option": "B",
+"explanation": "Warm booting refers to restarting the system without completely powering off."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Maintenance",
+"question": "Regularly updating antivirus definitions is important because",
+"options": {
+"A": "Old definitions detect new threats effectively",
+"B": "It improves screen resolution",
+"C": "It helps detect newly discovered malware",
+"D": "It increases RAM size"
+},
+"correct_option": "C",
+"explanation": "Updated definitions enable antivirus software to detect new threats."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Application Areas of ICT",
+"question": "Using GPS navigation systems in vehicles is an example of ICT application in",
+"options": {
+"A": "Education",
+"B": "Transportation",
+"C": "Agriculture",
+"D": "Banking"
+},
+"correct_option": "B",
+"explanation": "GPS systems use ICT in transportation for navigation."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Internet Concepts",
+"question": "Cookies stored by websites are mainly used to",
+"options": {
+"A": "Damage hardware",
+"B": "Store user preferences and session information",
+"C": "Increase processor speed",
+"D": "Encrypt passwords permanently"
+},
+"correct_option": "B",
+"explanation": "Cookies store information such as preferences and login sessions."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Electronic Mail",
+"question": "Attaching large files to emails may fail because of",
+"options": {
+"A": "Lack of internet browser",
+"B": "Email size limits set by providers",
+"C": "High processor speed",
+"D": "Low monitor resolution"
+},
+"correct_option": "B",
+"explanation": "Email services often impose size limits on attachments."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Networking",
+"question": "Packet switching in networking involves",
+"options": {
+"A": "Sending data as a single large block",
+"B": "Dividing data into smaller units for transmission",
+"C": "Encrypting data permanently",
+"D": "Deleting unused data"
+},
+"correct_option": "B",
+"explanation": "Packet switching transmits data in small packets across networks."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "World Wide Web",
+"question": "HTML is considered a markup language because it",
+"options": {
+"A": "Executes programs",
+"B": "Defines structure using tags",
+"C": "Encrypts web pages",
+"D": "Stores databases"
+},
+"correct_option": "B",
+"explanation": "HTML uses tags to define the structure of web content."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Language",
+"question": "Debugging in programming refers to",
+"options": {
+"A": "Writing new features only",
+"B": "Identifying and fixing errors in code",
+"C": "Deleting variables",
+"D": "Formatting output"
+},
+"correct_option": "B",
+"explanation": "Debugging is the process of finding and correcting program errors."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "High Level Languages",
+"question": "Portability of a programming language means that programs written in it",
+"options": {
+"A": "Run only on one device",
+"B": "Can be used across different systems with minimal changes",
+"C": "Cannot be compiled",
+"D": "Are hardware dependent"
+},
+"correct_option": "B",
+"explanation": "Portable languages allow programs to run on various platforms."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Algorithm and Flowchart",
+"question": "The start and end of a flowchart are represented by",
+"options": {
+"A": "Rectangle",
+"B": "Diamond",
+"C": "Oval",
+"D": "Parallelogram"
+},
+"correct_option": "C",
+"explanation": "An oval symbol represents start and end points."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Structure",
+"question": "Boolean data type typically stores",
+"options": {
+"A": "Text values",
+"B": "Whole numbers",
+"C": "True or False values",
+"D": "Decimal numbers"
+},
+"correct_option": "C",
+"explanation": "Boolean values represent logical true or false."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Artificial Intelligence",
+"question": "Expert systems are AI applications designed to",
+"options": {
+"A": "Replace hardware",
+"B": "Mimic decision-making ability of human experts",
+"C": "Increase internet speed",
+"D": "Encrypt databases"
+},
+"correct_option": "B",
+"explanation": "Expert systems simulate the reasoning of human specialists."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Robotics",
+"question": "One advantage of robots in hazardous environments is that they",
+"options": {
+"A": "Feel fear",
+"B": "Reduce risk to human life",
+"C": "Require emotional support",
+"D": "Decrease productivity"
+},
+"correct_option": "B",
+"explanation": "Robots can operate in dangerous conditions, reducing human risk."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Security",
+"question": "Social engineering attacks rely mainly on",
+"options": {
+"A": "Hardware failure",
+"B": "Manipulating human behaviour to gain access",
+"C": "Improving encryption",
+"D": "Increasing bandwidth"
+},
+"correct_option": "B",
+"explanation": "Social engineering exploits human psychology rather than technical flaws."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Ethics and Human Issues",
+"question": "Regular auditing of computer systems helps organizations to",
+"options": {
+"A": "Ignore security policies",
+"B": "Detect misuse and ensure compliance",
+"C": "Delete all records",
+"D": "Reduce file size"
+},
+"correct_option": "B",
+"explanation": "Auditing monitors activities and ensures adherence to policies and regulations."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "History of Computing",
+"question": "The development of the microprocessor made personal computers possible mainly because it",
+"options": {
+"A": "Increased the size of computers",
+"B": "Integrated the CPU onto a single chip",
+"C": "Eliminated the need for memory",
+"D": "Removed the operating system"
+},
+"correct_option": "B",
+"explanation": "The microprocessor placed the CPU on a single chip, reducing size and cost, which enabled personal computers."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Classification by Purpose",
+"question": "A traffic light control system is best classified as a",
+"options": {
+"A": "General-purpose system",
+"B": "Embedded special-purpose system",
+"C": "Supercomputer",
+"D": "Mainframe"
+},
+"correct_option": "B",
+"explanation": "Traffic light controllers are embedded systems designed for a specific control function."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Overview of Computing Systems",
+"question": "The fetch-decode-execute cycle describes how the CPU",
+"options": {
+"A": "Stores permanent files",
+"B": "Processes instructions step by step",
+"C": "Connects to networks",
+"D": "Formats storage devices"
+},
+"correct_option": "B",
+"explanation": "The CPU repeatedly fetches, decodes, and executes instructions during program execution."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Hardware",
+"question": "Peripheral devices are important because they",
+"options": {
+"A": "Replace the motherboard",
+"B": "Provide input, output, or storage functions",
+"C": "Execute machine language",
+"D": "Control booting only"
+},
+"correct_option": "B",
+"explanation": "Peripherals such as keyboards, printers and external drives handle input, output and storage."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Operating Systems",
+"question": "Virtual memory improves system performance by",
+"options": {
+"A": "Replacing the hard disk",
+"B": "Using part of secondary storage as temporary RAM",
+"C": "Increasing processor speed physically",
+"D": "Deleting unused programs"
+},
+"correct_option": "B",
+"explanation": "Virtual memory allows the system to use disk space as an extension of RAM."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Data Representation",
+"question": "One byte is equivalent to",
+"options": {
+"A": "4 bits",
+"B": "8 bits",
+"C": "16 bits",
+"D": "32 bits"
+},
+"correct_option": "B",
+"explanation": "A byte consists of 8 bits."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Digitization",
+"question": "Compression techniques are used in digitized media primarily to",
+"options": {
+"A": "Increase file size",
+"B": "Reduce storage space and transmission time",
+"C": "Eliminate colour",
+"D": "Delete metadata"
+},
+"correct_option": "B",
+"explanation": "Compression reduces file size for efficient storage and faster transmission."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Word Processing",
+"question": "Using the 'Find and Replace' feature is most efficient when",
+"options": {
+"A": "Adding images",
+"B": "Correcting repeated errors throughout a document",
+"C": "Encrypting the file",
+"D": "Changing page orientation"
+},
+"correct_option": "B",
+"explanation": "Find and Replace allows quick correction of recurring words or phrases."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Spreadsheet",
+"question": "Sorting data in Excel helps users to",
+"options": {
+"A": "Encrypt worksheets",
+"B": "Arrange data in a specified order",
+"C": "Delete duplicates automatically",
+"D": "Format all cells"
+},
+"correct_option": "B",
+"explanation": "Sorting organizes data alphabetically or numerically."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Database",
+"question": "A form in a database application is mainly used to",
+"options": {
+"A": "Store raw data permanently",
+"B": "Provide a user-friendly interface for data entry",
+"C": "Delete tables",
+"D": "Compile queries"
+},
+"correct_option": "B",
+"explanation": "Forms simplify data entry and interaction with database tables."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Graphics Package",
+"question": "Resolution in digital graphics is measured in",
+"options": {
+"A": "Gigabytes",
+"B": "Pixels per inch (PPI)",
+"C": "Hertz",
+"D": "Watts"
+},
+"correct_option": "B",
+"explanation": "Resolution refers to pixel density, commonly measured in pixels per inch."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Presentation Package",
+"question": "Using consistent font styles across slides improves",
+"options": {
+"A": "File corruption",
+"B": "Professional appearance and readability",
+"C": "Processing errors",
+"D": "Hardware speed"
+},
+"correct_option": "B",
+"explanation": "Consistency enhances clarity and professionalism."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Web Design",
+"question": "A broken link on a website negatively affects",
+"options": {
+"A": "File size",
+"B": "User experience and credibility",
+"C": "RAM capacity",
+"D": "Processor speed"
+},
+"correct_option": "B",
+"explanation": "Broken links frustrate users and reduce trust in a website."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Concept of Files",
+"question": "File permissions are important because they",
+"options": {
+"A": "Increase file size",
+"B": "Control who can read, write or execute a file",
+"C": "Delete viruses automatically",
+"D": "Format storage devices"
+},
+"correct_option": "B",
+"explanation": "Permissions restrict access to files for security purposes."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Handling Files",
+"question": "Version control systems are useful because they",
+"options": {
+"A": "Delete previous file versions",
+"B": "Track and manage changes to files over time",
+"C": "Encrypt operating systems",
+"D": "Increase hardware capacity"
+},
+"correct_option": "B",
+"explanation": "Version control helps manage and track file modifications."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Booting Process",
+"question": "The POST (Power-On Self-Test) process checks",
+"options": {
+"A": "Internet speed",
+"B": "Hardware components for proper functioning",
+"C": "Software licenses",
+"D": "Printer ink levels"
+},
+"correct_option": "B",
+"explanation": "POST verifies that hardware components are functioning during startup."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Maintenance",
+"question": "Regularly scanning for malware helps to",
+"options": {
+"A": "Increase virus spread",
+"B": "Detect and remove harmful software",
+"C": "Reduce screen brightness",
+"D": "Increase CPU temperature"
+},
+"correct_option": "B",
+"explanation": "Malware scans identify and eliminate harmful programs."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Application Areas of ICT",
+"question": "Online voting systems are examples of ICT applied in",
+"options": {
+"A": "Healthcare",
+"B": "Governance",
+"C": "Agriculture",
+"D": "Manufacturing"
+},
+"correct_option": "B",
+"explanation": "ICT supports governance through digital voting platforms."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Internet",
+"question": "An IP address uniquely identifies",
+"options": {
+"A": "A web browser",
+"B": "A device on a network",
+"C": "A programming language",
+"D": "A file format"
+},
+"correct_option": "B",
+"explanation": "An IP address identifies devices connected to a network."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Electronic Mail",
+"question": "Email encryption ensures that",
+"options": {
+"A": "Messages are publicly visible",
+"B": "Only intended recipients can read the content",
+"C": "Attachments are deleted",
+"D": "Internet speed increases"
+},
+"correct_option": "B",
+"explanation": "Encryption protects email content from unauthorized access."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Networking",
+"question": "The primary purpose of a modem is to",
+"options": {
+"A": "Store files",
+"B": "Convert digital signals to analog and vice versa",
+"C": "Increase RAM",
+"D": "Compile programs"
+},
+"correct_option": "B",
+"explanation": "A modem modulates and demodulates signals for internet communication."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "World Wide Web",
+"question": "A web server is responsible for",
+"options": {
+"A": "Designing websites only",
+"B": "Hosting and delivering web content to users",
+"C": "Encrypting hardware",
+"D": "Formatting documents"
+},
+"correct_option": "B",
+"explanation": "Web servers store and deliver website files to users."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Language",
+"question": "A runtime error occurs when",
+"options": {
+"A": "The program is being executed and encounters an issue",
+"B": "The code violates syntax rules",
+"C": "The hardware overheats",
+"D": "The OS fails to boot"
+},
+"correct_option": "A",
+"explanation": "Runtime errors occur during program execution."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "High Level Languages",
+"question": "An advantage of scripting languages is that they",
+"options": {
+"A": "Require manual binary coding",
+"B": "Allow rapid development and automation tasks",
+"C": "Cannot run on web browsers",
+"D": "Are hardware dependent"
+},
+"correct_option": "B",
+"explanation": "Scripting languages enable quick development and automation."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Algorithm and Flowchart",
+"question": "A connector symbol in a flowchart is used to",
+"options": {
+"A": "End the program",
+"B": "Link different parts of a flowchart",
+"C": "Store variables",
+"D": "Perform calculations"
+},
+"correct_option": "B",
+"explanation": "Connectors link separated sections of a flowchart."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Structure",
+"question": "An array data structure is mainly used to",
+"options": {
+"A": "Store a single value only",
+"B": "Store multiple values of the same type",
+"C": "Encrypt data",
+"D": "Replace variables"
+},
+"correct_option": "B",
+"explanation": "Arrays hold multiple values of the same data type."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Artificial Intelligence",
+"question": "Computer vision enables machines to",
+"options": {
+"A": "Hear audio signals",
+"B": "Interpret and analyze visual information",
+"C": "Increase storage space",
+"D": "Replace memory"
+},
+"correct_option": "B",
+"explanation": "Computer vision allows systems to process and understand images and videos."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Robotics",
+"question": "Humanoid robots are designed to",
+"options": {
+"A": "Look and act like humans",
+"B": "Operate only underwater",
+"C": "Replace databases",
+"D": "Encrypt communications"
+},
+"correct_option": "A",
+"explanation": "Humanoid robots are built to resemble and mimic human actions."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Ethics and Security",
+"question": "Regular password updates are recommended to",
+"options": {
+"A": "Increase file size",
+"B": "Reduce risk of unauthorized access",
+"C": "Improve graphics quality",
+"D": "Decrease processor speed"
+},
+"correct_option": "B",
+"explanation": "Changing passwords regularly enhances security."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "History of Computing",
+"question": "The transition from punch cards to magnetic storage significantly improved computing because magnetic storage",
+"options": {
+"A": "Was larger and slower",
+"B": "Allowed faster access and reusable storage",
+"C": "Required manual sorting",
+"D": "Could not store programs"
+},
+"correct_option": "B",
+"explanation": "Magnetic storage enabled faster data access and reusable storage compared to punch cards."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Classification by Generation",
+"question": "Computers that use artificial intelligence techniques and natural language processing are associated mainly with the",
+"options": {
+"A": "Second generation",
+"B": "Third generation",
+"C": "Fourth generation",
+"D": "Fifth generation"
+},
+"correct_option": "D",
+"explanation": "Fifth-generation computers focus on AI, machine learning and natural language processing."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Hardware Components",
+"question": "The motherboard in a computer primarily functions to",
+"options": {
+"A": "Store permanent files",
+"B": "Connect and allow communication between internal components",
+"C": "Display graphics",
+"D": "Provide internet access only"
+},
+"correct_option": "B",
+"explanation": "The motherboard connects CPU, memory and other components, enabling communication."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Operating Systems",
+"question": "User account management in an operating system helps to",
+"options": {
+"A": "Increase processing speed",
+"B": "Control access and permissions for different users",
+"C": "Delete system files",
+"D": "Upgrade hardware automatically"
+},
+"correct_option": "B",
+"explanation": "User account management ensures secure and controlled system access."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Data Representation",
+"question": "Parity bits are used in data transmission to",
+"options": {
+"A": "Increase file size",
+"B": "Detect simple transmission errors",
+"C": "Encrypt data permanently",
+"D": "Convert binary to decimal"
+},
+"correct_option": "B",
+"explanation": "Parity bits help detect errors during data transmission."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Digitization",
+"question": "Lossy compression differs from lossless compression because lossy compression",
+"options": {
+"A": "Preserves all original data",
+"B": "May permanently discard some data to reduce file size",
+"C": "Increases image quality",
+"D": "Requires no algorithm"
+},
+"correct_option": "B",
+"explanation": "Lossy compression reduces file size by discarding some data permanently."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Word Processing",
+"question": "Using section breaks in MS Word is useful when you want to",
+"options": {
+"A": "Delete the entire document",
+"B": "Apply different formatting to parts of a document",
+"C": "Encrypt the file",
+"D": "Increase font size globally"
+},
+"correct_option": "B",
+"explanation": "Section breaks allow different formatting within the same document."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Spreadsheet",
+"question": "Data validation in Excel is mainly used to",
+"options": {
+"A": "Automatically delete data",
+"B": "Restrict the type of data entered into a cell",
+"C": "Format all cells",
+"D": "Create pivot tables"
+},
+"correct_option": "B",
+"explanation": "Data validation limits input values to maintain accuracy."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Database",
+"question": "A composite key is formed by",
+"options": {
+"A": "Deleting primary keys",
+"B": "Combining two or more fields to uniquely identify a record",
+"C": "Encrypting tables",
+"D": "Sorting records alphabetically"
+},
+"correct_option": "B",
+"explanation": "A composite key uses multiple fields together to uniquely identify records."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Graphics Package",
+"question": "Colour models such as RGB are important in digital graphics because they",
+"options": {
+"A": "Control file permissions",
+"B": "Define how colours are created on screens",
+"C": "Increase memory size",
+"D": "Encrypt images"
+},
+"correct_option": "B",
+"explanation": "RGB model defines colours using red, green and blue light combinations."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Presentation Package",
+"question": "Using slide transitions consistently enhances",
+"options": {
+"A": "Hardware performance",
+"B": "Professional flow and audience engagement",
+"C": "File encryption",
+"D": "CPU speed"
+},
+"correct_option": "B",
+"explanation": "Consistent transitions improve presentation flow and professionalism."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Web Design",
+"question": "A responsive navigation menu improves usability because it",
+"options": {
+"A": "Removes content",
+"B": "Adapts to different screen sizes and devices",
+"C": "Increases file corruption",
+"D": "Blocks user interaction"
+},
+"correct_option": "B",
+"explanation": "Responsive menus adjust layout for different devices."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Concept of Files",
+"question": "Hidden files in an operating system are typically",
+"options": {
+"A": "Deleted permanently",
+"B": "System or configuration files not shown by default",
+"C": "Corrupted files",
+"D": "Virus files only"
+},
+"correct_option": "B",
+"explanation": "Hidden files often contain system settings and are not displayed by default."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Handling Files",
+"question": "File compression tools like ZIP are mainly used to",
+"options": {
+"A": "Increase file size",
+"B": "Reduce file size for storage and sharing",
+"C": "Encrypt operating systems",
+"D": "Delete old files"
+},
+"correct_option": "B",
+"explanation": "ZIP compression reduces file size for easier storage and transfer."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Booting Process",
+"question": "Safe Mode in operating systems is useful for",
+"options": {
+"A": "Gaming performance",
+"B": "Troubleshooting and diagnosing system problems",
+"C": "Increasing RAM",
+"D": "Installing hardware"
+},
+"correct_option": "B",
+"explanation": "Safe Mode loads minimal drivers to help diagnose issues."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Maintenance",
+"question": "Installing system updates automatically is beneficial because it",
+"options": {
+"A": "Removes hardware",
+"B": "Enhances security and fixes vulnerabilities promptly",
+"C": "Deletes applications",
+"D": "Reduces storage capacity"
+},
+"correct_option": "B",
+"explanation": "Automatic updates ensure timely security patches."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Application Areas of ICT",
+"question": "Smart farming technologies demonstrate ICT application in",
+"options": {
+"A": "Agriculture",
+"B": "Entertainment",
+"C": "Healthcare",
+"D": "Banking"
+},
+"correct_option": "A",
+"explanation": "Smart farming uses ICT tools like sensors and data analytics in agriculture."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Internet",
+"question": "Two-step verification for online accounts improves security by",
+"options": {
+"A": "Increasing file storage",
+"B": "Requiring an additional authentication factor",
+"C": "Reducing internet speed",
+"D": "Disabling passwords"
+},
+"correct_option": "B",
+"explanation": "Two-step verification adds an extra layer of authentication."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Electronic Mail",
+"question": "Email spoofing is a cyber threat where attackers",
+"options": {
+"A": "Increase attachment size",
+"B": "Send emails pretending to be someone else",
+"C": "Delete inbox messages",
+"D": "Encrypt legitimate emails"
+},
+"correct_option": "B",
+"explanation": "Email spoofing involves forging the sender's identity."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Networking",
+"question": "MAC addresses are used to",
+"options": {
+"A": "Identify devices on a local network",
+"B": "Encrypt passwords",
+"C": "Increase bandwidth",
+"D": "Format hard drives"
+},
+"correct_option": "A",
+"explanation": "MAC addresses uniquely identify devices within a local network."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "World Wide Web",
+"question": "A domain name system (DNS) is responsible for",
+"options": {
+"A": "Storing files",
+"B": "Translating domain names into IP addresses",
+"C": "Encrypting data",
+"D": "Compiling code"
+},
+"correct_option": "B",
+"explanation": "DNS converts human-readable domain names into IP addresses."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Language",
+"question": "A logical error in programming results in",
+"options": {
+"A": "Syntax failure",
+"B": "Program producing incorrect output despite running",
+"C": "System shutdown",
+"D": "Hardware malfunction"
+},
+"correct_option": "B",
+"explanation": "Logical errors cause incorrect results even though the program executes."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "High Level Languages",
+"question": "Compiled programs generally execute faster than interpreted programs because",
+"options": {
+"A": "They are translated once into machine code",
+"B": "They require translation each time",
+"C": "They use less memory always",
+"D": "They are written in binary"
+},
+"correct_option": "A",
+"explanation": "Compiled programs are converted into machine code before execution."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Algorithm and Flowchart",
+"question": "A good algorithm should have which of the following properties?",
+"options": {
+"A": "Infinite repetition",
+"B": "Ambiguity",
+"C": "Definiteness and finiteness",
+"D": "Hardware dependency"
+},
+"correct_option": "C",
+"explanation": "Algorithms must be definite (clear) and finite (terminate)."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Structure",
+"question": "The modulo (%) operator in programming is used to",
+"options": {
+"A": "Add numbers",
+"B": "Divide and return remainder",
+"C": "Multiply values",
+"D": "Compare strings"
+},
+"correct_option": "B",
+"explanation": "The modulo operator returns the remainder after division."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Artificial Intelligence",
+"question": "Chatbots are AI applications that primarily use",
+"options": {
+"A": "Hard disk drives",
+"B": "Natural language processing to interact with users",
+"C": "Manual coding only",
+"D": "Physical robotics arms"
+},
+"correct_option": "B",
+"explanation": "Chatbots rely on NLP to understand and respond to user inputs."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Robotics",
+"question": "Sensors in robotics are crucial because they",
+"options": {
+"A": "Replace actuators",
+"B": "Provide feedback from the environment",
+"C": "Increase memory",
+"D": "Encrypt commands"
+},
+"correct_option": "B",
+"explanation": "Sensors detect environmental information for robot decision-making."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Ethics and Security",
+"question": "Data breaches often occur due to",
+"options": {
+"A": "Strong password policies",
+"B": "Weak security controls and poor user practices",
+"C": "Frequent system updates",
+"D": "Encrypted communications"
+},
+"correct_option": "B",
+"explanation": "Weak security measures and poor practices increase vulnerability to breaches."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "History of Computing",
+"question": "The shift from centralized mainframe systems to personal computers significantly impacted society because it",
+"options": {
+"A": "Reduced the need for software",
+"B": "Made computing accessible to individuals and small businesses",
+"C": "Eliminated data storage",
+"D": "Stopped network development"
+},
+"correct_option": "B",
+"explanation": "Personal computers brought computing power to individuals and small organizations, increasing accessibility."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Classification by Size",
+"question": "A workstation is most suitable for",
+"options": {
+"A": "Basic text editing only",
+"B": "High-performance tasks such as 3D design and engineering",
+"C": "Sending SMS messages",
+"D": "Operating traffic lights"
+},
+"correct_option": "B",
+"explanation": "Workstations are powerful computers used for technical and scientific applications."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Overview of Computing Systems",
+"question": "The primary role of system software is to",
+"options": {
+"A": "Perform user-specific tasks",
+"B": "Manage hardware resources and provide a platform for applications",
+"C": "Design graphics",
+"D": "Create databases"
+},
+"correct_option": "B",
+"explanation": "System software, such as the operating system, manages hardware and supports application programs."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Hardware",
+"question": "An input device differs from an output device because it",
+"options": {
+"A": "Displays processed information",
+"B": "Sends data into the computer for processing",
+"C": "Stores permanent files",
+"D": "Manages operating systems"
+},
+"correct_option": "B",
+"explanation": "Input devices send data to the computer, while output devices display processed information."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Operating Systems",
+"question": "Device drivers are important because they",
+"options": {
+"A": "Replace RAM",
+"B": "Allow the operating system to communicate with hardware devices",
+"C": "Delete system files",
+"D": "Increase monitor resolution"
+},
+"correct_option": "B",
+"explanation": "Device drivers enable communication between hardware and the operating system."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Data Representation",
+"question": "Unicode is preferred over ASCII in modern systems because it",
+"options": {
+"A": "Uses fewer bits always",
+"B": "Supports a wider range of international characters",
+"C": "Stores only numbers",
+"D": "Reduces processing speed"
+},
+"correct_option": "B",
+"explanation": "Unicode supports many global languages and symbols beyond ASCII’s limited set."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Digitization",
+"question": "Bit depth in digital images mainly affects",
+"options": {
+"A": "Image file name",
+"B": "Colour quality and detail",
+"C": "Internet speed",
+"D": "Monitor brightness"
+},
+"correct_option": "B",
+"explanation": "Higher bit depth allows more colour variation and detail."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Word Processing",
+"question": "Using table of contents in a long document helps readers to",
+"options": {
+"A": "Encrypt sections",
+"B": "Navigate easily through headings and sections",
+"C": "Delete formatting",
+"D": "Increase font size"
+},
+"correct_option": "B",
+"explanation": "A table of contents improves navigation in structured documents."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Spreadsheet",
+"question": "Freezing panes in Excel is useful when",
+"options": {
+"A": "Deleting formulas",
+"B": "Keeping headers visible while scrolling",
+"C": "Encrypting worksheets",
+"D": "Printing charts"
+},
+"correct_option": "B",
+"explanation": "Freezing panes keeps selected rows or columns visible during scrolling."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Database",
+"question": "Normalization in database design aims to",
+"options": {
+"A": "Increase redundancy",
+"B": "Eliminate unnecessary duplication of data",
+"C": "Delete records",
+"D": "Encrypt tables"
+},
+"correct_option": "B",
+"explanation": "Normalization reduces redundancy and improves data integrity."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Graphics Package",
+"question": "Using alignment tools in graphic design helps to",
+"options": {
+"A": "Encrypt images",
+"B": "Position elements neatly and consistently",
+"C": "Reduce resolution",
+"D": "Delete objects"
+},
+"correct_option": "B",
+"explanation": "Alignment tools improve layout organization and visual balance."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Presentation Package",
+"question": "Using slide notes during a presentation allows the speaker to",
+"options": {
+"A": "Display hidden animations",
+"B": "Refer to additional information not visible to the audience",
+"C": "Encrypt slides",
+"D": "Delete transitions"
+},
+"correct_option": "B",
+"explanation": "Slide notes provide extra guidance for the presenter."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Web Design",
+"question": "Accessibility in web design ensures that websites",
+"options": {
+"A": "Are only for experts",
+"B": "Can be used by people with disabilities",
+"C": "Require high bandwidth",
+"D": "Contain advertisements"
+},
+"correct_option": "B",
+"explanation": "Accessible design allows inclusive use by people with various abilities."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Concept of Files",
+"question": "The purpose of file backup schedules is to",
+"options": {
+"A": "Delete files regularly",
+"B": "Ensure periodic copying of important data",
+"C": "Reduce CPU speed",
+"D": "Encrypt hardware"
+},
+"correct_option": "B",
+"explanation": "Backup schedules ensure important data is copied regularly."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Handling Files",
+"question": "Formatting a storage device will",
+"options": {
+"A": "Encrypt files",
+"B": "Prepare it for use and erase existing data",
+"C": "Increase storage capacity",
+"D": "Improve internet speed"
+},
+"correct_option": "B",
+"explanation": "Formatting prepares storage media and deletes existing data."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Booting Process",
+"question": "Hibernate mode differs from sleep mode because hibernate",
+"options": {
+"A": "Consumes more power",
+"B": "Saves system state to disk and powers off",
+"C": "Deletes open programs",
+"D": "Formats RAM"
+},
+"correct_option": "B",
+"explanation": "Hibernate saves the session to disk and shuts down completely."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Maintenance",
+"question": "Using surge protectors helps to",
+"options": {
+"A": "Increase internet bandwidth",
+"B": "Protect devices from voltage spikes",
+"C": "Delete viruses",
+"D": "Upgrade RAM"
+},
+"correct_option": "B",
+"explanation": "Surge protectors guard against power surges that can damage hardware."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Application Areas of ICT",
+"question": "E-commerce platforms demonstrate ICT use in",
+"options": {
+"A": "Agriculture",
+"B": "Trade and commerce",
+"C": "Weather forecasting",
+"D": "Robotics manufacturing"
+},
+"correct_option": "B",
+"explanation": "E-commerce uses ICT for online buying and selling."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Internet",
+"question": "A VPN primarily enhances online activity by",
+"options": {
+"A": "Increasing monitor brightness",
+"B": "Encrypting internet traffic for privacy",
+"C": "Deleting cookies",
+"D": "Blocking hardware updates"
+},
+"correct_option": "B",
+"explanation": "VPNs encrypt internet traffic to protect user privacy."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Electronic Mail",
+"question": "An email attachment can pose security risks if it",
+"options": {
+"A": "Is compressed",
+"B": "Contains malicious software",
+"C": "Is too small",
+"D": "Is encrypted"
+},
+"correct_option": "B",
+"explanation": "Attachments may contain malware that infects systems."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Networking",
+"question": "In a bus topology, network failure is likely if",
+"options": {
+"A": "One device disconnects",
+"B": "The main backbone cable is damaged",
+"C": "A printer is removed",
+"D": "The router reboots"
+},
+"correct_option": "B",
+"explanation": "Bus topology relies on a single backbone cable."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "World Wide Web",
+"question": "Web hosting services are necessary because they",
+"options": {
+"A": "Design logos",
+"B": "Provide space for storing website files online",
+"C": "Compile programs",
+"D": "Increase RAM"
+},
+"correct_option": "B",
+"explanation": "Web hosting stores and serves website files on the internet."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Language",
+"question": "A conditional statement in programming is used to",
+"options": {
+"A": "Repeat code infinitely",
+"B": "Execute code based on a specified condition",
+"C": "Delete variables",
+"D": "Encrypt data"
+},
+"correct_option": "B",
+"explanation": "Conditional statements control program flow based on conditions."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "High Level Languages",
+"question": "Strongly typed languages help prevent errors by",
+"options": {
+"A": "Ignoring variable types",
+"B": "Enforcing strict data type rules",
+"C": "Deleting unused variables",
+"D": "Reducing memory"
+},
+"correct_option": "B",
+"explanation": "Strong typing ensures correct data type usage."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Algorithm and Flowchart",
+"question": "The effectiveness of an algorithm can be measured by its",
+"options": {
+"A": "Ambiguity",
+"B": "Time and space efficiency",
+"C": "Hardware brand",
+"D": "Font style"
+},
+"correct_option": "B",
+"explanation": "Efficient algorithms use minimal time and memory."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Structure",
+"question": "Recursion in programming involves",
+"options": {
+"A": "Looping forever",
+"B": "A function calling itself",
+"C": "Deleting arrays",
+"D": "Encrypting input"
+},
+"correct_option": "B",
+"explanation": "Recursion occurs when a function calls itself to solve subproblems."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Artificial Intelligence",
+"question": "Facial recognition systems are applications of AI in",
+"options": {
+"A": "Image processing and pattern recognition",
+"B": "File compression",
+"C": "Disk formatting",
+"D": "Database deletion"
+},
+"correct_option": "A",
+"explanation": "Facial recognition uses AI for image analysis and pattern recognition."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Robotics",
+"question": "Service robots are commonly used in",
+"options": {
+"A": "Military warfare only",
+"B": "Hospitals and customer service environments",
+"C": "File encryption",
+"D": "Programming compilation"
+},
+"correct_option": "B",
+"explanation": "Service robots assist in healthcare and customer service settings."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Ethics and Security",
+"question": "Intellectual property rights in computing protect",
+"options": {
+"A": "Hardware cables",
+"B": "Original software and digital creations",
+"C": "Electricity supply",
+"D": "Internet bandwidth"
+},
+"correct_option": "B",
+"explanation": "Intellectual property laws protect creators' digital works and software."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "History of Computing",
+"question": "The stored-program concept introduced by John von Neumann improved computer design because it allowed",
+"options": {
+"A": "Programs and data to be stored in the same memory",
+"B": "Only data to be stored permanently",
+"C": "Removal of the CPU",
+"D": "Manual switching of instructions"
+},
+"correct_option": "A",
+"explanation": "The stored-program concept allows both instructions and data to reside in memory, enabling flexible program execution."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Classification by Type",
+"question": "A hybrid computer is particularly useful in medical equipment because it",
+"options": {
+"A": "Uses only digital signals",
+"B": "Combines analog measurement with digital processing",
+"C": "Operates without software",
+"D": "Eliminates memory usage"
+},
+"correct_option": "B",
+"explanation": "Hybrid computers combine analog inputs (like sensors) with digital processing for analysis."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Overview of Computing Systems",
+"question": "The main difference between RAM and secondary storage is that RAM",
+"options": {
+"A": "Is non-volatile",
+"B": "Stores data permanently",
+"C": "Is volatile and temporary",
+"D": "Is slower than hard drives"
+},
+"correct_option": "C",
+"explanation": "RAM is volatile memory that temporarily stores data while the system is running."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Hardware",
+"question": "The function of a graphics processing unit (GPU) is to",
+"options": {
+"A": "Store user files",
+"B": "Handle graphical computations and rendering",
+"C": "Manage network traffic",
+"D": "Control booting"
+},
+"correct_option": "B",
+"explanation": "A GPU processes images, video and graphical data efficiently."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Operating Systems",
+"question": "Multithreading improves performance by",
+"options": {
+"A": "Deleting background processes",
+"B": "Allowing multiple threads of execution within a process",
+"C": "Increasing disk size",
+"D": "Reducing RAM capacity"
+},
+"correct_option": "B",
+"explanation": "Multithreading allows concurrent execution of multiple tasks within a program."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Data Representation",
+"question": "The hexadecimal value FF is equal to which decimal value?",
+"options": {
+"A": "125",
+"B": "200",
+"C": "255",
+"D": "512"
+},
+"correct_option": "C",
+"explanation": "FF in hexadecimal equals 255 in decimal (15×16 + 15)."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Digitization",
+"question": "Sampling in digitization refers to",
+"options": {
+"A": "Deleting parts of data",
+"B": "Taking periodic measurements of an analog signal",
+"C": "Encrypting files",
+"D": "Reducing bit depth"
+},
+"correct_option": "B",
+"explanation": "Sampling involves measuring an analog signal at regular intervals."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Word Processing",
+"question": "Using page orientation settings in MS Word allows users to",
+"options": {
+"A": "Encrypt the document",
+"B": "Switch between portrait and landscape layout",
+"C": "Delete margins",
+"D": "Disable printing"
+},
+"correct_option": "B",
+"explanation": "Page orientation controls whether the document is portrait or landscape."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Spreadsheet",
+"question": "The VLOOKUP function is used to",
+"options": {
+"A": "Insert charts",
+"B": "Search vertically for a value in a table",
+"C": "Encrypt cells",
+"D": "Delete duplicates"
+},
+"correct_option": "B",
+"explanation": "VLOOKUP searches for values vertically in a specified range."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Database",
+"question": "A report in a database system is mainly used to",
+"options": {
+"A": "Enter raw data",
+"B": "Present data in a formatted and printable layout",
+"C": "Delete records",
+"D": "Create queries"
+},
+"correct_option": "B",
+"explanation": "Reports display data in a structured format suitable for printing."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Graphics Package",
+"question": "Vector graphics are resolution-independent because they",
+"options": {
+"A": "Use pixels only",
+"B": "Are defined by mathematical equations",
+"C": "Store images as bitmaps",
+"D": "Require internet access"
+},
+"correct_option": "B",
+"explanation": "Vector graphics use mathematical formulas, allowing scaling without quality loss."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Presentation Package",
+"question": "Using a slide template ensures",
+"options": {
+"A": "Automatic deletion of slides",
+"B": "Consistent design across presentation slides",
+"C": "Reduced storage capacity",
+"D": "Encryption of content"
+},
+"correct_option": "B",
+"explanation": "Templates apply uniform styles and formatting."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Web Design",
+"question": "Meta tags in HTML are mainly used to",
+"options": {
+"A": "Display images",
+"B": "Provide metadata about a webpage",
+"C": "Encrypt web content",
+"D": "Insert tables"
+},
+"correct_option": "B",
+"explanation": "Meta tags provide information such as keywords and page descriptions."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Concept of Files",
+"question": "Sequential file access means that records are accessed",
+"options": {
+"A": "In random order",
+"B": "One after another in order",
+"C": "Through encryption only",
+"D": "Using artificial intelligence"
+},
+"correct_option": "B",
+"explanation": "Sequential access reads records in order from start to finish."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Handling Files",
+"question": "Using RAID storage systems improves",
+"options": {
+"A": "Internet speed",
+"B": "Data redundancy and reliability",
+"C": "Monitor resolution",
+"D": "Software encryption"
+},
+"correct_option": "B",
+"explanation": "RAID provides redundancy and improved fault tolerance."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Booting Process",
+"question": "The boot loader is responsible for",
+"options": {
+"A": "Deleting system files",
+"B": "Loading the operating system into memory",
+"C": "Increasing RAM",
+"D": "Encrypting disk drives"
+},
+"correct_option": "B",
+"explanation": "The boot loader loads the operating system during startup."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Maintenance",
+"question": "Replacing a failing hard drive helps to prevent",
+"options": {
+"A": "Improved CPU speed",
+"B": "Permanent data loss",
+"C": "Better internet connection",
+"D": "Software updates"
+},
+"correct_option": "B",
+"explanation": "Replacing faulty drives prevents data loss."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Application Areas of ICT",
+"question": "Smart classrooms using digital boards illustrate ICT application in",
+"options": {
+"A": "Transportation",
+"B": "Education",
+"C": "Healthcare",
+"D": "Agriculture"
+},
+"correct_option": "B",
+"explanation": "Smart classrooms integrate ICT into teaching and learning."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Internet",
+"question": "A secure website address typically begins with",
+"options": {
+"A": "ftp://",
+"B": "http://",
+"C": "https://",
+"D": "smtp://"
+},
+"correct_option": "C",
+"explanation": "HTTPS indicates secure, encrypted web communication."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Electronic Mail",
+"question": "Auto-reply email features are useful for",
+"options": {
+"A": "Deleting spam",
+"B": "Sending automatic responses when unavailable",
+"C": "Encrypting inbox",
+"D": "Increasing storage"
+},
+"correct_option": "B",
+"explanation": "Auto-reply sends automatic messages during absence."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Networking",
+"question": "Network latency refers to",
+"options": {
+"A": "Bandwidth capacity",
+"B": "Delay before data transfer begins",
+"C": "Number of devices connected",
+"D": "Encryption strength"
+},
+"correct_option": "B",
+"explanation": "Latency is the delay before data transmission."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "World Wide Web",
+"question": "A content management system (CMS) is used to",
+"options": {
+"A": "Delete web pages",
+"B": "Create and manage digital content easily",
+"C": "Encrypt websites",
+"D": "Replace servers"
+},
+"correct_option": "B",
+"explanation": "CMS platforms allow users to manage website content efficiently."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Language",
+"question": "A loop that executes at least once regardless of condition is typically",
+"options": {
+"A": "For loop",
+"B": "While loop",
+"C": "Do-while loop",
+"D": "If statement"
+},
+"correct_option": "C",
+"explanation": "A do-while loop runs at least once before checking the condition."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "High Level Languages",
+"question": "Garbage collection in programming languages helps to",
+"options": {
+"A": "Encrypt data",
+"B": "Automatically manage memory allocation and deallocation",
+"C": "Delete hardware",
+"D": "Increase file size"
+},
+"correct_option": "B",
+"explanation": "Garbage collection frees unused memory automatically."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Algorithm and Flowchart",
+"question": "Flowcharts are useful because they",
+"options": {
+"A": "Replace programming languages",
+"B": "Provide a visual representation of algorithms",
+"C": "Encrypt programs",
+"D": "Delete errors automatically"
+},
+"correct_option": "B",
+"explanation": "Flowcharts visually illustrate program logic."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Programming Structure",
+"question": "A constant in programming differs from a variable because it",
+"options": {
+"A": "Changes frequently",
+"B": "Cannot change value during execution",
+"C": "Stores multiple values",
+"D": "Encrypts data"
+},
+"correct_option": "B",
+"explanation": "Constants remain unchanged once defined."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Artificial Intelligence",
+"question": "Recommendation systems used by streaming platforms are based on",
+"options": {
+"A": "Disk formatting",
+"B": "Data analysis and machine learning algorithms",
+"C": "Manual sorting",
+"D": "File encryption"
+},
+"correct_option": "B",
+"explanation": "Recommendation systems analyze user data using machine learning."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Robotics",
+"question": "Industrial robotic arms are primarily used for",
+"options": {
+"A": "Email encryption",
+"B": "Automated assembly and manufacturing tasks",
+"C": "Website hosting",
+"D": "Programming education"
+},
+"correct_option": "B",
+"explanation": "Robotic arms perform repetitive industrial tasks efficiently."
+},
+{
+"exam": "JAMB",
+"subject": "Computer Studies",
+"topic": "Computer Ethics and Security",
+"question": "Ethical hacking is performed to",
+"options": {
+"A": "Steal data legally",
+"B": "Identify and fix security vulnerabilities",
+"C": "Delete servers",
+"D": "Increase malware"
+},
+"correct_option": "B",
+"explanation": "Ethical hackers test systems to strengthen security."
+}
+]
