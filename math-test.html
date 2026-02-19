@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1d4ed8">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>Math Formatting Test</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Math Formatting Test</h1>
+        <div class="question-text">Test question with subscripts: x₂ + y₃ = 10₁₀</div>
+        <div class="option-text">Option A: 2² + 3³ = 4¹</div>
+        <div class="option-text">Option B: log₁₀(100) = 2</div>
+        <div class="explanation-text">Explanation: The formula is E = mc² where m is mass and c is speed of light.</div>
+    </div>
+    <script src="js/test.js?v=20260215a"></script>
+    <script>
+        // Test the formatMathQuestion function
+        document.addEventListener('DOMContentLoaded', function() {
+            const questionText = document.querySelector('.question-text');
+            const optionTexts = document.querySelectorAll('.option-text');
+            const explanationText = document.querySelector('.explanation-text');
+
+            questionText.innerHTML = formatMathQuestion(questionText.textContent);
+            optionTexts.forEach(option => {
+                option.innerHTML = formatMathQuestion(option.textContent);
+            });
+            explanationText.innerHTML = formatMathQuestion(explanationText.textContent);
+        });
+    </script>
+    <script defer src="js/pwa-register.js"></script>
+</body>
+</html>
+
+
+
