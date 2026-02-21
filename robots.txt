@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://thinkright.name.ng/sitemap.xml
