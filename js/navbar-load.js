@@ -15,7 +15,7 @@
     const themeToggle = document.getElementById("tr-theme-toggle");
     const themeToggleMobile = document.getElementById("tr-theme-toggle-mobile");
 
-    ensureLeaderboardLinks();
+    ensureCoreLinks();
     setActiveLinks();
     setupTheme(themeToggle, themeToggleMobile);
     setupPricingHandlers(mobileMenu);
@@ -24,23 +24,28 @@
     displayUserInfo();
   }
 
-  function ensureLeaderboardLinks() {
+  function ensureCoreLinks() {
     const addLink = (container, linkClass, beforeSelector) => {
       if (!container) return;
-      if (container.querySelector('a[href="leaderboard.html"]')) return;
+      const ensureLink = (href, label) => {
+        if (container.querySelector(`a[href="${href}"]`)) return;
 
-      const li = document.createElement("li");
-      const a = document.createElement("a");
-      a.href = "leaderboard.html";
-      a.className = linkClass;
-      a.textContent = "Leaderboard";
-      li.appendChild(a);
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = href;
+        a.className = linkClass;
+        a.textContent = label;
+        li.appendChild(a);
 
-      const beforeNode = beforeSelector
-        ? container.querySelector(beforeSelector)?.closest("li")
-        : null;
-      if (beforeNode) container.insertBefore(li, beforeNode);
-      else container.appendChild(li);
+        const beforeNode = beforeSelector
+          ? container.querySelector(beforeSelector)?.closest("li")
+          : null;
+        if (beforeNode) container.insertBefore(li, beforeNode);
+        else container.appendChild(li);
+      };
+
+      ensureLink("leaderboard.html", "Leaderboard");
+      ensureLink("insider.html", "JAMB Insider");
     };
 
     addLink(
