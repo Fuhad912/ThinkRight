@@ -637,9 +637,11 @@ body.tr-menu-open {
   }
 
   .tr-navbar__nav {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    position: static;
+    transform: none;
+    margin-left: clamp(14px, 2vw, 26px);
+    margin-right: auto;
+    gap: 18px;
   }
 
   .tr-navbar__logo,
@@ -649,17 +651,8 @@ body.tr-menu-open {
     z-index: 1;
   }
 
-  .tr-navbar__user-info,
-  .tr-navbar__auth-btn {
-    margin-left: auto;
-  }
-}
-
-@media (min-width: 900px) and (max-width: 1140px) {
-  .tr-navbar__nav {
-    position: static;
-    transform: none;
-    margin-left: 20px;
+  .tr-navbar__user-info {
+    flex-shrink: 0;
   }
 }
 
