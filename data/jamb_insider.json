@@ -1,0 +1,1485 @@
+{
+  "updated_at": "2026-02-21",
+  "entries": [
+    {
+      "id": "combo-law",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Law",
+      "summary": "Practical UTME combo for most Law admissions.",
+      "tags": [
+        "law",
+        "llb",
+        "arts",
+        "humanities",
+        "government",
+        "legal studies"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Literature in English",
+        "Government",
+        "CRS"
+      ],
+      "note": "Insider Tip: Some schools accept IRS in place of CRS. Always confirm your target school brochure."
+    },
+    {
+      "id": "combo-medicine-surgery",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Medicine & Surgery",
+      "summary": "Core MBBS subject mix used widely across Nigeria.",
+      "tags": [
+        "medicine",
+        "medicine and surgery",
+        "mbbs",
+        "med",
+        "health science",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Physics"
+      ],
+      "note": "Insider Tip: Medicine is highly competitive; combine this with strong post-UTME preparation."
+    },
+    {
+      "id": "combo-nursing",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Nursing",
+      "summary": "Standard Nursing subject combination for UTME.",
+      "tags": [
+        "nursing",
+        "nurse",
+        "health science",
+        "science",
+        "b nursing"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Physics"
+      ],
+      "note": "Insider Tip: Some schools require very strong O-level grades in one sitting."
+    },
+    {
+      "id": "combo-pharmacy",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Pharmacy",
+      "summary": "Commonly accepted Pharmacy UTME combination.",
+      "tags": [
+        "pharmacy",
+        "pharm",
+        "health science",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Physics"
+      ],
+      "note": "Insider Tip: Chemistry performance is usually a major differentiator for Pharmacy admission."
+    },
+    {
+      "id": "combo-dentistry",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Dentistry",
+      "summary": "Widely accepted Dentistry subject combination.",
+      "tags": [
+        "dentistry",
+        "dental",
+        "health science",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Physics"
+      ],
+      "note": "Insider Tip: Dentistry cut-off trends are usually close to Medicine in many schools."
+    },
+    {
+      "id": "combo-medical-laboratory-science",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Medical Laboratory Science",
+      "summary": "Most accepted MLS UTME combination.",
+      "tags": [
+        "medical laboratory science",
+        "mls",
+        "lab science",
+        "health science",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Physics"
+      ],
+      "note": "Insider Tip: MLS candidates should not neglect Physics speed and accuracy drills."
+    },
+    {
+      "id": "combo-physiotherapy",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Physiotherapy",
+      "summary": "Reliable Physiotherapy UTME subject mix.",
+      "tags": [
+        "physiotherapy",
+        "physio",
+        "rehab",
+        "health science",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Physics"
+      ],
+      "note": "Insider Tip: Practice Biology and Physics consistently for better balance."
+    },
+    {
+      "id": "combo-anatomy",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Anatomy",
+      "summary": "Common Anatomy UTME combination in Nigerian universities.",
+      "tags": [
+        "anatomy",
+        "health science",
+        "science",
+        "medical science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Physics"
+      ],
+      "note": "Insider Tip: Strong Biology foundations help in both UTME and first-year courses."
+    },
+    {
+      "id": "combo-physiology",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Physiology",
+      "summary": "Standard Physiology UTME combination.",
+      "tags": [
+        "physiology",
+        "health science",
+        "science",
+        "medical science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Physics"
+      ],
+      "note": "Insider Tip: Most schools keep Physiology under pure science or health science requirements."
+    },
+    {
+      "id": "combo-public-health",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Public Health",
+      "summary": "Typical Public Health subject combination for UTME.",
+      "tags": [
+        "public health",
+        "health",
+        "community health",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Physics"
+      ],
+      "note": "Insider Tip: Some schools may allow Mathematics as an alternative fourth subject."
+    },
+    {
+      "id": "combo-veterinary-medicine",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Veterinary Medicine",
+      "summary": "Practical Vet Med UTME combination.",
+      "tags": [
+        "veterinary medicine",
+        "vet med",
+        "veterinary",
+        "agric",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Physics"
+      ],
+      "note": "Insider Tip: Animal-related science background can help in post-UTME interviews/tests."
+    },
+    {
+      "id": "combo-radiography",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Radiography",
+      "summary": "Common Radiography UTME subject mix.",
+      "tags": [
+        "radiography",
+        "radiology",
+        "health science",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Physics"
+      ],
+      "note": "Insider Tip: Physics speed is important because many radiography applicants are science-strong."
+    },
+    {
+      "id": "combo-nutrition-dietetics",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Nutrition and Dietetics",
+      "summary": "Widely used UTME combination for Nutrition-related courses.",
+      "tags": [
+        "nutrition",
+        "dietetics",
+        "nutrition and dietetics",
+        "health science",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Physics"
+      ],
+      "note": "Insider Tip: Biology and Chemistry mastery improves both admission chances and first-year performance."
+    },
+    {
+      "id": "combo-biochemistry",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Biochemistry",
+      "summary": "Most accepted Biochemistry UTME combination.",
+      "tags": [
+        "biochemistry",
+        "biochem",
+        "science",
+        "health science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Physics"
+      ],
+      "note": "Insider Tip: Many schools strongly prioritize Chemistry in Biochemistry screening."
+    },
+    {
+      "id": "combo-microbiology",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Microbiology",
+      "summary": "Standard Microbiology UTME subject mix.",
+      "tags": [
+        "microbiology",
+        "microbio",
+        "science",
+        "health science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Physics"
+      ],
+      "note": "Insider Tip: Use timed Biology objective drills to improve speed."
+    },
+    {
+      "id": "combo-biotechnology",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Biotechnology",
+      "summary": "Practical Biotechnology subject combination for UTME.",
+      "tags": [
+        "biotechnology",
+        "biotech",
+        "science",
+        "health science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Physics"
+      ],
+      "note": "Insider Tip: Course naming varies by school; check if it is listed under biological sciences."
+    },
+    {
+      "id": "combo-industrial-chemistry",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Industrial Chemistry",
+      "summary": "Common UTME combination for Industrial Chemistry.",
+      "tags": [
+        "industrial chemistry",
+        "chemistry",
+        "science",
+        "stem"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: Some schools may accept Biology as fourth subject, but Mathematics is often safer."
+    },
+    {
+      "id": "combo-engineering-general",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Engineering (General)",
+      "summary": "Core Engineering UTME combination across most departments.",
+      "tags": [
+        "engineering",
+        "eng",
+        "stem",
+        "science",
+        "faculty of engineering"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: This is the safest baseline combo for many engineering fields."
+    },
+    {
+      "id": "combo-civil-engineering",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Civil Engineering",
+      "summary": "Standard Civil Engineering UTME subject combination.",
+      "tags": [
+        "civil engineering",
+        "civil eng",
+        "engineering",
+        "stem"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: Many schools treat Civil Engineering as highly quantitative; keep Maths very strong."
+    },
+    {
+      "id": "combo-mechanical-engineering",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Mechanical Engineering",
+      "summary": "Typical Mechanical Engineering UTME combination.",
+      "tags": [
+        "mechanical engineering",
+        "mechanical eng",
+        "engineering",
+        "stem"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: Speed in Physics calculations can significantly improve your score."
+    },
+    {
+      "id": "combo-electrical-electronics-engineering",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Electrical & Electronics Engineering",
+      "summary": "Practical EEE UTME subject combination.",
+      "tags": [
+        "electrical engineering",
+        "electronics engineering",
+        "electrical and electronics",
+        "eee",
+        "engineering",
+        "stem"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: Some schools list this as EEE or ECE; verify your exact department title."
+    },
+    {
+      "id": "combo-chemical-engineering",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Chemical Engineering",
+      "summary": "Most accepted Chemical Engineering UTME combination.",
+      "tags": [
+        "chemical engineering",
+        "chem eng",
+        "engineering",
+        "stem"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: Chemistry depth matters more here than in some other engineering options."
+    },
+    {
+      "id": "combo-petroleum-engineering",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Petroleum Engineering",
+      "summary": "Common Petroleum Engineering subject mix for UTME.",
+      "tags": [
+        "petroleum engineering",
+        "pet eng",
+        "oil and gas",
+        "engineering",
+        "stem"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: Admission competition can be high in oil-producing state universities."
+    },
+    {
+      "id": "combo-computer-engineering",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Computer Engineering",
+      "summary": "Standard Computer Engineering UTME combination.",
+      "tags": [
+        "computer engineering",
+        "comp eng",
+        "engineering",
+        "ict",
+        "stem"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: Strong Maths plus Physics speed is crucial for this program."
+    },
+    {
+      "id": "combo-mechatronics-engineering",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Mechatronics Engineering",
+      "summary": "Widely accepted Mechatronics UTME combination.",
+      "tags": [
+        "mechatronics",
+        "mechatronics engineering",
+        "engineering",
+        "stem",
+        "automation"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: If your school merges mechatronics into mechanical at entry, this combo still works."
+    },
+    {
+      "id": "combo-computer-science",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Computer Science",
+      "summary": "Practical and widely accepted Computer Science combo.",
+      "tags": [
+        "computer science",
+        "comp sci",
+        "cs",
+        "ict",
+        "stem",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: Some schools accept Biology as fourth subject, but Chemistry is broadly accepted."
+    },
+    {
+      "id": "combo-software-engineering",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Software Engineering",
+      "summary": "Common Software Engineering UTME combination.",
+      "tags": [
+        "software engineering",
+        "software eng",
+        "se",
+        "ict",
+        "engineering",
+        "stem"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: Check if your school admits through Computing or Engineering faculty."
+    },
+    {
+      "id": "combo-information-technology",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Information Technology",
+      "summary": "Typical IT/Information Systems UTME subject mix.",
+      "tags": [
+        "information technology",
+        "it",
+        "information systems",
+        "ict",
+        "science",
+        "stem"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Economics"
+      ],
+      "note": "Insider Tip: Some schools prefer Chemistry instead of Economics, so verify before registration."
+    },
+    {
+      "id": "combo-architecture",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Architecture",
+      "summary": "Reliable Architecture UTME combination.",
+      "tags": [
+        "architecture",
+        "architect",
+        "built environment",
+        "science",
+        "engineering"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: Some universities accept Geography as an alternative fourth subject."
+    },
+    {
+      "id": "combo-quantity-surveying",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Quantity Surveying",
+      "summary": "Standard Quantity Surveying UTME combination.",
+      "tags": [
+        "quantity surveying",
+        "qs",
+        "built environment",
+        "science",
+        "commercial"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Economics"
+      ],
+      "note": "Insider Tip: Some schools may request Chemistry instead of Economics."
+    },
+    {
+      "id": "combo-estate-management",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Estate Management",
+      "summary": "Common Estate Management UTME subject combination.",
+      "tags": [
+        "estate management",
+        "estate mgmt",
+        "real estate",
+        "built environment",
+        "commercial"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Economics",
+        "Geography"
+      ],
+      "note": "Insider Tip: Geography is useful, but some schools accept Government or Commerce alternatives."
+    },
+    {
+      "id": "combo-accounting",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Accounting",
+      "summary": "Widely used Accounting UTME combination.",
+      "tags": [
+        "accounting",
+        "acct",
+        "commercial",
+        "management",
+        "finance"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Economics",
+        "Commerce"
+      ],
+      "note": "Insider Tip: Some universities accept Government in place of Commerce."
+    },
+    {
+      "id": "combo-economics",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Economics",
+      "summary": "Practical Economics subject combination for UTME.",
+      "tags": [
+        "economics",
+        "econ",
+        "social science",
+        "commercial"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Economics",
+        "Government"
+      ],
+      "note": "Insider Tip: Mathematics is often compulsory for Economics in many schools."
+    },
+    {
+      "id": "combo-business-administration",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Business Administration",
+      "summary": "Common Business Administration UTME combination.",
+      "tags": [
+        "business administration",
+        "biz admin",
+        "bba",
+        "management",
+        "commercial"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Economics",
+        "Commerce"
+      ],
+      "note": "Insider Tip: Keep Economics and Maths strong for management courses."
+    },
+    {
+      "id": "combo-banking-finance",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Banking and Finance",
+      "summary": "Standard Banking & Finance subject mix.",
+      "tags": [
+        "banking and finance",
+        "banking",
+        "finance",
+        "b and f",
+        "commercial",
+        "management"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Economics",
+        "Commerce"
+      ],
+      "note": "Insider Tip: Some schools may list this as Finance or Banking and Finance."
+    },
+    {
+      "id": "combo-marketing",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Marketing",
+      "summary": "Typical Marketing UTME combination.",
+      "tags": [
+        "marketing",
+        "commercial",
+        "management",
+        "business"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Economics",
+        "Commerce"
+      ],
+      "note": "Insider Tip: Commerce gives practical context for many Marketing questions."
+    },
+    {
+      "id": "combo-political-science",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Political Science",
+      "summary": "Most accepted Political Science UTME combination.",
+      "tags": [
+        "political science",
+        "politics",
+        "pol sci",
+        "social science",
+        "government"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Government",
+        "Economics",
+        "Literature in English"
+      ],
+      "note": "Insider Tip: Government should be one of your strongest subjects for this course."
+    },
+    {
+      "id": "combo-sociology",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Sociology",
+      "summary": "Practical Sociology UTME subject combination.",
+      "tags": [
+        "sociology",
+        "social science",
+        "soc",
+        "government"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Government",
+        "Economics",
+        "CRS"
+      ],
+      "note": "Insider Tip: Some schools accept Literature or Geography as alternatives."
+    },
+    {
+      "id": "combo-psychology",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Psychology",
+      "summary": "Common Psychology UTME combination in many schools.",
+      "tags": [
+        "psychology",
+        "psy",
+        "social science",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Economics",
+        "Government"
+      ],
+      "note": "Insider Tip: Psychology requirements vary; always check departmental brochure."
+    },
+    {
+      "id": "combo-international-relations",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for International Relations",
+      "summary": "Standard International Relations UTME combination.",
+      "tags": [
+        "international relations",
+        "ir",
+        "diplomacy",
+        "social science",
+        "arts"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Government",
+        "Economics",
+        "Literature in English"
+      ],
+      "note": "Insider Tip: Some schools may accept History in place of Literature."
+    },
+    {
+      "id": "combo-mass-communication",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Mass Communication",
+      "summary": "Widely accepted Mass Communication UTME subject mix.",
+      "tags": [
+        "mass communication",
+        "mass comm",
+        "media",
+        "communication",
+        "arts",
+        "social science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Literature in English",
+        "Government",
+        "CRS"
+      ],
+      "note": "Insider Tip: Writing and comprehension strength gives you an edge in this course."
+    },
+    {
+      "id": "combo-public-administration",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Public Administration",
+      "summary": "Practical Public Administration UTME combination.",
+      "tags": [
+        "public administration",
+        "pub admin",
+        "administration",
+        "social science",
+        "management"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Government",
+        "Economics",
+        "CRS"
+      ],
+      "note": "Insider Tip: Some schools accept History or Literature as alternatives."
+    },
+    {
+      "id": "combo-english-literary-studies",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for English and Literary Studies",
+      "summary": "Common UTME combination for English/Literary studies.",
+      "tags": [
+        "english",
+        "english language",
+        "literary studies",
+        "arts",
+        "humanities"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Literature in English",
+        "Government",
+        "CRS"
+      ],
+      "note": "Insider Tip: Strong performance in comprehension and lexis is critical."
+    },
+    {
+      "id": "combo-history-international-studies",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for History and International Studies",
+      "summary": "Typical subject combination for History-related courses.",
+      "tags": [
+        "history",
+        "history and international studies",
+        "his",
+        "arts",
+        "humanities"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "History",
+        "Government",
+        "Literature in English"
+      ],
+      "note": "Insider Tip: Some institutions may require Government as the strongest supporting subject."
+    },
+    {
+      "id": "combo-theatre-arts",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Theatre Arts",
+      "summary": "Standard Theatre Arts UTME combination.",
+      "tags": [
+        "theatre arts",
+        "drama",
+        "performing arts",
+        "arts",
+        "humanities"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Literature in English",
+        "Government",
+        "CRS"
+      ],
+      "note": "Insider Tip: Literature preparation helps both objective and practical screening stages."
+    },
+    {
+      "id": "combo-linguistics",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Linguistics",
+      "summary": "Practical Linguistics UTME subject combination.",
+      "tags": [
+        "linguistics",
+        "language studies",
+        "arts",
+        "humanities"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Literature in English",
+        "Government",
+        "CRS"
+      ],
+      "note": "Insider Tip: Some schools allow any other Arts or Social Science subject as fourth option."
+    },
+    {
+      "id": "combo-agricultural-science",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Agricultural Science",
+      "summary": "Widely accepted Agric Science UTME subject mix.",
+      "tags": [
+        "agricultural science",
+        "agric",
+        "agriculture",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Agricultural Science"
+      ],
+      "note": "Insider Tip: If Agricultural Science is not available, some schools may accept Mathematics."
+    },
+    {
+      "id": "combo-agricultural-economics",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Agricultural Economics",
+      "summary": "Common Agricultural Economics subject combination.",
+      "tags": [
+        "agricultural economics",
+        "agric econ",
+        "agriculture",
+        "commercial",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Economics",
+        "Agricultural Science"
+      ],
+      "note": "Insider Tip: Check whether your school prefers Chemistry in place of Agricultural Science."
+    },
+    {
+      "id": "combo-geography-regional-planning",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Geography and Regional Planning",
+      "summary": "Typical Geography/Planning UTME combination.",
+      "tags": [
+        "geography",
+        "regional planning",
+        "urban planning",
+        "social science",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Geography",
+        "Mathematics",
+        "Economics"
+      ],
+      "note": "Insider Tip: Some planning programs accept Physics as alternative to Economics."
+    },
+    {
+      "id": "combo-statistics",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Statistics",
+      "summary": "Practical Statistics UTME subject combination.",
+      "tags": [
+        "statistics",
+        "stat",
+        "science",
+        "social science",
+        "quantitative"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Economics",
+        "Physics"
+      ],
+      "note": "Insider Tip: Prioritize speed in quantitative reasoning and calculations."
+    },
+    {
+      "id": "combo-education-english",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Education and English",
+      "summary": "Common Education (English) UTME combination.",
+      "tags": [
+        "education",
+        "education english",
+        "arts",
+        "teaching",
+        "english"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Literature in English",
+        "Government",
+        "CRS"
+      ],
+      "note": "Insider Tip: Teaching courses can vary by school, so verify specific faculty requirements."
+    },
+    {
+      "id": "combo-education-biology",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Education and Biology",
+      "summary": "Standard Education (Biology) UTME combination.",
+      "tags": [
+        "education",
+        "education biology",
+        "science education",
+        "teaching",
+        "biology"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Biology",
+        "Chemistry",
+        "Physics"
+      ],
+      "note": "Insider Tip: Some schools may allow Mathematics in place of Physics for education science tracks."
+    },
+    {
+      "id": "combo-education-mathematics",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Education and Mathematics",
+      "summary": "Typical Education (Mathematics) UTME combination.",
+      "tags": [
+        "education",
+        "education mathematics",
+        "math education",
+        "science education",
+        "teaching"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: Check if your school lists this under Science Education or Education faculty."
+    },
+    {
+      "id": "combo-cybersecurity",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Cybersecurity",
+      "summary": "Common UTME combination for Cybersecurity and Information Security programs.",
+      "tags": [
+        "cybersecurity",
+        "cyber security",
+        "information security",
+        "cyber",
+        "ict",
+        "stem",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: Some schools list this under Computer Science or Computing. Confirm departmental naming."
+    },
+    {
+      "id": "combo-cyber-digital-forensics",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Cyber Security and Digital Forensics",
+      "summary": "Practical UTME combo for cyber-forensics-related courses.",
+      "tags": [
+        "cyber security and digital forensics",
+        "digital forensics",
+        "forensics",
+        "cyber security",
+        "ict",
+        "stem"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: If Digital Forensics is unavailable as a standalone course, check Computer Science tracks."
+    },
+    {
+      "id": "combo-data-science",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Data Science",
+      "summary": "Widely accepted UTME combination for Data Science pathways.",
+      "tags": [
+        "data science",
+        "data analytics",
+        "analytics",
+        "ds",
+        "ict",
+        "science",
+        "stem"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Economics"
+      ],
+      "note": "Insider Tip: Many schools still admit Data Science candidates through Computer Science departments."
+    },
+    {
+      "id": "combo-artificial-intelligence",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Artificial Intelligence",
+      "summary": "Standard UTME mix for AI-focused undergraduate programs.",
+      "tags": [
+        "artificial intelligence",
+        "ai",
+        "machine learning",
+        "ml",
+        "ict",
+        "stem",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: Strong Mathematics and problem-solving speed are key for AI-related admissions."
+    },
+    {
+      "id": "combo-information-systems",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Information Systems",
+      "summary": "Typical UTME combination for Information Systems and BIS programs.",
+      "tags": [
+        "information systems",
+        "is",
+        "bis",
+        "business information systems",
+        "ict",
+        "commercial",
+        "stem"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Economics",
+        "Physics"
+      ],
+      "note": "Insider Tip: Some schools accept Chemistry instead of Economics. Verify before final registration."
+    },
+    {
+      "id": "combo-information-science-media-studies",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Information Science and Media Studies",
+      "summary": "Common subject combination for Information Science / Media Studies blend programs.",
+      "tags": [
+        "information science",
+        "media studies",
+        "library and information science",
+        "lis",
+        "social science",
+        "arts"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Literature in English",
+        "Government",
+        "Economics"
+      ],
+      "note": "Insider Tip: Course titles differ across schools; check if listed under communication or social sciences."
+    },
+    {
+      "id": "combo-actuarial-science",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Actuarial Science",
+      "summary": "Practical UTME combination for Actuarial Science applicants.",
+      "tags": [
+        "actuarial science",
+        "actuarial",
+        "insurance",
+        "mathematics",
+        "commercial",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Economics",
+        "Physics"
+      ],
+      "note": "Insider Tip: Actuarial programs are highly quantitative. Timed Maths drills should be a priority."
+    },
+    {
+      "id": "combo-surveying-geoinformatics",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Surveying and Geoinformatics",
+      "summary": "Most accepted UTME combination for Surveying and Geoinformatics.",
+      "tags": [
+        "surveying and geoinformatics",
+        "surveying",
+        "geomatics",
+        "gis",
+        "built environment",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Geography"
+      ],
+      "note": "Insider Tip: Some schools may accept Chemistry instead of Geography depending on faculty rules."
+    },
+    {
+      "id": "combo-telecommunications-engineering",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Telecommunications Engineering",
+      "summary": "Standard subject mix for Telecommunications Engineering programs.",
+      "tags": [
+        "telecommunications engineering",
+        "telecom engineering",
+        "telecom",
+        "engineering",
+        "ict",
+        "stem"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: Programs may be named as Electrical/Electronics with telecom specialization in some schools."
+    },
+    {
+      "id": "combo-materials-metallurgical-engineering",
+      "category": "Subject Combinations",
+      "title": "Subject Combination for Materials and Metallurgical Engineering",
+      "summary": "Common UTME combination for Materials/Metallurgical engineering tracks.",
+      "tags": [
+        "materials engineering",
+        "metallurgical engineering",
+        "metallurgy",
+        "engineering",
+        "stem",
+        "science"
+      ],
+      "content": [
+        "Use of English (compulsory)",
+        "Mathematics",
+        "Physics",
+        "Chemistry"
+      ],
+      "note": "Insider Tip: Some universities merge this with chemical or mechanical tracks at early levels."
+    },
+    {
+      "id": "strategy-cbt-flow",
+      "category": "Speed & Strategy",
+      "title": "CBT Flow: Skip, Flag, Return",
+      "summary": "Use a 3-pass system to avoid time traps.",
+      "tags": [
+        "cbt",
+        "time management",
+        "strategy"
+      ],
+      "content": [
+        "Pass 1 (fast): answer sure questions only.",
+        "Pass 2: solve medium questions and flagged items.",
+        "Pass 3: final guesses and error check."
+      ],
+      "note": "Never spend 3+ minutes on one question in first pass."
+    },
+    {
+      "id": "strategy-english-passages",
+      "category": "Speed & Strategy",
+      "title": "Handle English Passages Faster",
+      "summary": "Read smart, not line-by-line from start.",
+      "tags": [
+        "english",
+        "comprehension",
+        "speed"
+      ],
+      "content": [
+        "Read questions before the passage to know what to look for.",
+        "Scan topic sentence of each paragraph first.",
+        "Underline keyword options mentally (tone, inference, synonym)."
+      ],
+      "note": "If stuck, eliminate wrong options first before rereading full passage."
+    },
+    {
+      "id": "strategy-timed-blocks",
+      "category": "Speed & Strategy",
+      "title": "Practice with Timed Blocks",
+      "summary": "Train your brain with short timed drills daily.",
+      "tags": [
+        "timed practice",
+        "productivity",
+        "cbt"
+      ],
+      "content": [
+        "Do 25-minute blocks per subject.",
+        "Target 15-20 objective questions per block.",
+        "Take 5-minute breaks between blocks."
+      ],
+      "note": "Timed blocks reduce panic on exam day."
+    },
+    {
+      "id": "strategy-silly-mistakes",
+      "category": "Speed & Strategy",
+      "title": "Reduce Silly Mistakes",
+      "summary": "Most score drops come from avoidable errors.",
+      "tags": [
+        "mistakes",
+        "accuracy",
+        "score"
+      ],
+      "content": [
+        "Always check units/signs in Maths and Physics.",
+        "Watch for 'NOT', 'EXCEPT', 'LEAST' in question stems.",
+        "Leave 5 minutes for final review."
+      ],
+      "note": "Build a personal mistake log and revise it every 3 days."
+    },
+    {
+      "id": "strategy-weekly-plan",
+      "category": "Speed & Strategy",
+      "title": "Weekly Test Rhythm",
+      "summary": "Simple plan to build consistency quickly.",
+      "tags": [
+        "weekly plan",
+        "practice",
+        "consistency"
+      ],
+      "content": [
+        "Target 2 tests/day (1 strong subject, 1 weak subject).",
+        "Review wrong answers immediately after each test.",
+        "Sunday: full mixed mock + correction."
+      ],
+      "note": "If your schedule is tight, do at least 1 timed test daily."
+    },
+    {
+      "id": "plan-14-day-sprint",
+      "category": "Study Plans",
+      "title": "14-Day Sprint Plan",
+      "summary": "Short emergency prep plan before UTME.",
+      "tags": [
+        "14-day",
+        "sprint",
+        "revision"
+      ],
+      "content": [
+        "Days 1-4: fix weakest subject foundations.",
+        "Days 5-10: daily mixed tests + deep corrections.",
+        "Days 11-14: full mocks at exam time + light revision."
+      ],
+      "note": "Prioritize high-yield topics and repeated past-question patterns."
+    },
+    {
+      "id": "plan-6-week",
+      "category": "Study Plans",
+      "title": "6-Week Balanced Plan",
+      "summary": "Steady plan for students starting early.",
+      "tags": [
+        "6-week",
+        "balanced",
+        "prep"
+      ],
+      "content": [
+        "Weeks 1-2: topic coverage and formula/definition notes.",
+        "Weeks 3-4: speed drills and sectional tests.",
+        "Weeks 5-6: full CBT mocks + performance tuning."
+      ],
+      "note": "Track weekly score trend and adjust weak areas every weekend."
+    },
+    {
+      "id": "plan-weak-maths",
+      "category": "Study Plans",
+      "title": "If You Are Weak in Maths",
+      "summary": "Focused rescue path for Maths confidence.",
+      "tags": [
+        "weak maths",
+        "math strategy",
+        "improvement"
+      ],
+      "content": [
+        "Daily 30-minute basics: fractions, ratios, algebra, graphs.",
+        "Use formula flashcards and short drills, not long theory first.",
+        "Solve 20 objective Maths questions every day."
+      ],
+      "note": "Aim for accuracy first, then speed in week 2 onward."
+    },
+    {
+      "id": "plan-strong-but-slow",
+      "category": "Study Plans",
+      "title": "If You Are Strong but Slow",
+      "summary": "Convert knowledge into faster completion.",
+      "tags": [
+        "slow speed",
+        "timing",
+        "advanced"
+      ],
+      "content": [
+        "Use strict countdown: 45 seconds average per objective item.",
+        "Practice elimination method for long options.",
+        "Run 2 speed rounds weekly where review comes after submission."
+      ],
+      "note": "You do not need more theory; you need more timed repetitions."
+    },
+    {
+      "id": "mistake-no-timing",
+      "category": "Common Mistakes",
+      "title": "Practicing Without Timing",
+      "summary": "Untimed practice gives false confidence.",
+      "tags": [
+        "timing",
+        "mistakes",
+        "cbt"
+      ],
+      "content": [
+        "Always practice with a visible timer.",
+        "Replicate exam pressure at least 4 times weekly."
+      ],
+      "note": "Timing skill is as important as content mastery in JAMB CBT."
+    },
+    {
+      "id": "mistake-one-subject",
+      "category": "Common Mistakes",
+      "title": "Overfocusing on One Subject",
+      "summary": "Strong in one subject cannot carry weak others.",
+      "tags": [
+        "balance",
+        "subjects",
+        "mistakes"
+      ],
+      "content": [
+        "Use a rotating timetable across all 4 UTME subjects.",
+        "Spend extra time on weak subjects, but never ignore others."
+      ],
+      "note": "Balanced scoring usually beats one-subject dominance."
+    },
+    {
+      "id": "mistake-ignore-english",
+      "category": "Common Mistakes",
+      "title": "Ignoring Use of English",
+      "summary": "English is compulsory and often decides final score.",
+      "tags": [
+        "english",
+        "compulsory",
+        "mistakes"
+      ],
+      "content": [
+        "Practice comprehension and lexis daily.",
+        "Revise common grammar traps and sentence interpretation."
+      ],
+      "note": "Do not enter exam week without recent English mock performance."
+    },
+    {
+      "id": "mistake-cramming",
+      "category": "Common Mistakes",
+      "title": "Cramming Without Practice",
+      "summary": "Reading only notes without CBT drills hurts retention.",
+      "tags": [
+        "cramming",
+        "practice",
+        "mistakes"
+      ],
+      "content": [
+        "Every study session should end with questions.",
+        "Correction and review is where real score growth happens."
+      ],
+      "note": "Your practice history predicts exam outcome better than reading hours."
+    }
+  ]
+}
