@@ -16,6 +16,7 @@ const ROOT_FILES = [
   'reset-password.html',
   'payment-callback.html',
   'payment-debug.html',
+  'sitemap.xml',
   'manifest.json',
   'sw.js'
 ];
