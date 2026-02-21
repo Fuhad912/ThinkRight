@@ -8,6 +8,7 @@ const ROOT_FILES = [
   'index.html',
   'dashboard.html',
   'leaderboard.html',
+  'insider.html',
   'login.html',
   'signup.html',
   'syllabus.html',
