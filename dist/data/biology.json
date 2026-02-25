@@ -1,0 +1,3124 @@
+[
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Characteristics of living organisms",
+"question": "A student observes an organism that moves toward light, consumes organic matter, and produces offspring. Which characteristic alone would confirm it as living rather than a complex machine?",
+"options": {
+"A": "Movement toward light",
+"B": "Consumption of organic matter",
+"C": "Ability to reproduce",
+"D": "Response to stimuli"
+},
+"correct_option": "C",
+"explanation": "Reproduction is unique to living organisms. While machines can move, consume fuel, and respond to stimuli through programming, only living things can produce offspring with inherited genetic information."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Cell structure and functions of cell components",
+"question": "During active protein synthesis, which two organelles would show the highest level of coordinated activity?",
+"options": {
+"A": "Nucleus and mitochondria",
+"B": "Ribosomes and rough endoplasmic reticulum",
+"C": "Golgi apparatus and lysosomes",
+"D": "Smooth endoplasmic reticulum and vacuoles"
+},
+"correct_option": "B",
+"explanation": "Ribosomes synthesize proteins, and the rough endoplasmic reticulum provides the surface for ribosome attachment and processes the newly formed proteins. These two structures work closely together during protein synthesis."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Cell structure and functions of cell components",
+"question": "What would be the immediate consequence if the cell membrane lost its selective permeability?",
+"options": {
+"A": "The cell would divide uncontrollably",
+"B": "Cellular homeostasis would be disrupted",
+"C": "Protein synthesis would stop",
+"D": "DNA replication would be affected"
+},
+"correct_option": "B",
+"explanation": "Selective permeability allows the cell membrane to control what enters and exits the cell, maintaining internal balance (homeostasis). Loss of this property would cause uncontrolled movement of substances, disrupting cellular equilibrium."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Cell structure and functions of cell components",
+"question": "Which feature distinguishes the nucleus of a eukaryotic cell from the nucleoid region of a prokaryotic cell?",
+"options": {
+"A": "Presence of DNA",
+"B": "Involvement in reproduction",
+"C": "Presence of a nuclear membrane",
+"D": "Control of cellular activities"
+},
+"correct_option": "C",
+"explanation": "Both eukaryotic nuclei and prokaryotic nucleoid regions contain DNA and control cellular activities. The key difference is that eukaryotic cells have a membrane-bound nucleus, while prokaryotes lack this nuclear envelope."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Cell structure and functions of cell components",
+"question": "A cell's mitochondria are damaged. Which cellular process would be most immediately affected?",
+"options": {
+"A": "Photosynthesis",
+"B": "ATP production",
+"C": "Protein synthesis",
+"D": "Cell wall formation"
+},
+"correct_option": "B",
+"explanation": "Mitochondria are the powerhouses of the cell, responsible for cellular respiration and ATP production. Damage to mitochondria would immediately reduce the cell's energy supply."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Cell",
+"question": "Euglena is classified as unicellular because it:",
+"options": {
+"A": "Can move using flagella",
+"B": "Performs all life functions within one cell",
+"C": "Contains chloroplasts",
+"D": "Lives in aquatic environments"
+},
+"correct_option": "B",
+"explanation": "A unicellular organism is defined by its ability to carry out all necessary life functions (nutrition, respiration, excretion, reproduction) within a single cell, which Euglena does."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Cell",
+"question": "What adaptive advantage does the contractile vacuole provide to Paramecium in freshwater?",
+"options": {
+"A": "Food storage",
+"B": "Osmoregulation",
+"C": "Locomotion",
+"D": "Reproduction"
+},
+"correct_option": "B",
+"explanation": "The contractile vacuole collects and expels excess water that enters the cell by osmosis in hypotonic freshwater environments, preventing the cell from bursting."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Cell",
+"question": "Both Euglena and Paramecium are unicellular, but Euglena is unique because it:",
+"options": {
+"A": "Has a nucleus",
+"B": "Can perform photosynthesis",
+"C": "Reproduces asexually",
+"D": "Moves independently"
+},
+"correct_option": "B",
+"explanation": "Euglena contains chloroplasts and can perform photosynthesis in the presence of light, exhibiting both autotrophic and heterotrophic nutrition. Paramecium is strictly heterotrophic."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Tissue",
+"question": "Epithelial tissue in animals serves a similar primary function to which plant tissue?",
+"options": {
+"A": "Xylem",
+"B": "Phloem",
+"C": "Epidermis",
+"D": "Parenchyma"
+},
+"correct_option": "C",
+"explanation": "Both epithelial tissue in animals and epidermis in plants serve as protective covering layers, forming boundaries between the organism and its environment."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Tissue",
+"question": "In Hydra, the two main tissue layers are separated by a:",
+"options": {
+"A": "Basement membrane",
+"B": "Mesoglea",
+"C": "Cuticle",
+"D": "Epithelium"
+},
+"correct_option": "B",
+"explanation": "Hydra has two tissue layers (ectoderm and endoderm) separated by a non-cellular, jelly-like layer called the mesoglea, characteristic of cnidarians."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Tissue",
+"question": "What makes Hydra a good example of tissue-level organization?",
+"options": {
+"A": "It has a complete digestive system",
+"B": "It has specialized cells organized into distinct layers",
+"C": "It has organ systems",
+"D": "It has a nervous system with a brain"
+},
+"correct_option": "B",
+"explanation": "Hydra exhibits tissue-level organization with specialized cells (like cnidocytes and nerve cells) arranged into two distinct tissue layers, but lacks true organs."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Organ",
+"question": "The onion bulb functions primarily as a:",
+"options": {
+"A": "Reproductive organ",
+"B": "Food storage organ",
+"C": "Photosynthetic organ",
+"D": "Water absorption organ"
+},
+"correct_option": "B",
+"explanation": "The onion bulb is a modified underground stem consisting of fleshy leaf bases that store food (mainly sugars) for the plant, making it a storage organ."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Organ",
+"question": "An organ differs from a tissue because an organ:",
+"options": {
+"A": "Is made of cells",
+"B": "Contains multiple tissue types working together",
+"C": "Performs a function",
+"D": "Is found only in animals"
+},
+"correct_option": "B",
+"explanation": "An organ is composed of two or more different types of tissues that work together to perform specific functions, while a tissue consists of similar cells performing one function."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Systems",
+"question": "Which statement best describes the relationship between organs in a system?",
+"options": {
+"A": "They are physically connected but function independently",
+"B": "They work together to perform a common function",
+"C": "They are made of the same tissue type",
+"D": "They are all located in the same body region"
+},
+"correct_option": "B",
+"explanation": "An organ system consists of multiple organs that coordinate their functions to perform complex physiological processes, such as digestion or reproduction."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Systems",
+"question": "In the mammalian digestive system, the stomach and small intestine work together primarily to:",
+"options": {
+"A": "Absorb oxygen",
+"B": "Break down and absorb nutrients",
+"C": "Remove metabolic wastes",
+"D": "Produce hormones"
+},
+"correct_option": "B",
+"explanation": "The digestive system's primary function involves breaking down food (digestion) and absorbing nutrients. The stomach begins protein digestion, while the small intestine completes digestion and absorbs nutrients."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Systems",
+"question": "The excretory system removes waste products that are mainly produced by:",
+"options": {
+"A": "Digestive processes",
+"B": "Cellular metabolism",
+"C": "Photosynthesis",
+"D": "Physical activities"
+},
+"correct_option": "B",
+"explanation": "The excretory system removes metabolic wastes (like urea, carbon dioxide, and water) produced during cellular metabolism, not undigested food or other non-metabolic wastes."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Systems",
+"question": "Which system must work directly with the reproductive system to ensure successful fertilization in mammals?",
+"options": {
+"A": "Digestive system",
+"B": "Nervous system",
+"C": "Respiratory system",
+"D": "Skeletal system"
+},
+"correct_option": "B",
+"explanation": "The nervous system controls reproductive processes through hormonal regulation (via the hypothalamus and pituitary) and coordinates mating behaviors necessary for successful fertilization."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Organisms",
+"question": "Chlamydomonas demonstrates organism-level organization because it:",
+"options": {
+"A": "Has multiple cells",
+"B": "Functions as a complete, independent living unit",
+"C": "Contains chloroplasts",
+"D": "Reproduces sexually"
+},
+"correct_option": "B",
+"explanation": "As a unicellular organism, Chlamydomonas represents organism-level organization where a single cell functions as a complete, independent living entity capable of all life processes."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Organisms",
+"question": "What is the main difference between Chlamydomonas and Spirogyra in terms of organization?",
+"options": {
+"A": "Chlamydomonas is unicellular while Spirogyra is multicellular",
+"B": "Chlamydomonas is heterotrophic while Spirogyra is autotrophic",
+"C": "Chlamydomonas lacks a cell wall while Spirogyra has one",
+"D": "Chlamydomonas is prokaryotic while Spirogyra is eukaryotic"
+},
+"correct_option": "A",
+"explanation": "Chlamydomonas is a unicellular green alga (single-celled organism), while Spirogyra is a multicellular filamentous alga composed of many cells arranged in chains."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Characteristics of living organisms",
+"question": "Which two life processes must occur continuously for an organism to maintain its structure?",
+"options": {
+"A": "Reproduction and growth",
+"B": "Nutrition and respiration",
+"C": "Excretion and movement",
+"D": "Sensitivity and adaptation"
+},
+"correct_option": "B",
+"explanation": "Nutrition provides raw materials for building and repairing body structures, while respiration releases energy needed for all metabolic processes that maintain cellular structure and function."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Cell structure and functions of cell components",
+"question": "Which cell organelle would be most abundant in a cell that secretes large amounts of enzymes?",
+"options": {
+"A": "Lysosomes",
+"B": "Mitochondria",
+"C": "Golgi apparatus",
+"D": "Vacuoles"
+},
+"correct_option": "C",
+"explanation": "The Golgi apparatus packages and processes proteins (including enzymes) for secretion. Cells that secrete large amounts of proteins would have numerous Golgi bodies to handle this function."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Cell structure and functions of cell components",
+"question": "Plant cells can withstand hypotonic solutions better than animal cells because of their:",
+"options": {
+"A": "Large vacuoles",
+"B": "Cell walls",
+"C": "Chloroplasts",
+"D": "Plasmodesmata"
+},
+"correct_option": "B",
+"explanation": "The rigid cell wall provides structural support and prevents the cell from bursting when water enters by osmosis in hypotonic solutions, unlike animal cells which only have flexible cell membranes."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Characteristics of living organisms",
+"question": "An organism's ability to maintain stable internal conditions despite external changes is called:",
+"options": {
+"A": "Adaptation",
+"B": "Homeostasis",
+"C": "Metabolism",
+"D": "Evolution"
+},
+"correct_option": "B",
+"explanation": "Homeostasis is the maintenance of a constant internal environment despite changes in external conditions, involving processes like temperature regulation and pH balance."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Cell structure and functions of cell components",
+"question": "Which component is found in plant cells but absent in animal cells?",
+"options": {
+"A": "Cell membrane",
+"B": "Mitochondria",
+"C": "Cellulose cell wall",
+"D": "Ribosomes"
+},
+"correct_option": "C",
+"explanation": "Plant cells have a cellulose cell wall external to the cell membrane, which provides structural support and protection. Animal cells lack cell walls."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Tissue",
+"question": "Epithelial tissue that lines the small intestine is specialized for:",
+"options": {
+"A": "Protection only",
+"B": "Secretion and absorption",
+"C": "Support and movement",
+"D": "Sensory reception"
+},
+"correct_option": "B",
+"explanation": "The epithelial lining of the small intestine has specialized cells with microvilli that increase surface area for absorption of nutrients, and goblet cells that secrete mucus."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Cell structure and functions of cell components",
+"question": "Lysosomes are sometimes called 'suicide bags' because they:",
+"options": {
+"A": "Destroy the entire organism",
+"B": "Can digest the cell's own components when damaged",
+"C": "Prevent cell division",
+"D": "Store toxic wastes"
+},
+"correct_option": "B",
+"explanation": "Lysosomes contain digestive enzymes that can break down cellular components. If the lysosome membrane ruptures, these enzymes can digest the cell itself, leading to cell death."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Systems",
+"question": "The primary function of the mammalian reproductive system is to:",
+"options": {
+"A": "Maintain homeostasis",
+"B": "Ensure species continuity",
+"C": "Provide energy",
+"D": "Remove wastes"
+},
+"correct_option": "B",
+"explanation": "The reproductive system produces gametes and facilitates reproduction, ensuring the continuation of the species across generations."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Characteristics of living organisms",
+"question": "Which characteristic distinguishes living organisms from non-living things that show similar properties?",
+"options": {
+"A": "Organization",
+"B": "Possession of all seven life processes",
+"C": "Chemical composition",
+"D": "Physical structure"
+},
+"correct_option": "B",
+"explanation": "While non-living things may exhibit some life-like properties (crystals grow, fire consumes and reproduces), only living organisms possess ALL seven characteristics of life simultaneously."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Cell structure and functions of cell components",
+"question": "The nucleolus is primarily involved in the production of:",
+"options": {
+"A": "DNA",
+"B": "Lipids",
+"C": "Ribosomal RNA",
+"D": "ATP"
+},
+"correct_option": "C",
+"explanation": "The nucleolus is a specialized region within the nucleus where ribosomal RNA (rRNA) is synthesized and ribosomal subunits are assembled."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Cell",
+"question": "Paramecium maintains its fixed shape due to the presence of:",
+"options": {
+"A": "Cell wall",
+"B": "Pellicle",
+"C": "Cilia",
+"D": "Trichocysts"
+},
+"correct_option": "B",
+"explanation": "The pellicle is a flexible but firm outer covering made of protein that gives Paramecium its characteristic slipper shape while allowing some flexibility."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Level of organization - Organisms",
+"question": "Chlamydomonas reproduces asexually through:",
+"options": {
+"A": "Binary fission",
+"B": "Budding",
+"C": "Formation of zoospores",
+"D": "Fragmentation"
+},
+"correct_option": "C",
+"explanation": "Chlamydomonas reproduces asexually by producing 2-16 flagellated daughter cells called zoospores within the parent cell wall, which are then released."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Monera",
+"question": "Bacteria are classified as prokaryotes primarily because they:",
+"options": {
+"A": "Are unicellular",
+"B": "Lack a membrane-bound nucleus",
+"C": "Have a cell wall",
+"D": "Reproduce by binary fission"
+},
+"correct_option": "B",
+"explanation": "The defining characteristic of prokaryotes is the absence of a membrane-bound nucleus. Their genetic material (DNA) is located in a nucleoid region without a nuclear envelope."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Monera",
+"question": "Blue-green algae (cyanobacteria) differ from other bacteria because they can:",
+"options": {
+"A": "Form spores",
+"B": "Perform photosynthesis",
+"C": "Move using flagella",
+"D": "Reproduce sexually"
+},
+"correct_option": "B",
+"explanation": "Cyanobacteria contain chlorophyll and can perform photosynthesis, producing oxygen. This distinguishes them from most other bacteria which are heterotrophic or use different forms of metabolism."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Monera",
+"question": "Which structure helps bacteria survive unfavorable environmental conditions?",
+"options": {
+"A": "Flagella",
+"B": "Pili",
+"C": "Endospore",
+"D": "Capsule"
+},
+"correct_option": "C",
+"explanation": "Endospores are thick-walled, resistant structures formed by some bacteria during unfavorable conditions. They can survive extreme temperatures, desiccation, and chemicals, germinating when conditions improve."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Protista",
+"question": "Amoeba moves and captures food using:",
+"options": {
+"A": "Cilia",
+"B": "Flagella",
+"C": "Pseudopodia",
+"D": "Contractile fibers"
+},
+"correct_option": "C",
+"explanation": "Amoeba extends temporary projections of its cytoplasm called pseudopodia (false feet) for both locomotion and engulfing food particles through phagocytosis."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Protista",
+"question": "What feature allows Euglena to be classified as both plant-like and animal-like?",
+"options": {
+"A": "Presence of a nucleus",
+"B": "Ability to move and photosynthesize",
+"C": "Asexual reproduction",
+"D": "Unicellular structure"
+},
+"correct_option": "B",
+"explanation": "Euglena has chloroplasts for photosynthesis (plant-like) but also has a flagellum for movement and can feed heterotrophically in darkness (animal-like), making it a mixotroph."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Protista",
+"question": "Paramecium feeds primarily by:",
+"options": {
+"A": "Absorption through the cell membrane",
+"B": "Photosynthesis",
+"C": "Sweeping food into the oral groove with cilia",
+"D": "Phagocytosis using pseudopodia"
+},
+"correct_option": "C",
+"explanation": "Paramecium uses coordinated beating of cilia to create water currents that sweep food particles into its oral groove, where they are engulfed into food vacuoles."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Protista",
+"question": "The major difference between Protophyta and Protozoa is that Protophyta:",
+"options": {
+"A": "Are multicellular",
+"B": "Contain chlorophyll for photosynthesis",
+"C": "Have cell walls",
+"D": "Reproduce sexually"
+},
+"correct_option": "B",
+"explanation": "Protophyta (algal protists like Euglena) contain chlorophyll and are primarily autotrophic through photosynthesis, while Protozoa (like Amoeba and Paramecium) are heterotrophic."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Fungi",
+"question": "Rhizopus obtains nutrients by:",
+"options": {
+"A": "Photosynthesis",
+"B": "Absorbing digested organic matter",
+"C": "Ingesting solid food particles",
+"D": "Chemosynthesis"
+},
+"correct_option": "B",
+"explanation": "Rhizopus is a saprophytic fungus that secretes digestive enzymes onto organic matter, then absorbs the digested nutrients through its hyphae."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Fungi",
+"question": "The body of a fungus like mushroom is composed of thread-like structures called:",
+"options": {
+"A": "Rhizoids",
+"B": "Mycelia",
+"C": "Sporangia",
+"D": "Stolons"
+},
+"correct_option": "B",
+"explanation": "Mycelia (singular: mycelium) are networks of thread-like filaments (hyphae) that make up the vegetative body of most fungi, including mushrooms."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Fungi",
+"question": "Fungi are ecologically important because they:",
+"options": {
+"A": "Fix atmospheric nitrogen",
+"B": "Produce oxygen through photosynthesis",
+"C": "Decompose dead organic matter",
+"D": "Control insect populations"
+},
+"correct_option": "C",
+"explanation": "Fungi are primary decomposers in ecosystems, breaking down dead organic matter and recycling nutrients back into the soil, making them available for other organisms."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Plantae - Thallophyta",
+"question": "Spirogyra is named for its:",
+"options": {
+"A": "Spiral method of reproduction",
+"B": "Spiral arrangement of chloroplasts",
+"C": "Spiral growth pattern",
+"D": "Spiral-shaped cells"
+},
+"correct_option": "B",
+"explanation": "Spirogyra has characteristic spiral or ribbon-shaped chloroplasts arranged helically within its cylindrical cells, which gives it its distinctive name and appearance."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Plantae - Bryophyta",
+"question": "Mosses and liverworts are restricted to moist environments because they:",
+"options": {
+"A": "Lack true roots for water absorption",
+"B": "Require water for fertilization",
+"C": "Cannot perform photosynthesis in dry conditions",
+"D": "Have no protective waxy cuticle"
+},
+"correct_option": "B",
+"explanation": "Bryophytes require water for their motile sperm to swim to the egg for fertilization. This dependence on water for reproduction restricts them to moist habitats."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Plantae - Bryophyta",
+"question": "In the life cycle of mosses, the dominant generation is the:",
+"options": {
+"A": "Sporophyte",
+"B": "Gametophyte",
+"C": "Zygote",
+"D": "Spore"
+},
+"correct_option": "B",
+"explanation": "In bryophytes like mosses, the gametophyte (haploid, photosynthetic green plant) is the dominant, longer-living generation, while the sporophyte is dependent on it."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Plantae - Pteridophyta",
+"question": "Ferns differ from mosses in having:",
+"options": {
+"A": "Vascular tissue",
+"B": "Chlorophyll",
+"C": "Alternation of generations",
+"D": "Spore production"
+},
+"correct_option": "A",
+"explanation": "Ferns (pteridophytes) possess vascular tissues (xylem and phloem) for transport, which mosses lack. This allows ferns to grow much larger than bryophytes."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Plantae - Pteridophyta",
+"question": "The sporangia in ferns like Dryopteris are typically found:",
+"options": {
+"A": "On specialized reproductive stems",
+"B": "On the underside of fronds",
+"C": "In flower-like structures",
+"D": "Inside cones"
+},
+"correct_option": "B",
+"explanation": "Fern sporangia are usually clustered in groups called sori on the underside (abaxial surface) of the fronds (leaves), where spores are produced and released."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Plantae - Gymnosperms",
+"question": "Gymnosperms are characterized by having:",
+"options": {
+"A": "Flowers and enclosed seeds",
+"B": "Naked seeds not enclosed in fruits",
+"C": "Spores instead of seeds",
+"D": "Water-dependent fertilization"
+},
+"correct_option": "B",
+"explanation": "Gymnosperms produce naked seeds (not enclosed in an ovary or fruit), typically borne on cone scales. The term 'gymnosperm' means 'naked seed'."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Plantae - Gymnosperms",
+"question": "Which adaptation allows gymnosperms to reproduce without water?",
+"options": {
+"A": "Production of spores",
+"B": "Pollen grains and pollen tubes",
+"C": "Vegetative propagation",
+"D": "Asexual reproduction"
+},
+"correct_option": "B",
+"explanation": "Gymnosperms produce pollen grains that are carried by wind to female cones. The pollen develops a pollen tube that delivers sperm directly to the egg, eliminating the need for water."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Plantae - Angiosperms",
+"question": "Angiosperms are more evolutionarily advanced than gymnosperms because they have:",
+"options": {
+"A": "Vascular tissue",
+"B": "Flowers and fruits",
+"C": "Seeds",
+"D": "Roots, stems, and leaves"
+},
+"correct_option": "B",
+"explanation": "Angiosperms produce flowers for reproduction and develop fruits that enclose their seeds, providing better seed protection and dispersal mechanisms compared to gymnosperms."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Plantae - Angiosperms",
+"question": "Maize is classified as a monocot because it has:",
+"options": {
+"A": "Tap root system",
+"B": "Netted leaf venation",
+"C": "One cotyledon in its seed",
+"D": "Cambium for secondary growth"
+},
+"correct_option": "C",
+"explanation": "Monocots are characterized by having one cotyledon (seed leaf) in their seeds. Maize seeds contain a single cotyledon, along with other monocot features like parallel leaf venation and fibrous roots."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Plantae - Angiosperms",
+"question": "A dicot like water leaf can be identified by its:",
+"options": {
+"A": "Parallel leaf venation",
+"B": "Scattered vascular bundles",
+"C": "Netted (reticulate) leaf venation",
+"D": "Fibrous root system"
+},
+"correct_option": "C",
+"explanation": "Dicots have netted or reticulate leaf venation where veins branch and form a network. They also have tap roots, vascular bundles in a ring, and two cotyledons."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Animalia - Coelenterata",
+"question": "Hydra captures prey using specialized cells called:",
+"options": {
+"A": "Collar cells",
+"B": "Cnidocytes",
+"C": "Flame cells",
+"D": "Nerve cells"
+},
+"correct_option": "B",
+"explanation": "Hydra and other cnidarians possess cnidocytes (stinging cells) that contain nematocysts, which discharge toxin-filled threads to paralyze and capture prey."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Animal nutrition - Mammalian tooth",
+"question": "The type of teeth adapted for tearing flesh in carnivores are:",
+"options": {
+"A": "Incisors",
+"B": "Canines",
+"C": "Premolars",
+"D": "Molars"
+},
+"correct_option": "B",
+"explanation": "Canines are pointed, sharp teeth designed for tearing and gripping flesh. They are particularly well-developed in carnivores for catching and killing prey."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Animal nutrition - Mammalian tooth",
+"question": "Herbivores have well-developed molars primarily for:",
+"options": {
+"A": "Cutting vegetation",
+"B": "Grinding and crushing plant material",
+"C": "Tearing meat",
+"D": "Capturing prey"
+},
+"correct_option": "B",
+"explanation": "Molars have broad, flat surfaces with ridges that are ideal for grinding tough plant material. Herbivores have large, well-developed molars to break down cellulose-rich vegetation."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Animal nutrition - Mammalian alimentary canal",
+"question": "The main site of nutrient absorption in the mammalian digestive system is the:",
+"options": {
+"A": "Stomach",
+"B": "Small intestine",
+"C": "Large intestine",
+"D": "Esophagus"
+},
+"correct_option": "B",
+"explanation": "The small intestine, particularly the ileum, is the primary site for nutrient absorption. Its large surface area (due to villi and microvilli) and thin walls facilitate efficient absorption."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Animal nutrition - Mammalian alimentary canal",
+"question": "Bile is produced in the liver and stored in the gallbladder. Its main function is to:",
+"options": {
+"A": "Digest proteins",
+"B": "Emulsify fats",
+"C": "Neutralize stomach acid",
+"D": "Absorb vitamins"
+},
+"correct_option": "B",
+"explanation": "Bile contains bile salts that emulsify large fat droplets into smaller ones, increasing surface area for lipase enzyme action. This facilitates fat digestion and absorption."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Animal nutrition - Nutrition process",
+"question": "The process by which digested food molecules pass through the intestinal wall into the bloodstream is called:",
+"options": {
+"A": "Ingestion",
+"B": "Digestion",
+"C": "Absorption",
+"D": "Assimilation"
+},
+"correct_option": "C",
+"explanation": "Absorption is the movement of digested nutrients from the intestinal lumen through the epithelial cells into the blood or lymph for transport to body cells."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Animal nutrition - Nutrition process",
+"question": "Assimilation refers to:",
+"options": {
+"A": "Breaking down food into smaller molecules",
+"B": "Incorporating absorbed nutrients into body tissues",
+"C": "Eliminating undigested food",
+"D": "Taking food into the body"
+},
+"correct_option": "B",
+"explanation": "Assimilation is the process by which absorbed nutrients are incorporated into body cells and tissues for growth, repair, energy production, or storage."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Animal nutrition - Nutrition process",
+"question": "Pepsin, the enzyme that begins protein digestion, works optimally in:",
+"options": {
+"A": "Alkaline medium",
+"B": "Neutral medium",
+"C": "Acidic medium",
+"D": "Any pH"
+},
+"correct_option": "C",
+"explanation": "Pepsin is secreted in the stomach and requires an acidic environment (pH 1.5-2.5) provided by hydrochloric acid to be activated and function effectively in breaking down proteins."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Transport - Need for transportation",
+"question": "Transportation systems in organisms are necessary because:",
+"options": {
+"A": "All cells are in direct contact with the environment",
+"B": "Diffusion alone is insufficient for multicellular organisms",
+"C": "Organisms cannot produce their own food",
+"D": "Cells do not require oxygen"
+},
+"correct_option": "B",
+"explanation": "In multicellular organisms, many cells are far from exchange surfaces. Diffusion is too slow over long distances, so transport systems are needed to move materials quickly throughout the body."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Transport - Materials for transportation",
+"question": "Which substance is transported from the lungs to body tissues?",
+"options": {
+"A": "Carbon dioxide",
+"B": "Urea",
+"C": "Oxygen",
+"D": "Ammonia"
+},
+"correct_option": "C",
+"explanation": "Oxygen is absorbed in the lungs and transported by hemoglobin in red blood cells to body tissues where it is needed for cellular respiration. Carbon dioxide is transported in the opposite direction."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Transport - Materials for transportation",
+"question": "Hormones are transported through the body via the:",
+"options": {
+"A": "Nervous system",
+"B": "Lymphatic system",
+"C": "Circulatory system",
+"D": "Respiratory system"
+},
+"correct_option": "C",
+"explanation": "Hormones are chemical messengers secreted by endocrine glands directly into the bloodstream, which transports them to target organs and tissues throughout the body."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Transport - Mammalian circulatory system",
+"question": "The human heart is described as a double circulatory system because:",
+"options": {
+"A": "It has two atria and two ventricles",
+"B": "Blood passes through the heart twice in one complete circuit",
+"C": "It pumps both oxygen-rich and oxygen-poor blood",
+"D": "It serves two different functions"
+},
+"correct_option": "B",
+"explanation": "In double circulation, blood passes through the heart twice per complete circuit: once through the pulmonary circulation (to lungs) and once through the systemic circulation (to body)."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Transport - Mammalian circulatory system",
+"question": "Arteries differ from veins in that arteries:",
+"options": {
+"A": "Carry deoxygenated blood",
+"B": "Have valves to prevent backflow",
+"C": "Have thicker, more muscular walls",
+"D": "Carry blood at lower pressure"
+},
+"correct_option": "C",
+"explanation": "Arteries have thick, elastic, and muscular walls to withstand and maintain high blood pressure from the heart. Veins have thinner walls and valves to prevent backflow at lower pressure."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Transport - Mammalian circulatory system",
+"question": "The exchange of materials between blood and tissues occurs primarily in:",
+"options": {
+"A": "Arteries",
+"B": "Veins",
+"C": "Capillaries",
+"D": "Lymph vessels"
+},
+"correct_option": "C",
+"explanation": "Capillaries have thin walls (one cell thick) and large surface area, allowing efficient exchange of oxygen, nutrients, carbon dioxide, and wastes between blood and tissue fluid."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Transport - Plant vascular system",
+"question": "Xylem tissue is primarily responsible for transporting:",
+"options": {
+"A": "Manufactured food",
+"B": "Water and mineral salts",
+"C": "Hormones only",
+"D": "Amino acids"
+},
+"correct_option": "B",
+"explanation": "Xylem vessels transport water and dissolved mineral salts from the roots upward to the leaves and other parts of the plant through a combination of root pressure, capillarity, and transpiration pull."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Transport - Plant vascular system",
+"question": "Phloem transports organic nutrients in a process called:",
+"options": {
+"A": "Transpiration",
+"B": "Translocation",
+"C": "Absorption",
+"D": "Respiration"
+},
+"correct_option": "B",
+"explanation": "Translocation is the movement of organic nutrients (mainly sucrose) and other substances through the phloem from sources (leaves) to sinks (roots, fruits, growing regions) in both directions."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Transport - Media and processes",
+"question": "The upward movement of water in xylem is mainly due to:",
+"options": {
+"A": "Active transport",
+"B": "Osmosis in roots only",
+"C": "Transpiration pull and cohesion-tension",
+"D": "Gravity"
+},
+"correct_option": "C",
+"explanation": "Transpiration creates a negative pressure (pull) at the top of the plant. Water molecules cohere to each other and adhere to xylem walls, creating a continuous column pulled upward by tension."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Transport - Media and processes",
+"question": "Red blood cells are specialized for oxygen transport because they:",
+"options": {
+"A": "Have a nucleus",
+"B": "Contain hemoglobin",
+"C": "Have an irregular shape",
+"D": "Can move independently"
+},
+"correct_option": "B",
+"explanation": "Hemoglobin is an iron-containing protein in red blood cells that binds reversibly with oxygen, allowing efficient oxygen uptake in the lungs and release in tissues."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Respiration",
+"question": "The primary purpose of respiration in living organisms is to:",
+"options": {
+"A": "Produce carbon dioxide",
+"B": "Release energy from food molecules",
+"C": "Produce water",
+"D": "Absorb oxygen"
+},
+"correct_option": "B",
+"explanation": "Respiration is the process of breaking down food molecules (glucose) to release energy stored in their chemical bonds, which is then stored in ATP for cellular work."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Respiratory organs and surfaces",
+"question": "An efficient respiratory surface must have all of the following features EXCEPT:",
+"options": {
+"A": "Large surface area",
+"B": "Thin membrane",
+"C": "Thick protective layer",
+"D": "Moist surface"
+},
+"correct_option": "C",
+"explanation": "Efficient gas exchange requires thin membranes for short diffusion distance, not thick protective layers. Large surface area, thinness, moisture, and good blood supply are essential."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Respiratory organs and surfaces",
+"question": "Fish use gills for gas exchange because gills:",
+"options": {
+"A": "Store oxygen",
+"B": "Have large surface area and rich blood supply",
+"C": "Produce oxygen",
+"D": "Filter food from water"
+},
+"correct_option": "B",
+"explanation": "Gills have numerous gill filaments and lamellae that provide large surface area, thin membranes, and rich blood supply for efficient oxygen extraction from water and carbon dioxide removal."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Mechanism of gaseous exchange - Plants",
+"question": "In plants, gaseous exchange occurs primarily through:",
+"options": {
+"A": "Cuticle",
+"B": "Stomata and lenticels",
+"C": "Xylem vessels",
+"D": "Phloem tubes"
+},
+"correct_option": "B",
+"explanation": "Stomata (in leaves) and lenticels (in woody stems) are pores that allow gases (oxygen, carbon dioxide, water vapor) to diffuse in and out of plant tissues."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Mechanism of gaseous exchange - Mammals",
+"question": "During inhalation in mammals, the diaphragm:",
+"options": {
+"A": "Relaxes and moves upward",
+"B": "Contracts and moves downward",
+"C": "Remains stationary",
+"D": "Pushes air out"
+},
+"correct_option": "B",
+"explanation": "When the diaphragm contracts, it flattens and moves downward, increasing the thoracic cavity volume. This decreases pressure inside, causing air to rush into the lungs."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Mechanism of gaseous exchange - Mammals",
+"question": "The exchange of oxygen and carbon dioxide in the lungs occurs in the:",
+"options": {
+"A": "Bronchi",
+"B": "Trachea",
+"C": "Alveoli",
+"D": "Bronchioles"
+},
+"correct_option": "C",
+"explanation": "Alveoli are tiny air sacs with thin walls and extensive blood capillaries where gas exchange occurs by diffusion between air and blood."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Aerobic respiration",
+"question": "The complete oxidation of one glucose molecule during aerobic respiration yields approximately:",
+"options": {
+"A": "2 ATP molecules",
+"B": "38 ATP molecules",
+"C": "100 ATP molecules",
+"D": "10 ATP molecules"
+},
+"correct_option": "B",
+"explanation": "Aerobic respiration produces approximately 38 ATP molecules per glucose molecule (glycolysis: 2 ATP, Krebs cycle: 2 ATP, electron transport chain: 34 ATP)."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Aerobic respiration",
+"question": "Aerobic respiration requires oxygen as the final:",
+"options": {
+"A": "Substrate",
+"B": "Enzyme",
+"C": "Electron acceptor",
+"D": "Energy source"
+},
+"correct_option": "C",
+"explanation": "In the electron transport chain, oxygen acts as the final electron acceptor, combining with electrons and hydrogen ions to form water, allowing the chain to continue functioning."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Aerobic respiration",
+"question": "The equation for aerobic respiration is:",
+"options": {
+"A": "C₆H₁₂O₆ → 2C₃H₆O₃ + Energy",
+"B": "C₆H₁₂O₆ → 2C₂H₅OH + 2CO₂ + Energy",
+"C": "C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + Energy",
+"D": "C₆H₁₂O₆ + O₂ → C₃H₆O₃ + Energy"
+},
+"correct_option": "C",
+"explanation": "Aerobic respiration completely oxidizes glucose in the presence of oxygen to produce carbon dioxide, water, and energy (ATP). This is the complete equation for aerobic respiration."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Anaerobic respiration",
+"question": "In muscles during vigorous exercise, anaerobic respiration produces:",
+"options": {
+"A": "Ethanol and carbon dioxide",
+"B": "Lactic acid",
+"C": "Water and carbon dioxide",
+"D": "Oxygen"
+},
+"correct_option": "B",
+"explanation": "When oxygen supply is insufficient during intense exercise, muscle cells respire anaerobically, converting glucose to lactic acid. This produces only 2 ATP per glucose molecule."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Anaerobic respiration",
+"question": "Yeast cells respiring anaerobically produce:",
+"options": {
+"A": "Lactic acid only",
+"B": "Ethanol and carbon dioxide",
+"C": "Water and oxygen",
+"D": "Acetic acid"
+},
+"correct_option": "B",
+"explanation": "Yeast performs alcoholic fermentation, converting glucose to ethanol and carbon dioxide in the absence of oxygen. This process is used in brewing and baking."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Anaerobic respiration",
+"question": "Compared to aerobic respiration, anaerobic respiration:",
+"options": {
+"A": "Produces more ATP",
+"B": "Requires oxygen",
+"C": "Produces less ATP and does not completely oxidize glucose",
+"D": "Produces only water"
+},
+"correct_option": "C",
+"explanation": "Anaerobic respiration produces only 2 ATP per glucose (compared to 38 in aerobic), and glucose is only partially broken down, leaving energy still stored in the end products."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Anaerobic respiration",
+"question": "The oxygen debt that occurs after vigorous exercise is repaid by:",
+"options": {
+"A": "Stopping all activity permanently",
+"B": "Continued rapid breathing to oxidize accumulated lactic acid",
+"C": "Drinking water",
+"D": "Eating glucose"
+},
+"correct_option": "B",
+"explanation": "After exercise, increased breathing continues to provide oxygen needed to convert accumulated lactic acid back to glucose in the liver, repaying the oxygen debt."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Anaerobic respiration",
+"question": "Which organisms commonly use anaerobic respiration as their primary method of energy production?",
+"options": {
+"A": "Mammals",
+"B": "Birds",
+"C": "Some bacteria and yeast",
+"D": "Flowering plants"
+},
+"correct_option": "C",
+"explanation": "Some bacteria (obligate anaerobes) and yeast can live in oxygen-free environments and rely on anaerobic respiration (fermentation) as their primary means of ATP production."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Excretory structures - Contractile vacuole",
+"question": "The contractile vacuole in Paramecium functions to:",
+"options": {
+"A": "Store food",
+"B": "Remove excess water and some metabolic wastes",
+"C": "Aid in locomotion",
+"D": "Capture prey"
+},
+"correct_option": "B",
+"explanation": "The contractile vacuole collects excess water (from osmosis) and some metabolic wastes, then contracts to expel them from the cell, maintaining water balance in freshwater protozoans."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Excretory structures - Flame cells",
+"question": "Flame cells are excretory structures found in:",
+"options": {
+"A": "Insects",
+"B": "Flatworms",
+"C": "Mammals",
+"D": "Birds"
+},
+"correct_option": "B",
+"explanation": "Flame cells (protonephridia) are found in flatworms like Planaria and Taenia. They have a tuft of cilia that resembles a flickering flame and function in excretion and osmoregulation."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Excretory structures - Nephridium",
+"question": "Nephridia in earthworms are functionally similar to:",
+"options": {
+"A": "Lungs in mammals",
+"B": "Kidneys in mammals",
+"C": "Hearts in mammals",
+"D": "Stomachs in mammals"
+},
+"correct_option": "B",
+"explanation": "Nephridia filter body fluids, reabsorb useful substances, and excrete waste products (mainly ammonia), similar to the function of kidneys in vertebrates."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Excretory structures - Malpighian tubules",
+"question": "Malpighian tubules are the excretory organs of:",
+"options": {
+"A": "Annelids",
+"B": "Molluscs",
+"C": "Insects",
+"D": "Amphibians"
+},
+"correct_option": "C",
+"explanation": "Malpighian tubules are thin tubes attached to the gut of insects and other arthropods. They extract wastes from the hemolymph and convert them to uric acid for excretion."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Excretory structures - Kidney",
+"question": "The functional unit of the mammalian kidney is the:",
+"options": {
+"A": "Neuron",
+"B": "Nephron",
+"C": "Glomerulus",
+"D": "Ureter"
+},
+"correct_option": "B",
+"explanation": "The nephron is the basic structural and functional unit of the kidney, consisting of a glomerulus, Bowman's capsule, and tubules where filtration, reabsorption, and secretion occur."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Excretory structures - Stomata and lenticels",
+"question": "Plants excrete gaseous wastes primarily through:",
+"options": {
+"A": "Roots",
+"B": "Xylem",
+"C": "Stomata and lenticels",
+"D": "Phloem"
+},
+"correct_option": "C",
+"explanation": "Stomata (in leaves) and lenticels (in stems) are pores through which plants release excess oxygen during photosynthesis and carbon dioxide during respiration."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Excretory mechanisms - Kidneys",
+"question": "The first step in urine formation in the kidney is:",
+"options": {
+"A": "Selective reabsorption",
+"B": "Ultrafiltration in the glomerulus",
+"C": "Secretion",
+"D": "Concentration"
+},
+"correct_option": "B",
+"explanation": "Ultrafiltration occurs in the glomerulus where blood pressure forces water, glucose, salts, and urea through the capillary walls into Bowman's capsule, forming glomerular filtrate."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Excretory mechanisms - Kidneys",
+"question": "Glucose is normally absent from urine because it is:",
+"options": {
+"A": "Not filtered from blood",
+"B": "Completely reabsorbed in the proximal tubule",
+"C": "Converted to urea",
+"D": "Stored in the kidney"
+},
+"correct_option": "B",
+"explanation": "Glucose is filtered into the nephron but is completely reabsorbed by active transport in the proximal convoluted tubule under normal conditions, so none appears in urine."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Excretory mechanisms - Lungs",
+"question": "The lungs function as excretory organs by removing:",
+"options": {
+"A": "Urea",
+"B": "Carbon dioxide and water vapor",
+"C": "Uric acid",
+"D": "Ammonia"
+},
+"correct_option": "B",
+"explanation": "The lungs excrete carbon dioxide (a waste product of cellular respiration) and water vapor during exhalation. This is an important excretory function."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Excretory mechanisms - Skin",
+"question": "The skin excretes waste products through:",
+"options": {
+"A": "Hair follicles",
+"B": "Sweat glands",
+"C": "Sebaceous glands only",
+"D": "Epidermis directly"
+},
+"correct_option": "B",
+"explanation": "Sweat glands in the skin excrete water, salts (NaCl), and small amounts of urea through perspiration. This also helps in temperature regulation."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Excretory products of plants",
+"question": "Which of the following is NOT a method by which plants excrete or store waste products?",
+"options": {
+"A": "Storing wastes in vacuoles",
+"B": "Shedding leaves",
+"C": "Excreting through kidneys",
+"D": "Depositing wastes in bark"
+},
+"correct_option": "C",
+"explanation": "Plants lack specialized excretory organs like kidneys. They store wastes in vacuoles, cell walls, bark, or shed them with falling leaves. Excretion in plants is generally minimal."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Excretory products of plants",
+"question": "Tannins, resins, and latex in plants are examples of:",
+"options": {
+"A": "Nutrients",
+"B": "Metabolic waste products",
+"C": "Hormones",
+"D": "Enzymes"
+},
+"correct_option": "B",
+"explanation": "These substances are metabolic by-products or waste materials that plants store in specialized cells, vacuoles, or ducts. Some also serve defensive functions against herbivores."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Excretory products of plants",
+"question": "During the day, the main excretory product of photosynthesis in plants is:",
+"options": {
+"A": "Carbon dioxide",
+"B": "Oxygen",
+"C": "Nitrogen",
+"D": "Water"
+},
+"correct_option": "B",
+"explanation": "During photosynthesis, oxygen is produced as a by-product when water is split in the light reactions. This excess oxygen is released through stomata and is essentially a waste product."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Tropic movements in plants",
+"question": "The growth of plant roots toward water is an example of:",
+"options": {
+"A": "Phototropism",
+"B": "Geotropism",
+"C": "Hydrotropism",
+"D": "Thigmotropism"
+},
+"correct_option": "C",
+"explanation": "Hydrotropism is a growth response where plant roots grow toward moisture or water. This helps plants access water sources in the soil for survival."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Tropic movements in plants",
+"question": "When a plant shoot grows toward light, this is called:",
+"options": {
+"A": "Negative phototropism",
+"B": "Positive phototropism",
+"C": "Geotropism",
+"D": "Chemotropism"
+},
+"correct_option": "B",
+"explanation": "Positive phototropism is the growth of plant shoots toward light, mediated by auxin hormone redistribution. This maximizes light absorption for photosynthesis."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Tactic movements in plants",
+"question": "The movement of Chlamydomonas toward light is an example of:",
+"options": {
+"A": "Tropism",
+"B": "Nastic movement",
+"C": "Positive phototaxis",
+"D": "Sleep movement"
+},
+"correct_option": "C",
+"explanation": "Phototaxis is the movement of an entire organism in response to light. Chlamydomonas moves toward light (positive phototaxis) using its flagellum to reach optimal conditions for photosynthesis."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Nastic movements in plants",
+"question": "The closing of Mimosa pudica (touch-me-not) leaves when touched is an example of:",
+"options": {
+"A": "Phototropism",
+"B": "Thigmonasty",
+"C": "Geotropism",
+"D": "Hydrotropism"
+},
+"correct_option": "B",
+"explanation": "Thigmonasty is a non-directional response to touch stimuli. The rapid folding of Mimosa leaves when touched is caused by changes in turgor pressure in specialized cells."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sleep movements in plants",
+"question": "The folding of leaves at night in some plants is controlled by:",
+"options": {
+"A": "Light intensity changes",
+"B": "Temperature only",
+"C": "The plant's biological clock (circadian rhythm)",
+"D": "Soil moisture"
+},
+"correct_option": "C",
+"explanation": "Sleep movements (nyctinasty) are controlled by the plant's internal biological clock and respond to day-night cycles. These movements involve changes in turgor pressure at the base of leaves."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Supporting tissues in animals",
+"question": "Cartilage differs from bone in that cartilage:",
+"options": {
+"A": "Is harder and more rigid",
+"B": "Is more flexible and lacks blood vessels",
+"C": "Contains more calcium",
+"D": "Cannot support body weight"
+},
+"correct_option": "B",
+"explanation": "Cartilage is flexible connective tissue without blood vessels (avascular), receiving nutrients by diffusion. Bone is harder, vascularized, and contains calcium salts for rigidity."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Supporting tissues in animals",
+"question": "Tendons connect:",
+"options": {
+"A": "Bone to bone",
+"B": "Muscle to bone",
+"C": "Muscle to muscle",
+"D": "Skin to muscle"
+},
+"correct_option": "B",
+"explanation": "Tendons are tough, inelastic connective tissue cords that attach muscles to bones, transmitting the force of muscle contraction to produce movement."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Types of skeleton - Exoskeleton",
+"question": "An advantage of an exoskeleton is that it:",
+"options": {
+"A": "Grows continuously with the animal",
+"B": "Provides protection and prevents water loss",
+"C": "Allows unlimited size increase",
+"D": "Requires no energy to maintain"
+},
+"correct_option": "B",
+"explanation": "Exoskeletons (like in arthropods) provide physical protection against predators and injury, and prevent water loss in terrestrial species. However, they must be molted for growth."
+},
+ {
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Types of skeleton - Endoskeleton",
+"question": "The endoskeleton of vertebrates has the advantage of:",
+"options": {
+"A": "Providing better protection than exoskeletons",
+"B": "Growing with the animal without molting",
+"C": "Being lighter than exoskeletons",
+"D": "Preventing all injuries"
+},
+"correct_option": "B",
+"explanation": "Endoskeletons grow continuously with the animal, eliminating the need for molting. They provide internal support, allow for larger body size, and have points for muscle attachment."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Functions of the skeleton",
+"question": "Which is NOT a function of the skeleton in animals?",
+"options": {
+"A": "Support and shape",
+"B": "Protection of vital organs",
+"C": "Production of digestive enzymes",
+"D": "Muscle attachment for movement"
+},
+"correct_option": "C",
+"explanation": "The skeleton provides support, protects organs, enables movement through muscle attachment, produces blood cells (in bone marrow), and stores minerals. It does not produce digestive enzymes."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Functions of the skeleton",
+"question": "Red blood cells are produced in:",
+"options": {
+"A": "Cartilage",
+"B": "Bone marrow",
+"C": "Tendons",
+"D": "Ligaments"
+},
+"correct_option": "B",
+"explanation": "Red bone marrow, found in certain bones (like the sternum, ribs, and ends of long bones), produces red blood cells, white blood cells, and platelets through hematopoiesis."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Functions of the skeleton",
+"question": "The ribcage primarily functions to:",
+"options": {
+"A": "Produce blood cells only",
+"B": "Protect the heart and lungs",
+"C": "Store calcium",
+"D": "Enable arm movement"
+},
+"correct_option": "B",
+"explanation": "The ribcage forms a protective cage around vital organs including the heart, lungs, and major blood vessels, shielding them from physical injury while allowing breathing movements."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Asexual reproduction - Fission",
+"question": "Binary fission in Paramecium involves:",
+"options": {
+"A": "Formation of spores",
+"B": "Division of the cell into two equal halves",
+"C": "Budding of new individuals",
+"D": "Fusion of gametes"
+},
+"correct_option": "B",
+"explanation": "Binary fission is a form of asexual reproduction where a single cell divides transversely into two identical daughter cells after nuclear division, producing genetically identical offspring."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Asexual reproduction - Budding",
+"question": "Budding in yeast produces offspring that:",
+"options": {
+"A": "Are genetically different from the parent",
+"B": "Are genetically identical to the parent",
+"C": "Result from sexual reproduction",
+"D": "Require fertilization"
+},
+"correct_option": "B",
+"explanation": "Budding is asexual reproduction where a small outgrowth (bud) develops from the parent cell and eventually separates. The offspring is a genetic clone of the parent."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Asexual reproduction - Natural vegetative propagation",
+"question": "Potato tubers are examples of natural vegetative propagation through:",
+"options": {
+"A": "Roots",
+"B": "Modified underground stems",
+"C": "Leaves",
+"D": "Flowers"
+},
+"correct_option": "B",
+"explanation": "Potato tubers are modified underground stems (not roots) with buds (eyes) that can grow into new plants. This is a form of natural vegetative propagation."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Asexual reproduction - Artificial vegetative propagation",
+"question": "Grafting is an artificial propagation technique that involves:",
+"options": {
+"A": "Planting seeds",
+"B": "Joining parts of two different plants",
+"C": "Using spores",
+"D": "Cross-pollination"
+},
+"correct_option": "B",
+"explanation": "Grafting involves joining a scion (shoot) from one plant to the rootstock of another, allowing combination of desirable traits from both plants, such as disease resistance and fruit quality."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sexual reproduction in flowering plants - Floral parts",
+"question": "The male reproductive part of a flower is the:",
+"options": {
+"A": "Pistil",
+"B": "Stamen",
+"C": "Sepal",
+"D": "Petal"
+},
+"correct_option": "B",
+"explanation": "The stamen is the male reproductive organ consisting of an anther (which produces pollen containing male gametes) and a filament that supports the anther."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sexual reproduction in flowering plants - Floral parts",
+"question": "The ovary in a flower develops into:",
+"options": {
+"A": "Seeds",
+"B": "Pollen",
+"C": "Fruit",
+"D": "Petals"
+},
+"correct_option": "C",
+"explanation": "After fertilization, the ovary wall develops into the fruit, which protects the developing seeds and aids in their dispersal. The ovules inside develop into seeds."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sexual reproduction in flowering plants - Pollination",
+"question": "Insect-pollinated flowers are characterized by:",
+"options": {
+"A": "Small, inconspicuous petals and abundant light pollen",
+"B": "Brightly colored petals, nectar, and sticky pollen",
+"C": "Feathery stigmas",
+"D": "Exposed anthers"
+},
+"correct_option": "B",
+"explanation": "Insect-pollinated flowers have adaptations to attract insects: bright colors, scent, nectar, and sticky or spiky pollen that adheres to insect bodies for transfer."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sexual reproduction in flowering plants - Fertilization",
+"question": "Double fertilization in flowering plants results in:",
+"options": {
+"A": "Two embryos",
+"B": "An embryo and endosperm",
+"C": "Two seeds",
+"D": "Two fruits"
+},
+"correct_option": "B",
+"explanation": "In double fertilization, one sperm nucleus fuses with the egg to form the diploid zygote (embryo), while another fuses with polar nuclei to form triploid endosperm (food storage tissue)."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sexual reproduction in flowering plants - Products",
+"question": "Seeds contain stored food to:",
+"options": {
+"A": "Attract animals",
+"B": "Nourish the embryo during germination",
+"C": "Protect the parent plant",
+"D": "Prevent water loss"
+},
+"correct_option": "B",
+"explanation": "Seeds store food (in endosperm or cotyledons) that provides nutrients and energy for the developing embryo during germination until the seedling can photosynthesize independently."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Reproduction in mammals - Male reproductive organs",
+"question": "The primary function of the testes is to:",
+"options": {
+"A": "Store urine",
+"B": "Produce sperm and testosterone",
+"C": "Produce eggs",
+"D": "Filter blood"
+},
+"correct_option": "B",
+"explanation": "The testes produce sperm (male gametes) in the seminiferous tubules and secrete testosterone (male sex hormone) from interstitial cells, controlling male characteristics and reproduction."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Reproduction in mammals - Female reproductive organs",
+"question": "Fertilization in mammals typically occurs in the:",
+"options": {
+"A": "Ovary",
+"B": "Uterus",
+"C": "Fallopian tube (oviduct)",
+"D": "Vagina"
+},
+"correct_option": "C",
+"explanation": "Fertilization usually occurs in the upper third of the fallopian tube (oviduct) where the sperm meets the egg after ovulation. The fertilized egg then travels to the uterus for implantation."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Reproduction in mammals - Fertilization and development",
+"question": "The fusion of sperm and egg nuclei results in a:",
+"options": {
+"A": "Haploid embryo",
+"B": "Diploid zygote",
+"C": "Triploid cell",
+"D": "Gamete"
+},
+"correct_option": "B",
+"explanation": "When the haploid sperm nucleus (n) fuses with the haploid egg nucleus (n), they form a diploid zygote (2n), which then undergoes cell division to develop into an embryo."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Reproduction in mammals - Fertilization and development",
+"question": "The placenta functions to:",
+"options": {
+"A": "Produce eggs",
+"B": "Exchange materials between mother and fetus",
+"C": "Store sperm",
+"D": "Produce milk"
+},
+"correct_option": "B",
+"explanation": "The placenta is an organ that allows exchange of oxygen, nutrients, and wastes between maternal and fetal blood (without mixing them), and produces hormones to maintain pregnancy."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Growth - Meaning",
+"question": "Growth in living organisms is best defined as:",
+"options": {
+"A": "Increase in height only",
+"B": "Irreversible increase in size and dry mass",
+"C": "Temporary increase in weight",
+"D": "Change in shape"
+},
+"correct_option": "B",
+"explanation": "Growth is a permanent, irreversible increase in size, cell number, and dry mass of an organism, accompanied by development. Temporary weight changes (like water retention) are not growth."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Growth - Meaning",
+"question": "The growth of an organism involves:",
+"options": {
+"A": "Cell division only",
+"B": "Cell division, cell enlargement, and cell differentiation",
+"C": "Cell death",
+"D": "Reduction in cell number"
+},
+"correct_option": "B",
+"explanation": "Growth involves three processes: cell division (increasing cell number), cell enlargement (cells increasing in size), and cell differentiation (cells becoming specialized for specific functions)."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Germination - Conditions necessary",
+"question": "Which condition is NOT necessary for seed germination?",
+"options": {
+"A": "Adequate water",
+"B": "Suitable temperature",
+"C": "Oxygen",
+"D": "Light for all seeds"
+},
+"correct_option": "D",
+"explanation": "While water, suitable temperature, and oxygen are essential for all seeds, light requirements vary. Some seeds need light to germinate, others need darkness, and many are indifferent."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Germination - Conditions necessary",
+"question": "Water is essential for seed germination because it:",
+"options": {
+"A": "Provides energy",
+"B": "Activates enzymes and softens the seed coat",
+"C": "Produces oxygen",
+"D": "Kills the embryo"
+},
+"correct_option": "B",
+"explanation": "Water activates enzymes that break down stored food, softens the seed coat allowing the radicle to emerge, and provides the medium for biochemical reactions during germination."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Germination - Conditions necessary",
+"question": "During germination, the first structure to emerge from the seed is usually the:",
+"options": {
+"A": "Plumule",
+"B": "Radicle",
+"C": "Cotyledon",
+"D": "First leaf"
+},
+"correct_option": "B",
+"explanation": "The radicle (embryonic root) is typically the first structure to emerge from a germinating seed, growing downward to anchor the seedling and absorb water and minerals."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Germination - Types",
+"question": "In epigeal germination, the cotyledons:",
+"options": {
+"A": "Remain below the soil",
+"B": "Are pushed above the soil surface",
+"C": "Are absent",
+"D": "Develop into roots"
+},
+"correct_option": "B",
+"explanation": "In epigeal germination (as in beans), the hypocotyl elongates, pushing the cotyledons above the soil surface where they may photosynthesize before withering."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Germination - Types",
+"question": "Hypogeal germination is characterized by:",
+"options": {
+"A": "Cotyledons emerging above ground",
+"B": "Cotyledons remaining below ground",
+"C": "No seed coat",
+"D": "Absence of endosperm"
+},
+"correct_option": "B",
+"explanation": "In hypogeal germination (as in maize and peas), the epicotyl elongates while the cotyledons remain below the soil, serving as food reserves for the developing seedling."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Oxygen requirement for germination",
+"question": "Seeds require oxygen during germination for:",
+"options": {
+"A": "Photosynthesis",
+"B": "Aerobic respiration to release energy",
+"C": "Protein synthesis only",
+"D": "Water absorption"
+},
+"correct_option": "B",
+"explanation": "Germinating seeds undergo active aerobic respiration to release energy (ATP) needed for cell division, growth, and metabolic processes as the embryo develops into a seedling."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Nervous coordination - Central nervous system",
+"question": "The central nervous system consists of:",
+"options": {
+"A": "Brain only",
+"B": "Spinal cord only",
+"C": "Brain and spinal cord",
+"D": "All nerves in the body"
+},
+"correct_option": "C",
+"explanation": "The central nervous system (CNS) comprises the brain and spinal cord, which process information and coordinate responses. Peripheral nerves connecting to the CNS form the peripheral nervous system."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Nervous coordination - Central nervous system",
+"question": "The medulla oblongata controls:",
+"options": {
+"A": "Voluntary movements only",
+"B": "Involuntary actions like heartbeat and breathing",
+"C": "Memory and learning",
+"D": "Balance only"
+},
+"correct_option": "B",
+"explanation": "The medulla oblongata, located in the brainstem, controls vital involuntary functions including heart rate, breathing rate, blood pressure, swallowing, and coughing."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Nervous coordination - Peripheral nervous system",
+"question": "The peripheral nervous system is divided into:",
+"options": {
+"A": "Brain and spinal cord",
+"B": "Somatic and autonomic nervous systems",
+"C": "Sensory and motor neurons only",
+"D": "Left and right hemispheres"
+},
+"correct_option": "B",
+"explanation": "The peripheral nervous system consists of the somatic nervous system (voluntary control of skeletal muscles) and autonomic nervous system (involuntary control of internal organs)."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Nervous coordination - Transmission of impulses",
+"question": "Nerve impulses are transmitted across synapses by:",
+"options": {
+"A": "Electrical signals only",
+"B": "Neurotransmitter chemicals",
+"C": "Blood flow",
+"D": "Hormones"
+},
+"correct_option": "B",
+"explanation": "At synapses, electrical impulses trigger release of chemical neurotransmitters that diffuse across the synaptic gap and bind to receptors on the next neuron, continuing the signal."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Nervous coordination - Reflex action",
+"question": "A reflex action is characterized by being:",
+"options": {
+"A": "Slow and conscious",
+"B": "Fast and involuntary",
+"C": "Controlled by the cerebrum",
+"D": "Learned behavior"
+},
+"correct_option": "B",
+"explanation": "Reflex actions are rapid, automatic, involuntary responses to stimuli that bypass conscious brain control. The reflex arc through the spinal cord allows quick protective responses."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Nervous coordination - Reflex action",
+"question": "The reflex arc pathway is:",
+"options": {
+"A": "Effector → receptor → CNS → response",
+"B": "Receptor → sensory neuron → CNS → motor neuron → effector",
+"C": "CNS → receptor → effector",
+"D": "Motor neuron → sensory neuron → effector"
+},
+"correct_option": "B",
+"explanation": "The reflex arc follows this sequence: stimulus detected by receptor, impulse travels via sensory neuron to CNS, relay neuron connects to motor neuron, which triggers response in effector."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sense organs - Skin",
+"question": "The skin detects stimuli such as:",
+"options": {
+"A": "Sound waves",
+"B": "Touch, pressure, temperature, and pain",
+"C": "Light intensity",
+"D": "Chemical tastes"
+},
+"correct_option": "B",
+"explanation": "The skin contains various receptors: mechanoreceptors (touch, pressure), thermoreceptors (temperature), and nociceptors (pain), providing tactile sensation and protection."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sense organs - Nose",
+"question": "Olfactory receptors in the nose detect:",
+"options": {
+"A": "Sound",
+"B": "Chemical substances in air",
+"C": "Light",
+"D": "Temperature"
+},
+"correct_option": "B",
+"explanation": "Olfactory receptors are chemoreceptors in the nasal epithelium that detect airborne chemical molecules, allowing us to perceive different odors and smells."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sense organs - Tongue",
+"question": "The tongue detects different tastes using:",
+"options": {
+"A": "Olfactory cells",
+"B": "Taste buds containing chemoreceptors",
+"C": "Photoreceptors",
+"D": "Mechanoreceptors"
+},
+"correct_option": "B",
+"explanation": "Taste buds on the tongue contain chemoreceptors that detect chemicals in food, allowing perception of five basic tastes: sweet, sour, salty, bitter, and umami."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sense organs - Eye",
+"question": "The retina of the eye contains:",
+"options": {
+"A": "Only rods for color vision",
+"B": "Only cones for night vision",
+"C": "Rods for dim light and cones for color vision",
+"D": "No photoreceptors"
+},
+"correct_option": "C",
+"explanation": "The retina contains two types of photoreceptors: rods (sensitive to low light, no color) and cones (detect color in bright light). Together they enable vision in various conditions."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sense organs - Eye",
+"question": "The lens of the eye focuses light by:",
+"options": {
+"A": "Changing its shape (accommodation)",
+"B": "Moving forward and backward",
+"C": "Rotating",
+"D": "Changing color"
+},
+"correct_option": "A",
+"explanation": "The lens changes shape through accommodation: ciliary muscles adjust its curvature to focus on near or distant objects, ensuring a sharp image forms on the retina."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sense organs - Ear",
+"question": "The cochlea in the inner ear is responsible for:",
+"options": {
+"A": "Balance and equilibrium",
+"B": "Converting sound vibrations into nerve impulses",
+"C": "Protecting the ear drum",
+"D": "Producing ear wax"
+},
+"correct_option": "B",
+"explanation": "The cochlea is a fluid-filled, spiral structure containing hair cells that convert mechanical sound vibrations into electrical nerve impulses sent to the brain via the auditory nerve."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Hormonal control - Pituitary gland",
+"question": "The pituitary gland is often called the 'master gland' because it:",
+"options": {
+"A": "Is the largest endocrine gland",
+"B": "Controls other endocrine glands through its hormones",
+"C": "Produces insulin",
+"D": "Stores bile"
+},
+"correct_option": "B",
+"explanation": "The pituitary produces hormones that regulate other endocrine glands (thyroid, adrenals, gonads), earning it the title 'master gland', though it's controlled by the hypothalamus."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Hormonal control - Thyroid gland",
+"question": "Thyroxine hormone from the thyroid gland controls:",
+"options": {
+"A": "Blood glucose levels",
+"B": "Metabolic rate",
+"C": "Calcium levels only",
+"D": "Water balance"
+},
+"correct_option": "B",
+"explanation": "Thyroxine regulates the body's metabolic rate, affecting growth, development, and energy production. Deficiency causes slow metabolism, while excess causes increased metabolism."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Hormonal control - Pancreas",
+"question": "Insulin and glucagon from the pancreas work antagonistically to regulate:",
+"options": {
+"A": "Heart rate",
+"B": "Blood glucose levels",
+"C": "Breathing rate",
+"D": "Body temperature"
+},
+"correct_option": "B",
+"explanation": "Insulin lowers blood glucose (promotes glucose uptake and storage), while glucagon raises it (promotes glucose release from storage). Together they maintain glucose homeostasis."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Hormonal control - Adrenal gland",
+"question": "Adrenaline hormone prepares the body for 'fight or flight' by:",
+"options": {
+"A": "Decreasing heart rate",
+"B": "Increasing heart rate, blood pressure, and glucose release",
+"C": "Promoting sleep",
+"D": "Decreasing blood glucose"
+},
+"correct_option": "B",
+"explanation": "Adrenaline increases heart rate, blood pressure, breathing rate, and blood glucose, redirecting blood to muscles and brain, preparing the body for rapid response to stress or danger."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Plant hormones",
+"question": "Auxins in plants primarily promote:",
+"options": {
+"A": "Fruit ripening",
+"B": "Cell elongation and phototropism",
+"C": "Seed dormancy",
+"D": "Leaf fall"
+},
+"correct_option": "B",
+"explanation": "Auxins promote cell elongation, apical dominance, and tropistic responses (like phototropism and geotropism). They accumulate on the shaded side, causing cells to elongate and bend toward light."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Plant hormones",
+"question": "Ethylene gas functions in plants to:",
+"options": {
+"A": "Inhibit growth",
+"B": "Promote fruit ripening",
+"C": "Prevent seed germination",
+"D": "Close stomata"
+},
+"correct_option": "B",
+"explanation": "Ethylene is a gaseous plant hormone that promotes fruit ripening, flower wilting, and leaf abscission. It's used commercially to ripen fruits after harvest."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Homeostasis - Body temperature regulation",
+"question": "When body temperature rises above normal, the body responds by:",
+"options": {
+"A": "Vasoconstriction and shivering",
+"B": "Vasodilation and sweating",
+"C": "Decreasing metabolic rate only",
+"D": "Producing more heat"
+},
+"correct_option": "B",
+"explanation": "To cool down, blood vessels dilate (vasodilation) to increase heat loss from skin, sweat glands increase perspiration for evaporative cooling, and metabolic rate may decrease."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Homeostasis - Salt and water regulation",
+"question": "The hormone ADH (antidiuretic hormone) regulates water balance by:",
+"options": {
+"A": "Increasing urine production",
+"B": "Increasing water reabsorption in kidneys",
+"C": "Decreasing water intake",
+"D": "Increasing salt excretion"
+},
+"correct_option": "B",
+"explanation": "ADH from the pituitary gland increases water reabsorption in kidney tubules, producing concentrated urine and conserving water when the body is dehydrated."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Abiotic factors",
+"question": "Abiotic factors affecting organism distribution include:",
+"options": {
+"A": "Predation and competition",
+"B": "Temperature, light, pH, and rainfall",
+"C": "Food chains",
+"D": "Symbiotic relationships"
+},
+"correct_option": "B",
+"explanation": "Abiotic factors are non-living physical and chemical environmental components like temperature, light, water, pH, soil, and minerals that influence where organisms can survive."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Abiotic factors",
+"question": "High temperature in desert environments limits organism distribution because it:",
+"options": {
+"A": "Increases food availability",
+"B": "Causes excessive water loss and protein denaturation",
+"C": "Attracts more predators",
+"D": "Improves photosynthesis"
+},
+"correct_option": "B",
+"explanation": "Extreme heat causes rapid water loss through evaporation, can denature enzymes and proteins, and creates physiological stress, limiting survival to organisms with special adaptations."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Biotic factors",
+"question": "Biotic factors affecting distribution include:",
+"options": {
+"A": "Rainfall and soil pH",
+"B": "Predation, competition, and disease",
+"C": "Temperature and light",
+"D": "Altitude and wind"
+},
+"correct_option": "B",
+"explanation": "Biotic factors are living components of the environment including interactions like predation, competition for resources, parasitism, disease, and food availability that affect organism distribution."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Biotic factors",
+"question": "Interspecific competition occurs when:",
+"options": {
+"A": "Members of the same species compete for resources",
+"B": "Different species compete for the same limited resources",
+"C": "Predators hunt prey",
+"D": "Organisms cooperate"
+},
+"correct_option": "B",
+"explanation": "Interspecific competition happens when different species compete for the same limited resources (food, water, space, light), which can affect their distribution and abundance in an ecosystem."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Energy flow - Food chains",
+"question": "In a food chain, the primary source of energy is:",
+"options": {
+"A": "Herbivores",
+"B": "Carnivores",
+"C": "The sun",
+"D": "Decomposers"
+},
+"correct_option": "C",
+"explanation": "The sun provides light energy that producers (plants) convert into chemical energy through photosynthesis. This energy then flows through the food chain to consumers."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Energy flow - Food chains",
+"question": "Organisms that feed directly on producers are called:",
+"options": {
+"A": "Primary consumers",
+"B": "Secondary consumers",
+"C": "Tertiary consumers",
+"D": "Decomposers"
+},
+"correct_option": "A",
+"explanation": "Primary consumers (herbivores) feed directly on producers (plants). They occupy the second trophic level in a food chain, transferring energy from plants to higher levels."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Energy flow - Food webs",
+"question": "A food web differs from a food chain in that it:",
+"options": {
+"A": "Shows only one feeding relationship",
+"B": "Shows interconnected feeding relationships in an ecosystem",
+"C": "Contains only producers",
+"D": "Excludes decomposers"
+},
+"correct_option": "B",
+"explanation": "A food web consists of interconnected food chains showing multiple feeding relationships, reflecting the complex reality that most organisms feed on various food sources and are eaten by different predators."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Energy flow - Trophic levels",
+"question": "Energy transfer between trophic levels is inefficient because:",
+"options": {
+"A": "All energy is passed to the next level",
+"B": "About 90% of energy is lost as heat, movement, and undigested material",
+"C": "Producers store all energy",
+"D": "Energy increases at each level"
+},
+"correct_option": "B",
+"explanation": "Only about 10% of energy is transferred to the next trophic level. The rest is lost as heat during respiration, used for movement, or remains in undigested material, explaining why food chains are short."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Nutrient cycling - Carbon cycle",
+"question": "Carbon is returned to the atmosphere through:",
+"options": {
+"A": "Photosynthesis",
+"B": "Respiration, combustion, and decomposition",
+"C": "Nitrogen fixation",
+"D": "Condensation"
+},
+"correct_option": "B",
+"explanation": "Carbon dioxide is released back into the atmosphere through cellular respiration (all organisms), combustion of fossil fuels and wood, and decomposition of dead organic matter by microorganisms."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Nutrient cycling - Carbon cycle",
+"question": "Carbon is returned to the atmosphere through:",
+"options": {
+"A": "Photosynthesis",
+"B": "Respiration, combustion, and decomposition",
+"C": "Nitrogen fixation",
+"D": "Condensation"
+},
+"correct_option": "B",
+"explanation": "Carbon dioxide is released back into the atmosphere through cellular respiration (all organisms), combustion of fossil fuels and wood, and decomposition of dead organic matter by microorganisms."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Nutrient cycling - Carbon cycle",
+"question": "Plants remove carbon from the atmosphere during:",
+"options": {
+"A": "Respiration",
+"B": "Transpiration",
+"C": "Photosynthesis",
+"D": "Excretion"
+},
+"correct_option": "C",
+"explanation": "During photosynthesis, plants absorb carbon dioxide from the atmosphere and use it to synthesize glucose, temporarily removing carbon from the atmosphere and fixing it in organic compounds."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Nutrient cycling - Water cycle",
+"question": "The process by which water vapor changes to liquid water in the atmosphere is called:",
+"options": {
+"A": "Evaporation",
+"B": "Condensation",
+"C": "Precipitation",
+"D": "Transpiration"
+},
+"correct_option": "B",
+"explanation": "Condensation occurs when water vapor cools and changes to liquid water, forming clouds and fog. This is essential in the water cycle, leading to precipitation."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Nutrient cycling - Water cycle",
+"question": "Transpiration contributes to the water cycle by:",
+"options": {
+"A": "Returning water vapor to the atmosphere from plants",
+"B": "Forming clouds",
+"C": "Causing rainfall",
+"D": "Filtering water in soil"
+},
+"correct_option": "A",
+"explanation": "Transpiration is the loss of water vapor from plant leaves through stomata. This returns water to the atmosphere, contributing to cloud formation and the continuous water cycle."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Nutrient cycling - Nitrogen cycle",
+"question": "Nitrogen-fixing bacteria convert atmospheric nitrogen into:",
+"options": {
+"A": "Nitrates",
+"B": "Ammonia and nitrites",
+"C": "Proteins",
+"D": "Oxygen"
+},
+"correct_option": "B",
+"explanation": "Nitrogen-fixing bacteria (like Rhizobium in root nodules) convert atmospheric nitrogen (N₂) into ammonia (NH₃) or ammonium ions (NH₄⁺), which can then be converted to nitrites and nitrates by nitrifying bacteria."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Nutrient cycling - Nitrogen cycle",
+"question": "Denitrifying bacteria return nitrogen to the atmosphere by converting:",
+"options": {
+"A": "Ammonia to nitrates",
+"B": "Nitrates to atmospheric nitrogen",
+"C": "Proteins to ammonia",
+"D": "Nitrogen to oxygen"
+},
+"correct_option": "B",
+"explanation": "Denitrifying bacteria convert nitrates in the soil back to atmospheric nitrogen gas (N₂), completing the nitrogen cycle. This occurs mainly in waterlogged, anaerobic soils."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Nutrient cycling - Nitrogen cycle",
+"question": "Plants obtain nitrogen mainly in the form of:",
+"options": {
+"A": "Atmospheric nitrogen gas",
+"B": "Nitrates and ammonium ions from soil",
+"C": "Proteins from dead animals",
+"D": "Carbon dioxide"
+},
+"correct_option": "B",
+"explanation": "Plants absorb nitrogen primarily as nitrate ions (NO₃⁻) and ammonium ions (NH₄⁺) from the soil through their roots. They cannot use atmospheric nitrogen directly."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Symbiotic interactions",
+"question": "In a mutualistic relationship, both organisms:",
+"options": {
+"A": "Are harmed",
+"B": "Benefit from the association",
+"C": "Compete for resources",
+"D": "One benefits while the other is harmed"
+},
+"correct_option": "B",
+"explanation": "Mutualism is a symbiotic relationship where both organisms benefit. Examples include nitrogen-fixing bacteria in legume root nodules and the relationship between flowers and pollinators."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Symbiotic interactions",
+"question": "The relationship between Rhizobium bacteria and legume plants is an example of:",
+"options": {
+"A": "Parasitism",
+"B": "Commensalism",
+"C": "Mutualism",
+"D": "Competition"
+},
+"correct_option": "C",
+"explanation": "Rhizobium bacteria fix atmospheric nitrogen for the plant, receiving shelter and nutrients in return. Both organisms benefit, making this mutualism."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Symbiotic interactions",
+"question": "In parasitism, the parasite:",
+"options": {
+"A": "Benefits while the host is harmed",
+"B": "And host both benefit",
+"C": "Is harmed while host benefits",
+"D": "And host both remain unaffected"
+},
+"correct_option": "A",
+"explanation": "Parasitism is a relationship where the parasite benefits by obtaining nutrients from the host, while the host is harmed but usually not killed immediately. Examples include tapeworms and malaria parasites."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Aquatic habitats",
+"question": "Organisms in pond ecosystems include:",
+"options": {
+"A": "Only fish",
+"B": "Algae, water insects, fish, and amphibians",
+"C": "Only plants",
+"D": "Land animals only"
+},
+"correct_option": "B",
+"explanation": "Pond ecosystems contain diverse organisms including producers (algae, water plants), primary consumers (water insects, tadpoles), secondary consumers (fish), and decomposers (bacteria)."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Aquatic habitats",
+"question": "Mangrove swamps are characterized by:",
+"options": {
+"A": "Trees with aerial roots adapted to waterlogged, saline soil",
+"B": "Absence of vegetation",
+"C": "Only freshwater species",
+"D": "Desert conditions"
+},
+"correct_option": "A",
+"explanation": "Mangrove trees have specialized aerial roots (pneumatophores) for gas exchange in waterlogged soil and adaptations for salt tolerance, making them unique coastal ecosystems."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Aquatic habitats",
+"question": "Stream ecosystems differ from pond ecosystems mainly in:",
+"options": {
+"A": "Having no organisms",
+"B": "Having flowing water and higher oxygen levels",
+"C": "Being completely stagnant",
+"D": "Lacking producers"
+},
+"correct_option": "B",
+"explanation": "Streams have flowing water that increases oxygen levels and prevents stratification. This affects the types of organisms present, favoring those adapted to currents."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Terrestrial habitats",
+"question": "Organisms living in tree-tops (arboreal habitat) show adaptations such as:",
+"options": {
+"A": "Burrowing ability",
+"B": "Grasping limbs, sharp claws, or prehensile tails",
+"C": "Streamlined bodies",
+"D": "Thick fur for cold"
+},
+"correct_option": "B",
+"explanation": "Arboreal animals have adaptations for climbing and moving through trees: grasping hands/feet, sharp claws, prehensile tails, and good balance. Examples include monkeys and squirrels."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Terrestrial habitats",
+"question": "Animals living in burrows or holes show adaptations like:",
+"options": {
+"A": "Large wings",
+"B": "Streamlined bodies and strong digging limbs",
+"C": "Bright colors",
+"D": "Long legs for running"
+},
+"correct_option": "B",
+"explanation": "Burrowing animals have cylindrical bodies for moving through tunnels, strong forelimbs or claws for digging, reduced eyes, and other adaptations. Examples include moles and earthworms."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Tropical rainforest",
+"question": "Tropical rainforests are characterized by:",
+"options": {
+"A": "Low rainfall and few trees",
+"B": "High rainfall, high biodiversity, and evergreen vegetation",
+"C": "Cold temperatures",
+"D": "Absence of animal life"
+},
+"correct_option": "B",
+"explanation": "Tropical rainforests have high annual rainfall (over 2000mm), warm temperatures year-round, high humidity, tall evergreen trees in layers, and extremely high biodiversity."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Guinea savanna",
+"question": "Guinea savanna vegetation consists of:",
+"options": {
+"A": "Dense forests only",
+"B": "Grassland with scattered trees and shrubs",
+"C": "Only grasses",
+"D": "Desert plants"
+},
+"correct_option": "B",
+"explanation": "Guinea savanna has tall grasses with scattered drought-resistant trees and shrubs. It experiences distinct wet and dry seasons, supporting diverse wildlife including large herbivores."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sudan Savanna",
+"question": "Sudan savanna has vegetation that is:",
+"options": {
+"A": "Denser than Guinea savanna",
+"B": "Sparser with shorter grasses and fewer trees than Guinea savanna",
+"C": "Similar to rainforest",
+"D": "Completely absent"
+},
+"correct_option": "B",
+"explanation": "Sudan savanna is drier than Guinea savanna, with shorter grasses, more widely scattered trees, and longer dry seasons. Vegetation is adapted to less rainfall."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Desert biome",
+"question": "Desert plants typically show adaptations such as:",
+"options": {
+"A": "Large leaves for maximum photosynthesis",
+"B": "Reduced leaves, thick cuticles, and water storage tissues",
+"C": "Shallow roots only",
+"D": "Rapid water loss"
+},
+"correct_option": "B",
+"explanation": "Desert plants (xerophytes) have reduced or modified leaves (spines), thick waxy cuticles, water storage in stems/roots, deep or widespread roots, and CAM photosynthesis to conserve water."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Montane forests and grasslands",
+"question": "Highland areas like Jos, Obudu, and Mambilla Plateau are characterized by:",
+"options": {
+"A": "High temperatures year-round",
+"B": "Cooler temperatures and unique vegetation adapted to altitude",
+"C": "Desert conditions",
+"D": "Mangrove vegetation"
+},
+"correct_option": "B",
+"explanation": "Highland regions have cooler temperatures due to altitude, unique montane vegetation (grasslands and forests), high rainfall, and endemic species adapted to these conditions."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Soil characteristics - Sandy soil",
+"question": "Sandy soil is characterized by:",
+"options": {
+"A": "High water retention and poor drainage",
+"B": "Large particles, good drainage, and low water retention",
+"C": "High nutrient content",
+"D": "Very fine particles"
+},
+"correct_option": "B",
+"explanation": "Sandy soil has large particles with large air spaces between them, allowing good aeration and drainage but poor water and nutrient retention. It warms quickly but is less fertile."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Soil characteristics - Clayey soil",
+"question": "Clayey soil differs from sandy soil in having:",
+"options": {
+"A": "Larger particles",
+"B": "Very fine particles, poor drainage, and high water retention",
+"C": "No minerals",
+"D": "Better aeration"
+},
+"correct_option": "B",
+"explanation": "Clay soil has very fine particles with tiny spaces, resulting in poor drainage and aeration but excellent water and nutrient retention. It's heavy, sticky when wet, and hard when dry."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Soil characteristics - Loamy soil",
+"question": "Loamy soil is considered best for agriculture because it:",
+"options": {
+"A": "Has only sand",
+"B": "Has balanced proportions of sand, silt, and clay",
+"C": "Has only clay",
+"D": "Contains no organic matter"
+},
+"correct_option": "B",
+"explanation": "Loam contains balanced proportions of sand, silt, and clay, providing good drainage and aeration while retaining adequate water and nutrients. It's ideal for most crops."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Soil components - Inorganic",
+"question": "The inorganic component of soil consists of:",
+"options": {
+"A": "Dead organisms only",
+"B": "Weathered rock particles and minerals",
+"C": "Living organisms",
+"D": "Humus"
+},
+"correct_option": "B",
+"explanation": "Inorganic components include weathered rock particles (sand, silt, clay) and minerals like nitrogen, phosphorus, potassium, and other elements essential for plant growth."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Soil components - Organic",
+"question": "Humus is formed from:",
+"options": {
+"A": "Weathered rocks",
+"B": "Decomposed plant and animal remains",
+"C": "Air and water only",
+"D": "Mineral particles"
+},
+"correct_option": "B",
+"explanation": "Humus is dark, organic material formed from decomposition of dead plants and animals by soil organisms. It improves soil structure, water retention, and provides nutrients."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Soil organisms",
+"question": "Earthworms improve soil fertility by:",
+"options": {
+"A": "Compacting the soil",
+"B": "Burrowing to aerate soil and mixing organic matter",
+"C": "Removing nutrients",
+"D": "Preventing water infiltration"
+},
+"correct_option": "B",
+"explanation": "Earthworms burrow through soil creating channels for air and water, mix organic matter with mineral soil, and their castings are rich in nutrients, all improving soil fertility."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Soil air and water",
+"question": "Soil air is important because it:",
+"options": {
+"A": "Prevents root growth",
+"B": "Provides oxygen for root respiration and soil organisms",
+"C": "Makes soil compact",
+"D": "Decreases soil temperature"
+},
+"correct_option": "B",
+"explanation": "Soil air spaces contain oxygen needed for aerobic respiration by plant roots and soil organisms. Poor aeration leads to anaerobic conditions and reduced plant growth."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Soil fertility - Loss",
+"question": "Continuous cropping without fertilizer addition leads to soil fertility loss because:",
+"options": {
+"A": "Plants add nutrients to soil",
+"B": "Plants remove nutrients without replacement",
+"C": "Soil organisms increase",
+"D": "Water content increases"
+},
+"correct_option": "B",
+"explanation": "Continuous cropping depletes soil nutrients as plants absorb minerals for growth. Without replacement through fertilizers or organic matter, soil becomes infertile and crop yields decline."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Soil fertility - Loss",
+"question": "Leaching causes loss of soil fertility by:",
+"options": {
+"A": "Adding nutrients to topsoil",
+"B": "Washing away nutrients from topsoil to lower layers",
+"C": "Increasing organic matter",
+"D": "Preventing erosion"
+},
+"correct_option": "B",
+"explanation": "Leaching occurs when heavy rainfall dissolves and washes soluble nutrients (especially nitrates) from upper soil layers to deeper layers beyond root reach, reducing soil fertility."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Soil fertility - Maintenance",
+"question": "Crop rotation helps maintain soil fertility by:",
+"options": {
+"A": "Planting the same crop continuously",
+"B": "Alternating crops with different nutrient requirements",
+"C": "Removing all vegetation",
+"D": "Preventing nitrogen fixation"
+},
+"correct_option": "B",
+"explanation": "Crop rotation involves growing different crops in succession. This prevents depletion of specific nutrients, breaks pest cycles, and including legumes adds nitrogen through biological fixation."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Soil fertility - Renewal",
+"question": "Adding organic manure to soil improves fertility by:",
+"options": {
+"A": "Removing nutrients",
+"B": "Providing nutrients and improving soil structure",
+"C": "Compacting the soil",
+"D": "Killing beneficial organisms"
+},
+"correct_option": "B",
+"explanation": "Organic manure (compost, farmyard manure) adds nutrients, improves soil structure and water retention, encourages beneficial soil organisms, and slowly releases nutrients over time."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Diseases - Poliomyelitis",
+"question": "Poliomyelitis is caused by a virus that primarily affects the:",
+"options": {
+"A": "Lungs",
+"B": "Nervous system, potentially causing paralysis",
+"C": "Digestive system only",
+"D": "Skin"
+},
+"correct_option": "B",
+"explanation": "Polio virus attacks the nervous system, particularly motor neurons in the spinal cord, potentially causing paralysis. Vaccination has nearly eradicated this disease globally."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Diseases - Cholera",
+"question": "Cholera is transmitted through:",
+"options": {
+"A": "Airborne droplets",
+"B": "Contaminated water and food",
+"C": "Insect bites",
+"D": "Direct blood contact"
+},
+"correct_option": "B",
+"explanation": "Cholera is caused by Vibrio cholerae bacteria transmitted through contaminated water and food. It causes severe diarrhea and dehydration, and is controlled through clean water and sanitation."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Diseases - Tuberculosis",
+"question": "Tuberculosis primarily affects the:",
+"options": {
+"A": "Skin",
+"B": "Lungs",
+"C": "Liver",
+"D": "Kidneys only"
+},
+"correct_option": "B",
+"explanation": "TB is caused by Mycobacterium tuberculosis, primarily affecting the lungs. It spreads through airborne droplets and causes persistent cough, fever, and weight loss. Treatment requires long-term antibiotics."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Diseases - AIDS",
+"question": "HIV/AIDS is transmitted through:",
+"options": {
+"A": "Casual contact and sharing utensils",
+"B": "Unprotected sex, contaminated blood, and mother to child",
+"C": "Airborne particles",
+"D": "Insect bites"
+},
+"correct_option": "B",
+"explanation": "HIV is transmitted through unprotected sexual contact, contaminated blood (sharing needles, transfusions), and from infected mother to child during pregnancy, birth, or breastfeeding."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Pollution - Sources and types",
+"question": "Air pollution can be caused by:",
+"options": {
+"A": "Clean energy only",
+"B": "Vehicle emissions, industrial smoke, and burning fossil fuels",
+"C": "Planting trees",
+"D": "Water filtration"
+},
+"correct_option": "B",
+"explanation": "Air pollution sources include vehicle exhaust, industrial emissions, burning fossil fuels, and biomass burning. These release particulates, CO, CO₂, SO₂, and NO₂ into the atmosphere."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Pollution - Effects and control",
+"question": "Water pollution can be controlled by:",
+"options": {
+"A": "Dumping industrial waste into rivers",
+"B": "Treating sewage before discharge and proper waste disposal",
+"C": "Increasing pesticide use",
+"D": "Ignoring oil spills"
+},
+"correct_option": "B",
+"explanation": "Water pollution control includes treating sewage and industrial effluent before discharge, proper disposal of toxic waste, reducing pesticide runoff, and cleaning up oil spills."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sanitation and sewage",
+"question": "Proper sewage treatment is important to:",
+"options": {
+"A": "Increase disease spread",
+"B": "Prevent waterborne diseases and environmental pollution",
+"C": "Contaminate water sources",
+"D": "Eliminate all bacteria"
+},
+"correct_option": "B",
+"explanation": "Sewage treatment removes pathogens and harmful substances before discharge, preventing waterborne diseases (cholera, typhoid) and protecting aquatic ecosystems from pollution."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Conservation of natural resources",
+"question": "Conservation of forests is important because they:",
+"options": {
+"A": "Have no economic value",
+"B": "Regulate climate, prevent erosion, and maintain biodiversity",
+"C": "Should all be cleared for farming",
+"D": "Prevent rainfall"
+},
+"correct_option": "B",
+"explanation": "Forests regulate climate, produce oxygen, absorb CO₂, prevent soil erosion, maintain water cycles, provide habitat for biodiversity, and supply resources. Conservation ensures sustainable use."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Game reserves and national parks",
+"question": "National parks and game reserves are established to:",
+"options": {
+"A": "Eliminate all wildlife",
+"B": "Conserve wildlife, protect habitats, and preserve biodiversity",
+"C": "Promote hunting",
+"D": "Clear land for agriculture"
+},
+"correct_option": "B",
+"explanation": "National parks and game reserves protect endangered species, preserve natural habitats, maintain biodiversity, provide areas for research and education, and support ecotourism."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Morphological variation - Size",
+"question": "Variation in height among humans is an example of:",
+"options": {
+"A": "Discontinuous variation",
+"B": "Continuous variation",
+"C": "Mutation only",
+"D": "Asexual reproduction"
+},
+"correct_option": "B",
+"explanation": "Height shows continuous variation with a range of phenotypes from short to tall, controlled by multiple genes (polygenic) and influenced by environmental factors like nutrition."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Morphological variation - Color",
+"question": "Skin color in humans is determined by:",
+"options": {
+"A": "A single gene",
+"B": "Multiple genes (polygenic inheritance)",
+"C": "Environment only",
+"D": "Diet only"
+},
+"correct_option": "B",
+"explanation": "Skin color is controlled by several genes (polygenic) producing melanin pigment, resulting in continuous variation. Environmental factors like sun exposure also influence the phenotype."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Morphological variation - Fingerprints",
+"question": "Fingerprints are unique to each individual and are an example of:",
+"options": {
+"A": "Continuous variation",
+"B": "Discontinuous variation",
+"C": "Identical traits in all humans",
+"D": "Acquired characteristics"
+},
+"correct_option": "B",
+"explanation": "While fingerprints have continuous variation in details, the basic patterns (loops, whorls, arches) show discontinuous variation. Each person's complete fingerprint is unique, useful for identification."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Physiological variation - PTC tasting",
+"question": "The ability to taste phenylthiocarbamide (PTC) is:",
+"options": {
+"A": "Present in everyone equally",
+"B": "A genetic trait showing discontinuous variation",
+"C": "Determined by age only",
+"D": "An acquired skill"
+},
+"correct_option": "B",
+"explanation": "PTC tasting ability is controlled by a single gene with dominant (taster) and recessive (non-taster) alleles, showing clear discontinuous variation between the two phenotypes."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Physiological variation - Blood groups",
+"question": "The ABO blood group system demonstrates:",
+"options": {
+"A": "Continuous variation",
+"B": "Discontinuous variation with distinct categories",
+"C": "Environmental influence only",
+"D": "No genetic basis"
+},
+"correct_option": "B",
+"explanation": "ABO blood groups (A, B, AB, O) show discontinuous variation with distinct categories controlled by multiple alleles (Iᴬ, Iᴮ, i) at a single gene locus."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Application of variation - Blood transfusion",
+"question": "Knowledge of blood groups is essential for blood transfusion to:",
+"options": {
+"A": "Prevent incompatibility reactions",
+"B": "Change a person's blood type",
+"C": "Eliminate all diseases",
+"D": "Increase blood volume only"
+},
+"correct_option": "A",
+"explanation": "Matching blood groups prevents fatal immune reactions. Incompatible blood triggers antibodies that cause agglutination (clumping) of red blood cells, which can be lethal."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Application of variation - Paternity determination",
+"question": "Blood group analysis can be used in paternity testing to:",
+"options": {
+"A": "Conclusively prove paternity",
+"B": "Exclude paternity in some cases",
+"C": "Change genetic relationships",
+"D": "Create new blood types"
+},
+"correct_option": "B",
+"explanation": "Blood group analysis can exclude paternity (if a child has a blood type impossible from the supposed parents' genotypes) but cannot conclusively prove it. DNA testing is more definitive."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Chromosomes - Structure",
+"question": "Chromosomes are composed of:",
+"options": {
+"A": "Proteins only",
+"B": "DNA and histone proteins",
+"C": "RNA only",
+"D": "Lipids"
+},
+"correct_option": "B",
+"explanation": "Chromosomes consist of DNA molecules tightly coiled around histone proteins. This compact structure allows large amounts of genetic information to fit inside the nucleus."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Chromosomes - Transmission of hereditary characters",
+"question": "During sexual reproduction, offspring receive:",
+"options": {
+"A": "All chromosomes from one parent",
+"B": "Half their chromosomes from each parent",
+"C": "No chromosomes",
+"D": "Random number of chromosomes"
+},
+"correct_option": "B",
+"explanation": "Each parent contributes half the chromosomes through gametes (sex cells). Fertilization combines these haploid sets to restore the diploid number, ensuring genetic variation."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Probability in genetics",
+"question": "If both parents are heterozygous (Aa) for a trait, the probability of offspring being homozygous recessive (aa) is:",
+"options": {
+"A": "0%",
+"B": "25%",
+"C": "50%",
+"D": "100%"
+},
+"correct_option": "B",
+"explanation": "In an Aa × Aa cross, the genotypic ratio is 1 AA : 2 Aa : 1 aa. Therefore, 1/4 or 25% of offspring will be homozygous recessive (aa)."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sex determination",
+"question": "In humans, sex is determined by:",
+"options": {
+"A": "Autosomes only",
+"B": "The combination of sex chromosomes (XX or XY)",
+"C": "Environmental factors",
+"D": "Age of parents"
+},
+"correct_option": "B",
+"explanation": "Females have XX sex chromosomes, males have XY. The father's sperm determines the offspring's sex: X-bearing sperm produces female (XX), Y-bearing sperm produces male (XY)."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Application of heredity - Agriculture",
+"question": "Selective breeding in agriculture aims to:",
+"options": {
+"A": "Reduce crop yields",
+"B": "Produce organisms with desirable traits",
+"C": "Eliminate all variation",
+"D": "Prevent reproduction"
+},
+"correct_option": "B",
+"explanation": "Selective breeding involves choosing parents with desirable characteristics (high yield, disease resistance, quality) to produce offspring with improved traits, enhancing agricultural productivity."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Application of heredity - Medicine",
+"question": "Understanding heredity in medicine helps to:",
+"options": {
+"A": "Ignore genetic diseases",
+"B": "Predict, diagnose, and counsel for genetic disorders",
+"C": "Prevent all diseases",
+"D": "Change a person's genome completely"
+},
+"correct_option": "B",
+"explanation": "Genetic knowledge enables prediction of inherited disease risk, prenatal diagnosis, genetic counseling for families, and development of gene therapies for genetic disorders."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sex-linked characters",
+"question": "Hemophilia is more common in males because:",
+"options": {
+"A": "It is dominant",
+"B": "It is a recessive trait on the X chromosome",
+"C": "Males have two X chromosomes",
+"D": "It is carried on the Y chromosome"
+},
+"correct_option": "B",
+"explanation": "Hemophilia is X-linked recessive. Males (XY) need only one recessive allele to express it, while females (XX) need two. Carrier females usually don't show symptoms."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Sex-linked characters",
+"question": "Color blindness is inherited as a sex-linked recessive trait. A colorblind man marries a normal woman (non-carrier). What proportion of their sons will be colorblind?",
+"options": {
+"A": "0%",
+"B": "25%",
+"C": "50%",
+"D": "100%"
+},
+"correct_option": "A",
+"explanation": "A colorblind man (XcY) married to a normal non-carrier woman (XCXC) will produce daughters who are carriers (XCXc) and sons who are normal (XCY). All sons receive the Y from father and XC from mother, so 0% will be colorblind."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Lamarck's theory",
+"question": "Lamarck's theory of evolution proposed that:",
+"options": {
+"A": "Random mutations drive evolution",
+"B": "Acquired characteristics can be inherited",
+"C": "Natural selection is the mechanism",
+"D": "Species never change"
+},
+"correct_option": "B",
+"explanation": "Lamarck proposed that organisms develop characteristics through use or disuse during their lifetime, and these acquired traits are passed to offspring. This theory has been disproven by modern genetics."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Lamarck's theory",
+"question": "According to Lamarck, a giraffe's long neck developed because:",
+"options": {
+"A": "Random genetic variation",
+"B": "Ancestral giraffes stretched their necks to reach high leaves, and this trait was inherited",
+"C": "Natural selection favored individuals with longer necks",
+"D": "Mutation occurred suddenly"
+},
+"correct_option": "B",
+"explanation": "Lamarck explained that giraffes continually stretched their necks to reach high vegetation, and this acquired elongation was passed to offspring. This 'use and disuse' concept is now known to be incorrect."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Darwin's theory",
+"question": "Darwin's theory of natural selection states that:",
+"options": {
+"A": "All organisms are perfectly adapted",
+"B": "Organisms with favorable variations survive and reproduce more successfully",
+"C": "Acquired traits are inherited",
+"D": "Species cannot change"
+},
+"correct_option": "B",
+"explanation": "Darwin proposed that individuals with variations better suited to their environment have higher survival and reproduction rates, passing these favorable traits to offspring, leading to evolutionary change."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Darwin's theory",
+"question": "The key mechanism in Darwin's theory of evolution is:",
+"options": {
+"A": "Use and disuse",
+"B": "Natural selection",
+"C": "Inheritance of acquired characteristics",
+"D": "Spontaneous generation"
+},
+"correct_option": "B",
+"explanation": "Natural selection is the cornerstone of Darwin's theory: environmental pressures 'select' individuals with advantageous traits, which survive to reproduce, gradually changing populations over time."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Darwin's theory",
+"question": "According to Darwin, variation in populations arises from:",
+"options": {
+"A": "Deliberate efforts by organisms",
+"B": "Random mutations and genetic recombination",
+"C": "Environmental changes directly",
+"D": "Parental wishes"
+},
+"correct_option": "B",
+"explanation": "Darwin observed natural variation exists in populations. Modern genetics explains this variation arises from random mutations, genetic recombination during sexual reproduction, and gene flow."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Organic theory of evolution",
+"question": "The organic theory of evolution suggests that:",
+"options": {
+"A": "Life arose from non-living matter spontaneously",
+"B": "All life forms evolved from simpler pre-existing organisms",
+"C": "Species are unchanging",
+"D": "Evolution occurs only in plants"
+},
+"correct_option": "B",
+"explanation": "The organic theory (also called theory of descent) proposes that complex organisms evolved gradually from simpler forms through natural processes over millions of years, supported by fossil evidence."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Evidence for evolution",
+"question": "Fossil records provide evidence for evolution by showing:",
+"options": {
+"A": "All species existed simultaneously",
+"B": "Progressive changes in organisms over geological time",
+"C": "No relationship between extinct and living species",
+"D": "Species never go extinct"
+},
+"correct_option": "B",
+"explanation": "Fossils in different rock layers show progression from simple to complex organisms over time, transitional forms linking different groups, and extinct species related to modern ones."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Comparative anatomy",
+"question": "Homologous structures in different organisms suggest:",
+"options": {
+"A": "No evolutionary relationship",
+"B": "Common ancestry despite different functions",
+"C": "Identical functions only",
+"D": "Convergent evolution only"
+},
+"correct_option": "B",
+"explanation": "Homologous structures (like pentadactyl limbs in vertebrates) have similar basic structure and embryonic origin but different functions, indicating descent from a common ancestor."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Adaptation and natural selection",
+"question": "Industrial melanism in peppered moths demonstrates:",
+"options": {
+"A": "Inheritance of acquired characteristics",
+"B": "Natural selection in response to environmental change",
+"C": "No evolutionary change",
+"D": "Random changes only"
+},
+"correct_option": "B",
+"explanation": "During industrial revolution, dark moths became more common in polluted areas (better camouflage on soot-covered trees), while light moths survived better in unpolluted areas, demonstrating natural selection."
+},
+{
+"exam": "JAMB",
+"subject": "Biology",
+"topic": "Theories of evolution - Comparison",
+"question": "The main difference between Lamarck's and Darwin's theories is:",
+"options": {
+"A": "Lamarck proposed species change, Darwin did not",
+"B": "Lamarck emphasized acquired traits, Darwin emphasized natural selection of inherited variations",
+"C": "They are identical theories",
+"D": "Darwin rejected all change"
+},
+"correct_option": "B",
+"explanation": "Lamarck thought organisms acquire traits through use/disuse and pass them on. Darwin proposed that natural selection acts on random inherited variations already present in populations."
+}
+]
