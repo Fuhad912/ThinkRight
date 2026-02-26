@@ -1858,6 +1858,45 @@ html[data-theme='dark'] .page-test #reviewModal .review-question strong {
 }
 
 @media (max-width: 768px) {
+    body.page-home .container,
+    body.dashboard-page .container,
+    body.page-dashboard .container,
+    body.page-syllabus .container,
+    body.page-leaderboard .container,
+    body.insider-page .container,
+    body.page-insider .container {
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box;
+    }
+
+    body.page-home .container > main,
+    body.dashboard-page .container > main,
+    body.page-dashboard .container > main,
+    body.page-syllabus .container > main,
+    body.page-leaderboard .container > main,
+    body.insider-page .container > main,
+    body.page-insider .container > main {
+        width: 100% !important;
+        max-width: none !important;
+        min-width: 0 !important;
+    }
+
+    body.page-home .landing-page > section,
+    body.page-dashboard .dashboard-main > section,
+    body.page-syllabus .landing-page > section,
+    body.page-leaderboard .leaderboard-main > section,
+    body.insider-page .insider-main > section,
+    body.page-insider .insider-main > section {
+        width: 100%;
+        max-width: none;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+
     .container {
         padding: var(--space-2);
     }
