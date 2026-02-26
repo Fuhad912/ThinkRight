@@ -38,10 +38,12 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  width: 100%;
   height: var(--tr-navbar-height);
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
+  box-sizing: border-box;
   position: relative;
 }
 
