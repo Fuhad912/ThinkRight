@@ -3954,3 +3954,35 @@ html[data-theme='dark'] .page-test #reviewModal .review-question strong {
         margin-top: var(--space-1) !important;
     }
 }
+
+/* Global mobile overflow guard for non-auth pages. */
+@media (max-width: 900px) {
+    html,
+    body {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+
+    body.page-home,
+    body.page-dashboard,
+    body.page-syllabus,
+    body.page-leaderboard,
+    body.page-insider {
+        min-width: 0 !important;
+    }
+
+    body.page-home .container,
+    body.page-dashboard .container,
+    body.page-syllabus .container,
+    body.page-leaderboard .container,
+    body.page-insider .container,
+    body.page-home .landing-page,
+    body.page-dashboard .dashboard-main,
+    body.page-syllabus .landing-page,
+    body.page-leaderboard .leaderboard-main,
+    body.page-insider .insider-main {
+        max-width: 100%;
+        overflow-x: hidden;
+    }
+}
