@@ -3914,6 +3914,32 @@ html[data-theme='dark'] .page-test #reviewModal .review-question strong {
 
 /* Home mobile spacing override (must stay near end to win cascade). */
 @media (max-width: 768px) {
+    body.page-home .container,
+    body.page-dashboard .container,
+    body.page-syllabus .container,
+    body.page-leaderboard .container,
+    body.page-insider .container {
+        display: block !important;
+        min-height: 0 !important;
+    }
+
+    .page-home .landing-page,
+    .page-dashboard .dashboard-main,
+    .page-syllabus .landing-page,
+    .page-leaderboard .leaderboard-main,
+    .page-insider .insider-main {
+        gap: var(--space-2);
+    }
+
+    .page-home .landing-page > section,
+    .page-dashboard .dashboard-main > section,
+    .page-syllabus .landing-page > section,
+    .page-leaderboard .leaderboard-main > section,
+    .page-insider .insider-main > section {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
     .page-home .landing-page {
         gap: var(--space-2);
     }
