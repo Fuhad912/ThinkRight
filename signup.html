@@ -14,9 +14,17 @@
     <title>ThinkRight - Sign Up</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/premium-ui.css?v=20260218otp2">
+    <link rel="stylesheet" href="css/preloader.css?v=20260308a">
+    <script defer src="js/preloader.js?v=20260308a"></script>
     <script defer src="https://checkout.flutterwave.com/v3.js"></script>
 </head>
-<body class="auth-page page-auth page-signup">
+<body class="auth-page page-auth page-signup tr-loading">
+    <div id="tr-preloader" class="tr-preloader" role="status" aria-live="polite" aria-label="Loading ThinkRight">
+      <div class="tr-preloader__inner">
+        <div class="tr-preloader__logo">ThinkRight</div>
+        <div class="tr-preloader__dots" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+    </div>
     <main class="auth-shell">
         <section class="auth-hero">
             <p class="eyebrow">ThinkRight Platform</p>
