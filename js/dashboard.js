@@ -21,12 +21,117 @@ const dashboardCharts = {
     subjectAverage: null
 };
 
-// Update page status indicator
+let dashboardLoaderShownAt = 0;
+let dashboardLoaderProgressValue = 0;
+let dashboardLoaderProgressRaf = null;
+
+function renderDashboardLoaderProgress(value) {
+    const percentEl = document.getElementById('dashboardLoadingPercent');
+    const barEl = document.getElementById('dashboardLoadingProgressBar');
+    const clamped = Math.max(0, Math.min(100, Number(value) || 0));
+
+    dashboardLoaderProgressValue = clamped;
+    if (percentEl) percentEl.textContent = String(Math.round(clamped));
+    if (barEl) barEl.style.width = `${clamped}%`;
+}
+
+function setDashboardLoaderProgress(progress, label) {
+    const labelEl = document.getElementById('dashboardLoadingLabel');
+    const clamped = Math.max(0, Math.min(100, Number(progress) || 0));
+    if (labelEl && label) labelEl.textContent = label;
+
+    const start = dashboardLoaderProgressValue;
+    const delta = clamped - start;
+    if (Math.abs(delta) < 0.2) {
+        renderDashboardLoaderProgress(clamped);
+        return;
+    }
+
+    if (dashboardLoaderProgressRaf) {
+        cancelAnimationFrame(dashboardLoaderProgressRaf);
+        dashboardLoaderProgressRaf = null;
+    }
+
+    const duration = Math.min(500, Math.max(160, Math.abs(delta) * 14));
+    const startTs = performance.now();
+
+    const tick = (ts) => {
+        const t = Math.min(1, (ts - startTs) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        renderDashboardLoaderProgress(start + delta * eased);
+        if (t < 1) {
+            dashboardLoaderProgressRaf = requestAnimationFrame(tick);
+        } else {
+            dashboardLoaderProgressRaf = null;
+            renderDashboardLoaderProgress(clamped);
+        }
+    };
+
+    dashboardLoaderProgressRaf = requestAnimationFrame(tick);
+}
+
+function showDashboardLoadingOverlay(show, progress = 0, label = 'Loading your dashboard...') {
+    const overlay = document.getElementById('dashboardLoadingOverlay');
+    if (!overlay) return;
+
+    if (show) {
+        if (overlay.classList.contains('is-hidden')) {
+            overlay.classList.remove('is-hidden');
+        }
+        overlay.removeAttribute('aria-hidden');
+        overlay.setAttribute('aria-busy', 'true');
+        dashboardLoaderShownAt = Date.now();
+        setDashboardLoaderProgress(progress, label);
+        document.body.classList.add('tr-loading');
+        return;
+    }
+
+    const elapsed = Date.now() - dashboardLoaderShownAt;
+    const wait = Math.max(0, 550 - elapsed);
+    window.setTimeout(() => {
+        setDashboardLoaderProgress(100, 'Dashboard ready');
+        overlay.classList.add('is-hidden');
+        overlay.setAttribute('aria-hidden', 'true');
+        overlay.setAttribute('aria-busy', 'false');
+        if (dashboardLoaderProgressRaf) {
+            cancelAnimationFrame(dashboardLoaderProgressRaf);
+            dashboardLoaderProgressRaf = null;
+        }
+        renderDashboardLoaderProgress(0);
+        document.body.classList.remove('tr-loading');
+    }, wait);
+}
+
+// Preserve existing status calls but map them to overlay loader semantics.
 function updatePageStatus(status, color = 'green') {
-    const indicator = document.getElementById('pageStatus');
-    if (indicator) {
-        indicator.textContent = status;
-        indicator.style.background = color;
+    const text = (status || '').toLowerCase();
+    if (text.includes('initializing')) {
+        showDashboardLoadingOverlay(true, 8, status);
+        return;
+    }
+    if (text.includes('refreshing')) {
+        showDashboardLoadingOverlay(true, 58, status);
+        return;
+    }
+    if (text.includes('redirecting')) {
+        showDashboardLoadingOverlay(true, 92, status);
+        return;
+    }
+    if (text.includes('loaded') || text.includes('active')) {
+        showDashboardLoadingOverlay(false);
+        return;
+    }
+    if (text.includes('premium required')) {
+        showDashboardLoadingOverlay(false);
+        return;
+    }
+    // Fallback: keep loader visible with generic progress if called mid-flow.
+    if (color === 'orange') {
+        showDashboardLoadingOverlay(true, 65, status);
+    } else if (color === 'blue') {
+        showDashboardLoadingOverlay(true, 18, status);
+    } else {
+        showDashboardLoadingOverlay(true, 45, status);
     }
 }
 
@@ -117,6 +222,7 @@ function showDashboardLockedMessage() {
 async function initDashboard() {
     console.log('🎯 Starting dashboard initialization...');
     updatePageStatus('Initializing...', 'blue');
+    setDashboardLoaderProgress(12, 'Preparing dashboard modules...');
 
     try {
         // Wait for subscription module to be available (loaded via script tag)
@@ -125,6 +231,7 @@ async function initDashboard() {
             await new Promise(resolve => setTimeout(resolve, 100));
             subRetries++;
         }
+        setDashboardLoaderProgress(26, 'Checking subscription access...');
 
         // ===== PREMIUM ACCESS CHECK =====
         // Initialize subscription system
@@ -141,6 +248,7 @@ async function initDashboard() {
         const strictHasAccess = await hasPremiumDashboardAccess();
         if (!strictHasAccess) {
             console.log('ðŸš« User does not have premium access (strict check) - showing locked page');
+            showDashboardLoadingOverlay(false);
             showDashboardLockedMessage();
             return;
         }
@@ -149,6 +257,7 @@ async function initDashboard() {
         try {
             if (window.Subscription && typeof window.Subscription.canAccessDashboard === 'function' && !window.Subscription.canAccessDashboard()) {
                 console.log('🚫 User does not have premium access - showing locked page');
+                showDashboardLoadingOverlay(false);
                 showDashboardLockedMessage();
                 return;
             }
@@ -157,6 +266,7 @@ async function initDashboard() {
         } catch (err) {
             console.error('Error checking subscription access:', err);
             // If subscription check fails, show locked UI as a safe default
+            showDashboardLoadingOverlay(false);
             showDashboardLockedMessage();
             return;
         }
@@ -168,6 +278,7 @@ async function initDashboard() {
             await new Promise(resolve => setTimeout(resolve, 100));
             retries++;
         }
+        setDashboardLoaderProgress(42, 'Verifying your account...');
 
         console.log('✅ Supabase initialization complete, window.authInitialized:', window.authInitialized);
         
@@ -183,6 +294,7 @@ async function initDashboard() {
 
     } catch (error) {
         console.error('❌ Dashboard initialization error:', error);
+        showDashboardLoadingOverlay(false);
         displayErrorMessage('Failed to initialize dashboard: ' + error.message);
     }
 }
@@ -223,11 +335,13 @@ async function checkAuthAndLoadDashboard() {
             console.log('❌ No authenticated session found - redirecting to login');
             updatePageStatus('Redirecting to login...', 'orange');
             window.dashboardActive = false;
+            showDashboardLoadingOverlay(false);
             window.location.href = 'login.html';
             return;
         }
 
         console.log('✓ User ID:', user.id);
+        setDashboardLoaderProgress(52, 'Loading your analytics...');
         
         // Access check already done at the top of initDashboard
         console.log('🔍 Dashboard access verified - loading analytics...');
@@ -248,6 +362,7 @@ async function checkAuthAndLoadDashboard() {
     } catch (error) {
         console.error('❌ Error in checkAuthAndLoadDashboard:', error);
         console.error('Stack trace:', error.stack);
+        showDashboardLoadingOverlay(false);
         displayErrorMessage(`Authentication error: ${error.message}`);
     } finally {
         isAuthCheckRunning = false;
@@ -294,6 +409,7 @@ async function handleLogout() {
 async function loadDashboardData(userId) {
     try {
         console.log('🔄 Loading dashboard for userId:', userId);
+        setDashboardLoaderProgress(64, 'Syncing recent test results...');
 
         // Cross-browser/device history: best-effort sync between localStorage and Supabase.
         // Keeps existing UI/analytics intact (dashboard continues reading StorageManager.getResults()).
@@ -303,6 +419,7 @@ async function loadDashboardData(userId) {
         } catch (e) {
             console.warn('[dashboard] Results sync warning:', e);
         }
+        setDashboardLoaderProgress(72, 'Computing dashboard metrics...');
         const allResults = StorageManager.getResults();
         console.log('📦 All stored results:', allResults);
         console.log('📊 Number of results:', allResults.length);
@@ -328,6 +445,7 @@ async function loadDashboardData(userId) {
 
         await renderDashboardProjection(userId);
         await renderDashboardWeeklyComparison(userId);
+        setDashboardLoaderProgress(86, 'Rendering dashboard visuals...');
 
         console.log('\n🎨 Rendering dashboard sections...\n');
         
@@ -347,6 +465,7 @@ async function loadDashboardData(userId) {
 
     } catch (error) {
         console.error('Error loading dashboard data:', error);
+        showDashboardLoadingOverlay(false);
         displayErrorMessage('Failed to load dashboard. Please refresh the page.');
     }
 }
@@ -1037,13 +1156,6 @@ if (document.readyState === 'loading') {
     initDashboard();
 }
 
-// Heartbeat to confirm dashboard stays active
-setInterval(() => {
-    if (isDashboardLoaded) {
-        console.log('💚 Dashboard still active and responsive');
-        updatePageStatus('Dashboard Active ✓', 'green');
-    }
-}, 2000);
 
 console.log('✅ Dashboard script loaded successfully');
 
