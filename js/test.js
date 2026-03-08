@@ -132,57 +132,93 @@ const elements = {
 // UTILITY FUNCTIONS - LOADING INDICATOR
 // ============================================================================
 
-/**
- * Show/hide loader while questions load
- */
-function showLoadingIndicator(show) {
-    let indicator = document.getElementById('loadingIndicator');
-    
-    if (!indicator && show) {
-        // Create loading indicator if it doesn't exist
-        indicator = document.createElement('div');
-        indicator.id = 'loadingIndicator';
-        indicator.style.cssText = `
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 28px;
-            border-radius: 14px;
-            border: 1px solid rgba(15, 23, 42, 0.10);
-            box-shadow: 0 0 0 9999px rgba(15, 23, 42, 0.35), 0 18px 60px rgba(0,0,0,0.18);
-            z-index: 12000;
-            text-align: center;
-            font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
-            max-width: 360px;
-            width: min(360px, 92vw);
-        `;
-        indicator.innerHTML = `
-            <div style="font-size: 3rem; margin-bottom: 20px;">📚</div>
-            <div style="font-size: 18px; font-weight: 600; margin-bottom: 10px;">Loading Questions...</div>
-            <div style="font-size: 14px; color: #999;">Preparing your test</div>
-            <div style="margin-top: 20px;">
-                <div style="width: 50px; height: 4px; background: #f0f0f0; border-radius: 2px; margin: 0 auto; overflow: hidden;">
-                    <div style="width: 100%; height: 100%; background: linear-gradient(90deg, #667eea, #764ba2); animation: loading 1.5s infinite;"></div>
-                </div>
-            </div>
-            <style>
-                @keyframes loading {
-                    0% { transform: translateX(-100%); }
-                    50% { transform: translateX(0%); }
-                    100% { transform: translateX(100%); }
-                }
-            </style>
-        `;
-        document.body.appendChild(indicator);
-    }
-    
-    if (indicator) {
-        indicator.style.display = show ? 'block' : 'none';
+// Question loader with progress percentage.
+let testLoaderShownAt = 0;
+let testLoaderProgressValue = 0;
+let testLoaderProgressRaf = null;
+
+function renderLoadingProgress(value) {
+    const percentEl = document.getElementById('testLoadingPercent');
+    const barEl = document.getElementById('testLoadingProgressBar');
+    const clamped = Math.max(0, Math.min(100, Number(value) || 0));
+
+    testLoaderProgressValue = clamped;
+    if (percentEl) percentEl.textContent = String(Math.round(clamped));
+    if (barEl) barEl.style.width = `${clamped}%`;
+}
+
+function setLoadingProgress(progress, label) {
+    const labelEl = document.getElementById('testLoadingLabel');
+    const clamped = Math.max(0, Math.min(100, Number(progress) || 0));
+    if (labelEl && label) labelEl.textContent = label;
+
+    const start = testLoaderProgressValue;
+    const delta = clamped - start;
+    if (Math.abs(delta) < 0.2) {
+        renderLoadingProgress(clamped);
+        return;
     }
 
-    document.body.classList.toggle('tr-loading', !!show);
+    if (testLoaderProgressRaf) {
+        cancelAnimationFrame(testLoaderProgressRaf);
+        testLoaderProgressRaf = null;
+    }
+
+    const duration = Math.min(500, Math.max(160, Math.abs(delta) * 14));
+    const startTs = performance.now();
+
+    const tick = (ts) => {
+        const t = Math.min(1, (ts - startTs) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        renderLoadingProgress(start + delta * eased);
+        if (t < 1) {
+            testLoaderProgressRaf = requestAnimationFrame(tick);
+        } else {
+            testLoaderProgressRaf = null;
+            renderLoadingProgress(clamped);
+        }
+    };
+
+    testLoaderProgressRaf = requestAnimationFrame(tick);
+}
+
+function showLoadingIndicator(show, progress = 0, label = 'Preparing your test...') {
+    const indicator = document.getElementById('testLoadingOverlay');
+    if (!indicator) return;
+
+    if (show) {
+        if (indicator.classList.contains('is-hidden')) {
+            indicator.classList.remove('is-hidden');
+        }
+        indicator.removeAttribute('aria-hidden');
+        indicator.setAttribute('aria-busy', 'true');
+        testLoaderShownAt = Date.now();
+        if (testLoaderProgressRaf) {
+            cancelAnimationFrame(testLoaderProgressRaf);
+            testLoaderProgressRaf = null;
+        }
+        renderLoadingProgress(0);
+        setLoadingProgress(progress, label);
+        document.body.classList.add('tr-loading');
+        return;
+    }
+
+    const elapsed = Date.now() - testLoaderShownAt;
+    const minVisible = 600;
+    const wait = Math.max(0, minVisible - elapsed);
+
+    window.setTimeout(() => {
+        setLoadingProgress(100, 'Questions ready');
+        indicator.classList.add('is-hidden');
+        indicator.setAttribute('aria-hidden', 'true');
+        indicator.setAttribute('aria-busy', 'false');
+        if (testLoaderProgressRaf) {
+            cancelAnimationFrame(testLoaderProgressRaf);
+            testLoaderProgressRaf = null;
+        }
+        renderLoadingProgress(0);
+        document.body.classList.remove('tr-loading');
+    }, wait);
 }
 
 /**
@@ -231,7 +267,8 @@ function showTestLockedMessage() {
 async function initTest() {
     try {
         console.log('Initializing test...');
-        let didShowLoader = false;
+        let didShowLoader = true;
+        showLoadingIndicator(true, 4, 'Initializing secure test session...');
         
         // Wait for Supabase to be initialized
         let retries = 0;
@@ -241,10 +278,12 @@ async function initTest() {
         }
 
         if (!window.authInitialized) {
+            showLoadingIndicator(false);
             console.error('❌ Supabase not initialized');
             window.location.href = 'login.html?error=init';
             return;
         }
+        setLoadingProgress(14, 'Checking your account...');
         
         // Check authentication first
         const user = await getCurrentUser().catch(err => {
@@ -255,12 +294,14 @@ async function initTest() {
         if (!user) {
             // Production guard: tests require authentication for correct scoping + freemium logic.
             console.log('User not authenticated, redirecting to login...');
+            showLoadingIndicator(false);
             window.location.href = 'login.html?next=' + encodeURIComponent('test.html');
             return;
         }
 
         console.log('User authenticated:', user.email);
         testState.userId = user.id;
+        setLoadingProgress(24, 'Loading your test access...');
 
         // Initialize subscription state (access is enforced only when starting a NEW test).
         try {
@@ -271,6 +312,7 @@ async function initTest() {
             console.error('Subscription init error:', err);
             // Do not block test loading due to subscription init errors; access enforced below.
         }
+        setLoadingProgress(32, 'Resolving selected subject...');
 
         // Get subject from localStorage (set by app.js)
         const storedSubject = StorageManager.getSelectedSubject();
@@ -280,18 +322,21 @@ async function initTest() {
         
         if (!subject) {
             console.error('No subject selected. Redirecting to home...');
+            showLoadingIndicator(false);
             window.location.href = 'index.html';
             return;
         }
 
         testState.subject = subject;
         StorageManager.setSelectedSubject(subject);
+        setLoadingProgress(40, 'Preparing question set...');
 
         // Check if user was already taking a test (timer persistence)
         const savedState = StorageManager.getTestState();
         
         if (savedState && savedState.subject === subject) {
             console.log('Resuming previous test...');
+            setLoadingProgress(70, 'Restoring your previous test...');
             // Resume the test
             testState.questions = savedState.questions;
             testState.currentQuestionIndex = Number.isInteger(savedState.currentQuestionIndex)
@@ -317,6 +362,7 @@ async function initTest() {
 
             if (!startResult || !startResult.allowed) {
                 console.log('User cannot access test:', (startResult && startResult.reason) ? startResult.reason : 'unknown');
+                showLoadingIndicator(false);
                 if (window.Subscription && typeof window.Subscription.showPaywallModal === 'function') {
                     window.Subscription.showPaywallModal('tests');
                 }
@@ -326,13 +372,12 @@ async function initTest() {
             console.log('Test access granted:', { premium: startResult.premium, free_tests_used: startResult.free_tests_used });
 
             console.log('Starting new test...');
-            // Show loading indicator
-            showLoadingIndicator(true);
-            didShowLoader = true;
+            setLoadingProgress(52, 'Fetching questions...');
             let fetchOk = false;
             try {
                 console.log('Fetching questions for subject:', subject);
                 testState.questions = await getQuestionsForTest(subject, CONFIG.QUESTIONS_PER_TEST);
+                setLoadingProgress(82, 'Finalizing questions...');
                 console.log(`Fetched ${testState.questions.length} questions for ${subject}`);
                 if (!Array.isArray(testState.questions) || testState.questions.length === 0) {
                     throw new Error('No questions returned from getQuestionsForTest');
@@ -370,6 +415,7 @@ async function initTest() {
             return;
         }
 
+        setLoadingProgress(92, 'Rendering test interface...');
         // Update UI with subject name
         updateSubjectDisplay();
         
@@ -400,6 +446,7 @@ async function initTest() {
         console.log(`Test started with ${testState.questions.length} questions`);
     } catch (error) {
         console.error('Error initializing test:', error);
+        showLoadingIndicator(false);
         alert('Error loading test. Please try again.');
         window.location.href = 'index.html';
     }
