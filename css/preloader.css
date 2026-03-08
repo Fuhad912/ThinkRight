@@ -1,0 +1,110 @@
+.tr-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: radial-gradient(circle at 20% 10%, rgba(29, 78, 216, 0.16), transparent 55%), #f8fafc;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 320ms ease, visibility 320ms ease;
+}
+
+body.dark .tr-preloader,
+body.tr-dark .tr-preloader {
+  background: radial-gradient(circle at 20% 10%, rgba(59, 130, 246, 0.18), transparent 55%), #020617;
+}
+
+.tr-preloader.is-hiding {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.tr-preloader.is-hidden {
+  display: none;
+}
+
+.tr-preloader__inner {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.tr-preloader__logo {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: clamp(1.75rem, 1.4rem + 1.1vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #1d4ed8;
+  text-shadow: 0 8px 24px rgba(29, 78, 216, 0.14);
+  animation: tr-loader-pulse 1.2s ease-in-out infinite;
+}
+
+body.dark .tr-preloader__logo,
+body.tr-dark .tr-preloader__logo {
+  color: #93c5fd;
+  text-shadow: 0 8px 28px rgba(59, 130, 246, 0.28);
+}
+
+.tr-preloader__dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tr-preloader__dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(29, 78, 216, 0.72);
+  animation: tr-loader-dot 0.9s ease-in-out infinite;
+}
+
+body.dark .tr-preloader__dots span,
+body.tr-dark .tr-preloader__dots span {
+  background: rgba(147, 197, 253, 0.78);
+}
+
+.tr-preloader__dots span:nth-child(2) {
+  animation-delay: 0.12s;
+}
+
+.tr-preloader__dots span:nth-child(3) {
+  animation-delay: 0.24s;
+}
+
+@keyframes tr-loader-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+}
+
+@keyframes tr-loader-dot {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.35;
+  }
+  50% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tr-preloader,
+  .tr-preloader__logo,
+  .tr-preloader__dots span {
+    animation: none !important;
+    transition-duration: 180ms;
+  }
+}
