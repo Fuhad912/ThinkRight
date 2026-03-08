@@ -14,8 +14,16 @@
     <title>ThinkRight - Login</title>
     <link rel="stylesheet" href="css/style.css?v=20260213a">
     <link rel="stylesheet" href="css/premium-ui.css?v=20260218otp2">
+    <link rel="stylesheet" href="css/preloader.css?v=20260308a">
+    <script defer src="js/preloader.js?v=20260308a"></script>
 </head>
-<body class="auth-page page-auth page-login">
+<body class="auth-page page-auth page-login tr-loading">
+    <div id="tr-preloader" class="tr-preloader" role="status" aria-live="polite" aria-label="Loading ThinkRight">
+      <div class="tr-preloader__inner">
+        <div class="tr-preloader__logo">ThinkRight</div>
+        <div class="tr-preloader__dots" aria-hidden="true"><span></span><span></span><span></span></div>
+      </div>
+    </div>
     <main class="auth-shell">
         <section class="install-app-card" id="installAppCard" aria-live="polite">
             <button
