@@ -608,31 +608,27 @@ body.tr-menu-open .tr-navbar {
   }
 
   .tr-navbar__mobile-menu {
-    display: flex;
+    display: none;
     justify-content: flex-end;
     position: fixed;
     top: var(--tr-navbar-height);
     left: 0;
     right: 0;
     bottom: 0;
+    overflow: hidden;
     z-index: 2147483001;
     border-top: 0;
     background: rgba(2, 6, 23, 0.64);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
   }
 
   .tr-navbar__mobile-menu.open {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
+    display: flex;
   }
 
   .tr-navbar__mobile-nav {
+    max-width: min(80vw, 360px);
     width: min(80vw, 360px);
     height: 100%;
     margin: 0 0 0 auto;
@@ -647,15 +643,15 @@ body.tr-menu-open .tr-navbar {
     border-bottom-left-radius: 14px;
     overflow-y: auto;
     overscroll-behavior: contain;
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-    will-change: transform;
+    transform: none;
+    transition: none;
+    will-change: auto;
     position: relative;
     z-index: 2147483002;
   }
 
   .tr-navbar__mobile-menu.open .tr-navbar__mobile-nav {
-    transform: translateX(0);
+    transform: none;
   }
 
   .tr-navbar__mobile-link,
