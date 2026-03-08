@@ -1,4 +1,4 @@
-﻿(function () {
+(function () {
   const DEV_MODE = (
     window.location.hostname === "localhost"
     || window.location.hostname === "127.0.0.1"
@@ -39,6 +39,7 @@
     },
     accessLoading: true,
     entitlementDebugLogged: false,
+    initialLoadDone: false,
   };
 
   const elements = {
@@ -63,7 +64,86 @@
     subjectBody: document.getElementById("subjectBody"),
     subjectEmpty: document.getElementById("subjectEmpty"),
     mySubjectRank: document.getElementById("mySubjectRank"),
+    loadingOverlay: document.getElementById("leaderboardLoadingOverlay"),
+    loadingLabel: document.getElementById("leaderboardLoadingLabel"),
+    loadingProgressBar: document.getElementById("leaderboardLoadingProgressBar"),
+    loadingPercent: document.getElementById("leaderboardLoadingPercent"),
   };
+
+  let loaderShownAt = 0;
+  let loaderProgressValue = 0;
+  let loaderProgressRaf = null;
+
+  function renderLoaderProgress(value) {
+    const clamped = Math.max(0, Math.min(100, Number(value) || 0));
+    loaderProgressValue = clamped;
+    if (elements.loadingPercent) elements.loadingPercent.textContent = String(Math.round(clamped));
+    if (elements.loadingProgressBar) elements.loadingProgressBar.style.width = `${clamped}%`;
+  }
+
+  function setLoaderProgress(progress, label) {
+    const clamped = Math.max(0, Math.min(100, Number(progress) || 0));
+    if (elements.loadingLabel && label) elements.loadingLabel.textContent = label;
+
+    const start = loaderProgressValue;
+    const delta = clamped - start;
+    if (Math.abs(delta) < 0.2) {
+      renderLoaderProgress(clamped);
+      return;
+    }
+
+    if (loaderProgressRaf) {
+      cancelAnimationFrame(loaderProgressRaf);
+      loaderProgressRaf = null;
+    }
+
+    const duration = Math.min(500, Math.max(160, Math.abs(delta) * 14));
+    const startTs = performance.now();
+
+    const tick = (ts) => {
+      const t = Math.min(1, (ts - startTs) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      renderLoaderProgress(start + delta * eased);
+      if (t < 1) {
+        loaderProgressRaf = requestAnimationFrame(tick);
+      } else {
+        loaderProgressRaf = null;
+        renderLoaderProgress(clamped);
+      }
+    };
+
+    loaderProgressRaf = requestAnimationFrame(tick);
+  }
+
+  function showLeaderboardLoader(show, progress = 0, label = "Loading leaderboard...") {
+    const overlay = elements.loadingOverlay;
+    if (!overlay) return;
+
+    if (show) {
+      if (overlay.classList.contains("is-hidden")) overlay.classList.remove("is-hidden");
+      overlay.removeAttribute("aria-hidden");
+      overlay.setAttribute("aria-busy", "true");
+      loaderShownAt = Date.now();
+      setLoaderProgress(progress, label);
+      document.body.classList.add("tr-loading");
+      return;
+    }
+
+    const elapsed = Date.now() - loaderShownAt;
+    const wait = Math.max(0, 550 - elapsed);
+    window.setTimeout(() => {
+      setLoaderProgress(100, "Leaderboard ready");
+      overlay.classList.add("is-hidden");
+      overlay.setAttribute("aria-hidden", "true");
+      overlay.setAttribute("aria-busy", "false");
+      if (loaderProgressRaf) {
+        cancelAnimationFrame(loaderProgressRaf);
+        loaderProgressRaf = null;
+      }
+      renderLoaderProgress(0);
+      document.body.classList.remove("tr-loading");
+    }, wait);
+  }
 
   function normalizePlan(plan) {
     return String(plan || "")
@@ -624,6 +704,7 @@
 
     try {
       topRows = await fetchTopProjected();
+      if (!state.initialLoadDone) setLoaderProgress(72, "Projected rankings loaded...");
       console.log("[leaderboard] top projected rows:", topRows.length);
       if (topRows.length === 0) {
         if (elements.projectedStatus) elements.projectedStatus.textContent = "";
@@ -674,6 +755,7 @@
 
     try {
       topRows = await fetchTopSubject(normalized);
+      if (!state.initialLoadDone) setLoaderProgress(84, "Subject rankings loaded...");
       console.log("[leaderboard] top subject rows:", normalized, topRows.length);
 
       if (topRows.length === 0) {
@@ -773,26 +855,44 @@
   }
 
   async function initLeaderboard() {
-    await waitForAuthBootstrap();
+    showLeaderboardLoader(true, 10, "Checking authentication...");
+    try {
+      await waitForAuthBootstrap();
+      setLoaderProgress(24, "Reading your profile...");
 
-    const user = typeof getCurrentUser === "function" ? await getCurrentUser() : null;
-    if (!user) {
-      window.location.href = `login.html?next=${encodeURIComponent("leaderboard.html")}`;
-      return;
+      const user = typeof getCurrentUser === "function" ? await getCurrentUser() : null;
+      if (!user) {
+        setLoaderProgress(92, "Redirecting to login...");
+        window.location.href = `login.html?next=${encodeURIComponent("leaderboard.html")}`;
+        return;
+      }
+
+      state.user = user;
+      state.accessLoading = true;
+      setLoaderProgress(38, "Resolving active week...");
+      state.weekId = await fetchCurrentWeekId();
+      setWeekLabel(state.weekId);
+
+      if (elements.projectedMyRankUpgradeBtn && elements.projectedMyRankUpgradeBtn.dataset.bound !== "true") {
+        elements.projectedMyRankUpgradeBtn.dataset.bound = "true";
+        elements.projectedMyRankUpgradeBtn.addEventListener("click", openPricingModal);
+      }
+
+      buildSubjectTabs();
+      setLoaderProgress(54, "Loading weekly rankings...");
+      await Promise.allSettled([loadProjectedSection(), loadSubjectSection(state.activeSubject)]);
+      state.initialLoadDone = true;
+      showLeaderboardLoader(false);
+    } catch (error) {
+      console.error("[leaderboard] init error:", error);
+      if (elements.projectedStatus) {
+        elements.projectedStatus.textContent = "Unable to load leaderboard right now.";
+      }
+      if (elements.subjectStatus) {
+        elements.subjectStatus.textContent = "Unable to load subject leaderboard right now.";
+      }
+      showLeaderboardLoader(false);
     }
-
-    state.user = user;
-    state.accessLoading = true;
-    state.weekId = await fetchCurrentWeekId();
-    setWeekLabel(state.weekId);
-
-    if (elements.projectedMyRankUpgradeBtn && elements.projectedMyRankUpgradeBtn.dataset.bound !== "true") {
-      elements.projectedMyRankUpgradeBtn.dataset.bound = "true";
-      elements.projectedMyRankUpgradeBtn.addEventListener("click", openPricingModal);
-    }
-
-    buildSubjectTabs();
-    await Promise.all([loadProjectedSection(), loadSubjectSection(state.activeSubject)]);
   }
 
   if (document.readyState === "loading") {
