@@ -621,20 +621,75 @@ html[data-theme='dark'] .tr-streak-pill__cta {
     color: var(--text-primary);
 }
 
-.page-status-indicator {
-    position: fixed;
-    right: var(--space-2);
-    bottom: var(--space-2);
-    top: auto;
-    background: rgba(16, 24, 40, 0.72);
-    color: #f8fafc;
-    border: 1px solid rgba(148, 163, 184, 0.2);
+.page-dashboard .container {
+    position: relative;
+}
+
+.dashboard-loading-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 20020;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(2, 6, 23, 0.56);
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 240ms ease, visibility 240ms ease;
+}
+
+.dashboard-loading-overlay.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.dashboard-loading-card {
+    width: min(420px, 100%);
+    border: 1px solid var(--line-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--surface-bg);
+    box-shadow: var(--shadow-md);
+    padding: 20px 18px;
+}
+
+.dashboard-loading-title {
+    margin: 0 0 8px;
+    color: var(--text-primary);
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.dashboard-loading-subtitle {
+    margin: 0 0 14px;
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+}
+
+.dashboard-loading-progress-track {
+    width: 100%;
+    height: 8px;
     border-radius: 999px;
-    padding: 6px 10px;
-    font-size: 11px;
-    font-weight: 600;
-    z-index: 10000;
-    backdrop-filter: blur(6px);
+    background: var(--surface-subtle);
+    overflow: hidden;
+    border: 1px solid var(--line-subtle);
+}
+
+.dashboard-loading-progress-bar {
+    height: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, #1d4ed8 0%, #3b82f6 55%, #60a5fa 100%);
+    transition: width 220ms ease;
+}
+
+.dashboard-loading-percent {
+    margin: 10px 0 0;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-align: right;
 }
 
 .overview-cards {
@@ -2132,11 +2187,6 @@ html[data-theme='dark'] .page-test #reviewModal .review-question strong {
         min-width: 0;
     }
 
-    .page-status-indicator {
-        bottom: 6px;
-        right: 6px;
-        font-size: 10px;
-    }
 }
 
 @media (max-width: 480px) {
