@@ -14,7 +14,7 @@
     <title>ThinkRight - Weekly Leaderboard</title>
     <link rel="stylesheet" href="css/style.css?v=20260226a">
     <link rel="stylesheet" href="css/navbar.css?v=20260308b">
-    <link rel="stylesheet" href="css/premium-ui.css?v=20260226b">
+    <link rel="stylesheet" href="css/premium-ui.css?v=20260308e">
     <link rel="stylesheet" href="css/preloader.css?v=20260308a">
     <link rel="stylesheet" href="css/leaderboard.css?v=20260215b">
     <script defer src="js/preloader.js?v=20260308a"></script>
@@ -102,6 +102,16 @@
     </nav>
 
     <div class="container">
+        <div id="leaderboardLoadingOverlay" class="leaderboard-loading-overlay" role="status" aria-live="polite" aria-busy="true">
+            <div class="leaderboard-loading-card">
+                <p class="leaderboard-loading-title">Preparing leaderboard</p>
+                <p class="leaderboard-loading-subtitle" id="leaderboardLoadingLabel">Initializing...</p>
+                <div class="leaderboard-loading-progress-track" aria-hidden="true">
+                    <div id="leaderboardLoadingProgressBar" class="leaderboard-loading-progress-bar" style="width: 0%;"></div>
+                </div>
+                <p class="leaderboard-loading-percent"><span id="leaderboardLoadingPercent">0</span>%</p>
+            </div>
+        </div>
         <main class="leaderboard-main">
             <section class="leaderboard-hero">
                 <p class="eyebrow">Weekly Competition</p>
@@ -207,7 +217,7 @@
     <script defer src="js/subscription-sync.js"></script>
     <script defer src="js/weekly-comparison.js?v=20260215b"></script>
     <script defer src="js/navbar-load.js?v=20260212d"></script>
-    <script defer src="js/leaderboard.js?v=20260216a"></script>
+    <script defer src="js/leaderboard.js?v=20260308b"></script>
     <script defer src="js/pwa-register.js"></script>
 </body>
 </html>
