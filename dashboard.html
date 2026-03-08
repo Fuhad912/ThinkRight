@@ -14,7 +14,7 @@
     <title>ThinkRight - Dashboard</title>
     <link rel="stylesheet" href="css/style.css?v=20260226a">
     <link rel="stylesheet" href="css/navbar.css?v=20260308b">
-    <link rel="stylesheet" href="css/premium-ui.css?v=20260226b">
+    <link rel="stylesheet" href="css/premium-ui.css?v=20260308d">
     <link rel="stylesheet" href="css/preloader.css?v=20260308a">
     <script defer src="js/preloader.js?v=20260308a"></script>
     <script defer src="https://checkout.flutterwave.com/v3.js"></script>
@@ -98,9 +98,17 @@
       </div>
     </nav>
 
-    <div id="pageStatus" class="page-status-indicator">Dashboard Active</div>
-
     <div class="container">
+        <div id="dashboardLoadingOverlay" class="dashboard-loading-overlay" role="status" aria-live="polite" aria-busy="true">
+            <div class="dashboard-loading-card">
+                <p class="dashboard-loading-title">Preparing your dashboard</p>
+                <p class="dashboard-loading-subtitle" id="dashboardLoadingLabel">Initializing...</p>
+                <div class="dashboard-loading-progress-track" aria-hidden="true">
+                    <div id="dashboardLoadingProgressBar" class="dashboard-loading-progress-bar" style="width: 0%;"></div>
+                </div>
+                <p class="dashboard-loading-percent"><span id="dashboardLoadingPercent">0</span>%</p>
+            </div>
+        </div>
         <div id="trialBanner" class="status-banner trial-banner" style="display:none; width:100%;"></div>
 
         <div class="error-message" id="errorMessage" style="display: none;"></div>
@@ -201,7 +209,7 @@
     <script defer src="js/weekly-comparison.js?v=20260215a"></script>
     <script defer src="js/components/dashboard-analytics.js"></script>
     <script defer src="js/components/dashboard-cards.js"></script>
-    <script defer src="js/dashboard.js?v=20260218a"></script>
+    <script defer src="js/dashboard.js?v=20260308b"></script>
     <script defer src="js/onboarding.js?v=20260218b"></script>
     <script defer src="js/navbar-load.js?v=20260215a"></script>
     <script defer src="js/pwa-register.js"></script>
