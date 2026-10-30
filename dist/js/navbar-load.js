@@ -164,12 +164,26 @@
     nav.insertAdjacentHTML('beforeend', '<button class="tr-student-bottom-nav__link tr-student-bottom-nav__more" id="tr-student-more-button" type="button" aria-haspopup="dialog" aria-controls="tr-student-more-sheet" aria-expanded="false"><i class="fa-solid fa-ellipsis" aria-hidden="true"></i><span>More</span></button>');
     document.body.appendChild(nav);
 
+    const isDarkInit = document.body.classList.contains('tr-dark') || document.documentElement.getAttribute('data-theme') === 'dark';
     const sheet = document.createElement('div');
     sheet.id = 'tr-student-more-sheet';
     sheet.className = 'tr-student-more-sheet';
     sheet.hidden = true;
-    sheet.innerHTML = '<div class="tr-student-more-sheet__scrim" data-more-close></div><section class="tr-student-more-sheet__panel" role="dialog" aria-modal="true" aria-labelledby="tr-student-more-title"><div class="tr-student-more-sheet__handle" aria-hidden="true"></div><div class="tr-student-more-sheet__heading"><div><span>YOUR THINKRIGHT SPACE</span><h2 id="tr-student-more-title">More to explore</h2></div><button type="button" class="tr-student-more-sheet__close" data-more-close aria-label="Close menu"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div><nav aria-label="More student pages"><a href="syllabus.html"><i class="fa-solid fa-book-bookmark" aria-hidden="true"></i><span>Syllabus</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a><a href="leaderboard.html"><i class="fa-solid fa-trophy" aria-hidden="true"></i><span>Leaderboard</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a><a href="profile.html"><i class="fa-solid fa-user" aria-hidden="true"></i><span>Profile</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></nav></section>';
+    sheet.innerHTML = `<div class="tr-student-more-sheet__scrim" data-more-close></div><section class="tr-student-more-sheet__panel" role="dialog" aria-modal="true" aria-labelledby="tr-student-more-title"><div class="tr-student-more-sheet__handle" aria-hidden="true"></div><div class="tr-student-more-sheet__heading"><div><h2 id="tr-student-more-title">More to explore</h2></div><button type="button" class="tr-student-more-sheet__close" data-more-close aria-label="Close menu"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div><nav aria-label="More student pages"><a href="syllabus.html"><i class="fa-solid fa-book-bookmark" aria-hidden="true"></i><span>Syllabus</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a><a href="leaderboard.html"><i class="fa-solid fa-trophy" aria-hidden="true"></i><span>Leaderboard</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a><a href="profile.html"><i class="fa-solid fa-user" aria-hidden="true"></i><span>Profile</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a><button type="button" class="tr-student-more-sheet__theme" id="tr-student-more-theme-btn" aria-label="Toggle dark mode"><span class="tr-student-more-sheet__theme-icon" aria-hidden="true"><i class="fa-solid fa-sun tr-navbar__icon-sun"></i><i class="fa-solid fa-moon tr-navbar__icon-moon"></i></span><span class="tr-navbar__theme-label">${isDarkInit ? 'Light Mode' : 'Dark Mode'}</span><span class="tr-student-more-sheet__theme-pill" aria-hidden="true">Switch</span></button></nav></section>`;
     document.body.appendChild(sheet);
+    sheet.querySelector('#tr-student-more-theme-btn')?.addEventListener('click', () => {
+      const dark = !(document.body.classList.contains('tr-dark') || document.documentElement.getAttribute('data-theme') === 'dark');
+      document.body.classList.toggle('tr-dark', dark);
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      try {
+        const mode = dark ? 'dark' : 'light';
+        localStorage.setItem('theme', mode);
+        localStorage.setItem('thinkright_theme', mode);
+      } catch (_e) {}
+      document.querySelectorAll('.tr-navbar__theme-label').forEach((label) => {
+        label.textContent = dark ? 'Light Mode' : 'Dark Mode';
+      });
+    });
     nav.querySelector('#tr-student-more-button').addEventListener('click', () => {
       sheet.hidden = false;
       document.body.classList.add('tr-student-more-open');
