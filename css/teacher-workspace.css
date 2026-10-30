@@ -651,3 +651,26 @@ body.dark .tr-navbar__user-avatar .tw-avatar-dot,body.tr-dark .tr-navbar__user-a
   .tw-portfolio-row-stat strong{overflow-wrap:anywhere}
 }
 
+
+/* Theme toggle icons show the mode you will switch TO: moon in light mode, sun in dark mode. */
+.tr-navbar__theme-btn .tr-navbar__icon-sun,
+.tr-navbar__mobile-theme-btn .tr-navbar__icon-sun,
+.tw-drawer-theme-btn .tr-navbar__icon-sun,
+.tr-student-more-sheet__theme .tr-navbar__icon-sun { opacity: 0 !important; transform: translate(-50%, -50%) rotate(110deg) scale(0.15) !important; }
+.tr-navbar__theme-btn .tr-navbar__icon-moon,
+.tr-navbar__mobile-theme-btn .tr-navbar__icon-moon,
+.tw-drawer-theme-btn .tr-navbar__icon-moon,
+.tr-student-more-sheet__theme .tr-navbar__icon-moon { opacity: 1 !important; transform: translate(-50%, -50%) rotate(0deg) scale(1) !important; color: #475569 !important; filter: none !important; }
+body.tr-dark .tr-navbar__theme-btn .tr-navbar__icon-sun, html[data-theme='dark'] .tr-navbar__theme-btn .tr-navbar__icon-sun,
+body.tr-dark .tr-navbar__mobile-theme-btn .tr-navbar__icon-sun, html[data-theme='dark'] .tr-navbar__mobile-theme-btn .tr-navbar__icon-sun,
+body.tr-dark .tw-drawer-theme-btn .tr-navbar__icon-sun, html[data-theme='dark'] .tw-drawer-theme-btn .tr-navbar__icon-sun,
+body.tr-dark .tr-student-more-sheet__theme .tr-navbar__icon-sun, html[data-theme='dark'] .tr-student-more-sheet__theme .tr-navbar__icon-sun { opacity: 1 !important; transform: translate(-50%, -50%) rotate(0deg) scale(1) !important; color: #f59e0b !important; filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.5)) !important; }
+body.tr-dark .tr-navbar__theme-btn .tr-navbar__icon-moon, html[data-theme='dark'] .tr-navbar__theme-btn .tr-navbar__icon-moon,
+body.tr-dark .tr-navbar__mobile-theme-btn .tr-navbar__icon-moon, html[data-theme='dark'] .tr-navbar__mobile-theme-btn .tr-navbar__icon-moon,
+body.tr-dark .tw-drawer-theme-btn .tr-navbar__icon-moon, html[data-theme='dark'] .tw-drawer-theme-btn .tr-navbar__icon-moon,
+body.tr-dark .tr-student-more-sheet__theme .tr-navbar__icon-moon, html[data-theme='dark'] .tr-student-more-sheet__theme .tr-navbar__icon-moon { opacity: 0 !important; transform: translate(-50%, -50%) rotate(-110deg) scale(0.15) !important; }
+.tw-drawer-theme-top{display:none;position:absolute;top:20px;right:68px;overflow:hidden}
+.tw-drawer-theme-top .tr-navbar__icon-sun,.tw-drawer-theme-top .tr-navbar__icon-moon{font-size:17px!important}
+.tw-foot-tools{grid-template-columns:1fr}
+@media(max-width:1023px){.tw-drawer-theme-top{display:inline-grid}}
+@media(max-width:639px){.tw-drawer-theme-top{top:18px;right:67px}}

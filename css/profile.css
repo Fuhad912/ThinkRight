@@ -1097,3 +1097,7 @@
   .profile-toast{left:16px;right:16px;bottom:calc(78px + env(safe-area-inset-bottom));padding:12px;font-size:12px}
 }
 @media(prefers-reduced-motion:reduce){.profile-page *, .social-modal-overlay{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
+.social-btn--logout{background:var(--surface-bg);color:var(--danger,#b91c1c);border:1px solid color-mix(in srgb,var(--danger,#b91c1c) 30%,var(--line-subtle))}
+.social-btn--logout:hover{background:color-mix(in srgb,var(--danger,#b91c1c) 8%,var(--surface-bg))}
+@media(max-width:640px){.social-actions{flex-wrap:wrap}.social-actions .social-btn--edit,.social-actions .social-btn--logout{flex:1 1 0}}

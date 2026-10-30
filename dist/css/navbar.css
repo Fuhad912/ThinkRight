@@ -1320,3 +1320,27 @@ body.tr-dark .tr-student-more-sheet nav a i:first-child, html[data-theme='dark']
 body.tr-dark .tr-student-more-sheet__theme-icon, html[data-theme='dark'] .tr-student-more-sheet__theme-icon,
 body.tr-dark .tr-student-more-sheet__theme-pill, html[data-theme='dark'] .tr-student-more-sheet__theme-pill { background: #263f68; color: #abc6ff; }
 @media (min-width: 900px) { .tr-student-more-sheet { display: none !important; } }
+
+/* Theme toggle icons show the mode you will switch TO: moon in light mode, sun in dark mode. */
+.tr-navbar__theme-btn .tr-navbar__icon-sun,
+.tr-navbar__mobile-theme-btn .tr-navbar__icon-sun,
+.tw-drawer-theme-btn .tr-navbar__icon-sun,
+.tr-student-more-sheet__theme .tr-navbar__icon-sun { opacity: 0 !important; transform: translate(-50%, -50%) rotate(110deg) scale(0.15) !important; }
+.tr-navbar__theme-btn .tr-navbar__icon-moon,
+.tr-navbar__mobile-theme-btn .tr-navbar__icon-moon,
+.tw-drawer-theme-btn .tr-navbar__icon-moon,
+.tr-student-more-sheet__theme .tr-navbar__icon-moon { opacity: 1 !important; transform: translate(-50%, -50%) rotate(0deg) scale(1) !important; color: #475569 !important; filter: none !important; }
+body.tr-dark .tr-navbar__theme-btn .tr-navbar__icon-sun, html[data-theme='dark'] .tr-navbar__theme-btn .tr-navbar__icon-sun,
+body.tr-dark .tr-navbar__mobile-theme-btn .tr-navbar__icon-sun, html[data-theme='dark'] .tr-navbar__mobile-theme-btn .tr-navbar__icon-sun,
+body.tr-dark .tw-drawer-theme-btn .tr-navbar__icon-sun, html[data-theme='dark'] .tw-drawer-theme-btn .tr-navbar__icon-sun,
+body.tr-dark .tr-student-more-sheet__theme .tr-navbar__icon-sun, html[data-theme='dark'] .tr-student-more-sheet__theme .tr-navbar__icon-sun { opacity: 1 !important; transform: translate(-50%, -50%) rotate(0deg) scale(1) !important; color: #f59e0b !important; filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.5)) !important; }
+body.tr-dark .tr-navbar__theme-btn .tr-navbar__icon-moon, html[data-theme='dark'] .tr-navbar__theme-btn .tr-navbar__icon-moon,
+body.tr-dark .tr-navbar__mobile-theme-btn .tr-navbar__icon-moon, html[data-theme='dark'] .tr-navbar__mobile-theme-btn .tr-navbar__icon-moon,
+body.tr-dark .tw-drawer-theme-btn .tr-navbar__icon-moon, html[data-theme='dark'] .tw-drawer-theme-btn .tr-navbar__icon-moon,
+body.tr-dark .tr-student-more-sheet__theme .tr-navbar__icon-moon, html[data-theme='dark'] .tr-student-more-sheet__theme .tr-navbar__icon-moon { opacity: 0 !important; transform: translate(-50%, -50%) rotate(-110deg) scale(0.15) !important; }
+/* More sheet: theme toggle sits beside the close button. */
+.tr-student-more-sheet__actions { display: flex; align-items: center; gap: 8px; flex: none; }
+.tr-student-more-sheet .tr-student-more-sheet__theme { position: relative; width: 42px; height: 42px; min-height: 0; flex: none; display: block; padding: 0; gap: 0; border: 0; border-radius: 13px; background: #eef3fb; color: #253c67; cursor: pointer; overflow: hidden; }
+.tr-student-more-sheet .tr-student-more-sheet__theme .tr-navbar__icon-sun,
+.tr-student-more-sheet .tr-student-more-sheet__theme .tr-navbar__icon-moon { position: absolute; top: 50%; left: 50%; font-size: 17px; line-height: 1; transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.25s ease; display: inline-block; }
+body.tr-dark .tr-student-more-sheet .tr-student-more-sheet__theme, html[data-theme='dark'] .tr-student-more-sheet .tr-student-more-sheet__theme { background: #263958; }

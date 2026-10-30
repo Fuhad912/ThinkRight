@@ -703,6 +703,23 @@
       });
     });
     if (shareBtn) shareBtn.addEventListener('click', handleShareProfile);
+
+    const logoutBtn = document.getElementById('profileLogoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', async () => {
+        logoutBtn.disabled = true;
+        try {
+          if (typeof window.handleLogout === 'function') {
+            await window.handleLogout();
+            return;
+          }
+          if (window.supabase?.auth) await window.supabase.auth.signOut();
+        } catch (err) {
+          console.warn('[profile] Logout failed:', err);
+        }
+        window.location.href = 'login.html';
+      });
+    }
   }
 
   if (document.readyState === 'loading') {
