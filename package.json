@@ -4,6 +4,8 @@
   "description": "> A production-ready, mobile-responsive CBT (Computer-Based Testing) practice platform for Nigerian students.",
   "main": "sw.js",
   "scripts": {
+    "test:news": "node scripts/test-news.js",
+    "test:teacher": "node scripts/test-teacher-workspace.js && node scripts/test-teacher-ui.js && node scripts/test-class-checkout.js",
     "build:web": "node scripts/build-web.js",
     "build": "npm run build:web",
     "cap:sync": "npx cap sync",
@@ -29,6 +31,8 @@
   },
   "devDependencies": {
     "@capacitor/cli": "^8.1.0",
+    "@electric-sql/pglite": "^0.5.8",
+    "linkedom": "^0.18.13",
     "typescript": "^5.9.3"
   }
 }

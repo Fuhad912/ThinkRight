@@ -1,676 +1,301 @@
-/*
- * THINKRIGHT - Onboarding + Recommendations
- *
- * Runs once after signup/first login:
- * - Collects class level, track, and optional goal
- * - Saves to public.user_profiles and sets onboarding_completed = true
- * - Shows a one-time product intro modal (dismissible) and persists has_seen_product_onboarding = true
- * - Renders "Recommended subjects for you" on Home/Dashboard
- *
- * This is UI-only + profile persistence; does not modify auth/payment/test flows.
- */
+/* Student onboarding and gentle completion reminder. */
+(() => {
+  'use strict';
 
-(function () {
-  const PROFILE_TABLE = "user_profiles";
-
-  const CLASS_LEVELS = ["SS1", "SS2", "SS3", "Other"];
-  const TRACKS = ["Science", "Art", "Commercial", "Undecided"];
-  const GOALS = [
-    "Medicine / Health",
-    "Engineering / Tech",
-    "Law",
-    "Business / Accounting",
-    "Economics / Social Sciences",
-    "Arts / Humanities",
-    "Not sure",
+  const SUBJECTS = [
+    ['mathematics', 'Mathematics'], ['physics', 'Physics'], ['chemistry', 'Chemistry'],
+    ['biology', 'Biology'], ['economics', 'Economics'], ['commerce', 'Commerce'],
+    ['government', 'Government'], ['literature', 'Literature in English'],
+    ['agriculture', 'Agricultural Science'], ['geography', 'Geography'],
+    ['history', 'History'], ['computer', 'Computer Studies'],
+    ['crs', 'Christian Religious Studies'], ['irs', 'Islamic Religious Studies']
   ];
-
-  const PRODUCT_ONBOARDING_STEPS = [
-    {
-      title: "Take a test",
-      description: "Pick any subject and complete a timed practice test in minutes.",
-    },
-    {
-      title: "Get your projected JAMB score",
-      description: "See your calibrated estimate update as your weekly performance improves.",
-    },
-    {
-      title: "Compete on the leaderboard",
-      description: "Track your rank and compare progress with other serious learners.",
-    },
-  ];
-
-  const SUBJECT_LABELS = {
-    mathematics: "Mathematics",
-    english: "Use of English",
-    physics: "Physics",
-    chemistry: "Chemistry",
-    biology: "Biology",
-    agriculture: "Agricultural Science",
-    computer: "Computer Studies",
-    crs: "Christian Religious Studies",
-    irs: "Islamic Religious Studies",
-    commerce: "Commerce",
-    economics: "Economics",
-    government: "Government",
-    literature: "Literature in English",
-    geography: "Geography",
-    history: "History",
+  const SUGGESTED = {
+    Science: ['mathematics', 'physics', 'chemistry', 'biology'],
+    Art: ['literature', 'government', 'economics', 'history'],
+    Commercial: ['mathematics', 'economics', 'commerce', 'government'],
+    Undecided: []
   };
+  const STEP_COPY = [
+    ['Your path', 'FIRST, THE BASICS', 'Where are you starting from?', 'We’ll use this to keep your experience relevant to you.'],
+    ['Your destination', 'LOOKING AHEAD', 'What are you working toward?', 'A direction helps us make your progress feel meaningful.'],
+    ['Your plan', 'MAKE IT YOURS', 'Build your subject lineup.', 'Your four subjects and a realistic rhythm make a good starting point.']
+  ];
+  const $ = (selector) => document.querySelector(selector);
+  const safeLocal = (key) => { try { return localStorage.getItem(key); } catch (_) { return null; } };
+  const saveLocal = (key, value) => { try { localStorage.setItem(key, value); } catch (_) {} };
 
-  function sleep(ms) {
-    return new Promise((r) => setTimeout(r, ms));
+  async function identity() {
+    if (!window.authInitialized && typeof window.initSupabase === 'function') window.initSupabase();
+    return window.resolveWorkspaceIdentity ? window.resolveWorkspaceIdentity() : { role: 'guest' };
   }
 
-  function getRecoHost() {
-    return document.getElementById("tr-recommendations");
+  async function profileFor(user) {
+    const { data, error } = await window.supabase.from('user_profiles').select('*').eq('id', user.id).maybeSingle();
+    if (error) throw error;
+    return data;
   }
 
-  function isHomePage() {
-    return document.body && document.body.classList.contains("page-home");
+  function showError(message) {
+    const error = $('#obError');
+    error.textContent = message;
+    error.hidden = !message;
+    if (message) error.scrollIntoView({ block: 'nearest' });
   }
 
-  function isDashboardPage() {
-    return document.body && document.body.classList.contains("page-dashboard");
-  }
-
-  function log(...args) {
-    console.log("[onboarding]", ...args);
-  }
-
-  function warn(...args) {
-    console.warn("[onboarding]", ...args);
-  }
-
-  function err(...args) {
-    console.error("[onboarding]", ...args);
-  }
-
-  async function waitForSupabaseReady() {
-    let tries = 0;
-    while ((!window.authInitialized || !window.supabase) && tries < 50) {
-      await sleep(100);
-      tries++;
-    }
-    return !!window.supabase;
-  }
-
-  async function getUser() {
-    if (typeof window.getCurrentUser !== "function") return null;
+  async function initPage() {
+    const loading = $('#obLoading');
     try {
-      return await window.getCurrentUser();
-    } catch (e) {
-      return null;
-    }
-  }
-
-  async function fetchProfile(userId) {
-    try {
-      if (!window.supabase) return { profile: null, error: new Error("supabase missing") };
-
-      const { data, error } = await window.supabase
-        .from(PROFILE_TABLE)
-        .select("id,email,username,is_premium,class_level,track,goal,onboarding_completed,has_seen_product_onboarding,updated_at,created_at")
-        .eq("id", userId)
-        .maybeSingle();
-
-      if (error && error.code !== "PGRST116") {
-        return { profile: null, error };
-      }
-      return { profile: data || null, error: null };
-    } catch (e) {
-      return { profile: null, error: e };
-    }
-  }
-
-  async function ensureProfileRow(user) {
-    const { profile, error } = await fetchProfile(user.id);
-    if (profile) return { profile, error: null };
-
-    // If the table doesn't exist or is blocked by RLS, don't crash the app.
-    if (error) {
-      warn("Profile read failed:", error);
-    }
-
-    try {
-      const username =
-        user.user_metadata?.username ||
-        user.user_metadata?.full_name ||
-        user.email ||
-        "ThinkRight User";
-
-      const { error: insertError } = await window.supabase.from(PROFILE_TABLE).insert({
-        id: user.id,
-        email: (user.email || "").toLowerCase(),
-        username: String(username).slice(0, 60),
-        is_premium: false,
-        onboarding_completed: false,
-        has_seen_product_onboarding: false,
-      });
-
-      if (insertError && insertError.code !== "23505") {
-        warn("Profile insert failed:", insertError);
-      }
-    } catch (e) {
-      warn("Profile insert exception:", e);
-    }
-
-    // Try read again
-    return await fetchProfile(user.id);
-  }
-
-  function localFallbackKey(userId) {
-    return `tr_onboarding_completed_${userId}`;
-  }
-
-  function localProductOnboardingKey(userId) {
-    return `tr_product_onboarding_seen_${userId}`;
-  }
-
-  function isOnboardingCompleted(profile, userId) {
-    if (profile && profile.onboarding_completed === true) return true;
-    try {
-      return localStorage.getItem(localFallbackKey(userId)) === "1";
-    } catch (e) {
-      return false;
-    }
-  }
-
-  function hasSeenProductOnboarding(profile, userId) {
-    if (profile && profile.has_seen_product_onboarding === true) return true;
-    try {
-      return localStorage.getItem(localProductOnboardingKey(userId)) === "1";
-    } catch (e) {
-      return false;
-    }
-  }
-
-  async function saveOnboarding(userId, payload) {
-    // Best-effort DB persistence; local fallback prevents repeated prompts if DB is missing.
-    try {
-      if (!window.supabase) throw new Error("supabase missing");
-
-      const { error } = await window.supabase
-        .from(PROFILE_TABLE)
-        .upsert(
-          {
-            id: userId,
-            class_level: payload.class_level || null,
-            track: payload.track || null,
-            goal: payload.goal || null,
-            onboarding_completed: true,
-            updated_at: new Date().toISOString(),
-          },
-          { onConflict: "id" }
-        );
-
-      if (error) throw error;
-    } catch (e) {
-      warn("Failed to persist onboarding to DB (fallback to local only):", e);
-      try {
-        localStorage.setItem(localFallbackKey(userId), "1");
-      } catch (err2) {
-        // ignore
-      }
-    }
-  }
-
-  async function saveProductOnboardingSeen(userId) {
-    try {
-      if (!window.supabase) throw new Error("supabase missing");
-
-      const { error } = await window.supabase
-        .from(PROFILE_TABLE)
-        .upsert(
-          {
-            id: userId,
-            has_seen_product_onboarding: true,
-            updated_at: new Date().toISOString(),
-          },
-          { onConflict: "id" }
-        );
-
-      if (error) throw error;
-    } catch (e) {
-      warn("Failed to persist product onboarding flag to DB (fallback to local only):", e);
-    } finally {
-      try {
-        localStorage.setItem(localProductOnboardingKey(userId), "1");
-      } catch (err2) {
-        // ignore
-      }
-    }
-  }
-
-  function normalizeTrack(track) {
-    const t = (track || "").toString().trim().toLowerCase();
-    if (t === "science") return "Science";
-    if (t === "art" || t === "arts") return "Art";
-    if (t === "commercial" || t === "commerce") return "Commercial";
-    return "Undecided";
-  }
-
-  function recommendationsFromProfile(profile) {
-    const track = normalizeTrack(profile?.track);
-    const goal = (profile?.goal || "").toString().toLowerCase();
-
-    // Base recommendations by track
-    let subjects = [];
-    if (track === "Science") {
-      subjects = ["mathematics", "english", "physics", "chemistry", "biology"];
-    } else if (track === "Art") {
-      subjects = ["english", "literature", "government", "economics"];
-    } else if (track === "Commercial") {
-      subjects = ["mathematics", "english", "economics", "commerce", "government"];
-    } else {
-      subjects = ["english", "mathematics", "economics", "government"];
-    }
-
-    // Goal refinements (soft suggestions)
-    const bumpToFront = (list) => {
-      const seen = new Set();
-      const out = [];
-      list.forEach((s) => {
-        if (!seen.has(s)) {
-          seen.add(s);
-          out.push(s);
-        }
-      });
-      subjects.forEach((s) => {
-        if (!seen.has(s)) {
-          seen.add(s);
-          out.push(s);
-        }
-      });
-      subjects = out;
-    };
-
-    if (goal.includes("medicine") || goal.includes("health")) {
-      bumpToFront(["biology", "chemistry", "physics", "mathematics", "english"]);
-    } else if (goal.includes("engineer") || goal.includes("tech")) {
-      bumpToFront(["physics", "mathematics", "chemistry", "english"]);
-    } else if (goal === "law" || goal.includes("law")) {
-      bumpToFront(["english", "government", "literature", "economics"]);
-    } else if (goal.includes("business") || goal.includes("account")) {
-      bumpToFront(["mathematics", "economics", "commerce", "english", "government"]);
-    } else if (goal.includes("economics") || goal.includes("social")) {
-      bumpToFront(["economics", "government", "mathematics", "english"]);
-    } else if (goal.includes("arts") || goal.includes("human")) {
-      bumpToFront(["literature", "english", "government", "economics"]);
-    }
-
-    // Only suggest from available subjects
-    subjects = subjects.filter((s) => !!SUBJECT_LABELS[s]).slice(0, 5);
-
-    return {
-      track,
-      subjects,
-    };
-  }
-
-  function renderRecommendations(profile) {
-    const host = getRecoHost();
-    if (!host) return;
-
-    const rec = recommendationsFromProfile(profile);
-    if (!rec.subjects || rec.subjects.length === 0) return;
-
-    const chips = rec.subjects
-      .map(
-        (key) =>
-          `<button type="button" class="tr-reco-chip" data-subject="${key}">${SUBJECT_LABELS[key]}</button>`
-      )
-      .join("");
-
-    host.innerHTML = `
-      <div class="tr-recos-card">
-        <div class="tr-recos-header">
-          <div>
-            <p class="eyebrow">Personalized</p>
-            <h2>Recommended subjects for you</h2>
-            <p class="tr-recos-subtitle">Based on your ${rec.track.toLowerCase()} track. You can still choose any subject.</p>
-          </div>
-        </div>
-        <div class="tr-recos-chips" role="list">
-          ${chips}
-        </div>
-      </div>
-    `;
-
-    host.hidden = false;
-
-    host.addEventListener("click", (e) => {
-      const btn = e.target && e.target.closest ? e.target.closest("[data-subject]") : null;
-      if (!btn) return;
-      const subject = btn.getAttribute("data-subject");
-      if (!subject) return;
-
-      try {
-        if (window.StorageManager && typeof window.StorageManager.setSelectedSubject === "function") {
-          window.StorageManager.setSelectedSubject(subject);
-        } else {
-          localStorage.setItem("selected_subject", subject);
-        }
-      } catch (err2) {
-        // ignore
-      }
-
-      // If we're on home, jump straight to test like the subject cards do.
-      if (isHomePage()) {
-        window.location.href = "test.html";
+      const current = await identity();
+      if (current.role === 'teacher' || current.role === 'admin') {
+        location.replace(current.role === 'teacher' ? 'tutor-dashboard.html' : 'admin.html');
         return;
       }
-
-      // On dashboard, navigate to home to choose a test (non-forcing suggestion).
-      if (isDashboardPage()) {
-        window.location.href = "index.html";
-      }
-    });
-  }
-
-  function createModal() {
-    const modal = document.createElement("div");
-    modal.className = "tr-onboarding-modal";
-    modal.setAttribute("role", "dialog");
-    modal.setAttribute("aria-modal", "true");
-    modal.innerHTML = `
-      <div class="tr-onboarding-dialog">
-        <div class="tr-onboarding-header">
-          <p class="eyebrow">Quick setup</p>
-          <h2 id="trOnboardingTitle">Personalize your study plan</h2>
-          <p class="tr-onboarding-subtitle">Answer 3 quick questions. This helps us suggest subjects, not restrict access.</p>
-        </div>
-
-        <div class="tr-onboarding-body">
-          <div class="tr-onboarding-progress" aria-hidden="true">
-            <span class="dot active" data-dot="1"></span>
-            <span class="dot" data-dot="2"></span>
-            <span class="dot" data-dot="3"></span>
-          </div>
-
-          <div class="tr-onboarding-step" data-step="1">
-            <h3>What class are you in?</h3>
-            <div class="tr-choice-grid" data-field="class_level">
-              ${CLASS_LEVELS.map((v) => `<button type="button" class="tr-choice" data-value="${v}">${v}</button>`).join("")}
-            </div>
-          </div>
-
-          <div class="tr-onboarding-step" data-step="2" hidden>
-            <h3>What track best describes you?</h3>
-            <div class="tr-choice-grid" data-field="track">
-              ${TRACKS.map((v) => `<button type="button" class="tr-choice" data-value="${v}">${v}</button>`).join("")}
-            </div>
-          </div>
-
-          <div class="tr-onboarding-step" data-step="3" hidden>
-            <h3>Your main goal (optional)</h3>
-            <label class="tr-field-label" for="trGoalSelect">Select a goal</label>
-            <select id="trGoalSelect" class="tr-field-select">
-              <option value="">Choose (optional)</option>
-              ${GOALS.map((v) => `<option value="${v}">${v}</option>`).join("")}
-            </select>
-            <p class="tr-helper">You can leave this blank. Recommendations are suggestions only.</p>
-          </div>
-
-          <p class="tr-onboarding-error" id="trOnboardingError" hidden></p>
-        </div>
-
-        <div class="tr-onboarding-footer">
-          <button type="button" class="tr-btn tr-btn-secondary" data-action="back" disabled>Back</button>
-          <button type="button" class="tr-btn tr-btn-secondary" data-action="skip">Skip</button>
-          <button type="button" class="tr-btn tr-btn-primary" data-action="next">Next</button>
-        </div>
-      </div>
-    `;
-    return modal;
-  }
-
-  async function runOnboarding(user, existingProfile) {
-    const modal = createModal();
-    document.body.appendChild(modal);
-
-    const errorEl = modal.querySelector("#trOnboardingError");
-    const steps = Array.from(modal.querySelectorAll(".tr-onboarding-step"));
-    const dots = Array.from(modal.querySelectorAll(".tr-onboarding-progress .dot"));
-    const backBtn = modal.querySelector('[data-action="back"]');
-    const nextBtn = modal.querySelector('[data-action="next"]');
-    const skipBtn = modal.querySelector('[data-action="skip"]');
-    const goalSelect = modal.querySelector("#trGoalSelect");
-
-    const state = {
-      step: 1,
-      class_level: existingProfile?.class_level || "",
-      track: existingProfile?.track || "",
-      goal: existingProfile?.goal || "",
-    };
-
-    function setError(msg) {
-      if (!errorEl) return;
-      if (!msg) {
-        errorEl.hidden = true;
-        errorEl.textContent = "";
+      if (!current.user) {
+        location.replace('login.html?next=onboarding.html');
         return;
       }
-      errorEl.hidden = false;
-      errorEl.textContent = msg;
-    }
+      $('.ob-exit')?.addEventListener('click', () => saveLocal(`thinkright_onboarding_deferred_${current.user.id}`, '1'));
+      const profile = await profileFor(current.user);
+      const form = $('#onboardingForm');
+      const ownedLocal = safeLocal('thinkright_profile_owner_id') === current.user.id;
+      const ownedValue = (key) => ownedLocal ? safeLocal(key) : null;
+      const state = { step: 1, class_level: profile?.class_level || ownedValue('thinkright_class_level') || '', track: profile?.track || ownedValue('thinkright_user_track') || '', subjects: new Set() };
+      const currentYear = new Date().getFullYear();
+      const yearSelect = $('#obExamYear');
+      for (let year = currentYear; year <= currentYear + 4; year += 1) yearSelect.add(new Option(String(year), String(year)));
+      yearSelect.value = String(profile?.exam_year || ownedValue('thinkright_exam_year') || '');
+      $('#obName').value = profile?.username || current.user.user_metadata?.username || ownedValue('thinkright_username') || '';
+      $('#obCourse').value = profile?.target_course || ownedValue('thinkright_target_course') || '';
+      $('#obSchool').value = profile?.target_school || ownedValue('thinkright_target_school') || '';
+      $('#obTargetScore').value = profile?.target_score || ownedValue('thinkright_target_score') || '';
+      $('#obStudyMinutes').value = String(profile?.daily_minutes || ownedValue('thinkright_daily_minutes') || 30);
+      const storedSubjects = profile?.subject_combo || (() => { try { return JSON.parse(ownedValue('thinkright_subject_combo') || '[]'); } catch (_) { return []; } })();
+      if (Array.isArray(storedSubjects)) storedSubjects.filter((subject) => subject !== 'english' && SUBJECTS.some(([id]) => id === subject)).slice(0, 3).forEach((subject) => state.subjects.add(subject));
 
-    function showStep(n) {
-      state.step = n;
-      steps.forEach((s) => {
-        const sn = parseInt(s.getAttribute("data-step") || "0", 10);
-        s.hidden = sn !== n;
+      function setChoice(field, value) {
+        state[field] = value;
+        document.querySelectorAll(`[data-field="${field}"] button`).forEach((button) => {
+          const selected = button.dataset.value === value;
+          button.classList.toggle('is-selected', selected);
+          button.setAttribute('aria-pressed', String(selected));
+        });
+        if (field === 'track') renderSubjects();
+      }
+
+      function renderSubjects() {
+        const suggestions = SUGGESTED[state.track] || [];
+        const ordered = [...SUBJECTS].sort((a, b) => {
+          const aIndex = suggestions.indexOf(a[0]);
+          const bIndex = suggestions.indexOf(b[0]);
+          return (aIndex < 0 ? 99 : aIndex) - (bIndex < 0 ? 99 : bIndex);
+        });
+        $('#obSubjects').innerHTML = ordered.map(([id, label]) => `<button type="button" data-subject="${id}" aria-pressed="${state.subjects.has(id)}" class="${state.subjects.has(id) ? 'is-selected' : ''}"><span>${label}</span>${suggestions.includes(id) ? '<small>Suggested</small>' : ''}</button>`).join('');
+        $('#obSubjectCount').textContent = `${state.subjects.size} of 3 selected`;
+      }
+
+      function showStep(step) {
+        state.step = step;
+        document.querySelectorAll('.ob-step').forEach((section) => { section.hidden = Number(section.dataset.step) !== step; });
+        $('#obStepLabel').textContent = `STEP ${step} OF 3`;
+        $('#obProgressText').textContent = STEP_COPY[step - 1][0];
+        $('#obProgressFill').style.width = `${step / 3 * 100}%`;
+        $('#obKicker').textContent = STEP_COPY[step - 1][1];
+        $('#obHeading').textContent = STEP_COPY[step - 1][2];
+        $('#obDescription').textContent = STEP_COPY[step - 1][3];
+        $('#obBack').hidden = step === 1;
+        $('#obNext').innerHTML = step === 3 ? 'Finish setup <span aria-hidden="true">→</span>' : 'Continue <span aria-hidden="true">→</span>';
+        showError('');
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }
+
+      document.querySelectorAll('.ob-choices').forEach((group) => group.addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-value]');
+        if (button) { setChoice(group.dataset.field, button.dataset.value); showError(''); }
+      }));
+      $('#obSubjects').addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-subject]');
+        if (!button) return;
+        const value = button.dataset.subject;
+        if (state.subjects.has(value)) state.subjects.delete(value);
+        else if (state.subjects.size < 3) state.subjects.add(value);
+        else { showError('Choose exactly three subjects. Tap one to remove it first.'); return; }
+        showError('');
+        renderSubjects();
       });
-      dots.forEach((d) => {
-        const dn = parseInt(d.getAttribute("data-dot") || "0", 10);
-        d.classList.toggle("active", dn <= n);
-      });
-      if (backBtn) backBtn.disabled = n === 1;
-      if (nextBtn) nextBtn.textContent = n === 3 ? "Finish" : "Next";
-      setError("");
-    }
-
-    function setSelected(field, value) {
-      if (field === "class_level") state.class_level = value;
-      if (field === "track") state.track = value;
-      modal.querySelectorAll(`.tr-choice-grid[data-field="${field}"] .tr-choice`).forEach((b) => {
-        b.classList.toggle("selected", b.getAttribute("data-value") === value);
-      });
-    }
-
-    // Preselect existing values
-    if (state.class_level) setSelected("class_level", state.class_level);
-    if (state.track) setSelected("track", state.track);
-    if (goalSelect && state.goal) goalSelect.value = state.goal;
-
-    modal.addEventListener("click", async (e) => {
-      const choice = e.target && e.target.closest ? e.target.closest(".tr-choice") : null;
-      if (choice) {
-        const fieldWrap = choice.closest(".tr-choice-grid");
-        const field = fieldWrap ? fieldWrap.getAttribute("data-field") : null;
-        const value = choice.getAttribute("data-value");
-        if (field && value) {
-          setSelected(field, value);
-        }
-        return;
-      }
-
-      const actionBtn = e.target && e.target.closest ? e.target.closest("[data-action]") : null;
-      if (!actionBtn) return;
-
-      const action = actionBtn.getAttribute("data-action");
-      if (action === "back") {
-        showStep(Math.max(1, state.step - 1));
-        return;
-      }
-
-      if (action === "skip") {
-        // Mark completed with minimal defaults to avoid re-prompting.
-        const payload = {
-          class_level: state.class_level || null,
-          track: state.track || "Undecided",
-          goal: (goalSelect && goalSelect.value) || null,
-        };
-        await saveOnboarding(user.id, payload);
-        modal.remove();
-        renderRecommendations(payload);
-        return;
-      }
-
-      if (action === "next") {
-        if (state.step === 1 && !state.class_level) {
-          setError("Select your class level to continue.");
-          return;
-        }
-        if (state.step === 2 && !state.track) {
-          setError("Select a track to continue.");
-          return;
-        }
-        if (state.step < 3) {
-          showStep(state.step + 1);
-          return;
-        }
-
-        // Finish
-        const payload = {
-          class_level: state.class_level,
-          track: state.track,
-          goal: (goalSelect && goalSelect.value) || null,
-        };
-        nextBtn.disabled = true;
-        nextBtn.textContent = "Saving...";
-        await saveOnboarding(user.id, payload);
-        modal.remove();
-        renderRecommendations(payload);
-      }
-    });
-
-    // Prevent accidental close; only explicit skip/finish.
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        // keep open
-      }
-    });
-
-    showStep(1);
-  }
-
-  function createProductOnboardingModal() {
-    const modal = document.createElement("div");
-    modal.className = "tr-product-onboarding-modal";
-    modal.setAttribute("role", "dialog");
-    modal.setAttribute("aria-modal", "true");
-    modal.setAttribute("aria-labelledby", "trProductOnboardingTitle");
-    modal.innerHTML = `
-      <div class="tr-product-onboarding-dialog">
-        <button type="button" class="tr-product-onboarding-close" data-action="dismiss" aria-label="Close onboarding">&times;</button>
-        <p class="eyebrow">Welcome to ThinkRight</p>
-        <h2 id="trProductOnboardingTitle">Start in 3 quick steps</h2>
-        <p class="tr-product-onboarding-subtitle">This quick walkthrough appears once per account.</p>
-        <ol class="tr-product-onboarding-steps">
-          ${PRODUCT_ONBOARDING_STEPS.map(
-            (step, index) => `
-              <li class="tr-product-onboarding-step">
-                <span class="tr-product-onboarding-step-number">${index + 1}</span>
-                <div class="tr-product-onboarding-step-copy">
-                  <p class="tr-product-onboarding-step-title">${step.title}</p>
-                  <p class="tr-product-onboarding-step-text">${step.description}</p>
-                </div>
-              </li>
-            `
-          ).join("")}
-        </ol>
-        <div class="tr-product-onboarding-footer">
-          <button type="button" class="tr-btn tr-btn-primary" data-action="dismiss">Got it</button>
-        </div>
-      </div>
-    `;
-    return modal;
-  }
-
-  async function runProductOnboarding(user) {
-    const modal = createProductOnboardingModal();
-    document.body.appendChild(modal);
-
-    let closed = false;
-    const dismissBtn = modal.querySelector('[data-action="dismiss"].tr-btn');
-    if (dismissBtn) {
-      dismissBtn.focus();
-    }
-
-    const close = async () => {
-      if (closed) return;
-      closed = true;
-      document.removeEventListener("keydown", onKeyDown);
-      await saveProductOnboardingSeen(user.id);
-      modal.remove();
-    };
-
-    const onKeyDown = (event) => {
-      if (event.key === "Escape") {
+      $('#obBack').addEventListener('click', () => showStep(Math.max(1, state.step - 1)));
+      form.addEventListener('submit', async (event) => {
         event.preventDefault();
-        close().catch(() => null);
-      }
-    };
-
-    document.addEventListener("keydown", onKeyDown);
-
-    modal.addEventListener("click", (event) => {
-      const actionBtn = event.target && event.target.closest ? event.target.closest('[data-action="dismiss"]') : null;
-      if (actionBtn || event.target === modal) {
-        close().catch(() => null);
-      }
-    });
-  }
-
-  async function init() {
-    try {
-      if (!(isHomePage() || isDashboardPage())) return;
-      const ready = await waitForSupabaseReady();
-      if (!ready) return;
-
-      const user = await getUser();
-      if (!user) return;
-
-      const ensured = await ensureProfileRow(user);
-      if (ensured.error) {
-        // Table might not exist; don't break the app.
-        warn("Profile ensure error:", ensured.error);
-      }
-
-      let profile = ensured.profile;
-      let renderRecoFromInit = true;
-
-      if (!isOnboardingCompleted(profile, user.id)) {
-        log("Starting onboarding modal for user:", user.id);
-        await runOnboarding(user, profile);
-        renderRecoFromInit = false;
-
-        const refreshed = await fetchProfile(user.id);
-        if (refreshed && refreshed.profile) {
-          profile = refreshed.profile;
+        if (state.step === 1) {
+          if (!$('#obName').value.trim()) { showError('Add your name to continue.'); $('#obName').focus(); return; }
+          if (!state.class_level || !state.track || !yearSelect.value) { showError('Choose your level, track and exam year to continue.'); return; }
+          showStep(2); return;
         }
-      }
+        if (state.step === 2) {
+          const score = $('#obTargetScore').value.trim();
+          if (score && (!Number.isInteger(Number(score)) || Number(score) < 1 || Number(score) > 400)) { showError('Your target score should be between 1 and 400.'); $('#obTargetScore').focus(); return; }
+          showStep(3); return;
+        }
+        if (state.subjects.size !== 3) { showError('Choose exactly three subjects to complete your UTME combination.'); return; }
+        const button = $('#obNext');
+        button.disabled = true;
+        button.textContent = 'Saving your plan…';
+        const payload = {
+          username: $('#obName').value.trim(), class_level: state.class_level, track: state.track,
+          exam_year: Number(yearSelect.value), target_course: $('#obCourse').value.trim() || null,
+          target_school: $('#obSchool').value.trim() || null,
+          target_score: $('#obTargetScore').value ? Number($('#obTargetScore').value) : null,
+          subject_combo: ['english', ...state.subjects], daily_minutes: Number($('#obStudyMinutes').value),
+          onboarding_completed: true
+        };
+        // 1. Immediately persist everything to localStorage so student data is NEVER lost
+        saveLocal('thinkright_username', payload.username);
+        saveLocal('thinkright_class_level', payload.class_level);
+        saveLocal('thinkright_user_track', payload.track);
+        saveLocal('thinkright_exam_year', String(payload.exam_year));
+        saveLocal('thinkright_target_course', payload.target_course || '');
+        saveLocal('thinkright_target_school', payload.target_school || '');
+        saveLocal('thinkright_target_score', payload.target_score ? String(payload.target_score) : '');
+        saveLocal('thinkright_subject_combo', JSON.stringify(payload.subject_combo));
+        saveLocal('thinkright_daily_minutes', String(payload.daily_minutes));
+        saveLocal('thinkright_profile_owner_id', current.user.id);
+        saveLocal(`thinkright_onboarding_deferred_${current.user.id}`, '0');
+        saveLocal(`thinkright_onboarding_completed_${current.user.id}`, '1');
 
-      // Already completed: render recommendations if we have data.
-      if (renderRecoFromInit && profile) renderRecommendations(profile);
+        // 2. Synchronize to Supabase with progressive fallbacks
+        try {
+          let activeUser = current.user;
+          if (window.supabase && window.supabase.auth) {
+            try {
+              const { data: sessionData } = await window.supabase.auth.getSession();
+              if (sessionData?.session?.user) activeUser = sessionData.session.user;
+            } catch (_) {}
+          }
 
-      if (!hasSeenProductOnboarding(profile, user.id)) {
-        log("Starting product intro modal for user:", user.id);
-        await runProductOnboarding(user);
-      }
-    } catch (e) {
-      err("init failed:", e);
+          if (window.supabase && activeUser?.id) {
+            const fullPayload = {
+              id: activeUser.id,
+              email: activeUser.email || null,
+              username: payload.username,
+              class_level: payload.class_level,
+              track: payload.track,
+              exam_year: payload.exam_year,
+              target_course: payload.target_course,
+              target_school: payload.target_school,
+              target_score: payload.target_score,
+              subject_combo: payload.subject_combo,
+              daily_minutes: payload.daily_minutes,
+              onboarding_completed: true
+            };
+
+            let saved = false;
+            // Attempt 1: Full upsert
+            try {
+              const { error: fullError } = await window.supabase
+                .from('user_profiles')
+                .upsert(fullPayload, { onConflict: 'id' });
+              if (!fullError) saved = true;
+              else console.warn('[onboarding] Full upsert failed:', fullError);
+            } catch (e1) {
+              console.warn('[onboarding] Full upsert threw:', e1);
+            }
+
+            // Attempt 2: If upsert failed, try direct update on existing row
+            if (!saved) {
+              try {
+                const { error: updateError } = await window.supabase
+                  .from('user_profiles')
+                  .update(fullPayload)
+                  .eq('id', activeUser.id);
+                if (!updateError) saved = true;
+                else console.warn('[onboarding] Full update failed:', updateError);
+              } catch (e2) {
+                console.warn('[onboarding] Full update threw:', e2);
+              }
+            }
+
+            // Attempt 3: If new columns are not yet in remote DB schema, fallback to baseline columns
+            if (!saved) {
+              try {
+                const basePayload = {
+                  id: activeUser.id,
+                  email: activeUser.email || null,
+                  username: payload.username,
+                  class_level: payload.class_level,
+                  track: payload.track,
+                  target_school: payload.target_school,
+                  target_course: payload.target_course,
+                  target_score: payload.target_score,
+                  subject_combo: payload.subject_combo
+                };
+                const { error: baseError } = await window.supabase
+                  .from('user_profiles')
+                  .upsert(basePayload, { onConflict: 'id' });
+                if (!baseError) saved = true;
+                else {
+                  await window.supabase
+                    .from('user_profiles')
+                    .update(basePayload)
+                    .eq('id', activeUser.id);
+                }
+              } catch (e3) {
+                console.warn('[onboarding] Baseline sync threw:', e3);
+              }
+            }
+          }
+        } catch (syncErr) {
+          console.warn('[onboarding] Remote sync warning (local cache preserved):', syncErr);
+        }
+
+        // 3. Setup is complete! Smoothly transition to profile
+        location.assign('profile.html?setup=complete');
+      });
+      if (state.class_level) setChoice('class_level', state.class_level);
+      if (state.track) setChoice('track', state.track);
+      renderSubjects();
+      showStep(1);
+      loading.hidden = true;
+      form.hidden = false;
+    } catch (error) {
+      console.warn('[onboarding] Could not load student setup:', error);
+      loading.innerHTML = 'We couldn’t load your study space. <a href="index.html">Go back home</a> and try again.';
     }
   }
 
-  window.ThinkRightOnboarding = {
-    init,
-    recommendationsFromProfile,
-    runProductOnboarding,
-  };
+  async function initReminder() {
+    try {
+      const current = await identity();
+      if (current.role !== 'student' || !current.user) return;
+      const profile = await profileFor(current.user);
+      const completedLocally = safeLocal(`thinkright_onboarding_completed_${current.user.id}`) === '1';
+      if (profile.onboarding_completed || completedLocally) {
+        let rawCombo = profile.subject_combo;
+        if (!Array.isArray(rawCombo) || !rawCombo.length) {
+          try { rawCombo = JSON.parse(safeLocal('thinkright_subject_combo') || '[]'); } catch (_) {}
+        }
+        const combo = (Array.isArray(rawCombo) ? rawCombo : []).filter((id) => id === 'english' || SUBJECTS.some(([subjectId]) => subjectId === id));
+        if (combo.length) {
+          const labels = Object.fromEntries([['english', 'Use of English'], ...SUBJECTS]);
+          const host = $('#tr-recommendations') || document.createElement('section');
+          host.classList.add('ob-recos');
+          host.innerHTML = `<div><span class="ob-reminder__eyebrow">MADE FOR YOUR PLAN</span><h2>Your subjects, ready when you are.</h2><p>Jump straight into practice with your UTME combination.</p></div><div class="ob-recos__links">${combo.map((id) => `<a href="test.html?subject=${id}">${labels[id]} <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>`).join('')}</div>`;
+          if (!host.isConnected) ($('#homeLoggedInHub') || document.querySelector('main') || document.body).prepend(host);
+          host.hidden = false;
+        }
+        return;
+      }
+      const reminderKey = `thinkright_onboarding_prompt_seen_${current.user.id}`;
+      if (safeLocal(reminderKey) === '1') return;
+      const host = document.createElement('aside');
+      host.className = 'ob-reminder';
+      host.setAttribute('aria-label', 'Complete your study setup');
+      host.innerHTML = '<div><span class="ob-reminder__eyebrow">A BETTER WAY TO STUDY</span><strong>Make ThinkRight feel like yours.</strong><p>Add your goal and four subjects to shape your profile and practice.</p></div><a href="onboarding.html">Set up my study space <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>';
+      const target = $('#homeLoggedInHub') || document.querySelector('main') || document.body;
+      target.prepend(host);
+      saveLocal(reminderKey, '1');
+    } catch (error) { console.warn('[onboarding] Reminder unavailable:', error); }
+  }
 
-  document.addEventListener("DOMContentLoaded", () => {
-    init().catch(() => null);
-  });
+  const run = () => { if (document.body.classList.contains('page-onboarding')) initPage(); else initReminder(); };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', run); else run();
 })();

@@ -69,21 +69,110 @@
     rootEl.hidden = true;
   }
 
-  function renderStreak(streakCount) {
+  function renderWeekCalendar(practiceDays) {
+    var weekTrack = document.getElementById("streakWeekTrack");
+    if (!weekTrack) return;
+
+    var days = Array.isArray(practiceDays) ? practiceDays : [];
+    var daySet = new Set(days.map(normalizeDayKey).filter(Boolean));
+
+    var today = new Date();
+    var currentDayOfWeek = today.getDay(); // 0 = Sun, 1 = Mon, ..., 6 = Sat
+    var sundayDate = shiftLocalDays(today, -currentDayOfWeek);
+
+    var dotEls = weekTrack.querySelectorAll(".streak-day-dot");
+    dotEls.forEach(function (dotEl) {
+      var dayIndex = parseInt(dotEl.getAttribute("data-day"), 10);
+      if (Number.isNaN(dayIndex)) return;
+
+      var targetDate = shiftLocalDays(sundayDate, dayIndex);
+      var targetKey = toLocalDayKey(targetDate);
+      var bubble = dotEl.querySelector(".streak-day-dot__bubble");
+      if (!bubble) return;
+
+      var isPracticed = daySet.has(targetKey);
+      var isToday = dayIndex === currentDayOfWeek;
+
+      dotEl.classList.toggle("is-completed", isPracticed);
+      dotEl.classList.toggle("is-today", isToday);
+
+      if (isPracticed) {
+        bubble.innerHTML = '<i class="fa-solid fa-fire"></i>';
+        dotEl.title = targetKey + ": Practiced!";
+      } else if (isToday) {
+        bubble.innerHTML = '<i class="fa-solid fa-bolt"></i>';
+        dotEl.title = "Today: Practice now to ignite!";
+      } else {
+        bubble.innerHTML = "•";
+        dotEl.title = targetKey;
+      }
+    });
+  }
+
+  function renderStreak(streakCount, practiceDays) {
     rootEl.hidden = false;
     rootEl.classList.remove("is-loading");
 
+    var milestoneBadge = document.getElementById("streakMilestoneBadge");
+
     if (streakCount > 0) {
       var dayLabel = streakCount === 1 ? "day" : "days";
-      titleEl.textContent = "Streak: " + streakCount + " " + dayLabel;
-      subtitleEl.textContent = "Keep it going";
+      titleEl.textContent = streakCount + "-Day Streak Active!";
+      subtitleEl.textContent = "You're on fire! Practice today to keep your momentum going.";
       ctaEl.hidden = true;
-      return;
+
+      if (milestoneBadge) {
+        if (streakCount >= 7) {
+          milestoneBadge.textContent = "🏆 " + streakCount + "-Day Master";
+        } else if (streakCount >= 3) {
+          milestoneBadge.textContent = "⚡ " + streakCount + "-Day Streak";
+        } else {
+          milestoneBadge.textContent = "🔥 " + streakCount + " " + dayLabel;
+        }
+      }
+    } else {
+      titleEl.textContent = "Start Day 1 Streak";
+      subtitleEl.textContent = "Complete 1 quick drill today to ignite your flame!";
+      ctaEl.hidden = false;
+      ctaEl.textContent = "Ignite Streak";
+
+      if (milestoneBadge) {
+        milestoneBadge.textContent = "🎯 Day 1 Starts Today";
+      }
     }
 
-    titleEl.textContent = "Start a streak \u{1F525}";
-    subtitleEl.textContent = "No practice yet today";
-    ctaEl.hidden = false;
+    renderWeekCalendar(practiceDays || []);
+    checkStreakCompletionCelebration(streakCount, practiceDays);
+  }
+
+  function checkStreakCompletionCelebration(streakCount, practiceDays) {
+    var params = new URLSearchParams(window.location.search);
+    var isStreakCompletedParam = params.get("streak_completed") === "1" || params.get("completed") === "1";
+    var isPending = sessionStorage.getItem("tr_pending_streak_celebration") === "true";
+
+    if (isStreakCompletedParam || isPending) {
+      sessionStorage.removeItem("tr_pending_streak_celebration");
+      if (isStreakCompletedParam) {
+        try {
+          var cleanUrl = window.location.pathname;
+          window.history.replaceState({}, document.title, cleanUrl);
+        } catch (_e) {}
+      }
+      triggerStreakConfetti(streakCount);
+    }
+  }
+
+  function triggerStreakConfetti(streakCount) {
+    if (typeof window.confetti === "function") {
+      try {
+        window.confetti({
+          particleCount: 50,
+          spread: 70,
+          origin: { y: 0.3 },
+          colors: ["#2563eb", "#f97316", "#10b981", "#fbbf24"]
+        });
+      } catch (_e) {}
+    }
   }
 
   async function fetchPracticeDays(userId) {
@@ -142,19 +231,31 @@
     }
 
     if (!user || !user.id) {
-      hidePill();
+      // Show inviting day-1 streak state for guest users instead of hiding
+      renderStreak(0, []);
       return;
     }
 
     var practiceDays = await fetchPracticeDays(user.id);
     var streakCount = getStreakCount(practiceDays);
-    renderStreak(streakCount);
+    renderStreak(streakCount, practiceDays);
+  }
+
+  // Interactive Flame Box Click - smoothly scrolls to target faculty hub
+  var interactiveBox = document.getElementById("streakInteractiveBox");
+  if (interactiveBox) {
+    interactiveBox.addEventListener("click", function () {
+      var hub = document.getElementById("practicePersonalizedHub");
+      if (hub && typeof hub.scrollIntoView === "function") {
+        hub.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
   }
 
   ctaEl.addEventListener("click", function () {
-    var subjectsSection = document.querySelector(".subjects-section");
-    if (subjectsSection && typeof subjectsSection.scrollIntoView === "function") {
-      subjectsSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    var hub = document.getElementById("practicePersonalizedHub");
+    if (hub && typeof hub.scrollIntoView === "function") {
+      hub.scrollIntoView({ behavior: "smooth", block: "start" });
       return;
     }
 

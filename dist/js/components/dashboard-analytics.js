@@ -86,6 +86,7 @@ function calculateSubjectStats(userId, subject) {
     
     if (results.length === 0) {
         return {
+            key: targetSubject || subject,
             subject: displayName,
             attempts: 0,
             correctCount: 0,
@@ -114,6 +115,7 @@ function calculateSubjectStats(userId, subject) {
     const color = getAccuracyColor(accuracy);
 
     return {
+        key: targetSubject || subject,
         subject: displayName,
         attempts: results.length,
         correctCount: totalCorrect,
@@ -132,6 +134,19 @@ function calculateSubjectStats(userId, subject) {
  * @param {string} userId - Current user's ID
  * @returns {Array} Formatted test history
  */
+function formatTimeSpent(result) {
+    const seconds = Number(result?.timeTakenSeconds ?? result?.time_taken_seconds);
+    if (Number.isFinite(seconds) && seconds > 0) {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return mins > 0 ? (secs > 0 ? `${mins}m ${secs}s` : `${mins}m`) : `${secs}s`;
+    }
+    if (typeof result?.timeSpent === 'string' && result.timeSpent.trim() && result.timeSpent !== '30m') {
+        return result.timeSpent.trim();
+    }
+    return '—';
+}
+
 function formatTestHistory(userId) {
     const results = getScopedResultsForUser(userId)
         .sort((a, b) => new Date(getResultCompletedAt(b)) - new Date(getResultCompletedAt(a)));
@@ -143,7 +158,7 @@ function formatTestHistory(userId) {
         subject: getSubjectDisplayName(normalizeSubjectKey(result.subject)),
         score: `${result.correctCount}/${result.totalQuestions || 30}`,
         accuracy: `${getResultScore(result)}%`,
-        timeSpent: '30m', // Fixed 30-minute test duration
+        timeSpent: formatTimeSpent(result),
         timestamp: getResultCompletedAt(result),
         rawAccuracy: getResultScore(result) // For sorting/color coding
     }));

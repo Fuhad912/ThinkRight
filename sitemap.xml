@@ -2,18 +2,56 @@
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://thinkright.com.ng/</loc>
-    <lastmod>2026-02-21</lastmod>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://thinkright.com.ng/practice.html</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  <url>
+    <loc>https://thinkright.com.ng/classes.html</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://thinkright.com.ng/my-classes.html</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://thinkright.com.ng/tutor-onboarding.html</loc>
+    <lastmod>2026-09-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://thinkright.com.ng/dashboard.html</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://thinkright.com.ng/syllabus.html</loc>
-    <lastmod>2026-02-21</lastmod>
-  </url>
-  <url>
-    <loc>https://thinkright.com.ng/leaderboard.html</loc>
-    <lastmod>2026-02-21</lastmod>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://thinkright.com.ng/insider.html</loc>
-    <lastmod>2026-02-21</lastmod>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://thinkright.com.ng/leaderboard.html</loc>
+    <lastmod>2026-09-16</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

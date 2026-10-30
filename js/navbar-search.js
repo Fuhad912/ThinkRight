@@ -50,6 +50,7 @@
   }
 
   function initNavbarSearch() {
+    if (document.body.classList.contains("page-practice")) return;
     var isHome = document.body.classList.contains("page-home");
     var isSyllabus = document.body.classList.contains("page-syllabus");
     if (!isHome && !isSyllabus) return;

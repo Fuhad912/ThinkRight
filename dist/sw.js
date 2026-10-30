@@ -10,7 +10,7 @@
   2) Chrome DevTools -> Application -> Service Workers: confirm /sw.js is active.
   3) Android Chrome -> Add to Home screen: app installs and opens in standalone mode.
 */
-const CACHE_VERSION = "thinkright-pwa-v2";
+const CACHE_VERSION = "thinkright-pwa-v16-onboarding-save-fix";
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const NAV_CACHE = `${CACHE_VERSION}-nav`;
 const ALLOWED_CACHES = [STATIC_CACHE, NAV_CACHE];
@@ -30,9 +30,10 @@ function shouldBypass(requestUrl) {
   const hasAuthParams = requestUrl.searchParams.has("access_token") ||
     requestUrl.searchParams.has("refresh_token") ||
     requestUrl.searchParams.has("code") ||
-    requestUrl.searchParams.has("token_hash");
+    requestUrl.searchParams.has("token_hash") || requestUrl.searchParams.has("reference") || requestUrl.searchParams.has("trxref");
 
-  return isSupabaseHost || isFlutterwaveHost || isPaymentPath || hasAuthParams;
+  const isPaystackHost = requestUrl.hostname.endsWith('paystack.co') || requestUrl.hostname.endsWith('paystack.com');
+  return isSupabaseHost || isFlutterwaveHost || isPaystackHost || isPaymentPath || hasAuthParams;
 }
 
 self.addEventListener("install", (event) => {
@@ -89,6 +90,25 @@ self.addEventListener("fetch", (event) => {
 
   if (!isStaticAsset) return;
 
+  const isCodeAsset = ["style", "script"].includes(request.destination) || /\.(?:css|js)$/i.test(url.pathname);
+  if (isCodeAsset) {
+    // Network-first for CSS and JS to ensure fresh fonts and styling, falling back to cache when offline
+    event.respondWith((async () => {
+      try {
+        const networkResponse = await fetch(request);
+        const cache = await caches.open(STATIC_CACHE);
+        cache.put(request, networkResponse.clone());
+        return networkResponse;
+      } catch (_err) {
+        const cached = await caches.match(request);
+        if (cached) return cached;
+        throw _err;
+      }
+    })());
+    return;
+  }
+
+  // Cache-first for images, fonts, icons
   event.respondWith((async () => {
     const cached = await caches.match(request);
     if (cached) return cached;

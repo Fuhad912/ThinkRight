@@ -14,6 +14,11 @@
 // Flag used by a few legacy handlers; do not override browser history APIs.
 window.dashboardActive = true;
 
+// Hold preloader until dashboard data & charts are fully rendered
+if (window.ThinkRightLoader && typeof window.ThinkRightLoader.hold === 'function') {
+    window.ThinkRightLoader.hold('page-controller', 'Preparing your dashboard...');
+}
+
 let isDashboardLoaded = false;
 let isAuthCheckRunning = false;
 const dashboardCharts = {
@@ -36,70 +41,37 @@ function renderDashboardLoaderProgress(value) {
 }
 
 function setDashboardLoaderProgress(progress, label) {
-    const labelEl = document.getElementById('dashboardLoadingLabel');
     const clamped = Math.max(0, Math.min(100, Number(progress) || 0));
+    if (window.ThinkRightLoader && typeof window.ThinkRightLoader.setProgress === 'function') {
+        window.ThinkRightLoader.setProgress(clamped, label);
+    }
+    const labelEl = document.getElementById('dashboardLoadingLabel');
     if (labelEl && label) labelEl.textContent = label;
-
-    const start = dashboardLoaderProgressValue;
-    const delta = clamped - start;
-    if (Math.abs(delta) < 0.2) {
-        renderDashboardLoaderProgress(clamped);
-        return;
-    }
-
-    if (dashboardLoaderProgressRaf) {
-        cancelAnimationFrame(dashboardLoaderProgressRaf);
-        dashboardLoaderProgressRaf = null;
-    }
-
-    const duration = Math.min(500, Math.max(160, Math.abs(delta) * 14));
-    const startTs = performance.now();
-
-    const tick = (ts) => {
-        const t = Math.min(1, (ts - startTs) / duration);
-        const eased = 1 - Math.pow(1 - t, 3);
-        renderDashboardLoaderProgress(start + delta * eased);
-        if (t < 1) {
-            dashboardLoaderProgressRaf = requestAnimationFrame(tick);
-        } else {
-            dashboardLoaderProgressRaf = null;
-            renderDashboardLoaderProgress(clamped);
-        }
-    };
-
-    dashboardLoaderProgressRaf = requestAnimationFrame(tick);
+    renderDashboardLoaderProgress(clamped);
 }
 
 function showDashboardLoadingOverlay(show, progress = 0, label = 'Loading your dashboard...') {
-    const overlay = document.getElementById('dashboardLoadingOverlay');
-    if (!overlay) return;
-
-    if (show) {
-        if (overlay.classList.contains('is-hidden')) {
-            overlay.classList.remove('is-hidden');
+    if (window.ThinkRightLoader) {
+        if (show) {
+            if (typeof window.ThinkRightLoader.hold === 'function') {
+                window.ThinkRightLoader.hold('page-controller', label);
+            }
+            if (typeof window.ThinkRightLoader.setProgress === 'function') {
+                window.ThinkRightLoader.setProgress(progress, label);
+            }
+        } else {
+            if (typeof window.ThinkRightLoader.done === 'function') {
+                window.ThinkRightLoader.done('Dashboard ready');
+            }
         }
-        overlay.removeAttribute('aria-hidden');
-        overlay.setAttribute('aria-busy', 'true');
-        dashboardLoaderShownAt = Date.now();
-        setDashboardLoaderProgress(progress, label);
-        document.body.classList.add('tr-loading');
-        return;
     }
 
-    const elapsed = Date.now() - dashboardLoaderShownAt;
-    const wait = Math.max(0, 550 - elapsed);
-    window.setTimeout(() => {
-        setDashboardLoaderProgress(100, 'Dashboard ready');
+    const overlay = document.getElementById('dashboardLoadingOverlay');
+    if (overlay) {
         overlay.classList.add('is-hidden');
         overlay.setAttribute('aria-hidden', 'true');
         overlay.setAttribute('aria-busy', 'false');
-        if (dashboardLoaderProgressRaf) {
-            cancelAnimationFrame(dashboardLoaderProgressRaf);
-            dashboardLoaderProgressRaf = null;
-        }
-        renderDashboardLoaderProgress(0);
-        document.body.classList.remove('tr-loading');
-    }, wait);
+    }
 }
 
 // Preserve existing status calls but map them to overlay loader semantics.
@@ -139,146 +111,38 @@ function updatePageStatus(status, color = 'green') {
  * Show locked dashboard UI for non-premium users
  */
 function showDashboardLockedMessage() {
-    const pageContent = document.getElementById('dashboardContent') || document.querySelector('.dashboard-main') || document.querySelector('main');
-    if (!pageContent) return;
-    
-    const existingOverlay = pageContent.querySelector('.dashboard-lock-overlay');
-    if (existingOverlay) {
-        existingOverlay.remove();
-    }
-
-    pageContent.classList.add('is-locked');
-
-    const overlay = document.createElement('div');
-    overlay.className = 'dashboard-lock-overlay';
-    overlay.innerHTML = `
-        <div class="dashboard-lock-dialog" role="dialog" aria-modal="true" aria-labelledby="dashboardLockTitle">
-            <div class="dashboard-lock-icon" aria-hidden="true">&#128274;</div>
-            <h2 id="dashboardLockTitle">Dashboard is a Premium Feature</h2>
-            <p>Upgrade to a premium plan to unlock your full performance dashboard, analytics and history.</p>
-            <div class="dashboard-lock-actions">
-                <button class="dashboard-lock-upgrade" type="button">Upgrade Now</button>
-                <button class="dashboard-lock-back" type="button">Back to Tests</button>
-            </div>
-        </div>
-    `;
-
-    const upgradeBtn = overlay.querySelector('.dashboard-lock-upgrade');
-    const backBtn = overlay.querySelector('.dashboard-lock-back');
-
-    if (upgradeBtn) {
-        upgradeBtn.addEventListener('click', () => {
-            // Prefer the full pricing modal (requested). Fallback to paywall modal if needed.
-            if (window.Subscription && typeof window.Subscription.showPricingModal === 'function') {
-                window.Subscription.showPricingModal();
-                return;
-            }
-            if (typeof window.showPricingModal === 'function') {
-                window.showPricingModal();
-                return;
-            }
-            if (window.Subscription && typeof window.Subscription.showPaywallModal === 'function') {
-                window.Subscription.showPaywallModal('dashboard');
-                return;
-            }
-            console.log('Pricing modal unavailable.');
-        });
-    }
-
-    if (backBtn) {
-        backBtn.addEventListener('click', () => {
-            window.location.href = 'index.html';
-        });
-    }
-
-    pageContent.appendChild(overlay);
-    updatePageStatus('Premium Required', 'orange');
-    return;
-
-    pageContent.innerHTML = `
-        <div class="syllabus-locked" style="margin: 3rem auto; text-align: center;">
-            <div style="font-size: 3rem; margin-bottom: 1rem;">🔒</div>
-            <h2 style="margin-top: 0; color: var(--color-accent);">Dashboard is a Premium Feature</h2>
-            <p style="font-size: 1.1rem; color: var(--color-text-secondary); margin-bottom: 2rem;">
-                Upgrade to a premium plan to unlock your full performance dashboard, analytics and history.
-            </p>
-            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <button onclick="window.Subscription.showPaywallModal('dashboard')" 
-                        style="background: var(--color-accent); color: white; border: none; padding: 0.875rem 2rem; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem;">
-                    Upgrade Now
-                </button>
-                <button onclick="window.location.href='index.html'"
-                        style="background: transparent; color: var(--color-accent); border: 2px solid var(--color-accent); padding: 0.75rem 2rem; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem;">
-                    Back to Tests
-                </button>
-            </div>
-        </div>
-    `;
-
-    updatePageStatus('Premium Required', 'orange');
+    clearDashboardLockUI();
 }
 
 // Initialize dashboard
 async function initDashboard() {
     console.log('🎯 Starting dashboard initialization...');
+    if (window.ThinkRightLoader && typeof window.ThinkRightLoader.hold === 'function') {
+        window.ThinkRightLoader.hold('page-controller', 'Preparing your dashboard...');
+    }
     updatePageStatus('Initializing...', 'blue');
-    setDashboardLoaderProgress(12, 'Preparing dashboard modules...');
+    setDashboardLoaderProgress(15, 'Preparing dashboard modules...');
 
     try {
-        // Wait for subscription module to be available (loaded via script tag)
-        let subRetries = 0;
-        while ((!window.Subscription || typeof window.Subscription.init !== 'function') && subRetries < 30) {
-            await new Promise(resolve => setTimeout(resolve, 100));
-            subRetries++;
-        }
-        setDashboardLoaderProgress(26, 'Checking subscription access...');
+        setDashboardLoaderProgress(28, 'Loading dashboard...');
+        clearDashboardLockUI();
 
-        // ===== PREMIUM ACCESS CHECK =====
-        // Initialize subscription system
-        if (window.Subscription && typeof window.Subscription.init === 'function') {
-            const subInitialized = await window.Subscription.init();
-            if (!subInitialized) {
-                console.warn('⚠️ Subscription system failed to initialize');
-            }
-        } else {
-            console.warn('⚠️ Subscription module unavailable; continuing with guarded access checks');
+        // Eagerly trigger Supabase initialization if available
+        if (!window.authInitialized && typeof window.initSupabase === 'function') {
+            try { window.initSupabase(); } catch (_) {}
         }
 
-        // Strict check (DB-backed) to prevent free users bypassing via stale state.
-        const strictHasAccess = await hasPremiumDashboardAccess();
-        if (!strictHasAccess) {
-            console.log('ðŸš« User does not have premium access (strict check) - showing locked page');
-            showDashboardLoadingOverlay(false);
-            showDashboardLockedMessage();
-            return;
-        }
-
-        // Check if user has premium access
-        try {
-            if (window.Subscription && typeof window.Subscription.canAccessDashboard === 'function' && !window.Subscription.canAccessDashboard()) {
-                console.log('🚫 User does not have premium access - showing locked page');
-                showDashboardLoadingOverlay(false);
-                showDashboardLockedMessage();
-                return;
-            }
-            console.log('✅ Premium access verified - loading dashboard');
-            clearDashboardLockUI();
-        } catch (err) {
-            console.error('Error checking subscription access:', err);
-            // If subscription check fails, show locked UI as a safe default
-            showDashboardLoadingOverlay(false);
-            showDashboardLockedMessage();
-            return;
-        }
-        // ===== END PREMIUM CHECK =====
         // Wait for Supabase initialization
         let retries = 0;
-        while (!window.authInitialized && retries < 20) {
-            console.log(`⏳ Waiting for Supabase init... (retry ${retries}/20)`);
-            await new Promise(resolve => setTimeout(resolve, 100));
+        while (!window.authInitialized && retries < 25) {
+            if (!window.authInitialized && typeof window.initSupabase === 'function') {
+                try { window.initSupabase(); } catch (_) {}
+            }
+            if (window.authInitialized) break;
+            await new Promise(resolve => setTimeout(resolve, 80));
             retries++;
         }
-        setDashboardLoaderProgress(42, 'Verifying your account...');
+        setDashboardLoaderProgress(45, 'Verifying your account...');
 
         console.log('✅ Supabase initialization complete, window.authInitialized:', window.authInitialized);
         
@@ -333,9 +197,9 @@ async function checkAuthAndLoadDashboard() {
         
         if (!user) {
             console.log('❌ No authenticated session found - redirecting to login');
-            updatePageStatus('Redirecting to login...', 'orange');
             window.dashboardActive = false;
-            showDashboardLoadingOverlay(false);
+            setDashboardLoaderProgress(95, 'Redirecting to login...');
+            // Keep the preloader visible during navigation so the user doesn't see an empty dashboard shell
             window.location.href = 'login.html';
             return;
         }
@@ -450,7 +314,7 @@ async function loadDashboardData(userId) {
         console.log('\n🎨 Rendering dashboard sections...\n');
         
         // Render all sections
-        renderDashboardSections(userId, overview, subjectsStats, testHistory);
+        await renderDashboardSections(userId, overview, subjectsStats, testHistory);
 
         // Hide loading spinner
         hideLoadingState();
@@ -459,6 +323,11 @@ async function loadDashboardData(userId) {
         isDashboardLoaded = true;
         console.log('🔒 Dashboard loaded flag set to true');
         
+        setDashboardLoaderProgress(100, 'Dashboard ready');
+
+        // Allow two animation frames so browser finishes layout and paints all DOM cards & canvas charts
+        await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+
         updatePageStatus('Dashboard Loaded ✓', 'green');
         
         console.log('\n✨ Dashboard fully loaded!\n');
@@ -475,7 +344,7 @@ async function renderDashboardProjection(userId) {
     const scoreEl = document.getElementById('dashboardProjectionScore');
     const trendEl = document.getElementById('dashboardProjectionTrend');
     const badgeEl = document.getElementById('dashboardProjectionBadge');
-    if (!lineEl || !scoreEl || !badgeEl) return;
+    if (!lineEl || !scoreEl) return;
 
     const helper =
         window.ThinkRightProjection &&
@@ -504,8 +373,10 @@ async function renderDashboardProjection(userId) {
     if (!projection) {
         scoreEl.textContent = 'Projected JAMB: -- / 400';
         applyDashboardProjectionTrend(trendEl, null);
-        badgeEl.hidden = true;
-        badgeEl.className = 'tr-readiness-badge';
+        if (badgeEl) {
+            badgeEl.hidden = true;
+            badgeEl.className = 'tr-readiness-badge';
+        }
         return;
     }
 
@@ -517,15 +388,17 @@ async function renderDashboardProjection(userId) {
             ? helper.getReadinessLevel(projection.projected)
             : null;
 
-    badgeEl.className = 'tr-readiness-badge';
-    if (readiness && readiness.label) {
-        badgeEl.hidden = false;
-        badgeEl.textContent = readiness.label;
-        if (readiness.colorClass) {
-            badgeEl.classList.add(readiness.colorClass);
+    if (badgeEl) {
+        badgeEl.className = 'tr-readiness-badge';
+        if (readiness && readiness.label) {
+            badgeEl.hidden = false;
+            badgeEl.textContent = readiness.label;
+            if (readiness.colorClass) {
+                badgeEl.classList.add(readiness.colorClass);
+            }
+        } else {
+            badgeEl.hidden = true;
         }
-    } else {
-        badgeEl.hidden = true;
     }
 }
 
@@ -558,7 +431,7 @@ async function renderDashboardWeeklyComparison(userId) {
 
     const messageEl = cardEl.querySelector('[data-tr-comparison-message]');
     cardEl.hidden = false;
-    cardEl.dataset.state = 'locked';
+    cardEl.dataset.state = 'ready';
     if (messageEl) {
         messageEl.hidden = false;
         messageEl.textContent = 'Loading weekly comparison...';
@@ -706,6 +579,8 @@ async function hydrateResultsFromSupabase(userId) {
                 correctCount: Number(row.correct_count),
                 wrongCount: Number(row.wrong_count),
                 totalQuestions: Number(row.total_questions),
+                timeTakenSeconds: row.time_taken_seconds != null ? Number(row.time_taken_seconds) : null,
+                time_taken_seconds: row.time_taken_seconds != null ? Number(row.time_taken_seconds) : null,
                 timestamp: row.completed_at || row.created_at || new Date().toISOString(),
                 autoSubmitted: !!row.auto_submitted,
                 reason: row.reason || '',
@@ -726,7 +601,7 @@ async function hydrateResultsFromSupabase(userId) {
 }
 
 // Render all dashboard sections
-function renderDashboardSections(userId, overview, subjectsStats, testHistory) {
+async function renderDashboardSections(userId, overview, subjectsStats, testHistory) {
     // Check if user has any test data
     if (!overview.hasData) {
         console.log('ℹ️ No test data available');
@@ -757,15 +632,18 @@ function renderDashboardSections(userId, overview, subjectsStats, testHistory) {
         console.log('📋 History section rendered');
     }
 
-    renderDashboardCharts(userId, subjectsStats);
+    await renderDashboardCharts(userId, subjectsStats);
 }
 
 function clearDashboardLockUI() {
     const pageContent = document.getElementById('dashboardContent') || document.querySelector('.dashboard-main') || document.querySelector('main');
-    if (!pageContent) return;
-    pageContent.classList.remove('is-locked');
-    const overlay = pageContent.querySelector('.dashboard-lock-overlay');
-    if (overlay) overlay.remove();
+    if (pageContent) {
+        pageContent.classList.remove('is-locked');
+        const overlay = pageContent.querySelector('.dashboard-lock-overlay');
+        if (overlay) overlay.remove();
+    }
+    document.querySelectorAll('.is-locked').forEach(el => el.classList.remove('is-locked'));
+    document.querySelectorAll('.dashboard-lock-overlay, .locked-overlay').forEach(el => el.remove());
 }
 
 /**
@@ -775,50 +653,7 @@ function clearDashboardLockUI() {
  * @returns {Promise<boolean>}
  */
 async function hasPremiumDashboardAccess() {
-    const normalizePlan = (plan) => (plan || '').toString().trim().toLowerCase();
-    const isPaidPlan = (plan) => {
-        const key = normalizePlan(plan);
-        return key === 'monthly' || key === 'quarterly' || key === '3-month' || key === 'admin';
-    };
-
-    try {
-        const user = typeof getCurrentUser === 'function' ? await getCurrentUser() : null;
-        const userId = user?.id;
-        if (!userId) return false;
-
-        if (window.supabase && typeof window.supabase.from === 'function') {
-            const { data, error } = await window.supabase
-                .from('subscriptions')
-                .select('plan,status,expires_at,updated_at')
-                .eq('user_id', userId)
-                .order('updated_at', { ascending: false })
-                .limit(1)
-                .maybeSingle();
-
-            if (error && error.code !== 'PGRST116') {
-                console.warn('Subscription access check failed:', error);
-            } else if (data) {
-                const status = (data.status || '').toString().toLowerCase();
-                const plan = normalizePlan(data.plan);
-                const hasNotExpired = !data.expires_at || new Date(data.expires_at) > new Date();
-                return status === 'active' && hasNotExpired && isPaidPlan(plan);
-            } else {
-                return false;
-            }
-        }
-    } catch (error) {
-        console.warn('Strict dashboard access check warning:', error);
-    }
-
-    if (window.Subscription && typeof window.Subscription.canAccessDashboard === 'function') {
-        try {
-            return !!window.Subscription.canAccessDashboard();
-        } catch (fallbackError) {
-            console.warn('Fallback dashboard access check warning:', fallbackError);
-        }
-    }
-
-    return false;
+    return true;
 }
 
 /**
@@ -828,7 +663,15 @@ async function hasPremiumDashboardAccess() {
  * @param {string} userId
  * @param {Array} subjectsStats
  */
-function renderDashboardCharts(userId, subjectsStats) {
+async function renderDashboardCharts(userId, subjectsStats) {
+    if (typeof Chart === 'undefined') {
+        let retries = 0;
+        while (typeof Chart === 'undefined' && retries < 20) {
+            await new Promise(resolve => setTimeout(resolve, 50));
+            retries++;
+        }
+    }
+
     if (typeof Chart === 'undefined') {
         console.warn('Chart.js not available. Skipping chart render.');
         return;
@@ -1058,7 +901,7 @@ function renderEmptyState() {
     toggleChartEmptyState('subjectAverageEmpty', true);
 
     isDashboardLoaded = true;
-    updatePageStatus('Dashboard Loaded ✓', 'green');
+    // NOTE: updatePageStatus is handled by the caller (loadDashboardData) once all layout and paint are complete.
 }
 
 // Show loading state

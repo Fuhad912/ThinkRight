@@ -38,6 +38,87 @@
 
     attachHandlers(ui);
     loadData(ui);
+    initAlertSubscriptionBox();
+  }
+
+  function initAlertSubscriptionBox() {
+    var form = document.getElementById("insiderAlertForm");
+    var emailInput = document.getElementById("insiderAlertEmail");
+    var submitBtn = document.getElementById("insiderAlertSubmitBtn");
+    var statusEl = document.getElementById("insiderAlertStatus");
+    if (!form || !emailInput || !submitBtn) return;
+
+    // Pre-fill from localStorage or logged-in user session
+    try {
+      var saved = JSON.parse(localStorage.getItem("thinkright_email_alerts") || "null");
+      if (saved && saved.email) {
+        emailInput.value = saved.email;
+      }
+    } catch (_e) {}
+
+    if (window.supabase && window.supabase.auth && typeof window.supabase.auth.getUser === "function") {
+      window.supabase.auth.getUser().then(function (res) {
+        var userEmail = res && res.data && res.data.user && res.data.user.email;
+        if (userEmail && !emailInput.value) {
+          emailInput.value = userEmail;
+        }
+      }).catch(function () {});
+    }
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+      var email = String(emailInput.value || "").trim();
+      var checked = Array.from(form.querySelectorAll('input[name="alert_category"]:checked')).map(function (el) {
+        return el.value;
+      });
+      if (checked.length === 0) checked = ["jamb_news", "exam_alerts"];
+
+      submitBtn.disabled = true;
+      var origHtml = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Subscribing...</span>';
+      if (statusEl) {
+        statusEl.hidden = true;
+        statusEl.className = "insider-alerts-status";
+      }
+
+      try {
+        var name = "";
+        if (window.supabase && window.supabase.auth) {
+          try {
+            var uRes = await window.supabase.auth.getUser();
+            var u = uRes && uRes.data && uRes.data.user;
+            name = (u && u.user_metadata && (u.user_metadata.username || u.user_metadata.full_name)) || "";
+          } catch (_e) {}
+        }
+
+        if (window.ThinkRightEmail && typeof window.ThinkRightEmail.subscribeAlerts === "function") {
+          var res = await window.ThinkRightEmail.subscribeAlerts({
+            email: email,
+            name: name,
+            categories: checked,
+          });
+          if (statusEl) {
+            statusEl.hidden = false;
+            if (res.ok) {
+              statusEl.className = "insider-alerts-status is-success";
+              statusEl.textContent = "Subscribed! A confirmation alert has been sent to " + email + " via Resend.";
+            } else {
+              statusEl.className = "insider-alerts-status is-success";
+              statusEl.textContent = "Alert preferences saved for " + email + "!";
+            }
+          }
+        }
+      } catch (err) {
+        if (statusEl) {
+          statusEl.hidden = false;
+          statusEl.className = "insider-alerts-status is-error";
+          statusEl.textContent = (err && err.message) || "Could not subscribe right now. Please try again.";
+        }
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = origHtml;
+      }
+    });
   }
 
   function attachHandlers(ui) {

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1d4ed8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <link rel="icon" type="image/png" href="/favicon.png?v=20260221a">
+    <link rel="shortcut icon" href="/favicon.ico?v=20260221a">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <title>Candidate Profile - ThinkRight</title>
+    <meta name="description" content="Social student profile on ThinkRight. View your UTME target score, 4-subject combination, study streaks, and practice achievements.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=20260321-sg">
+    <link rel="stylesheet" href="css/navbar.css?v=20261018-more">
+    <link rel="stylesheet" href="css/premium-ui.css?v=20260321-sg">
+  <link rel="stylesheet" href="css/profile.css?v=20261018-bottomnav">
+    <link rel="stylesheet" href="css/preloader.css?v=20261018d">
+    <script src="js/preloader.js?v=20261018d"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+</head>
+<body class="profile-page tr-loading">
+    <a class="profile-skip" href="#profileMain">Skip to profile</a>
+    <!-- Preloader -->
+    <div id="tr-preloader" class="tr-preloader" role="status" aria-live="polite" aria-label="Loading ThinkRight"><div class="tr-loader-stack"><div class="tr-loader-brand">ThinkRight<span>.</span></div><div class="tr-loader-spinner" aria-hidden="true"><span class="tr-loader-spinner__core"></span></div></div></div>
+
+    <!-- Main Navigation -->
+    <nav id="tr-navbar" class="tr-navbar" role="navigation" aria-label="ThinkRight main navigation">
+      <div class="tr-navbar__container">
+        <a href="index.html" class="tr-navbar__logo" aria-label="ThinkRight Home">
+          <span class="tr-navbar__brand">ThinkRight</span>
+        </a>
+
+        <ul class="tr-navbar__nav" role="list">
+          <li><a href="index.html" class="tr-navbar__link tr-navbar__link--home" title="Home" aria-label="Home"><i class="fa-solid fa-house"></i></a></li>
+          <li><a href="practice.html" class="tr-navbar__link">Practice</a></li>
+          <li><a href="my-classes.html" class="tr-navbar__link">My Classes</a></li>
+          <li><a href="syllabus.html" class="tr-navbar__link">Syllabus</a></li>
+          <li><a href="dashboard.html" class="tr-navbar__link">Dashboard</a></li>
+          <li><a href="leaderboard.html" class="tr-navbar__link">Leaderboard</a></li>
+          <li><a href="profile.html" class="tr-navbar__link active">Profile</a></li>
+        </ul>
+
+        <div id="tr-user-info" class="tr-navbar__user-info" style="display: none;">
+          <a href="profile.html" class="tr-navbar__user-link" title="My Profile" aria-label="My Profile" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;">
+            <div class="tr-navbar__user-avatar">
+              <img id="tr-user-avatar" src="" alt="User avatar" class="tr-navbar__avatar-img">
+            </div>
+            <span id="tr-user-name" class="tr-navbar__user-name"></span>
+          </a>
+          <button id="tr-logout-btn" class="tr-navbar__logout-btn" type="button" title="Logout" aria-label="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></button>
+        </div>
+
+        <button id="tr-auth-btn" class="tr-navbar__auth-btn" type="button">Login</button>
+
+        <a href="index.html" id="tr-home-btn-mobile" class="tr-navbar__home-btn" aria-label="Home" title="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+
+        <a href="profile.html" id="tr-profile-btn-mobile" class="tr-navbar__profile-btn-mobile active" aria-label="Profile" title="Profile">
+            <i class="fa-solid fa-user"></i>
+        </a>
+
+        <button id="tr-theme-toggle" class="tr-navbar__theme-btn" aria-label="Toggle dark mode" type="button">
+          <i class="fa-solid fa-sun tr-navbar__icon-sun"></i>
+          <i class="fa-solid fa-moon tr-navbar__icon-moon"></i>
+        </button>
+
+        <button id="tr-hamburger" class="tr-navbar__hamburger" aria-label="Toggle navigation menu" aria-controls="tr-mobile-menu" aria-expanded="false" type="button">
+          <span class="tr-navbar__hamburger-line"></span>
+          <span class="tr-navbar__hamburger-line"></span>
+          <span class="tr-navbar__hamburger-line"></span>
+        </button>
+      </div>
+
+      <div id="tr-mobile-menu" class="tr-navbar__mobile-menu" role="region" aria-label="Mobile navigation menu">
+        <ul class="tr-navbar__mobile-nav" role="list">
+          <li><a href="index.html" class="tr-navbar__mobile-link"><i class="fa-solid fa-house" style="font-size: 16px; margin-right: 10px; width: 20px; text-align: center;"></i> <span>Home</span></a></li>
+          <li><a href="practice.html" class="tr-navbar__mobile-link">Practice</a></li>
+          <li><a href="my-classes.html" class="tr-navbar__mobile-link">My Classes</a></li>
+          <li><a href="dashboard.html" class="tr-navbar__mobile-link">Dashboard</a></li>
+          <li><a href="leaderboard.html" class="tr-navbar__mobile-link">Leaderboard</a></li>
+          <li><a href="syllabus.html" class="tr-navbar__mobile-link">Syllabus</a></li>
+          <li><a href="profile.html" class="tr-navbar__mobile-link active"><i class="fa-solid fa-user-graduate" style="font-size: 16px; margin-right: 10px; width: 20px; text-align: center;"></i> <span>My Profile</span></a></li>
+          <li><a href="insider.html" class="tr-navbar__mobile-link">JAMB Insider</a></li>
+          <li id="tr-mobile-user-info" class="tr-navbar__mobile-user-info" style="display: none;">
+            <a href="profile.html" class="tr-navbar__mobile-user-link" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit;flex:1;">
+              <div class="tr-navbar__mobile-user-avatar">
+                <img id="tr-mobile-user-avatar" src="" alt="User avatar" class="tr-navbar__mobile-avatar-img">
+              </div>
+              <span id="tr-mobile-user-name" class="tr-navbar__mobile-user-name"></span>
+            </a>
+            <button id="tr-mobile-logout-btn" class="tr-navbar__mobile-logout-btn" type="button" title="Logout" aria-label="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Logout</span></button>
+          </li>
+          <li><button id="tr-mobile-auth-btn" class="tr-navbar__mobile-auth-btn" type="button">Login</button></li>
+          <li><button id="tr-theme-toggle-mobile" class="tr-navbar__mobile-theme-btn" type="button">
+              <i class="fa-solid fa-sun tr-navbar__icon-sun" style="font-size: 18px;"></i>
+              <i class="fa-solid fa-moon tr-navbar__icon-moon" style="font-size: 18px;"></i>
+              <span class="tr-navbar__theme-label">Dark Mode</span>
+            </button></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Main Profile Container -->
+    <main class="profile-container" id="profileMain">
+      <!-- Guest Notice -->
+      <div class="profile-guest-notice" id="profileGuestNotice">
+        <i class="fa-solid fa-circle-info" style="font-size:18px;color:var(--accent-primary)"></i>
+        <div>
+          <strong>Studying as a guest.</strong> This profile is saved on this device.
+          <a href="login.html">Sign in to connect your account.</a>
+        </div>
+      </div>
+
+      <!-- Profile Card -->
+      <article class="social-card">
+        <!-- Profile Header -->
+        <div class="social-header">
+          <div class="social-top-row">
+            <div class="social-identity-lead">
+              <div class="social-avatar-container">
+                <div class="social-avatar" id="socialAvatar">U</div>
+                <span class="social-avatar__badge" title="Active Candidate"></span>
+              </div>
+              <div class="social-identity">
+                <div class="social-name-row">
+                  <h1 class="social-name" id="socialDisplayName"></h1>
+                  <span class="social-verified-badge" id="socialVerifiedBadge" title="Signed-in candidate" aria-label="Signed-in candidate" hidden>
+                    <i class="fa-solid fa-circle-check"></i>
+                  </span>
+                </div>
+                <div class="social-meta-inline">
+                  <span id="socialLevel">SS3</span>
+                  <span class="social-meta-sep" aria-hidden="true">·</span>
+                  <span id="socialTrack">Science Track</span>
+                  <span class="social-meta-sep" aria-hidden="true">·</span>
+                  <span>UTME <strong id="socialExamYear">2026</strong></span>
+                  <span class="social-meta-sep" aria-hidden="true">·</span>
+                  <span id="socialJoined">Joined 2026</span>
+                </div>
+                <p class="social-bio" id="socialBio"></p>
+              </div>
+            </div>
+            <div class="social-actions">
+              <button type="button" class="social-btn social-btn--edit" id="openEditModalBtn" aria-label="Edit profile" title="Edit profile">
+                <i class="fa-solid fa-pen"></i> Edit profile
+              </button>
+              <a href="settings.html" class="social-btn social-btn--icon" title="Settings" aria-label="Settings"><i class="fa-solid fa-gear" aria-hidden="true"></i></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Key Statistics -->
+        <section class="social-stats-bar" aria-label="Candidate statistics">
+          <div class="social-stat-item">
+            <span class="social-stat-value" id="statTargetScore">—</span>
+            <span class="social-stat-label">Target UTME</span>
+          </div>
+          <div class="social-stat-item">
+            <span class="social-stat-value" id="statStreak">0 Days</span>
+            <span class="social-stat-label">Study Streak</span>
+          </div>
+          <div class="social-stat-item">
+            <span class="social-stat-value" id="statCompletedTests">0</span>
+            <span class="social-stat-label">Tests Taken</span>
+          </div>
+          <div class="social-stat-item">
+            <span class="social-stat-value" id="statAvgAccuracy">—</span>
+            <span class="social-stat-label">Avg. Accuracy</span>
+          </div>
+        </section>
+
+        <!-- Profile Sections -->
+        <div class="profile-sections">
+          <!-- Target Aspiration Spotlight -->
+          <section class="social-section">
+            <h2 class="social-section__title">
+              <span>Admission goal</span>
+            </h2>
+            <div class="social-spotlight-card">
+              <div class="social-spotlight-info">
+                <h3 class="social-spotlight-heading" id="spotlightHeading"></h3>
+                <p class="social-spotlight-sub" id="spotlightSub"></p>
+                <div class="social-goal-track" aria-hidden="true"><span id="goalProgress"></span></div>
+              </div>
+              <a class="social-spotlight-badge" href="practice.html">Start practicing <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+            </div>
+          </section>
+
+          <!-- 4-Subject Combination -->
+          <section class="social-section">
+            <h2 class="social-section__title">
+              <span>Your 4 UTME subjects</span>
+              <button type="button" class="social-section__link" id="btnEditComboDirect">Modify subjects</button>
+            </h2>
+            <div class="social-combo-grid" id="socialSubjectGrid">
+              <!-- Injected dynamically by profile.js -->
+            </div>
+          </section>
+
+          <!-- Milestones -->
+          <section class="social-section">
+            <h2 class="social-section__title">
+              <span>Milestones</span>
+            </h2>
+            <div class="social-badges-grid">
+              <div class="social-badge-card is-green" id="badgeScholar">
+                <div class="social-badge-icon"><i class="fa-solid fa-user-graduate"></i></div>
+                <div class="social-badge-info">
+                  <strong>Verified Scholar</strong>
+                  <small>Registered candidate</small>
+                </div>
+              </div>
+              <div class="social-badge-card is-gold" id="badgeStreak">
+                <div class="social-badge-icon"><i class="fa-solid fa-fire"></i></div>
+                <div class="social-badge-info">
+                  <strong>Streak Starter</strong>
+                  <small>Active daily practice</small>
+                </div>
+              </div>
+              <div class="social-badge-card" id="badgeTarget">
+                <div class="social-badge-icon"><i class="fa-solid fa-bullseye"></i></div>
+                <div class="social-badge-info">
+                  <strong>Aim High 300+</strong>
+                  <small>Ambitious UTME goal</small>
+                </div>
+              </div>
+              <div class="social-badge-card" id="badgeCombo">
+                <div class="social-badge-icon"><i class="fa-solid fa-book-bookmark"></i></div>
+                <div class="social-badge-info">
+                  <strong>Combo Locked</strong>
+                  <small>4 UTME subjects set</small>
+                </div>
+              </div>
+              <div class="social-badge-card" id="badgeCbt">
+                <div class="social-badge-icon"><i class="fa-solid fa-file-signature"></i></div>
+                <div class="social-badge-info">
+                  <strong>CBT Warrior</strong>
+                  <small>Completed practice drill</small>
+                </div>
+              </div>
+              <div class="social-badge-card is-gold" id="badgeLeaderboard">
+                <div class="social-badge-icon"><i class="fa-solid fa-award"></i></div>
+                <div class="social-badge-info">
+                  <strong>Top Contender</strong>
+                  <small>Ranked candidate</small>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </article>
+    </main>
+
+    <!-- Student profile editor -->
+    <div class="social-modal-overlay" id="editProfileModal" role="dialog" aria-modal="true" aria-labelledby="editModalTitle" aria-describedby="editModalIntro">
+      <div class="social-modal">
+        <div class="profile-editor-main">
+          <div class="social-modal__header">
+            <div><h2 class="social-modal__title" id="editModalTitle">Edit profile</h2><p class="social-modal__intro" id="editModalIntro">Update your personal details, admission goal, and UTME subjects.</p></div>
+            <button type="button" class="social-modal__close" id="closeEditModalBtn" aria-label="Close editor"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+          </div>
+          <nav class="profile-editor-nav" role="tablist" aria-label="Editor sections"><button type="button" id="editorTabAbout" role="tab" aria-selected="true" aria-controls="editorAbout" data-editor-target="editorAbout" class="is-active">About you</button><button type="button" id="editorTabGoal" role="tab" aria-selected="false" aria-controls="editorGoal" data-editor-target="editorGoal" tabindex="-1">Your goal</button><button type="button" id="editorTabSubjects" role="tab" aria-selected="false" aria-controls="editorSubjects" data-editor-target="editorSubjects" tabindex="-1">Subjects</button></nav>
+          <form id="editProfileForm" novalidate>
+            <div class="social-modal__body" id="editorScrollArea">
+              <section class="profile-editor-section" id="editorAbout" role="tabpanel" aria-labelledby="editorTabAbout">
+                <div class="social-form-group" style="margin-bottom:16px"><label for="inputUsername" class="social-form-label">Full name <span>Required</span></label><input type="text" id="inputUsername" class="social-input" required maxlength="60" autocomplete="name" placeholder="Your name"></div>
+                <input type="hidden" id="inputHandle" value="">
+                <div class="social-form-group"><div class="profile-editor-label-line"><label for="inputBio" class="social-form-label">Short note / study focus</label><span id="editorBioCount">0 / 180</span></div><textarea id="inputBio" class="social-textarea" maxlength="180" rows="3" placeholder="What are you working towards?"></textarea></div>
+              </section>
+              <section class="profile-editor-section" id="editorGoal" role="tabpanel" aria-labelledby="editorTabGoal" hidden>
+                <div class="social-form-row"><div class="social-form-group"><label for="inputTargetCourse" class="social-form-label">Course you want to study</label><input type="text" id="inputTargetCourse" class="social-input" maxlength="100" placeholder="e.g. Computer Science"></div><div class="social-form-group"><label for="inputTargetSchool" class="social-form-label">First-choice school</label><input type="text" id="inputTargetSchool" class="social-input" maxlength="100" placeholder="e.g. University of Lagos"></div></div>
+                <div class="social-form-row"><div class="social-form-group"><label for="selectTrack" class="social-form-label">Academic track</label><select id="selectTrack" class="social-select"><option value="Science">Science</option><option value="Commercial">Commercial</option><option value="Art">Art / Humanities</option><option value="Undecided">Still deciding</option><option value="General">General</option></select></div><div class="social-form-group"><label for="selectLevel" class="social-form-label">Current level</label><select id="selectLevel" class="social-select"><option value="SS3">SS3</option><option value="SS2">SS2</option><option value="SS1">SS1</option><option value="Other">Other</option><option value="Post-UTME">Post-UTME / Gap year</option></select></div></div>
+                <div class="social-form-group profile-editor-score"><label for="inputTargetScore" class="social-form-label">Target UTME score <span>Optional</span></label><div class="profile-editor-score__input"><input type="number" id="inputTargetScore" class="social-input" min="1" max="400" inputmode="numeric" placeholder="e.g. 300"><span>/ 400</span></div></div>
+              </section>
+              <section class="profile-editor-section" id="editorSubjects" role="tabpanel" aria-labelledby="editorTabSubjects" hidden>
+                <div class="profile-editor-english"><i class="fa-solid fa-lock" aria-hidden="true"></i><span>Use of English</span><small>Required</small></div>
+                <div class="social-form-row profile-editor-subjects"><div class="social-form-group"><label for="selectSubject2" class="social-form-label">Subject 2</label><select id="selectSubject2" class="social-select"></select></div><div class="social-form-group"><label for="selectSubject3" class="social-form-label">Subject 3</label><select id="selectSubject3" class="social-select"></select></div><div class="social-form-group"><label for="selectSubject4" class="social-form-label">Subject 4</label><select id="selectSubject4" class="social-select"></select></div></div>
+                <p class="profile-editor-hint"><i class="fa-solid fa-circle-info" aria-hidden="true"></i> Choose three different subjects besides Use of English.</p>
+              </section>
+            </div>
+            <p class="profile-editor-error" id="editorError" role="alert" hidden></p>
+            <div class="social-modal__footer"><button type="button" class="social-btn social-btn--edit" id="cancelEditModalBtn">Cancel</button><button type="submit" class="social-btn social-btn--primary" id="saveProfileBtn"><i class="fa-solid fa-check" aria-hidden="true"></i> Save profile</button></div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Toast Notification -->
+    <div id="profileToast" class="profile-toast" role="status" aria-live="polite">
+      <i id="profileToastIcon" class="fa-solid fa-circle-check"></i>
+      <span id="profileToastMsg">Profile updated successfully!</span>
+    </div>
+
+    <!-- Standard Student View Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>&copy; 2026 ThinkRight. All rights reserved. 100% Free JAMB CBT Preparation.</p>
+        <div class="footer-links">
+          <a href="mailto:thinkright912@gmail.com" class="contact-button">Email Support</a>
+          <a href="https://wa.me/2348160271964" target="_blank" rel="noopener noreferrer" class="contact-button">WhatsApp Support</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Core Dependencies & Scripts -->
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
+    <script defer src="js/utils.js?v=20260321-sg"></script>
+    <script defer src="js/auth.js?v=20261017-ob"></script>
+  <script defer src="js/navbar-load.js?v=20261018-more"></script>
+  <script defer src="js/profile.js?v=20261018-sync"></script>
+    <script defer src="js/pwa-register.js?v=20260321-sg"></script>
+</body>
+</html>

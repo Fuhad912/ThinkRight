@@ -9,6 +9,7 @@
     navigator.serviceWorker.register("/sw.js")
       .then(function onRegistered(registration) {
         console.log("[PWA] Service worker registered:", registration.scope);
+        registration.update();
       })
       .catch(function onRegistrationError(error) {
         console.error("[PWA] Service worker registration failed:", error);

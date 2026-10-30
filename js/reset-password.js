@@ -150,7 +150,7 @@ function setupEventListeners() {
         toggleNewPassword.addEventListener('click', function(e) {
             console.log('Toggle new password clicked');
             e.preventDefault();
-            togglePasswordVisibility(newPasswordInput);
+            togglePasswordVisibility(newPasswordInput, toggleNewPassword);
         });
     }
     
@@ -158,7 +158,7 @@ function setupEventListeners() {
         toggleConfirmPassword.addEventListener('click', function(e) {
             console.log('Toggle confirm password clicked');
             e.preventDefault();
-            togglePasswordVisibility(confirmPasswordInput);
+            togglePasswordVisibility(confirmPasswordInput, toggleConfirmPassword);
         });
     }
     
@@ -173,11 +173,20 @@ function setupEventListeners() {
 /**
  * Toggle password visibility
  */
-function togglePasswordVisibility(input) {
-    if (input.type === 'password') {
-        input.type = 'text';
-    } else {
-        input.type = 'password';
+function togglePasswordVisibility(input, button) {
+    if (!input) return;
+    const isHidden = input.type === 'password';
+    input.type = isHidden ? 'text' : 'password';
+    if (button) {
+        button.setAttribute('aria-pressed', isHidden ? 'true' : 'false');
+        button.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+        button.setAttribute('title', isHidden ? 'Hide password' : 'Show password');
+        const eyeOpen = button.querySelector('.icon-eye-open');
+        const eyeOff = button.querySelector('.icon-eye-off');
+        if (eyeOpen && eyeOff) {
+            eyeOpen.style.display = isHidden ? 'none' : 'block';
+            eyeOff.style.display = isHidden ? 'block' : 'none';
+        }
     }
 }
 

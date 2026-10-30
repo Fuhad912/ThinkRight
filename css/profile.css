@@ -1,0 +1,1099 @@
+/* ============================================================================
+   THINKRIGHT - STUDENT SOCIAL MEDIA PROFILE STYLES
+   Modern, breathable, uncluttered social profile layout (Twitter/Threads/LinkedIn inspired)
+   ============================================================================ */
+
+.profile-page {
+  width: 100%;
+  min-height: calc(100vh - var(--tr-navbar-height));
+  background: var(--surface-subtle);
+  color: var(--text-primary);
+  font-family: var(--font-body, 'Manrope', system-ui, sans-serif);
+}
+
+.profile-container {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+  box-sizing: border-box;
+}
+
+/* Guest Banner */
+.profile-guest-notice {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: color-mix(in srgb, var(--accent-primary) 8%, var(--surface-bg));
+  border: 1px solid color-mix(in srgb, var(--accent-primary) 22%, transparent);
+  border-radius: 14px;
+  padding: 12px 18px;
+  margin-bottom: 20px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+
+.profile-guest-notice a {
+  color: var(--accent-primary);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* ============================================================================
+   SOCIAL PROFILE CARD (Main Container)
+   ============================================================================ */
+.social-card {
+  background: var(--surface-bg);
+  border: 1px solid var(--line-subtle);
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  margin-bottom: 28px;
+  transition: border-color .15s ease;
+}
+
+/* Cover / Header Banner */
+.social-banner {
+  height: 190px;
+  width: 100%;
+  position: relative;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #0284c7 100%);
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+}
+
+.social-banner::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.6;
+}
+
+.social-banner__pattern {
+  position: absolute;
+  right: -20px;
+  bottom: -40px;
+  font-size: 180px;
+  color: rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+  user-select: none;
+}
+
+.social-banner__tag {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Profile Header Section */
+.social-header {
+  padding: 0 28px 24px;
+  position: relative;
+}
+
+.social-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+/* Avatar */
+.social-avatar-container {
+  position: relative;
+  margin-top: -58px;
+  flex-shrink: 0;
+}
+
+.social-avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-primary, #1d4ed8), #3b82f6);
+  color: #ffffff;
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+  font-size: 42px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  border: 4px solid var(--surface-bg);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  user-select: none;
+}
+
+.social-avatar__badge {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #10b981;
+  border: 3px solid var(--surface-bg);
+}
+
+/* Social Action Buttons */
+.social-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 6px;
+}
+
+.social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 99px;
+  font-size: 13.5px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all .15s ease;
+  font-family: inherit;
+  border: none;
+  white-space: nowrap;
+}
+
+.social-btn--edit {
+  background: var(--surface-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--line-subtle);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.social-btn--edit:hover {
+  background: var(--surface-subtle);
+  border-color: var(--text-secondary);
+}
+
+.social-btn--primary {
+  background: var(--accent-primary, #1d4ed8);
+  color: #ffffff;
+}
+
+.social-btn--primary:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25);
+}
+
+.social-btn--icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--surface-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--line-subtle);
+}
+
+.social-btn--icon:hover {
+  background: var(--surface-subtle);
+}
+
+/* Identity & Handle */
+.social-identity {
+  margin-bottom: 14px;
+}
+
+.social-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 3px;
+}
+
+.social-name {
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin: 0;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.social-verified-badge {
+  color: #3b82f6;
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.social-handle {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin: 0 0 10px;
+}
+
+/* Short Bio */
+.social-bio {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-primary);
+  margin: 0 0 14px;
+  max-width: 680px;
+}
+
+/* Meta attributes (School, Course, Track, Year) */
+.social-meta-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px 22px;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+}
+
+.social-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.social-meta-item i {
+  color: var(--accent-primary, #1d4ed8);
+  font-size: 14px;
+}
+
+.social-meta-item strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ============================================================================
+   STATS COUNTERS BAR (Followers / Following style)
+   ============================================================================ */
+.social-stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--line-subtle);
+  border-bottom: 1px solid var(--line-subtle);
+  background: color-mix(in srgb, var(--surface-subtle) 40%, var(--surface-bg));
+}
+
+.social-stat-item {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: center;
+  border-right: 1px solid var(--line-subtle);
+  transition: background .15s ease;
+}
+
+.social-stat-item:last-child {
+  border-right: none;
+}
+
+.social-stat-value {
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.social-stat-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ============================================================================
+   SOCIAL TABS BAR (Overview, Activity, Badges, Settings)
+   ============================================================================ */
+.social-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--line-subtle);
+  background: var(--surface-bg);
+  padding: 0 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.social-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.social-tab-btn {
+  background: transparent;
+  border: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  padding: 16px 20px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  white-space: nowrap;
+  transition: color .15s ease;
+}
+
+.social-tab-btn:hover {
+  color: var(--text-primary);
+}
+
+.social-tab-btn.active {
+  color: var(--accent-primary, #1d4ed8);
+  font-weight: 700;
+}
+
+.social-tab-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 16px;
+  right: 16px;
+  height: 3px;
+  background: var(--accent-primary, #1d4ed8);
+  border-radius: 99px;
+}
+
+/* ============================================================================
+   TAB CONTENT PANES
+   ============================================================================ */
+.social-tab-pane {
+  display: none;
+  padding: 24px 28px;
+}
+
+.social-tab-pane.active {
+  display: block;
+}
+
+/* Sub-card container inside tabs */
+.social-section {
+  margin-bottom: 28px;
+}
+
+.social-section:last-child {
+  margin-bottom: 0;
+}
+
+.social-section__title {
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.social-section__link {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent-primary);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.social-section__link:hover {
+  text-decoration: underline;
+}
+
+/* 4-Subject Combo Grid */
+.social-combo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.social-combo-pill {
+  background: var(--surface-subtle);
+  border: 1px solid var(--line-subtle);
+  border-radius: 16px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  transition: all .15s ease;
+}
+
+.social-combo-pill:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-1px);
+}
+
+.social-combo-pill.is-locked {
+  background: color-mix(in srgb, var(--accent-primary) 5%, var(--surface-bg));
+  border-color: color-mix(in srgb, var(--accent-primary) 20%, var(--line-subtle));
+}
+
+.social-combo-pill__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.social-combo-pill__badge {
+  padding: 2px 8px;
+  border-radius: 99px;
+  background: var(--surface-bg);
+  border: 1px solid var(--line-subtle);
+}
+
+.social-combo-pill.is-locked .social-combo-pill__badge {
+  background: var(--accent-primary);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.social-combo-pill__name {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.social-combo-pill__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 7px 12px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 700;
+  background: var(--surface-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--line-subtle);
+  text-decoration: none;
+  transition: all .15s ease;
+}
+
+.social-combo-pill__btn:hover {
+  background: var(--accent-primary);
+  color: #ffffff;
+  border-color: var(--accent-primary);
+}
+
+/* Spotlight Card (Target School & Course) */
+.social-spotlight-card {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent-primary) 8%, var(--surface-bg)) 0%, var(--surface-bg) 100%);
+  border: 1px solid color-mix(in srgb, var(--accent-primary) 18%, var(--line-subtle));
+  border-radius: 18px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.social-spotlight-info {
+  flex: 1;
+  min-width: 220px;
+}
+
+.social-spotlight-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent-primary);
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.social-spotlight-heading {
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 4px;
+}
+
+.social-spotlight-sub {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.social-spotlight-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface-bg);
+  border: 1px solid var(--line-subtle);
+  padding: 8px 16px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* Activity Feed (Social Timeline) */
+.social-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.social-feed-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: var(--surface-subtle);
+  border: 1px solid var(--line-subtle);
+  transition: background .15s ease;
+}
+
+.social-feed-item:hover {
+  background: color-mix(in srgb, var(--surface-subtle) 80%, var(--surface-bg));
+}
+
+.social-feed-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  font-size: 15px;
+}
+
+.social-feed-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.social-feed-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.social-feed-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.social-feed-time {
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.social-feed-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.social-feed-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+}
+
+.social-feed-empty i {
+  font-size: 36px;
+  color: var(--line-subtle);
+  margin-bottom: 12px;
+  display: block;
+}
+
+/* Badges Showcase */
+.social-badges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.social-badge-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  background: var(--surface-subtle);
+  border: 1px solid var(--line-subtle);
+  transition: all .15s ease;
+}
+
+.social-badge-card.is-locked {
+  opacity: 0.55;
+  filter: grayscale(1);
+}
+
+.social-badge-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  background: var(--surface-bg);
+  border: 1px solid var(--line-subtle);
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.social-badge-card.is-green .social-badge-icon {
+  color: #10b981;
+}
+
+.social-badge-card.is-gold .social-badge-icon {
+  color: #f59e0b;
+}
+
+.social-badge-info strong {
+  display: block;
+  font-size: 14px;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.social-badge-info small {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* Settings List inside Tab */
+.social-setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line-subtle);
+}
+
+.social-setting-row:last-child {
+  border-bottom: none;
+}
+
+.social-setting-info strong {
+  display: block;
+  font-size: 14.5px;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+}
+
+.social-setting-info p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+/* ============================================================================
+   EDIT PROFILE MODAL (Social Dialog Style)
+   ============================================================================ */
+.social-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .2s ease, visibility .2s ease;
+}
+
+.social-modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.social-modal {
+  background: var(--surface-bg);
+  border: 1px solid var(--line-subtle);
+  border-radius: 24px;
+  width: 100%;
+  max-width: 620px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  transform: translateY(20px) scale(0.97);
+  transition: transform .2s ease;
+}
+
+.social-modal-overlay.open .social-modal {
+  transform: translateY(0) scale(1);
+}
+
+.social-modal__header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.social-modal__title {
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.social-modal__close {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  transition: background .15s ease;
+}
+
+.social-modal__close:hover {
+  background: var(--surface-subtle);
+  color: var(--text-primary);
+}
+
+.social-modal__body {
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.social-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.social-form-label {
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--text-secondary);
+}
+
+.social-input,
+.social-select,
+.social-textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line-subtle);
+  background: var(--surface-bg);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: border-color .15s ease;
+}
+
+.social-input:focus,
+.social-select:focus,
+.social-textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 15%, transparent);
+}
+
+.social-textarea {
+  resize: vertical;
+  min-height: 72px;
+}
+
+.social-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.social-modal__footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--line-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Floating Toast */
+.profile-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--surface-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--line-subtle);
+  border-radius: 14px;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  z-index: 1100;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: all .2s ease;
+}
+
+.profile-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ============================================================================
+   RESPONSIVE DESIGN (Mobile & Tablet)
+   ============================================================================ */
+@media (max-width: 640px) {
+  .profile-container {
+    padding: 16px 12px 60px;
+  }
+
+  .social-banner {
+    height: 140px;
+  }
+
+  .social-header {
+    padding: 0 16px 20px;
+  }
+
+  .social-avatar {
+    width: 86px;
+    height: 86px;
+    font-size: 32px;
+  }
+
+  .social-avatar-container {
+    margin-top: -44px;
+  }
+
+  .social-name {
+    font-size: 1.35rem;
+  }
+
+  .social-top-row {
+    margin-bottom: 12px;
+  }
+
+  .social-actions {
+    padding-bottom: 0;
+  }
+
+  .social-btn {
+    padding: 7px 14px;
+    font-size: 12.5px;
+  }
+
+  .social-stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .social-stat-item:nth-child(2) {
+    border-right: none;
+  }
+
+  .social-stat-item:nth-child(1),
+  .social-stat-item:nth-child(2) {
+    border-bottom: 1px solid var(--line-subtle);
+  }
+
+  .social-tab-pane {
+    padding: 20px 16px;
+  }
+
+  .social-form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .social-spotlight-card {
+    padding: 16px;
+  }
+}
+
+/* Simplified Profile Layout: calm, uncongested, non-social-media workspace profile */
+.profile-page{background:var(--surface-bg)}
+.profile-page *{box-sizing:border-box}
+.profile-skip{position:fixed;top:-100px;left:16px;z-index:1800;padding:10px 14px;background:var(--surface-bg);color:var(--accent-primary);border-radius:8px}
+.profile-skip:focus{top:12px}
+.profile-page :focus-visible{outline:3px solid var(--accent-primary);outline-offset:3px}
+.profile-container{max-width:960px;padding:32px 24px 90px}
+.profile-guest-notice{align-items:flex-start;gap:12px;margin:0 0 24px;padding:14px 16px;background:var(--accent-soft);border:0;border-left:3px solid var(--accent-primary);border-radius:0 10px 10px 0;line-height:1.55}
+.profile-guest-notice strong{color:var(--text-primary)}
+.social-card{background:transparent;border:0;border-radius:0;box-shadow:none;overflow:visible;margin:0}
+.social-header{padding:24px 28px;background:var(--surface-bg);border:1px solid var(--line-subtle);border-radius:20px;margin-bottom:20px}
+.social-top-row{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:0}
+.social-identity-lead{display:flex;align-items:flex-start;gap:20px;min-width:0;flex:1}
+.social-avatar-container{margin-top:0;position:relative;flex-shrink:0}
+.social-avatar{width:76px;height:76px;border-radius:20px;font-size:30px;border:1px solid var(--line-subtle);box-shadow:none}
+.social-avatar__badge{width:16px;height:16px;bottom:-2px;right:-2px;border-width:3px}
+.social-identity{margin-bottom:0;min-width:0;flex:1}
+.social-name-row{margin-bottom:6px}
+.social-name{font-size:clamp(1.5rem,3vw,2rem);line-height:1.15;letter-spacing:-.035em;overflow-wrap:anywhere}
+.social-verified-badge[hidden]{display:none!important}
+.social-meta-inline{display:flex;align-items:center;flex-wrap:wrap;gap:6px 8px;font-size:13px;color:var(--text-secondary);line-height:1.4}
+.social-meta-inline strong{color:var(--text-primary);font-weight:600}
+.social-meta-sep{color:var(--line-subtle);user-select:none}
+.social-bio{max-width:640px;margin:10px 0 0;font-size:13.5px;line-height:1.6;color:var(--text-secondary)}
+.social-actions{display:flex;align-items:center;gap:8px;padding-bottom:0;flex-shrink:0}
+.social-btn{min-height:42px;border-radius:10px}
+.social-btn--edit{box-shadow:none}
+.social-btn--icon{width:42px;height:42px;flex:none}
+.social-btn--danger{color:var(--danger);border-color:color-mix(in srgb,var(--danger) 30%,var(--line-subtle))}
+
+/* Clean 4-Metric Summary Strip */
+.social-stats-bar{background:var(--surface-bg);border:1px solid var(--line-subtle);border-radius:18px;margin-bottom:28px;overflow:hidden}
+.social-stat-item{padding:18px 20px;text-align:left;border-right:1px solid var(--line-subtle)}
+.social-stat-item:first-child{padding-left:22px}
+.social-stat-value{font-size:clamp(1.25rem,2.2vw,1.6rem);letter-spacing:-.035em}
+.social-stat-label{font-size:11px;letter-spacing:.03em;text-transform:none;color:var(--text-secondary)}
+
+/* Direct Profile Sections */
+.profile-sections{display:flex;flex-direction:column;gap:28px}
+.social-section{margin-bottom:0;background:var(--surface-bg);border:1px solid var(--line-subtle);border-radius:20px;padding:24px 28px}
+.social-section__title{font-size:1.15rem;letter-spacing:-.025em;gap:12px;margin:0 0 16px}
+.social-section__link{min-height:36px;background:none;border:0;padding:4px 0;color:var(--accent-primary);white-space:nowrap;font-size:13px;font-weight:700}
+
+/* Subjects Grid */
+.social-combo-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.social-combo-pill{min-height:136px;border:1px solid var(--line-subtle);border-radius:14px;background:var(--surface-subtle);padding:16px;box-shadow:none}
+.social-combo-pill.is-locked{border-color:color-mix(in srgb,var(--accent-primary) 28%,var(--line-subtle));background:var(--accent-soft)}
+.social-combo-pill__badge{border:0;background:transparent;padding:0;font-size:10px}
+.social-combo-pill__btn{justify-content:flex-start;min-height:36px;width:max-content;padding:4px 0;border:0;border-radius:0;background:transparent;color:var(--accent-primary)}
+.social-combo-pill__btn:hover{background:transparent;color:var(--accent-primary);text-decoration:underline}
+
+/* Calm Goal / Studio Status Card */
+.social-spotlight-card{position:relative;overflow:hidden;align-items:center;padding:22px 24px;border:1px solid var(--line-subtle);border-radius:16px;background:var(--surface-subtle);color:var(--text-primary)}
+.social-spotlight-info{position:relative;z-index:1}
+.social-spotlight-heading{color:var(--text-primary);font-size:clamp(1.2rem,2vw,1.45rem);letter-spacing:-.03em;margin:0 0 4px;overflow-wrap:anywhere}
+.social-spotlight-sub{color:var(--text-secondary);font-size:13px;margin:0}
+.social-goal-track{width:min(100%,380px);height:6px;margin-top:14px;background:var(--line-subtle);border-radius:99px;overflow:hidden}
+.social-goal-track span{display:block;width:0;height:100%;border-radius:inherit;background:var(--accent-primary);transition:width .35s ease}
+.social-spotlight-badge{position:relative;z-index:1;min-height:42px;background:var(--accent-primary);border:0;box-shadow:none;color:#fff;text-decoration:none;white-space:nowrap;padding:10px 18px;border-radius:10px;font-size:13px;font-weight:700;cursor:pointer}
+.social-spotlight-badge:hover{filter:brightness(1.08)}
+
+/* Milestones Grid */
+.social-badges-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.social-badge-card{padding:14px 16px;border:1px solid var(--line-subtle);border-radius:14px;background:var(--surface-subtle)}
+.social-badge-icon{width:40px;height:40px;font-size:16px;background:var(--surface-bg);border:1px solid var(--line-subtle)}
+
+.profile-toast{z-index:1600;max-width:calc(100vw - 32px)}
+
+/* Clean Single-Column Profile Editor Modal */
+.social-modal-overlay{z-index:1500;padding:20px;background:rgba(11,27,58,.6)}
+.social-modal{width:min(560px,100%);max-width:none;max-height:min(680px,calc(100dvh - 40px));height:auto;border-radius:20px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 64px rgba(5,21,52,.28);transform:translateY(10px) scale(.99)}
+.profile-editor-section[hidden]{display:none!important}
+.profile-editor-rail{display:none!important}
+.profile-editor-main{min-width:0;min-height:0;display:flex;flex-direction:column;flex:1 1 auto;background:var(--surface-bg)}
+.profile-editor-main form{min-height:0;display:flex;flex-direction:column;flex:1 1 auto;overflow:hidden}
+.profile-editor-main .social-modal__header{padding:22px 26px 16px;align-items:flex-start;border-bottom:0;gap:16px}
+.profile-editor-main .social-modal__title{font-size:1.35rem;line-height:1.15;letter-spacing:-.03em}
+.profile-editor-main .social-modal__intro{font-size:12.5px;line-height:1.45;margin:4px 0 0;color:var(--text-secondary)}
+.profile-editor-main .social-modal__close{width:38px;height:38px;border:1px solid var(--line-subtle);font-size:16px;color:var(--text-secondary);background:var(--surface-bg);flex:none}
+.profile-editor-nav{display:flex;gap:20px;padding:0 26px;border-bottom:1px solid var(--line-subtle);flex:none}
+.profile-editor-nav button{border:0;border-bottom:2px solid transparent;background:transparent;color:var(--text-secondary);font-size:12.5px;font-weight:700;padding:10px 2px 12px;white-space:nowrap;cursor:pointer}
+.profile-editor-nav button.is-active{border-bottom-color:var(--accent-primary);color:var(--accent-primary)}
+.profile-editor-main .social-modal__body{padding:0 26px;gap:0;flex:1 1 auto;min-height:0;overflow-y:auto}
+.profile-editor-section{padding:22px 0 24px;border-bottom:0}
+.profile-editor-section .social-form-row{gap:16px;margin-bottom:16px}
+.profile-editor-section .social-form-group{min-width:0;gap:6px}
+.profile-editor-section .social-form-label{font-size:12px;letter-spacing:0;text-transform:none;color:var(--text-primary)}
+.profile-editor-section .social-form-label span{font-size:11px;color:var(--text-secondary);font-weight:600;margin-left:4px}
+.profile-editor-section .social-input,.profile-editor-section .social-select,.profile-editor-section .social-textarea{min-height:44px;border-radius:10px;font-size:13.5px;padding:10px 13px;background:var(--surface-bg)}
+.profile-editor-section .social-textarea{min-height:88px;resize:vertical;line-height:1.55}
+.profile-editor-label-line{display:flex;justify-content:space-between;align-items:center;gap:12px}.profile-editor-label-line>span{font-size:11px;color:var(--text-secondary)}
+.profile-editor-hint{font-size:11.5px;line-height:1.5;color:var(--text-secondary);margin:6px 0 0}.profile-editor-hint i{margin-right:5px;color:var(--accent-primary)}
+.profile-editor-score{max-width:220px}.profile-editor-score__input{position:relative}.profile-editor-score__input .social-input{padding-right:58px}.profile-editor-score__input>span{position:absolute;right:13px;top:50%;transform:translateY(-50%);color:var(--text-secondary);font-weight:700;font-size:11px}
+.profile-editor-english{display:flex;align-items:center;gap:10px;border-left:3px solid var(--accent-primary);background:var(--accent-soft);padding:12px 14px;border-radius:0 8px 8px 0;margin-bottom:16px;color:var(--text-primary);font-size:12.5px;font-weight:700}.profile-editor-english i{color:var(--accent-primary)}.profile-editor-english small{margin-left:auto;color:var(--accent-primary);font-size:11px}
+.profile-editor-section .profile-editor-subjects{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:8px}
+.profile-editor-main .social-modal__footer{padding:14px 26px;background:var(--surface-bg);border-top:1px solid var(--line-subtle);flex:none}
+.profile-editor-main .social-modal__footer .social-btn{min-height:42px;border-radius:10px;font-size:13px}
+.profile-editor-main .social-modal__footer .social-btn--primary{min-width:140px}
+.profile-editor-error{margin:0;padding:10px 26px;background:#fff4f4;color:#a53a40;font-size:12px;font-weight:700;line-height:1.45}
+
+@media(max-width:850px){
+  .social-combo-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .social-badges-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:640px){
+  .profile-container{width:100%;max-width:none;padding:16px 14px calc(100px + env(safe-area-inset-bottom))}
+  .profile-guest-notice{margin:0 0 16px;padding:12px;font-size:12px}
+  .social-header{padding:18px 16px;border-radius:16px;margin-bottom:16px}
+  .social-top-row{flex-direction:column;align-items:stretch;gap:14px}
+  .social-identity-lead{gap:14px}
+  .social-avatar{width:60px;height:60px;border-radius:16px;font-size:24px}
+  .social-name{font-size:1.35rem}
+  .social-meta-inline{font-size:12px}
+  .social-bio{font-size:12.5px;margin:8px 0 0}
+  .social-actions{width:100%;justify-content:flex-start}
+  .social-actions .social-btn--edit{flex:1}
+  .social-stats-bar{grid-template-columns:repeat(2,minmax(0,1fr));border-radius:16px;margin-bottom:20px}
+  .social-stat-item{min-width:0;padding:14px 16px}
+  .social-stat-item:first-child{padding-left:16px}
+  .social-stat-item:nth-child(2){border-right:0}
+  .social-stat-item:nth-child(-n+2){border-bottom:1px solid var(--line-subtle)}
+  .social-stat-value{font-size:1.25rem}
+  .profile-sections{gap:18px}
+  .social-section{padding:18px 16px;border-radius:16px}
+  .social-section__title{font-size:1.05rem;margin-bottom:14px}
+  .social-combo-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .social-combo-pill{min-height:124px;padding:12px}
+  .social-spotlight-card{padding:16px;gap:14px}
+  .social-spotlight-badge{width:100%;justify-content:center}
+  .social-badges-grid{grid-template-columns:1fr;gap:10px}
+  .social-modal-overlay{align-items:flex-end;padding:0;backdrop-filter:none}
+  .social-modal{width:100%;max-height:92dvh;border-radius:20px 20px 0 0}
+  .profile-editor-main .social-modal__header{padding:18px 18px 12px}
+  .profile-editor-nav{padding:0 18px;gap:18px;overflow-x:auto;scrollbar-width:none}
+  .profile-editor-nav::-webkit-scrollbar{display:none}
+  .profile-editor-main .social-modal__body{padding:0 18px}
+  .profile-editor-section .social-form-row,.profile-editor-section .profile-editor-subjects{grid-template-columns:1fr;gap:14px}
+  .profile-editor-section .social-input,.profile-editor-section .social-select,.profile-editor-section .social-textarea{font-size:16px}
+  .profile-editor-main .social-modal__footer{padding:12px 18px max(12px,env(safe-area-inset-bottom))}
+  .profile-editor-main .social-modal__footer .social-btn{flex:1}
+  .profile-toast{left:16px;right:16px;bottom:calc(78px + env(safe-area-inset-bottom));padding:12px;font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){.profile-page *, .social-modal-overlay{scroll-behavior:auto!important;transition:none!important;animation:none!important}}

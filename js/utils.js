@@ -78,8 +78,10 @@ function updateThemeIcon(theme) {
     themeButtons.forEach(btn => {
         const icon = btn.querySelector('.theme-icon');
         if (icon) {
-            // Show moon icon in light mode, sun icon in dark mode
-            icon.textContent = theme === 'light' ? '🌙' : '☀️';
+            // High-end Font Awesome animated icons instead of raw text emoji
+            icon.innerHTML = theme === 'light'
+                ? '<i class="fa-solid fa-moon theme-fa-icon theme-fa-moon" aria-hidden="true"></i>'
+                : '<i class="fa-solid fa-sun theme-fa-icon theme-fa-sun" aria-hidden="true"></i>';
         }
     });
 }
@@ -569,9 +571,11 @@ class StorageManager {
  * @returns {string} Formatted string like "59:45"
  */
 function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    const totalSeconds = Math.max(0, Math.floor(Number(seconds) || 0));
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+    return String(hours).padStart(2, '0') + ':' + String(minutes).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
 }
 
 /**
@@ -845,6 +849,217 @@ function initCapacitorMobileEnhancements() {
     setupAndroidBackButtonBehavior();
     setupExternalBrowserHandoff();
 }
+
+// ============================================================================
+// TEST START CONFIRMATION MODAL
+// ============================================================================
+
+const TR_SUBJECT_META = {
+    'mathematics': { name: 'Mathematics', icon: 'fa-solid fa-calculator', color: '#2563eb', bg: 'rgba(37, 99, 235, 0.1)' },
+    'english': { name: 'Use of English', icon: 'fa-solid fa-book-open', color: '#7c3aed', bg: 'rgba(124, 58, 237, 0.1)' },
+    'physics': { name: 'Physics', icon: 'fa-solid fa-atom', color: '#059669', bg: 'rgba(5, 150, 105, 0.1)' },
+    'chemistry': { name: 'Chemistry', icon: 'fa-solid fa-flask', color: '#0891b2', bg: 'rgba(8, 145, 178, 0.1)' },
+    'biology': { name: 'Biology', icon: 'fa-solid fa-dna', color: '#16a34a', bg: 'rgba(22, 163, 74, 0.1)' },
+    'agriculture': { name: 'Agricultural Science', icon: 'fa-solid fa-seedling', color: '#65a30d', bg: 'rgba(101, 163, 13, 0.1)' },
+    'computer': { name: 'Computer Studies', icon: 'fa-solid fa-laptop-code', color: '#0284c7', bg: 'rgba(2, 132, 199, 0.1)' },
+    'crs': { name: 'Christian Religious Studies', icon: 'fa-solid fa-cross', color: '#9333ea', bg: 'rgba(147, 51, 234, 0.1)' },
+    'irs': { name: 'Islamic Religious Studies', icon: 'fa-solid fa-moon', color: '#0d9488', bg: 'rgba(13, 148, 136, 0.1)' },
+    'commerce': { name: 'Commerce', icon: 'fa-solid fa-scale-balanced', color: '#d97706', bg: 'rgba(217, 119, 6, 0.1)' },
+    'economics': { name: 'Economics', icon: 'fa-solid fa-chart-line', color: '#ea580c', bg: 'rgba(234, 88, 12, 0.1)' },
+    'government': { name: 'Government', icon: 'fa-solid fa-landmark', color: '#4f46e5', bg: 'rgba(79, 70, 229, 0.1)' },
+    'literature': { name: 'Literature in English', icon: 'fa-solid fa-feather-pointed', color: '#db2777', bg: 'rgba(219, 39, 119, 0.1)' },
+    'geography': { name: 'Geography', icon: 'fa-solid fa-earth-africa', color: '#0369a1', bg: 'rgba(3, 105, 161, 0.1)' },
+    'history': { name: 'History', icon: 'fa-solid fa-landmark-dome', color: '#b45309', bg: 'rgba(180, 83, 9, 0.1)' }
+};
+window.TR_SUBJECT_META = TR_SUBJECT_META;
+
+if (typeof window.getSubjectDisplayName !== 'function') {
+    window.getSubjectDisplayName = function(subject) {
+        const key = typeof normalizeSubject === 'function'
+            ? normalizeSubject(subject)
+            : (subject || '').toString().trim().toLowerCase();
+        if (TR_SUBJECT_META[key]) {
+            return TR_SUBJECT_META[key].name;
+        }
+        return subject ? (subject.charAt(0).toUpperCase() + subject.slice(1)) : 'Practice Test';
+    };
+}
+
+function injectTestConfirmationModal() {
+    let modal = document.getElementById('trTestConfirmModal');
+    if (modal) return modal;
+
+    modal = document.createElement('div');
+    modal.id = 'trTestConfirmModal';
+    modal.className = 'tr-confirm-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-labelledby', 'trConfirmSubjectTitle');
+    modal.setAttribute('aria-hidden', 'true');
+
+    modal.innerHTML = `
+      <div class="tr-confirm-modal__backdrop" id="trConfirmBackdrop"></div>
+      <div class="tr-confirm-modal__dialog" role="document">
+        <button type="button" class="tr-confirm-modal__close" aria-label="Close dialog" id="trConfirmCloseBtn">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="tr-confirm-modal__header">
+          <div class="tr-confirm-modal__icon-wrap" id="trConfirmIconWrap">
+            <i class="fa-solid fa-book-open" id="trConfirmIcon"></i>
+          </div>
+          <div class="tr-confirm-modal__title-group">
+            <span class="tr-confirm-modal__badge">JAMB UTME CBT</span>
+            <h2 id="trConfirmSubjectTitle" class="tr-confirm-modal__title">Subject Test</h2>
+            <p class="tr-confirm-modal__subtitle">Ready to begin your timed practice test?</p>
+          </div>
+        </div>
+
+        <div class="tr-confirm-modal__grid">
+          <div class="tr-confirm-stat">
+            <div class="tr-confirm-stat__icon"><i class="fa-regular fa-clock"></i></div>
+            <div class="tr-confirm-stat__content">
+              <span class="tr-confirm-stat__label">Time Limit</span>
+              <strong class="tr-confirm-stat__val">30 Minutes</strong>
+            </div>
+          </div>
+          <div class="tr-confirm-stat">
+            <div class="tr-confirm-stat__icon"><i class="fa-solid fa-list-ol"></i></div>
+            <div class="tr-confirm-stat__content">
+              <span class="tr-confirm-stat__label">Questions</span>
+              <strong class="tr-confirm-stat__val">30 Questions</strong>
+            </div>
+          </div>
+          <div class="tr-confirm-stat">
+            <div class="tr-confirm-stat__icon"><i class="fa-solid fa-bolt"></i></div>
+            <div class="tr-confirm-stat__content">
+              <span class="tr-confirm-stat__label">Scoring</span>
+              <strong class="tr-confirm-stat__val">Instant CBT</strong>
+            </div>
+          </div>
+          <div class="tr-confirm-stat">
+            <div class="tr-confirm-stat__icon"><i class="fa-solid fa-shuffle"></i></div>
+            <div class="tr-confirm-stat__content">
+              <span class="tr-confirm-stat__label">Question Pool</span>
+              <strong class="tr-confirm-stat__val">Randomized</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="tr-confirm-modal__notice">
+          <i class="fa-solid fa-circle-info tr-confirm-notice__icon"></i>
+          <p class="tr-confirm-notice__text">The timer starts as soon as you confirm. Please ensure you have a quiet environment and stable connection.</p>
+        </div>
+
+        <div class="tr-confirm-modal__actions">
+          <button type="button" class="tr-confirm-btn tr-confirm-btn--primary" id="trConfirmStartBtn">
+            <span>Start Test Now</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+          <button type="button" class="tr-confirm-btn tr-confirm-btn--secondary" id="trConfirmCancelBtn">
+            Choose Another Subject
+          </button>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    const closeBtn = modal.querySelector('#trConfirmCloseBtn');
+    const cancelBtn = modal.querySelector('#trConfirmCancelBtn');
+    const backdrop = modal.querySelector('#trConfirmBackdrop');
+
+    const handleDismiss = () => closeTestConfirmationModal();
+
+    if (closeBtn) closeBtn.addEventListener('click', handleDismiss);
+    if (cancelBtn) cancelBtn.addEventListener('click', handleDismiss);
+    if (backdrop) backdrop.addEventListener('click', handleDismiss);
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('is-active')) {
+            closeTestConfirmationModal();
+        }
+    });
+
+    return modal;
+}
+
+function showTestConfirmationModal(subjectKey, options = {}) {
+    const rawKey = subjectKey || 'mathematics';
+    const normalized = typeof normalizeSubject === 'function' ? normalizeSubject(rawKey) : rawKey;
+    const meta = TR_SUBJECT_META[normalized] || {
+        name: typeof getSubjectDisplayName === 'function' ? getSubjectDisplayName(normalized) : normalized,
+        icon: 'fa-solid fa-graduation-cap',
+        color: '#1d4ed8',
+        bg: 'rgba(29, 78, 216, 0.1)'
+    };
+
+    const modal = injectTestConfirmationModal();
+    const titleEl = modal.querySelector('#trConfirmSubjectTitle');
+    const iconWrap = modal.querySelector('#trConfirmIconWrap');
+    const iconEl = modal.querySelector('#trConfirmIcon');
+    const startBtn = modal.querySelector('#trConfirmStartBtn');
+
+    if (titleEl) titleEl.textContent = meta.name;
+    if (iconWrap) {
+        iconWrap.style.backgroundColor = meta.bg;
+        iconWrap.style.color = meta.color;
+    }
+    if (iconEl) {
+        iconEl.className = meta.icon;
+    }
+
+    if (startBtn) {
+        startBtn.disabled = false;
+        startBtn.innerHTML = `<span>Start Test Now</span><i class="fa-solid fa-arrow-right"></i>`;
+
+        const newStartBtn = startBtn.cloneNode(true);
+        startBtn.parentNode.replaceChild(newStartBtn, startBtn);
+
+        newStartBtn.addEventListener('click', () => {
+            newStartBtn.disabled = true;
+            newStartBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Preparing Test...</span>`;
+
+            try {
+                if (window.StorageManager && typeof window.StorageManager.setSelectedSubject === 'function') {
+                    window.StorageManager.setSelectedSubject(normalized);
+                } else {
+                    localStorage.setItem('selected_subject', normalized);
+                }
+            } catch (e) {
+                // ignore
+            }
+
+            if (typeof options.onConfirm === 'function') {
+                options.onConfirm(normalized);
+                return;
+            }
+
+            setTimeout(() => {
+                window.location.href = 'test.html';
+            }, 180);
+        });
+    }
+
+    modal.classList.add('is-active');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    const activeStartBtn = modal.querySelector('#trConfirmStartBtn');
+    if (activeStartBtn) {
+        setTimeout(() => activeStartBtn.focus(), 60);
+    }
+}
+
+function closeTestConfirmationModal() {
+    const modal = document.getElementById('trTestConfirmModal');
+    if (!modal) return;
+    modal.classList.remove('is-active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+}
+
+window.showTestConfirmationModal = showTestConfirmationModal;
+window.closeTestConfirmationModal = closeTestConfirmationModal;
 
 // ============================================================================
 // INITIALIZATION

@@ -125,7 +125,7 @@ function initSupabase() {
  * NOTE: Email confirmation is REQUIRED. User must confirm email before logging in.
  * Username is stored in user metadata.
  */
-async function signUp(email, password, username) {
+async function signUp(email, password, username, role = 'student') {
     try {
         if (!supabase) {
             return { success: false, error: 'Supabase not initialized' };
@@ -152,15 +152,18 @@ async function signUp(email, password, username) {
             return { success: false, error: 'Invalid email format' };
         }
 
+        const normalizedRole = role === 'teacher' ? 'teacher' : 'student';
+
         // Sign up with Supabase
-        console.log('📝 Attempting to sign up with email:', email.toLowerCase());
+        console.log('📝 Attempting to sign up with email:', email.toLowerCase(), 'role:', normalizedRole);
         
         const { data, error } = await supabase.auth.signUp({
             email: email.trim().toLowerCase(),
             password: password,
             options: {
                 data: {
-                    username: username.trim()
+                    username: username.trim(),
+                    role: normalizedRole
                 }
             }
         });
@@ -230,6 +233,27 @@ async function signUp(email, password, username) {
                 console.warn('⚠️ Subscription creation warning:', subError);
             } else {
                 console.log('✅ Free subscription created');
+            }
+
+            // If signing up as teacher, create initial pending tutor profile
+            if (normalizedRole === 'teacher') {
+                try {
+                    const { error: tutorError } = await supabase
+                        .from('tutors')
+                        .insert({
+                            id: userId,
+                            display_name: username.trim(),
+                            status: 'pending',
+                            revenue_share_pct: 70.0
+                        });
+                    if (tutorError) {
+                        console.warn('⚠️ Initial tutor record warning:', tutorError);
+                    } else {
+                        console.log('✅ Initial tutor profile created (pending review)');
+                    }
+                } catch (tErr) {
+                    console.warn('Initial tutor record insert error:', tErr);
+                }
             }
         } catch (dbError) {
             console.warn('⚠️ Database setup warning:', dbError);
@@ -344,6 +368,65 @@ async function login(email, password) {
 }
 
 /**
+ * Sign in or Sign up with Google OAuth
+ * @returns {Promise<Object>} Result object with success status and data/error
+ */
+async function signInWithGoogle(role = 'student', nextUrl = null, mode = 'login') {
+    try {
+        if (!supabase) {
+            return { success: false, error: 'Supabase not initialized' };
+        }
+
+        const effectiveRole = role || 'student';
+        const effectiveNext = nextUrl || new URLSearchParams(window.location.search).get('next');
+
+        let redirectUrl;
+        try {
+            redirectUrl = new URL(`${window.location.origin}/login.html`);
+            if (effectiveRole) {
+                redirectUrl.searchParams.set('role', effectiveRole);
+            }
+            // Preserve signup intent across OAuth so an existing student can apply to teach.
+            redirectUrl.searchParams.set('oauth', 'google');
+            if (mode === 'signup') {
+                redirectUrl.searchParams.set('mode', 'signup');
+            }
+            if (effectiveNext) {
+                redirectUrl.searchParams.set('next', effectiveNext);
+            }
+        } catch (urlErr) {
+            console.warn('Could not construct redirect URL:', urlErr);
+            redirectUrl = `${window.location.origin}/login.html`;
+        }
+
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: redirectUrl.toString ? redirectUrl.toString() : redirectUrl,
+                queryParams: {
+                    access_type: 'offline',
+                    prompt: 'select_account'
+                }
+            }
+        });
+
+        if (error) {
+            console.error('❌ Google sign in error:', error);
+            return { success: false, error: error.message || 'Failed to sign in with Google' };
+        }
+
+        if (data?.url) {
+            window.location.href = data.url;
+        }
+
+        return { success: true, data };
+    } catch (error) {
+        console.error('Error signing in with Google:', error);
+        return { success: false, error: error.message || 'An error occurred during Google sign in' };
+    }
+}
+
+/**
  * Ensure a default subscription row exists for a user.
  * Does not downgrade existing paid plans.
  *
@@ -402,7 +485,7 @@ async function ensureUserProfileRow(user) {
     if (!supabase || !user || !user.id) return;
 
     const normalizedEmail = String(user.email || '').trim().toLowerCase();
-    const metadataUsername = String(user.user_metadata?.username || '').trim();
+    const metadataUsername = String(user.user_metadata?.username || user.user_metadata?.full_name || user.user_metadata?.name || '').trim();
     const fallbackUsername = getEmailUsernameFallback(normalizedEmail);
 
     const { data: existingProfile, error: readError } = await supabase
@@ -486,6 +569,7 @@ async function logout() {
         // Clear local identity cache to prevent stale UI and fallback state.
         try {
             localStorage.removeItem('thinkright_username');
+            localStorage.removeItem('thinkright_auth_role');
         } catch (_e) {
             // ignore storage errors
         }
@@ -973,6 +1057,26 @@ async function signUpWithOTP(email) {
     return sendEmailOtp(email, { shouldCreateUser: true });
 }
 
+/**
+ * Helper to fetch tutor profile for a given user ID
+ * @param {string} userId
+ * @returns {Promise<Object|null>}
+ */
+async function getTutorProfile(userId) {
+    if (!supabase || !userId) return null;
+    try {
+        const { data, error } = await supabase
+            .from('tutors')
+            .select('id, status, display_name, subjects, whatsapp_number')
+            .eq('id', userId)
+            .maybeSingle();
+        if (error) return null;
+        return data;
+    } catch (e) {
+        return null;
+    }
+}
+
 // ============================================================================
 // EXPORT FOR TESTING
 // 
@@ -980,10 +1084,101 @@ async function signUpWithOTP(email) {
 // Remove in production if desired.
 // ============================================================================
 
+// Server role is authoritative when available, with safe fallback so pages never hang or fail to load.
+window.resolveWorkspaceIdentity = async function () {
+    if (!window.authInitialized && !initSupabase()) return { role: 'guest', status: 'active', user: null };
+    try {
+        const { data: session, error: authError } = await window.supabase.auth.getUser();
+        if (authError || !session?.user) return { role: 'guest', status: 'active', user: null };
+        const user = session.user;
+
+        try {
+            const { data, error } = await window.supabase.rpc('workspace_identity');
+            if (!error && data && data.role) {
+                window.thinkrightUserRole = data.role;
+                try { localStorage.setItem('thinkright_auth_role', data.role); } catch (_) {}
+                return { ...data, user };
+            }
+        } catch (_) {}
+
+        // Graceful fallback if workspace_identity RPC is not yet deployed or unreachable
+        let tutorRow = null;
+        try {
+            tutorRow = await getTutorProfile(user.id);
+        } catch (_) {}
+
+        const metaRole = user.user_metadata?.role;
+        const cachedRole = (() => {
+            try { return localStorage.getItem('thinkright_auth_role'); } catch (_) { return null; }
+        })();
+
+        const isTeacher = Boolean(
+            tutorRow ||
+            metaRole === 'teacher' ||
+            metaRole === 'tutor' ||
+            cachedRole === 'teacher'
+        );
+        const role = metaRole === 'admin' || cachedRole === 'admin'
+            ? 'admin'
+            : (isTeacher ? 'teacher' : 'student');
+        const status = tutorRow?.status || 'active';
+        const name = tutorRow?.display_name || user.user_metadata?.username || user.email?.split('@')[0] || 'User';
+
+        window.thinkrightUserRole = role;
+        try { localStorage.setItem('thinkright_auth_role', role); } catch (_) {}
+        return { role, status, name, user };
+    } catch (_) {
+        return { role: 'guest', status: 'active', user: null };
+    }
+};
+
+window.workspaceDestination = async function (next) {
+    const identity = await window.resolveWorkspaceIdentity();
+    if (identity.role === 'admin') return 'admin.html';
+    if (identity.role === 'teacher') return 'tutor-dashboard.html';
+    if (identity.role === 'student' && identity.user && window.supabase) {
+        try {
+            const { data: studentProfile } = await window.supabase.from('user_profiles')
+                .select('onboarding_completed, created_at').eq('id', identity.user.id).maybeSingle();
+            const joinedRecently = studentProfile?.created_at &&
+                Date.now() - new Date(studentProfile.created_at).getTime() < 7 * 24 * 60 * 60 * 1000;
+            const deferred = (() => { try { return localStorage.getItem(`thinkright_onboarding_deferred_${identity.user.id}`) === '1'; } catch (_) { return false; } })();
+            const completedLocally = (() => { try { return localStorage.getItem(`thinkright_onboarding_completed_${identity.user.id}`) === '1'; } catch (_) { return false; } })();
+            if (!studentProfile?.onboarding_completed && !completedLocally && joinedRecently && !deferred && !next) return 'onboarding.html';
+        } catch (_) { /* Keep login usable if profile lookup is unavailable. */ }
+    }
+    if (next) {
+        try {
+            const url = new URL(next, location.origin);
+            if (url.origin === location.origin && !/(?:tutor-|admin\.html)/.test(url.pathname)) return url.pathname + url.search + url.hash;
+        } catch (_) {}
+    }
+    return 'index.html';
+};
+
+document.addEventListener('DOMContentLoaded', async () => {
+    // Ensure any stale #tr-role-gate element is removed immediately
+    document.getElementById('tr-role-gate')?.remove();
+    if (document.body.dataset.workspacePage) return;
+    const file = location.pathname.split('/').pop() || 'index.html';
+    if (['login.html','signup.html','reset-password.html','payment-callback.html','news.html'].includes(file)) return;
+    try {
+        const identity = await window.resolveWorkspaceIdentity();
+        if (identity.role === 'teacher') {
+            location.replace(file === 'classes.html' ? (new URLSearchParams(location.search).get('create') === '1' ? 'tutor-class.html' : 'tutor-classes.html') : 'tutor-dashboard.html');
+        } else if (identity.role === 'admin') {
+            location.replace('admin.html');
+        }
+    } catch (_) {
+        // Never block page load if role check fails
+    }
+});
+
 window.ThinkRightAuth = {
     initSupabase,
     signUp,
     login,
+    signInWithGoogle,
     sendEmailOtp,
     sendSignupVerificationOtp,
     verifyEmailOtp,
@@ -996,11 +1191,14 @@ window.ThinkRightAuth = {
     onAuthStateChange,
     requireAuth,
     getNextUrl,
+    getTutorProfile,
+    ensureUserBootstrapData
 };
 
 // Make auth functions globally available for easy access
 window.signUp = signUp;
 window.login = login;
+window.signInWithGoogle = signInWithGoogle;
 window.sendEmailOtp = sendEmailOtp;
 window.sendSignupVerificationOtp = sendSignupVerificationOtp;
 window.verifyEmailOtp = verifyEmailOtp;
@@ -1013,6 +1211,8 @@ window.getCurrentUser = getCurrentUser;
 window.isAuthenticated = isAuthenticated;
 window.getSession = getSession;
 window.onAuthStateChange = onAuthStateChange;
+window.getTutorProfile = getTutorProfile;
+window.ensureUserBootstrapData = ensureUserBootstrapData;
 
 console.log('✓ Auth module loaded. Available at window.ThinkRightAuth');
 

@@ -11,261 +11,245 @@
   }
 
   const SUBJECTS = [
-    { key: "english", label: "English" },
-    { key: "mathematics", label: "Mathematics" },
-    { key: "physics", label: "Physics" },
-    { key: "chemistry", label: "Chemistry" },
-    { key: "biology", label: "Biology" },
-    { key: "agriculture", label: "Agricultural Science" },
-    { key: "computer", label: "Computer Studies" },
-    { key: "crs", label: "Christian Religious Studies" },
-    { key: "irs", label: "Islamic Religious Studies" },
-    { key: "economics", label: "Economics" },
-    { key: "commerce", label: "Commerce" },
-    { key: "government", label: "Government" },
-    { key: "literature", label: "Literature" },
-    { key: "geography", label: "Geography" },
-    { key: "history", label: "History" },
+    { key: "english", label: "Use of English", icon: "fa-book-open" },
+    { key: "mathematics", label: "Mathematics", icon: "fa-calculator" },
+    { key: "physics", label: "Physics", icon: "fa-atom" },
+    { key: "chemistry", label: "Chemistry", icon: "fa-flask-vial" },
+    { key: "biology", label: "Biology", icon: "fa-dna" },
+    { key: "agriculture", label: "Agricultural Science", icon: "fa-wheat-awn" },
+    { key: "computer", label: "Computer Studies", icon: "fa-laptop-code" },
+    { key: "economics", label: "Economics", icon: "fa-chart-line" },
+    { key: "commerce", label: "Commerce", icon: "fa-coins" },
+    { key: "government", label: "Government", icon: "fa-landmark" },
+    { key: "literature", label: "Literature in English", icon: "fa-feather" },
+    { key: "geography", label: "Geography", icon: "fa-earth-africa" },
+    { key: "history", label: "History", icon: "fa-hourglass-half" },
+    { key: "crs", label: "Christian Religious Studies", icon: "fa-cross" },
+    { key: "irs", label: "Islamic Religious Studies", icon: "fa-moon" },
+  ];
+
+  // Benchmark pacemakers displayed gracefully if fewer than 3 users have completed the 3-test threshold early in the week
+  const BENCHMARK_PACEMAKERS = [
+    { username: "David O. (Pacesetter)", projected_score: 348, tests_this_week: 11, ambition: "Target: 350+ UI Medicine", isBenchmark: true },
+    { username: "Chioma A. (Pacesetter)", projected_score: 334, tests_this_week: 9, ambition: "Target: 330+ UNILAG Law", isBenchmark: true },
+    { username: "Ibrahim K. (Pacesetter)", projected_score: 320, tests_this_week: 8, ambition: "Target: 320+ OAU Eng", isBenchmark: true }
   ];
 
   const state = {
     user: null,
     weekId: null,
+    activeMode: "projected", // "projected" or "subject"
     activeSubject: "english",
+    projectedRows: [],
+    subjectRows: [],
+    myProjectedRank: null,
+    myComparison: null,
+    mySubjectRank: null,
     access: {
       isPremium: false,
       isAdmin: false,
       isExplicitFree: false,
     },
     accessLoading: true,
-    entitlementDebugLogged: false,
     initialLoadDone: false,
   };
 
   const elements = {
     weekLabel: document.getElementById("leaderboardWeekLabel"),
     projectedStatus: document.getElementById("projectedStatus"),
-    projectedWrap: document.getElementById("projectedTableWrap"),
-    projectedBody: document.getElementById("projectedBody"),
-    projectedEmpty: document.getElementById("projectedEmpty"),
-    projectedMyRankCard: document.getElementById("projectedMyRankCard"),
-    projectedMyRankStatus: document.getElementById("projectedMyRankStatus"),
-    projectedMyRankSensitive: document.getElementById("projectedMyRankSensitive"),
-    projectedMyRankValue: document.getElementById("projectedMyRankValue"),
-    projectedMyScoreValue: document.getElementById("projectedMyScoreValue"),
-    projectedMyPercentileItem: document.getElementById("projectedMyPercentileItem"),
-    projectedMyPercentileValue: document.getElementById("projectedMyPercentileValue"),
-    projectedMyRankOverlay: document.getElementById("projectedMyRankOverlay"),
-    projectedMyRankUpgradeBtn: document.getElementById("projectedMyRankUpgradeBtn"),
+    subjectStatus: document.getElementById("subjectStatus"),
+    podium: document.getElementById("arenaPodium"),
+    podiumHeading: document.getElementById("podiumHeading"),
+    podiumSubheading: document.getElementById("podiumSubheading"),
+    rosterTitle: document.getElementById("rosterTitle"),
+    rosterSubtitle: document.getElementById("rosterSubtitle"),
+    rosterList: document.getElementById("candidateRosterList"),
+    rosterCountBadge: document.getElementById("rosterCountBadge"),
+    emptyState: document.getElementById("arenaEmptyState"),
+    tabModeProjected: document.getElementById("tabModeProjected"),
+    tabModeSubject: document.getElementById("tabModeSubject"),
+    subjectPickerContainer: document.getElementById("subjectPickerContainer"),
     subjectTabs: document.getElementById("subjectTabs"),
     subjectSelect: document.getElementById("subjectSelect"),
-    subjectStatus: document.getElementById("subjectStatus"),
-    subjectWrap: document.getElementById("subjectTableWrap"),
-    subjectBody: document.getElementById("subjectBody"),
-    subjectEmpty: document.getElementById("subjectEmpty"),
-    mySubjectRank: document.getElementById("mySubjectRank"),
+    stickyHud: document.getElementById("stickyRankHud"),
+    hudUsername: document.getElementById("hudUsername"),
+    hudUserAvatar: document.getElementById("hudUserAvatar"),
+    hudRankBadge: document.getElementById("hudRankBadge"),
+    hudScoreVal: document.getElementById("hudScoreVal"),
+    hudGapText: document.getElementById("hudGapText"),
+    hudShareBtn: document.getElementById("hudShareBtn"),
+    scoringRulesModal: document.getElementById("scoringRulesModal"),
+    openScoringRulesBtn: document.getElementById("openScoringRulesBtn"),
+    closeScoringRulesBtn: document.getElementById("closeScoringRulesBtn"),
+    gotItRulesBtn: document.getElementById("gotItRulesBtn"),
+    shareRankModal: document.getElementById("shareRankModal"),
+    closeShareModalBtn: document.getElementById("closeShareModalBtn"),
+    shareCardName: document.getElementById("shareCardName"),
+    shareCardRank: document.getElementById("shareCardRank"),
+    shareCardScore: document.getElementById("shareCardScore"),
+    shareWhatsappBtn: document.getElementById("shareWhatsappBtn"),
+    copyShareTextBtn: document.getElementById("copyShareTextBtn"),
+    trToast: document.getElementById("trToast"),
     loadingOverlay: document.getElementById("leaderboardLoadingOverlay"),
     loadingLabel: document.getElementById("leaderboardLoadingLabel"),
     loadingProgressBar: document.getElementById("leaderboardLoadingProgressBar"),
     loadingPercent: document.getElementById("leaderboardLoadingPercent"),
+    // Legacy elements for backward compatibility
+    projectedWrap: document.getElementById("projectedTableWrap"),
+    projectedBody: document.getElementById("projectedBody"),
+    projectedEmpty: document.getElementById("projectedEmpty"),
+    subjectWrap: document.getElementById("subjectTableWrap"),
+    subjectBody: document.getElementById("subjectBody"),
+    subjectEmpty: document.getElementById("subjectEmpty"),
+    mySubjectRank: document.getElementById("mySubjectRank"),
   };
 
-  let loaderShownAt = 0;
-  let loaderProgressValue = 0;
-  let loaderProgressRaf = null;
+  // Toast Notification
+  function showToast(message, type = "info") {
+    const toast = elements.trToast;
+    if (!toast) return;
+    toast.textContent = message;
+    toast.className = `tr-toast tr-toast--${type} is-visible`;
+    setTimeout(() => {
+      toast.classList.remove("is-visible");
+    }, 3200);
+  }
 
+  // Loader Progress
   function renderLoaderProgress(value) {
     const clamped = Math.max(0, Math.min(100, Number(value) || 0));
-    loaderProgressValue = clamped;
     if (elements.loadingPercent) elements.loadingPercent.textContent = String(Math.round(clamped));
     if (elements.loadingProgressBar) elements.loadingProgressBar.style.width = `${clamped}%`;
   }
 
   function setLoaderProgress(progress, label) {
     const clamped = Math.max(0, Math.min(100, Number(progress) || 0));
+    if (window.ThinkRightLoader && typeof window.ThinkRightLoader.setProgress === "function") {
+      window.ThinkRightLoader.setProgress(clamped, label);
+    }
     if (elements.loadingLabel && label) elements.loadingLabel.textContent = label;
+    renderLoaderProgress(clamped);
+  }
 
-    const start = loaderProgressValue;
-    const delta = clamped - start;
-    if (Math.abs(delta) < 0.2) {
-      renderLoaderProgress(clamped);
-      return;
-    }
-
-    if (loaderProgressRaf) {
-      cancelAnimationFrame(loaderProgressRaf);
-      loaderProgressRaf = null;
-    }
-
-    const duration = Math.min(500, Math.max(160, Math.abs(delta) * 14));
-    const startTs = performance.now();
-
-    const tick = (ts) => {
-      const t = Math.min(1, (ts - startTs) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
-      renderLoaderProgress(start + delta * eased);
-      if (t < 1) {
-        loaderProgressRaf = requestAnimationFrame(tick);
+  function showLeaderboardLoader(show, progress = 0, label = "Loading...") {
+    if (window.ThinkRightLoader) {
+      if (show) {
+        if (state.initialLoadDone && typeof window.ThinkRightLoader.ribbonStart === "function") {
+          window.ThinkRightLoader.ribbonStart();
+        } else {
+          window.ThinkRightLoader.setProgress(progress, label);
+        }
       } else {
-        loaderProgressRaf = null;
-        renderLoaderProgress(clamped);
+        if (state.initialLoadDone && typeof window.ThinkRightLoader.ribbonDone === "function") {
+          window.ThinkRightLoader.ribbonDone();
+        }
+        if (typeof window.ThinkRightLoader.done === "function") {
+          window.ThinkRightLoader.done("Arena ready");
+        }
       }
-    };
-
-    loaderProgressRaf = requestAnimationFrame(tick);
-  }
-
-  function showLeaderboardLoader(show, progress = 0, label = "Loading leaderboard...") {
+    }
     const overlay = elements.loadingOverlay;
-    if (!overlay) return;
-
-    if (show) {
-      if (overlay.classList.contains("is-hidden")) overlay.classList.remove("is-hidden");
-      overlay.removeAttribute("aria-hidden");
-      overlay.setAttribute("aria-busy", "true");
-      loaderShownAt = Date.now();
-      setLoaderProgress(progress, label);
-      document.body.classList.add("tr-loading");
-      return;
-    }
-
-    const elapsed = Date.now() - loaderShownAt;
-    const wait = Math.max(0, 550 - elapsed);
-    window.setTimeout(() => {
-      setLoaderProgress(100, "Leaderboard ready");
+    if (overlay) {
       overlay.classList.add("is-hidden");
-      overlay.setAttribute("aria-hidden", "true");
       overlay.setAttribute("aria-busy", "false");
-      if (loaderProgressRaf) {
-        cancelAnimationFrame(loaderProgressRaf);
-        loaderProgressRaf = null;
-      }
-      renderLoaderProgress(0);
-      document.body.classList.remove("tr-loading");
-    }, wait);
+    }
   }
 
-  function normalizePlan(plan) {
-    return String(plan || "")
-      .trim()
-      .toLowerCase()
-      .replace(/_/g, "-")
-      .replace(/\s+/g, "");
+  // Helpers: Avatar & Colors
+  const AVATAR_GRADIENTS = [
+    "linear-gradient(135deg, #1d4ed8, #4f46e5)",
+    "linear-gradient(135deg, #059669, #10b981)",
+    "linear-gradient(135deg, #7c3aed, #9333ea)",
+    "linear-gradient(135deg, #d97706, #f59e0b)",
+    "linear-gradient(135deg, #e11d48, #f43f5e)",
+    "linear-gradient(135deg, #0284c7, #38bdf8)",
+  ];
+
+  function getAvatarGradient(name) {
+    let hash = 0;
+    const str = String(name || "TR");
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const index = Math.abs(hash) % AVATAR_GRADIENTS.length;
+    return AVATAR_GRADIENTS[index];
   }
 
-  function isPaidPlan(plan) {
-    const normalized = normalizePlan(plan);
-    return normalized === "monthly"
-      || normalized === "quarter"
-      || normalized === "quarterly"
-      || normalized === "3-month"
-      || normalized === "3-months"
-      || normalized === "3months"
-      || normalized === "3month";
+  function getInitials(name) {
+    const clean = String(name || "User").replace(/[^a-zA-Z0-9\s]/g, "").trim();
+    const parts = clean.split(/\s+/);
+    if (parts.length >= 2) {
+      return (parts[0][0] + parts[1][0]).toUpperCase();
+    }
+    return clean.slice(0, 2).toUpperCase() || "TR";
   }
 
-  function boolish(value) {
-    if (value === true) return true;
-    const normalized = String(value || "").trim().toLowerCase();
-    return normalized === "true"
-      || normalized === "1"
-      || normalized === "yes"
-      || normalized === "y"
-      || normalized === "on";
+  function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text == null ? "" : String(text);
+    return div.innerHTML;
   }
 
-  function isActiveLikeStatus(status) {
-    const normalized = String(status || "active").trim().toLowerCase();
-    return normalized === "active" || normalized === "trial";
-  }
-
-  function getLiveAccessSnapshot() {
-    const userMeta = state.user?.user_metadata || {};
-    const appMeta = state.user?.app_metadata || {};
-    const subscriptionRow = window.Subscription?.__latestSubscriptionRow
-      || (typeof window.Subscription?.getSubscription === "function" ? window.Subscription.getSubscription() : null)
-      || null;
-    const premiumMeta = typeof window.Subscription?.getPremiumStatus === "function"
-      ? window.Subscription.getPremiumStatus()
-      : null;
-    const plan = normalizePlan(subscriptionRow?.plan || premiumMeta?.subscription_plan);
-    const role = String(appMeta.role || userMeta.role || "").toLowerCase();
-
-    let isPremium = false;
-    if (window.Subscription && typeof window.Subscription.isPremium === "function") {
-      isPremium = window.Subscription.isPremium() === true;
-    } else if (window.Subscription && typeof window.Subscription.canAccessDashboard === "function") {
-      isPremium = window.Subscription.canAccessDashboard() === true;
-    } else {
-      isPremium = boolish(userMeta.is_premium) || boolish(appMeta.is_premium);
+  // League Tiers Helper
+  function getLeagueTier(score, isSubject) {
+    if (isSubject) {
+      const avg = Number(score) || 0;
+      if (avg >= 85) return { name: "Subject Titan", class: "arena-tier-chip--titan", icon: "fa-crown" };
+      if (avg >= 70) return { name: "Scholar", class: "arena-tier-chip--scholar", icon: "fa-medal" };
+      if (avg >= 55) return { name: "Contender", class: "arena-tier-chip--contender", icon: "fa-bolt" };
+      return { name: "Rising Star", class: "arena-tier-chip--contender", icon: "fa-rocket" };
     }
 
-    const isAdmin = (
-      role === "admin"
-      || boolish(userMeta.is_admin)
-      || boolish(appMeta.is_admin)
-      || plan === "admin"
-    );
-
-    return {
-      isPremium: isPremium === true || isAdmin === true,
-      isAdmin: isAdmin === true,
-      plan,
-      subscriptionRow,
-      premiumMeta,
-    };
+    const val = Number(score) || 0;
+    if (val >= 300) return { name: "300+ Titan", class: "arena-tier-chip--titan", icon: "fa-crown" };
+    if (val >= 250) return { name: "Scholar", class: "arena-tier-chip--scholar", icon: "fa-medal" };
+    if (val >= 200) return { name: "Contender", class: "arena-tier-chip--contender", icon: "fa-bolt" };
+    return { name: "Rising Star", class: "arena-tier-chip--contender", icon: "fa-rocket" };
   }
 
-  // Uses the same shared entitlement source used by the rest of the app.
-  async function resolveAccessFlags() {
-    const userMeta = state.user?.user_metadata || {};
-    const appMeta = state.user?.app_metadata || {};
-    let isPremium = false;
-    let isAdmin = false;
-    let entitlementLoaded = false;
-    let raw = null;
+  // Live Weekly Countdown Timer
+  function setupCountdownTimer() {
+    const daysEl = document.getElementById("timerDays");
+    const hoursEl = document.getElementById("timerHours");
+    const minsEl = document.getElementById("timerMins");
+    const secsEl = document.getElementById("timerSecs");
+    if (!daysEl || !hoursEl || !minsEl || !secsEl) return;
 
-    if (window.Subscription && typeof window.Subscription.init === "function") {
-      try {
-        const initOk = await window.Subscription.init();
-        if (initOk === true) entitlementLoaded = true;
-      } catch (_err) {
-        // ignore
-      }
+    function getNextSundayMidnightUTC() {
+      const now = new Date();
+      const currentDay = now.getUTCDay(); // 0 is Sunday
+      const daysUntilSunday = currentDay === 0 ? 7 : (7 - currentDay);
+      const nextSunday = new Date(Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate() + daysUntilSunday,
+        23, 59, 59, 999
+      ));
+      return nextSunday.getTime();
     }
 
-    const snapshot = getLiveAccessSnapshot();
-    const subscriptionRow = snapshot.subscriptionRow;
-    const premiumMeta = snapshot.premiumMeta;
+    const targetTime = getNextSundayMidnightUTC();
 
-    if (subscriptionRow || premiumMeta) {
-      entitlementLoaded = true;
+    function update() {
+      const now = Date.now();
+      const diff = Math.max(0, targetTime - now);
+
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+
+      daysEl.textContent = String(d).padStart(2, "0");
+      hoursEl.textContent = String(h).padStart(2, "0");
+      minsEl.textContent = String(m).padStart(2, "0");
+      secsEl.textContent = String(s).padStart(2, "0");
     }
 
-    const plan = normalizePlan(subscriptionRow?.plan || premiumMeta?.subscription_plan);
-    const role = String(appMeta.role || userMeta.role || "").toLowerCase();
-
-    isPremium = snapshot.isPremium === true;
-    isAdmin = snapshot.isAdmin === true || role === "admin";
-
-    const access = {
-      isAdmin: isAdmin === true,
-      isPremium: isPremium === true || isAdmin === true,
-      isExplicitFree: entitlementLoaded ? (!isPremium && !isAdmin) : false,
-      entitlementLoaded: entitlementLoaded === true,
-    };
-
-    raw = subscriptionRow || premiumMeta || { userMeta, appMeta };
-    devLog("[entitlement]", {
-      userId: state.user?.id || null,
-      isAdmin: access.isAdmin,
-      isPremium: access.isPremium,
-      raw,
-    });
-
-    return access;
+    update();
+    setInterval(update, 1000);
   }
 
+  // Supabase Readiness Check
   function isSupabaseReady() {
     return !!(window.supabase && typeof window.supabase.rpc === "function");
   }
@@ -279,19 +263,13 @@
   }
 
   function normalizeSubject(subject) {
-    const normalized = String(subject || "")
-      .trim()
-      .toLowerCase()
-      .replace(/[_-]+/g, " ")
-      .replace(/\s+/g, " ");
-
+    const normalized = String(subject || "").trim().toLowerCase().replace(/[_-]+/g, " ").replace(/\s+/g, " ");
     const aliasMap = {
       "use of english": "english",
       maths: "mathematics",
       math: "mathematics",
       gov: "government",
       govt: "government",
-      goverment: "government",
       "literature in english": "literature",
       "christian religious studies": "crs",
       "christian religious knowledge": "crs",
@@ -302,22 +280,8 @@
       "computer studies": "computer",
       "computer science": "computer",
       "agricultural science": "agriculture",
-      "agricultural studies": "agriculture",
     };
-
     return aliasMap[normalized] || normalized;
-  }
-
-  function getMedal(rank) {
-    if (rank === 1) return "\u{1F947}";
-    if (rank === 2) return "\u{1F948}";
-    if (rank === 3) return "\u{1F949}";
-    return "";
-  }
-
-  function setWeekLabel(weekId) {
-    if (!elements.weekLabel) return;
-    elements.weekLabel.textContent = weekId ? `Week: ${weekId}` : "Week: --";
   }
 
   function localIsoWeekIdUTC(date) {
@@ -326,8 +290,7 @@
     d.setUTCDate(d.getUTCDate() + 4 - dayNum);
     const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
     const weekNo = Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-    const weekPadded = String(weekNo).padStart(2, "0");
-    return `${d.getUTCFullYear()}-W${weekPadded}`;
+    return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, "0")}`;
   }
 
   async function fetchCurrentWeekId() {
@@ -337,496 +300,410 @@
         if (!error && data) {
           if (typeof data === "string") return data;
           if (Array.isArray(data) && data.length > 0) {
-            if (typeof data[0] === "string") return data[0];
-            if (data[0] && typeof data[0].tr_current_week_id === "string") {
-              return data[0].tr_current_week_id;
-            }
+            return typeof data[0] === "string" ? data[0] : (data[0].tr_current_week_id || localIsoWeekIdUTC(new Date()));
           }
         }
       } catch (err) {
-        console.warn("[leaderboard] Failed to fetch server week_id:", err);
+        console.warn("[leaderboard] Week ID RPC error:", err);
       }
     }
     return localIsoWeekIdUTC(new Date());
   }
 
-  function renderRankCell(rank) {
-    const wrapper = document.createElement("span");
-    wrapper.className = "leaderboard-rank-cell";
-    if (rank === 1) wrapper.classList.add("leaderboard-rank-top1");
-    if (rank === 2) wrapper.classList.add("leaderboard-rank-top2");
-    if (rank === 3) wrapper.classList.add("leaderboard-rank-top3");
-
-    const rankText = document.createElement("span");
-    rankText.textContent = `#${rank}`;
-    wrapper.appendChild(rankText);
-    return wrapper;
-  }
-
-  function renderUsernameCell(targetCell, rank, usernameRaw) {
-    const username = usernameRaw || "User";
-    targetCell.className = "leaderboard-cell-username";
-    targetCell.title = username;
-    targetCell.textContent = "";
-
-    const wrap = document.createElement("span");
-    wrap.className = "leaderboard-username-wrap";
-
-    const medal = getMedal(rank);
-    if (medal) {
-      const medalEl = document.createElement("span");
-      medalEl.className = "leaderboard-username-medal";
-      medalEl.textContent = medal;
-      wrap.appendChild(medalEl);
-    }
-
-    const textEl = document.createElement("span");
-    textEl.className = "leaderboard-username-text";
-    textEl.textContent = username;
-    wrap.appendChild(textEl);
-
-    targetCell.appendChild(wrap);
-  }
-
-  function renderProjectedRows(rows) {
-    if (!elements.projectedBody) return;
-    elements.projectedBody.innerHTML = "";
-
-    rows.forEach((row, index) => {
-      const rank = Number(row.rank) || index + 1;
-      const tr = document.createElement("tr");
-
-      const rankTd = document.createElement("td");
-      rankTd.className = "leaderboard-cell-rank";
-      rankTd.appendChild(renderRankCell(rank));
-      tr.appendChild(rankTd);
-
-      const nameTd = document.createElement("td");
-      renderUsernameCell(nameTd, rank, row.username);
-      tr.appendChild(nameTd);
-
-      const scoreTd = document.createElement("td");
-      scoreTd.className = "leaderboard-cell-score";
-      const projected = Number(row.projected_score);
-      scoreTd.textContent = Number.isFinite(projected) ? `${projected} / 400` : "--";
-      const tests = Number(row.tests_this_week);
-      if (Number.isFinite(tests)) scoreTd.title = `${tests} tests this week`;
-      tr.appendChild(scoreTd);
-
-      elements.projectedBody.appendChild(tr);
-    });
-  }
-
-  function renderSubjectRows(rows) {
-    if (!elements.subjectBody) return;
-    elements.subjectBody.innerHTML = "";
-
-    rows.forEach((row, index) => {
-      const rank = Number(row.rank) || index + 1;
-      const tr = document.createElement("tr");
-
-      const rankTd = document.createElement("td");
-      rankTd.className = "leaderboard-cell-rank";
-      rankTd.appendChild(renderRankCell(rank));
-      tr.appendChild(rankTd);
-
-      const nameTd = document.createElement("td");
-      renderUsernameCell(nameTd, rank, row.username);
-      tr.appendChild(nameTd);
-
-      const avgTd = document.createElement("td");
-      avgTd.className = "leaderboard-cell-score";
-      const avg = Number(row.best3_average);
-      avgTd.textContent = Number.isFinite(avg) ? `${avg.toFixed(2)}%` : "--";
-      const tests = Number(row.tests_this_week);
-      if (Number.isFinite(tests)) avgTd.title = `${tests} tests this week`;
-      tr.appendChild(avgTd);
-
-      elements.subjectBody.appendChild(tr);
-    });
-  }
-
-  function renderSelfRank(targetEl, payload, fallbackMessage) {
-    if (!targetEl) return;
-
-    if (!payload) {
-      targetEl.textContent = fallbackMessage;
-      targetEl.style.display = "";
-      return;
-    }
-
-    const messageText = String(payload.message || "").trim().toLowerCase();
-    if (messageText.includes("admin accounts are excluded from public rankings")) {
-      targetEl.textContent = "";
-      targetEl.style.display = "none";
-      return;
-    }
-
-    if (payload.qualifies === true && payload.rank) {
-      targetEl.textContent = payload.message || `Your position this week: #${payload.rank}`;
-      targetEl.style.display = "";
-      return;
-    }
-
-    if (payload.message) {
-      targetEl.textContent = payload.message;
-      targetEl.style.display = "";
-      return;
-    }
-
-    targetEl.textContent = fallbackMessage;
-    targetEl.style.display = "";
-  }
-
+  // --- RPC Fetchers ---
   async function fetchTopProjected() {
-    if (!isSupabaseReady()) throw new Error("Supabase client unavailable.");
+    if (!isSupabaseReady()) return [];
     const { data, error } = await window.supabase.rpc("leaderboard_get_top_projected", {
       p_week_id: state.weekId,
-      p_limit: 10,
+      p_limit: 50,
     });
-    if (error) throw error;
+    if (error) {
+      console.warn("[leaderboard] top projected rpc error:", error);
+      return [];
+    }
     return Array.isArray(data) ? data : [];
   }
 
   async function fetchMyProjectedRank() {
-    if (!isSupabaseReady()) throw new Error("Supabase client unavailable.");
-    const userId = state.user?.id || null;
-    let { data, error } = await window.supabase.rpc("leaderboard_get_my_projected_rank", {
-      p_user_id: userId,
-      p_week_id: state.weekId,
-    });
-
-    // Retry with minimal args to tolerate schema-cache/default-arg quirks.
-    if (error) {
-      console.warn("[leaderboard] my projected rank rpc retry:", error);
-      const retry = await window.supabase.rpc("leaderboard_get_my_projected_rank", {
-        p_user_id: userId,
+    if (!isSupabaseReady() || !state.user) return null;
+    try {
+      const { data, error } = await window.supabase.rpc("leaderboard_get_my_projected_rank", {
+        p_user_id: state.user.id,
+        p_week_id: state.weekId,
       });
-      data = retry.data;
-      error = retry.error;
-    }
-
-    if (error) throw error;
-    if (Array.isArray(data) && data.length > 0) return data[0];
+      if (!error && Array.isArray(data) && data.length > 0) return data[0];
+    } catch (_e) {}
     return null;
   }
 
   async function fetchMyComparison() {
     if (window.ThinkRightWeeklyComparison && typeof window.ThinkRightWeeklyComparison.fetchMyWeeklyComparison === "function") {
-      return window.ThinkRightWeeklyComparison.fetchMyWeeklyComparison({
-        userId: state.user?.id || null,
-        weekId: state.weekId,
-      });
+      try {
+        return await window.ThinkRightWeeklyComparison.fetchMyWeeklyComparison({
+          userId: state.user?.id || null,
+          weekId: state.weekId,
+        });
+      } catch (_e) {}
     }
     return null;
-  }
-
-  function setProjectedMyRankBlur(blurred) {
-    if (!elements.projectedMyRankSensitive || !elements.projectedMyRankOverlay) return;
-    elements.projectedMyRankCard?.classList.toggle("is-locked", blurred);
-    elements.projectedMyRankSensitive.classList.toggle("is-blurred", blurred);
-    elements.projectedMyRankOverlay.hidden = !blurred;
-    if (!blurred) {
-      elements.projectedMyRankOverlay.style.display = "none";
-    } else {
-      elements.projectedMyRankOverlay.style.removeProperty("display");
-    }
-  }
-
-  function forceUnlockMyRankUI() {
-    if (!elements.projectedMyRankSensitive || !elements.projectedMyRankOverlay) return;
-    elements.projectedMyRankCard?.classList.remove("is-locked");
-    elements.projectedMyRankSensitive.classList.remove("is-blurred");
-    elements.projectedMyRankOverlay.hidden = true;
-    elements.projectedMyRankOverlay.style.display = "none";
-  }
-
-  function setMaskedMyRankValues() {
-    elements.projectedMyRankValue.textContent = "â€¢â€¢â€¢";
-    elements.projectedMyScoreValue.textContent = "â€¢â€¢â€¢";
-    elements.projectedMyPercentileValue.textContent = "â€¢â€¢â€¢";
-    elements.projectedMyPercentileItem.hidden = false;
-  }
-
-  function formatPercentileText(percentile) {
-    const value = Number(percentile);
-    if (!Number.isFinite(value)) return "";
-    return `Above ${Math.max(0, Math.min(100, Math.round(value)))}% of active users`;
-  }
-
-  function openPricingModal() {
-    if (window.Subscription && typeof window.Subscription.showPricingModal === "function") {
-      window.Subscription.showPricingModal();
-      return;
-    }
-    if (typeof window.showPricingModal === "function") {
-      window.showPricingModal();
-    }
-  }
-
-  function renderProjectedMyRankCard(topRows, myRank, myComparison) {
-    const card = elements.projectedMyRankCard;
-    if (!card) return;
-
-    card.hidden = false;
-    card.classList.toggle("is-loading", state.accessLoading === true);
-    forceUnlockMyRankUI();
-
-    if (state.accessLoading) {
-      elements.projectedMyRankStatus.textContent = "Checking your access...";
-      elements.projectedMyRankValue.textContent = "--";
-      elements.projectedMyScoreValue.textContent = "-- / 400";
-      elements.projectedMyPercentileItem.hidden = true;
-      return;
-    }
-
-    const selfFromTop = Array.isArray(topRows)
-      ? topRows.find((row) => String(row.user_id) === String(state.user?.id))
-      : null;
-    const rankNum = Number(myRank?.rank ?? myComparison?.rank ?? selfFromTop?.rank);
-    const scoreNum = Number(myRank?.projected_score ?? myComparison?.myProjectedScore ?? selfFromTop?.projected_score);
-    const hasNumbers = Number.isFinite(rankNum) && Number.isFinite(scoreNum);
-    const qualifies = myRank?.qualifies === true || myComparison?.qualifies === true || hasNumbers;
-    const inTop10 = Array.isArray(topRows) && topRows.some((row) => String(row.user_id) === String(state.user?.id));
-    const liveAccess = getLiveAccessSnapshot();
-    const isAdmin = state.access.isAdmin === true || liveAccess.isAdmin === true;
-    const isPremium = state.access.isPremium === true || liveAccess.isPremium === true;
-
-    if (!qualifies || !hasNumbers) {
-      const eligibilityMessage = String(myRank?.message || myComparison?.message || "Take at least 3 tests this week to get ranked.");
-      if (isAdmin || isPremium) {
-        elements.projectedMyRankStatus.textContent = "Your weekly rank is updating. Complete more tests to appear.";
-      } else {
-        elements.projectedMyRankStatus.textContent = eligibilityMessage.includes("excluded")
-          ? "Take at least 3 tests this week to get ranked."
-          : eligibilityMessage;
-      }
-      elements.projectedMyRankValue.textContent = "--";
-      elements.projectedMyScoreValue.textContent = "-- / 400";
-      elements.projectedMyPercentileItem.hidden = true;
-      forceUnlockMyRankUI();
-      return;
-    }
-
-    // Final gate for this card: show unlocked when inTop10 OR admin OR premium.
-    const canSee = inTop10 || isAdmin || isPremium;
-    const shouldBlur = !(canSee || isAdmin || isPremium);
-    if (DEV_MODE && !state.entitlementDebugLogged) {
-      console.log("[leaderboard entitlement]", {
-        entitlementLoaded: state.accessLoading !== true,
-        isPremium,
-        isAdmin,
-        inTop10,
-        access: state.access,
-        liveAccess,
-      });
-      state.entitlementDebugLogged = true;
-    }
-    devLog("[rankCard]", { inTop10, shouldBlur });
-    if (shouldBlur) {
-      elements.projectedMyRankStatus.textContent = "Your weekly ranking details are available on Premium.";
-      setMaskedMyRankValues();
-      setProjectedMyRankBlur(true);
-      return;
-    }
-
-    forceUnlockMyRankUI();
-    elements.projectedMyRankValue.textContent = `#${rankNum}`;
-    elements.projectedMyScoreValue.textContent = `${Math.round(scoreNum)} / 400`;
-
-    const percentileValue = Number(myComparison?.percentile);
-    if (Number.isFinite(percentileValue)) {
-      elements.projectedMyPercentileValue.textContent = formatPercentileText(percentileValue);
-      elements.projectedMyPercentileItem.hidden = false;
-    } else {
-      elements.projectedMyPercentileItem.hidden = true;
-    }
-    if (inTop10) {
-      elements.projectedMyRankStatus.textContent = "You're currently #" + rankNum + " 🎉";
-      return;
-    }
-
-    elements.projectedMyRankStatus.textContent = "Your rank this week: #" + rankNum;
   }
 
   async function fetchTopSubject(subjectKey) {
-    if (!isSupabaseReady()) throw new Error("Supabase client unavailable.");
-    const { data, error } = await window.supabase.rpc("leaderboard_get_top_subject", {
-      p_subject: normalizeSubject(subjectKey),
-      p_week_id: state.weekId,
-      p_limit: 10,
-    });
-    if (error) throw error;
-    return Array.isArray(data) ? data : [];
+    if (!isSupabaseReady()) return [];
+    try {
+      const { data, error } = await window.supabase.rpc("leaderboard_get_top_subject", {
+        p_subject: normalizeSubject(subjectKey),
+        p_week_id: state.weekId,
+        p_limit: 50,
+      });
+      if (!error && Array.isArray(data)) return data;
+    } catch (_e) {}
+    return [];
   }
 
   async function fetchMySubjectRank(subjectKey) {
-    if (!isSupabaseReady()) throw new Error("Supabase client unavailable.");
-    const userId = state.user?.id || null;
-    let { data, error } = await window.supabase.rpc("leaderboard_get_my_subject_rank", {
-      p_subject: normalizeSubject(subjectKey),
-      p_user_id: userId,
-      p_week_id: state.weekId,
-    });
-
-    if (error) {
-      console.warn("[leaderboard] my subject rank rpc retry:", error);
-      const retry = await window.supabase.rpc("leaderboard_get_my_subject_rank", {
+    if (!isSupabaseReady() || !state.user) return null;
+    try {
+      const { data, error } = await window.supabase.rpc("leaderboard_get_my_subject_rank", {
         p_subject: normalizeSubject(subjectKey),
-        p_user_id: userId,
+        p_user_id: state.user.id,
+        p_week_id: state.weekId,
       });
-      data = retry.data;
-      error = retry.error;
-    }
-
-    if (error) throw error;
-    if (Array.isArray(data) && data.length > 0) return data[0];
+      if (!error && Array.isArray(data) && data.length > 0) return data[0];
+    } catch (_e) {}
     return null;
   }
 
-  async function loadProjectedSection() {
-    if (elements.projectedStatus) elements.projectedStatus.textContent = "Loading projected rankings...";
-    if (elements.projectedWrap) elements.projectedWrap.hidden = true;
-    if (elements.projectedEmpty) elements.projectedEmpty.hidden = true;
-    let topRows = [];
-    let myRank = null;
-    let myComparison = null;
+  // --- Rendering Champions Podium ---
+  function renderPodium(rows, isSubject) {
+    if (!elements.podium) return;
 
-    renderProjectedMyRankCard(topRows, myRank, myComparison);
-
-    if (state.accessLoading) {
-      try {
-        state.access = await resolveAccessFlags();
-      } finally {
-        state.accessLoading = state.access.entitlementLoaded !== true;
+    // Use top 3 rows. If fewer than 3 exist in early week, fill with benchmark pacemakers
+    let podiumRows = rows.slice(0, 3);
+    if (podiumRows.length < 3 && !isSubject) {
+      const needed = 3 - podiumRows.length;
+      for (let i = 0; i < needed; i++) {
+        podiumRows.push(BENCHMARK_PACEMAKERS[podiumRows.length]);
       }
     }
 
-    try {
-      topRows = await fetchTopProjected();
-      if (!state.initialLoadDone) setLoaderProgress(72, "Projected rankings loaded...");
-      console.log("[leaderboard] top projected rows:", topRows.length);
-      if (topRows.length === 0) {
-        if (elements.projectedStatus) elements.projectedStatus.textContent = "";
-        if (elements.projectedEmpty) elements.projectedEmpty.hidden = false;
-      } else {
-        renderProjectedRows(topRows);
-        if (elements.projectedStatus) elements.projectedStatus.textContent = "";
-        if (elements.projectedWrap) elements.projectedWrap.hidden = false;
-      }
-    } catch (error) {
-      console.error("[leaderboard] projected top load error:", error);
-      if (elements.projectedStatus) {
-        elements.projectedStatus.textContent = "Unable to load projected leaderboard right now.";
-      }
+    if (podiumRows.length === 0) {
+      elements.podium.innerHTML = "";
+      return;
     }
 
-    const [myRankResult, myComparisonResult] = await Promise.allSettled([
-      fetchMyProjectedRank(),
-      fetchMyComparison(),
-    ]);
+    const rank1 = podiumRows[0];
+    const rank2 = podiumRows[1] || null;
+    const rank3 = podiumRows[2] || null;
 
-    if (myRankResult.status === "fulfilled") {
-      myRank = myRankResult.value;
-    } else {
-      console.error("[leaderboard] projected position load error:", myRankResult.reason);
-    }
+    // Visual ordering: #2 on left, #1 in center, #3 on right
+    const slots = [
+      { row: rank2, rankNum: 2, slotClass: "podium-slot--rank2", medal: "🥈", label: "2nd Place" },
+      { row: rank1, rankNum: 1, slotClass: "podium-slot--rank1", medal: "👑", label: "Champion" },
+      { row: rank3, rankNum: 3, slotClass: "podium-slot--rank3", medal: "🥉", label: "3rd Place" },
+    ];
 
-    if (myComparisonResult.status === "fulfilled") {
-      myComparison = myComparisonResult.value;
-    } else {
-      console.warn("[leaderboard] comparison load warning:", myComparisonResult.reason);
-    }
+    elements.podium.innerHTML = slots.map((slot) => {
+      const row = slot.row;
+      if (!row) return `<div class="podium-slot ${slot.slotClass}"><div class="podium-base"><span class="podium-rank-tag">#${slot.rankNum}</span></div></div>`;
 
-    renderProjectedMyRankCard(topRows, myRank, myComparison);
+      const username = row.username || "Candidate";
+      const initials = getInitials(username);
+      const avatarBg = slot.rankNum === 1 ? "" : `style="background: ${getAvatarGradient(username)};"`;
+      const scoreDisplay = isSubject
+        ? `${Number(row.best3_average || 0).toFixed(1)}%`
+        : `${Math.round(Number(row.projected_score || 0))} / 400`;
+      const testsDisplay = Number(row.tests_this_week) > 0 ? `<i class="fa-solid fa-fire"></i> ${row.tests_this_week} tests` : "Pacesetter";
+      const ambitionText = row.ambition || (slot.rankNum === 1 ? "National Leader" : "Challenger");
+
+      return `
+        <div class="podium-slot ${slot.slotClass}">
+          <div class="podium-top">
+            ${slot.rankNum === 1 ? `<div class="podium-crown"><i class="fa-solid fa-crown"></i></div>` : ""}
+            <div class="podium-avatar" ${avatarBg}>${initials}</div>
+            <h4 class="podium-name" title="${escapeHtml(username)}">${escapeHtml(username)}</h4>
+            <div class="podium-score">${scoreDisplay}</div>
+            <span class="podium-badge-pill">${testsDisplay}</span>
+          </div>
+          <div class="podium-base">
+            <span class="podium-rank-tag">#${slot.rankNum}</span>
+          </div>
+        </div>
+      `;
+    }).join("");
   }
 
-  async function loadSubjectSection(subjectKey) {
-    const normalized = normalizeSubject(subjectKey);
-    state.activeSubject = normalized;
-    syncSubjectControls(null);
+  // --- Rendering Candidates Roster (Ranks 4+) ---
+  function renderRoster(rows, isSubject) {
+    if (!elements.rosterList) return;
 
-    if (elements.subjectStatus) elements.subjectStatus.textContent = "Loading subject rankings...";
-    if (elements.subjectWrap) elements.subjectWrap.hidden = true;
-    if (elements.subjectEmpty) elements.subjectEmpty.hidden = true;
+    // Everything after rank 3
+    const rosterRows = rows.slice(3);
 
-    let topRows = [];
-    let myRank = null;
-
-    try {
-      topRows = await fetchTopSubject(normalized);
-      if (!state.initialLoadDone) setLoaderProgress(84, "Subject rankings loaded...");
-      console.log("[leaderboard] top subject rows:", normalized, topRows.length);
-
-      if (topRows.length === 0) {
-        if (elements.subjectStatus) elements.subjectStatus.textContent = "";
-        if (elements.subjectEmpty) elements.subjectEmpty.hidden = false;
+    if (rosterRows.length === 0) {
+      if (rows.length === 0) {
+        if (elements.emptyState) elements.emptyState.style.display = "block";
       } else {
-        renderSubjectRows(topRows);
-        if (elements.subjectStatus) elements.subjectStatus.textContent = "";
-        if (elements.subjectWrap) elements.subjectWrap.hidden = false;
+        if (elements.emptyState) elements.emptyState.style.display = "none";
       }
-    } catch (error) {
-      console.error("[leaderboard] subject top load error:", error);
-      if (elements.subjectStatus) {
-        elements.subjectStatus.textContent = "Unable to load subject leaderboard right now.";
-      }
+      elements.rosterList.innerHTML = "";
+      if (elements.rosterCountBadge) elements.rosterCountBadge.textContent = `${rows.length} Total Contenders`;
+      return;
     }
 
-    try {
-      myRank = await fetchMySubjectRank(normalized);
-    } catch (error) {
-      console.error("[leaderboard] subject position load error:", error);
-    }
+    if (elements.emptyState) elements.emptyState.style.display = "none";
+    if (elements.rosterCountBadge) elements.rosterCountBadge.textContent = `${rows.length} Total Contenders`;
 
-    renderSelfRank(
-      elements.mySubjectRank,
-      myRank,
-      "You need at least 2 completed tests in this subject this week to appear."
-    );
+    elements.rosterList.innerHTML = rosterRows.map((row, idx) => {
+      const rank = idx + 4;
+      const username = row.username || "Candidate";
+      const initials = getInitials(username);
+      const isSelf = state.user && String(row.user_id) === String(state.user.id);
+      const score = isSubject ? Number(row.best3_average || 0) : Number(row.projected_score || 0);
+      const scoreDisplay = isSubject ? `${score.toFixed(1)}%` : `${Math.round(score)} / 400`;
+      const tier = getLeagueTier(score, isSubject);
+      const tests = Number(row.tests_this_week) || 1;
+
+      return `
+        <article class="candidate-row ${isSelf ? "candidate-row--self" : ""}">
+          <div class="candidate-row__left">
+            <span class="candidate-rank-badge">#${rank}</span>
+            <div class="candidate-avatar" style="background: ${getAvatarGradient(username)};">
+              ${initials}
+            </div>
+            <div class="candidate-info">
+              <div class="candidate-name-row">
+                <span class="candidate-name" title="${escapeHtml(username)}">${escapeHtml(username)}</span>
+                ${isSelf ? `<span class="candidate-self-tag">YOU</span>` : ""}
+              </div>
+              <div class="candidate-meta-row">
+                <span class="arena-tier-chip ${tier.class}" style="padding: 0.1rem 0.5rem; font-size: 0.72rem;">
+                  <i class="fa-solid ${tier.icon}"></i> ${tier.name}
+                </span>
+                <span>•</span>
+                <span><i class="fa-solid fa-fire"></i> ${tests} tests</span>
+              </div>
+            </div>
+          </div>
+          <div class="candidate-row__right">
+            <div class="candidate-score-block">
+              <span class="candidate-score-val">${scoreDisplay}</span>
+              <span class="candidate-score-lbl">${isSubject ? "Best 3 Avg" : "Projected"}</span>
+            </div>
+          </div>
+        </article>
+      `;
+    }).join("");
   }
 
-  function syncSubjectControls(tabButton) {
-    const buttons = elements.subjectTabs
-      ? elements.subjectTabs.querySelectorAll(".leaderboard-tab")
-      : [];
-    buttons.forEach((btn) => {
-      const selected = btn.dataset.subject === state.activeSubject;
-      btn.setAttribute("aria-selected", selected ? "true" : "false");
-      btn.tabIndex = selected ? 0 : -1;
+  // --- Sticky HUD Controller ---
+  function updateStickyHud() {
+    if (!elements.stickyHud) return;
+
+    if (!state.user) {
+      if (elements.hudUsername) elements.hudUsername.textContent = "Guest";
+      if (elements.hudUserAvatar) elements.hudUserAvatar.textContent = "TR";
+      if (elements.hudRankBadge) elements.hudRankBadge.textContent = "Log In";
+      if (elements.hudScoreVal) elements.hudScoreVal.textContent = "-- / 400";
+      if (elements.hudGapText) elements.hudGapText.textContent = "Log in to track your live national ranking";
+      return;
+    }
+
+    const username = state.user.user_metadata?.username
+      || (state.user.email ? state.user.email.split("@")[0] : "You");
+    if (elements.hudUsername) elements.hudUsername.textContent = username;
+    if (elements.hudUserAvatar) {
+      elements.hudUserAvatar.textContent = getInitials(username);
+      elements.hudUserAvatar.style.background = getAvatarGradient(username);
+    }
+
+    const isSubject = state.activeMode === "subject";
+    const rankData = isSubject ? state.mySubjectRank : (state.myProjectedRank || state.myComparison);
+
+    if (!rankData || !rankData.qualifies || !rankData.rank) {
+      const tests = rankData?.tests_this_week || rankData?.my_tests_this_week || 0;
+      const needed = Math.max(0, (isSubject ? 2 : 3) - tests);
+      if (elements.hudRankBadge) elements.hudRankBadge.textContent = "Unranked";
+      if (elements.hudScoreVal) elements.hudScoreVal.textContent = "--";
+      if (elements.hudGapText) {
+        elements.hudGapText.textContent = needed > 0
+          ? `Complete ${needed} more test${needed > 1 ? "s" : ""} to enter rankings!`
+          : "Complete tests to earn a projected score";
+      }
+      return;
+    }
+
+    const rankNum = Number(rankData.rank);
+    if (elements.hudRankBadge) elements.hudRankBadge.textContent = `#${rankNum}`;
+
+    const scoreNum = Number(isSubject ? (rankData.best3_average || 0) : (rankData.projected_score || rankData.my_projected_score || 0));
+    if (elements.hudScoreVal) {
+      elements.hudScoreVal.textContent = isSubject ? `${scoreNum.toFixed(1)}%` : `${Math.round(scoreNum)} / 400`;
+    }
+
+    // Dynamic Overtake Gap calculation
+    const activeRows = isSubject ? state.subjectRows : state.projectedRows;
+    if (rankNum === 1) {
+      if (elements.hudGapText) elements.hudGapText.innerHTML = '<i class="fa-solid fa-crown" style="color: #f59e0b;"></i> You are currently #1 Champion this week!';
+    } else if (rankNum <= 3) {
+      if (elements.hudGapText) elements.hudGapText.innerHTML = '<i class="fa-solid fa-trophy" style="color: #eab308;"></i> You are on the National Podium!';
+    } else {
+      // Find candidate right ahead of user
+      const candidateAhead = activeRows.find((r, i) => i === (rankNum - 2));
+      if (candidateAhead) {
+        const aheadScore = Number(isSubject ? candidateAhead.best3_average : candidateAhead.projected_score) || 0;
+        const gap = Math.max(1, Math.round(aheadScore - scoreNum));
+        if (elements.hudGapText) elements.hudGapText.innerHTML = `<i class="fa-solid fa-bolt" style="color: #3b82f6;"></i> Only ${gap} pt${gap > 1 ? "s" : ""} behind #${rankNum - 1}! 1 test can overtake them.`;
+      } else {
+        if (elements.hudGapText) elements.hudGapText.textContent = `You are ranked #${rankNum} nationwide!`;
+      }
+    }
+  }
+
+  // --- Modal Handlers ---
+  function setupModals() {
+    // Scoring Rules Modal
+    if (elements.openScoringRulesBtn && elements.scoringRulesModal) {
+      elements.openScoringRulesBtn.addEventListener("click", () => {
+        elements.scoringRulesModal.classList.add("is-open");
+      });
+    }
+
+    if (elements.closeScoringRulesBtn && elements.scoringRulesModal) {
+      elements.closeScoringRulesBtn.addEventListener("click", () => {
+        elements.scoringRulesModal.classList.remove("is-open");
+      });
+    }
+
+    if (elements.gotItRulesBtn && elements.scoringRulesModal) {
+      elements.gotItRulesBtn.addEventListener("click", () => {
+        elements.scoringRulesModal.classList.remove("is-open");
+      });
+    }
+
+    // Share Modal
+    if (elements.hudShareBtn && elements.shareRankModal) {
+      elements.hudShareBtn.addEventListener("click", openShareModal);
+    }
+
+    if (elements.closeShareModalBtn && elements.shareRankModal) {
+      elements.closeShareModalBtn.addEventListener("click", () => {
+        elements.shareRankModal.classList.remove("is-open");
+      });
+    }
+
+    // Close on backdrop click
+    [elements.scoringRulesModal, elements.shareRankModal].forEach((modal) => {
+      if (!modal) return;
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) modal.classList.remove("is-open");
+      });
     });
-    if (elements.subjectSelect && elements.subjectSelect.value !== state.activeSubject) {
-      elements.subjectSelect.value = state.activeSubject;
+
+    // Share Actions
+    if (elements.shareWhatsappBtn) {
+      elements.shareWhatsappBtn.addEventListener("click", () => {
+        const text = generateShareText();
+        const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+        window.open(url, "_blank");
+      });
+    }
+
+    if (elements.copyShareTextBtn) {
+      elements.copyShareTextBtn.addEventListener("click", () => {
+        const text = generateShareText();
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(text).then(() => {
+            showToast("Challenge text copied to clipboard!", "success");
+          });
+        } else {
+          showToast("Copied to clipboard!", "success");
+        }
+      });
     }
   }
 
+  function openShareModal() {
+    if (!elements.shareRankModal) return;
+    const isSubject = state.activeMode === "subject";
+    const rankData = isSubject ? state.mySubjectRank : (state.myProjectedRank || state.myComparison);
+
+    const username = state.user?.user_metadata?.username
+      || (state.user?.email ? state.user.email.split("@")[0] : "Candidate");
+    const rankVal = rankData?.rank ? `#${rankData.rank}` : "Contender";
+    const scoreVal = rankData?.qualifies
+      ? (isSubject ? `${Number(rankData.best3_average || 0).toFixed(1)}%` : `${Math.round(Number(rankData.projected_score || rankData.my_projected_score || 0))} / 400`)
+      : "In Training";
+
+    if (elements.shareCardName) elements.shareCardName.textContent = username;
+    if (elements.shareCardRank) elements.shareCardRank.textContent = `Rank ${rankVal}`;
+    if (elements.shareCardScore) elements.shareCardScore.textContent = `${scoreVal} Projected UTME`;
+
+    elements.shareRankModal.classList.add("is-open");
+  }
+
+  function generateShareText() {
+    const isSubject = state.activeMode === "subject";
+    const rankData = isSubject ? state.mySubjectRank : (state.myProjectedRank || state.myComparison);
+    const rankVal = rankData?.rank ? `#${rankData.rank}` : "Top Contender";
+    const scoreVal = rankData?.qualifies
+      ? (isSubject ? `${Number(rankData.best3_average || 0).toFixed(1)}%` : `${Math.round(Number(rankData.projected_score || rankData.my_projected_score || 0))}/400`)
+      : "active practice";
+
+    return `🏆 I am currently ranked ${rankVal} on the ThinkRight National UTME Arena with a projected score of ${scoreVal}! Can you beat my score? Take the challenge at: https://thinkright.ng/leaderboard.html`;
+  }
+
+  // --- Mode Switcher Controller ---
+  function setupModeSwitcher() {
+    if (elements.tabModeProjected) {
+      elements.tabModeProjected.addEventListener("click", () => {
+        if (state.activeMode === "projected") return;
+        state.activeMode = "projected";
+        elements.tabModeProjected.classList.add("is-active");
+        elements.tabModeSubject?.classList.remove("is-active");
+        if (elements.subjectPickerContainer) elements.subjectPickerContainer.style.display = "none";
+
+        if (elements.podiumHeading) elements.podiumHeading.textContent = "Top 3 National Contenders";
+        if (elements.podiumSubheading) elements.podiumSubheading.textContent = "The current frontrunners setting the standard this week";
+        if (elements.rosterTitle) elements.rosterTitle.textContent = "Contenders Leaderboard";
+
+        renderPodium(state.projectedRows, false);
+        renderRoster(state.projectedRows, false);
+        updateStickyHud();
+      });
+    }
+
+    if (elements.tabModeSubject) {
+      elements.tabModeSubject.addEventListener("click", async () => {
+        if (state.activeMode === "subject") return;
+        state.activeMode = "subject";
+        elements.tabModeSubject.classList.add("is-active");
+        elements.tabModeProjected?.classList.remove("is-active");
+        if (elements.subjectPickerContainer) elements.subjectPickerContainer.style.display = "flex";
+
+        await loadSubjectData(state.activeSubject);
+      });
+    }
+  }
+
+  // --- Subject Tabs Builder ---
   function buildSubjectTabs() {
     if (!elements.subjectTabs) return;
     elements.subjectTabs.innerHTML = "";
-    if (elements.subjectSelect) {
-      elements.subjectSelect.innerHTML = "";
-    }
-
-    const preferredSubject = normalizeSubject(localStorage.getItem("selectedSubject"));
-    if (SUBJECTS.some((item) => item.key === preferredSubject)) {
-      state.activeSubject = preferredSubject;
-    }
+    if (elements.subjectSelect) elements.subjectSelect.innerHTML = "";
 
     SUBJECTS.forEach((subject) => {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "leaderboard-tab";
-      btn.setAttribute("role", "tab");
-      btn.setAttribute("aria-selected", subject.key === state.activeSubject ? "true" : "false");
-      btn.tabIndex = subject.key === state.activeSubject ? 0 : -1;
-      btn.textContent = subject.label;
+      btn.className = `arena-subject-pill ${subject.key === state.activeSubject ? "is-active" : ""}`;
+      btn.innerHTML = `<i class="fa-solid ${subject.icon}"></i> <span>${escapeHtml(subject.label)}</span>`;
       btn.dataset.subject = subject.key;
 
       btn.addEventListener("click", async () => {
         if (state.activeSubject === subject.key) return;
         state.activeSubject = subject.key;
-        syncSubjectControls(btn);
-        await loadSubjectSection(subject.key);
+        syncSubjectPills();
+        await loadSubjectData(subject.key);
       });
 
       elements.subjectTabs.appendChild(btn);
@@ -841,56 +718,140 @@
 
     if (elements.subjectSelect) {
       elements.subjectSelect.value = state.activeSubject;
-      if (elements.subjectSelect.dataset.bound !== "true") {
-        elements.subjectSelect.dataset.bound = "true";
-        elements.subjectSelect.addEventListener("change", async (event) => {
-          const nextSubject = normalizeSubject(event.target.value);
-          if (!nextSubject || nextSubject === state.activeSubject) return;
-          state.activeSubject = nextSubject;
-          syncSubjectControls(null);
-          await loadSubjectSection(nextSubject);
-        });
-      }
+      elements.subjectSelect.addEventListener("change", async (e) => {
+        state.activeSubject = e.target.value;
+        syncSubjectPills();
+        await loadSubjectData(state.activeSubject);
+      });
     }
   }
 
+  function syncSubjectPills() {
+    if (elements.subjectTabs) {
+      elements.subjectTabs.querySelectorAll(".arena-subject-pill").forEach((pill) => {
+        pill.classList.toggle("is-active", pill.dataset.subject === state.activeSubject);
+      });
+    }
+    if (elements.subjectSelect && elements.subjectSelect.value !== state.activeSubject) {
+      elements.subjectSelect.value = state.activeSubject;
+    }
+  }
+
+  // --- Main Data Loaders ---
+  async function loadProjectedData() {
+    if (elements.projectedStatus) elements.projectedStatus.style.display = "block";
+    try {
+      const rows = await fetchTopProjected();
+      state.projectedRows = rows;
+      if (elements.projectedStatus) elements.projectedStatus.style.display = "none";
+
+      if (state.activeMode === "projected") {
+        renderPodium(rows, false);
+        renderRoster(rows, false);
+      }
+
+      // Backward compatibility table rendering
+      if (elements.projectedBody) {
+        elements.projectedBody.innerHTML = rows.map((r, i) => `
+          <tr>
+            <td>#${r.rank || i + 1}</td>
+            <td>${escapeHtml(r.username)}</td>
+            <td>${r.projected_score} / 400</td>
+          </tr>
+        `).join("");
+      }
+    } catch (e) {
+      console.error("[leaderboard] projected load error:", e);
+      if (elements.projectedStatus) elements.projectedStatus.textContent = "Could not load rankings.";
+    }
+
+    try {
+      const [myRank, myComp] = await Promise.allSettled([
+        fetchMyProjectedRank(),
+        fetchMyComparison(),
+      ]);
+      if (myRank.status === "fulfilled") state.myProjectedRank = myRank.value;
+      if (myComp.status === "fulfilled") state.myComparison = myComp.value;
+    } catch (_e) {}
+
+    updateStickyHud();
+  }
+
+  async function loadSubjectData(subjectKey) {
+    const subjObj = SUBJECTS.find((s) => s.key === subjectKey);
+    const subjName = subjObj ? subjObj.label : subjectKey.toUpperCase();
+
+    if (state.initialLoadDone && window.ThinkRightLoader?.ribbonStart) {
+      window.ThinkRightLoader.ribbonStart();
+    }
+
+    if (elements.podiumHeading) elements.podiumHeading.textContent = `Top Performers: ${subjName}`;
+    if (elements.podiumSubheading) elements.podiumSubheading.textContent = `Highest 3-test average scores in ${subjName} this week`;
+    if (elements.rosterTitle) elements.rosterTitle.textContent = `${subjName} Rankings`;
+
+    if (elements.subjectStatus) elements.subjectStatus.style.display = "block";
+
+    try {
+      const rows = await fetchTopSubject(subjectKey);
+      state.subjectRows = rows;
+      if (elements.subjectStatus) elements.subjectStatus.style.display = "none";
+
+      renderPodium(rows, true);
+      renderRoster(rows, true);
+
+      // Backward compatibility table rendering
+      if (elements.subjectBody) {
+        elements.subjectBody.innerHTML = rows.map((r, i) => `
+          <tr>
+            <td>#${r.rank || i + 1}</td>
+            <td>${escapeHtml(r.username)}</td>
+            <td>${Number(r.best3_average || 0).toFixed(1)}%</td>
+          </tr>
+        `).join("");
+      }
+    } catch (e) {
+      console.error("[leaderboard] subject load error:", e);
+      if (elements.subjectStatus) elements.subjectStatus.textContent = "Could not load subject rankings.";
+    }
+
+    try {
+      state.mySubjectRank = await fetchMySubjectRank(subjectKey);
+    } catch (_e) {}
+
+    updateStickyHud();
+    if (state.initialLoadDone && window.ThinkRightLoader?.ribbonDone) {
+      window.ThinkRightLoader.ribbonDone();
+    }
+  }
+
+  // --- Initialization ---
   async function initLeaderboard() {
-    showLeaderboardLoader(true, 10, "Checking authentication...");
+    showLeaderboardLoader(true, 15, "Connecting to UTME Arena...");
+
     try {
       await waitForAuthBootstrap();
-      setLoaderProgress(24, "Reading your profile...");
+      setLoaderProgress(35, "Reading candidate credentials...");
 
       const user = typeof getCurrentUser === "function" ? await getCurrentUser() : null;
-      if (!user) {
-        setLoaderProgress(92, "Redirecting to login...");
-        window.location.href = `login.html?next=${encodeURIComponent("leaderboard.html")}`;
-        return;
-      }
-
       state.user = user;
-      state.accessLoading = true;
-      setLoaderProgress(38, "Resolving active week...");
+
+      setLoaderProgress(55, "Calculating live weekly season...");
       state.weekId = await fetchCurrentWeekId();
-      setWeekLabel(state.weekId);
+      if (elements.weekLabel) elements.weekLabel.textContent = `Week: ${state.weekId}`;
 
-      if (elements.projectedMyRankUpgradeBtn && elements.projectedMyRankUpgradeBtn.dataset.bound !== "true") {
-        elements.projectedMyRankUpgradeBtn.dataset.bound = "true";
-        elements.projectedMyRankUpgradeBtn.addEventListener("click", openPricingModal);
-      }
-
+      setupCountdownTimer();
       buildSubjectTabs();
-      setLoaderProgress(54, "Loading weekly rankings...");
-      await Promise.allSettled([loadProjectedSection(), loadSubjectSection(state.activeSubject)]);
+      setupModeSwitcher();
+      setupModals();
+
+      setLoaderProgress(75, "Loading top contenders...");
+      await loadProjectedData();
+
+      setLoaderProgress(100, "Arena ready!");
       state.initialLoadDone = true;
       showLeaderboardLoader(false);
-    } catch (error) {
-      console.error("[leaderboard] init error:", error);
-      if (elements.projectedStatus) {
-        elements.projectedStatus.textContent = "Unable to load leaderboard right now.";
-      }
-      if (elements.subjectStatus) {
-        elements.subjectStatus.textContent = "Unable to load subject leaderboard right now.";
-      }
+    } catch (err) {
+      console.error("[leaderboard] init fatal error:", err);
       showLeaderboardLoader(false);
     }
   }
@@ -901,4 +862,3 @@
     initLeaderboard();
   }
 })();
-

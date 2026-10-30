@@ -32,26 +32,45 @@
 
 .page-test .mark-review-btn {
     flex: 0 0 auto;
-    min-height: 40px;
+    min-height: 38px;
+    height: 38px;
     border: 1px solid var(--line-subtle);
-    border-radius: var(--radius-sm);
-    padding: 8px 12px;
+    border-radius: var(--radius-sm, 8px);
+    padding: 0 14px;
     background: var(--surface-bg);
     color: var(--text-primary);
     font-size: 0.8rem;
     font-weight: 600;
-    line-height: 1.1;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    user-select: none;
+}
+
+.page-test .mark-review-btn i {
+    font-size: 0.92rem;
+    line-height: 1;
 }
 
 .page-test .mark-review-btn:hover {
     border-color: #d97706;
     background: rgba(217, 119, 6, 0.1);
+    color: #b45309;
 }
 
 .page-test .mark-review-btn.is-flagged {
     border-color: #d97706;
-    background: rgba(217, 119, 6, 0.14);
-    color: #92400e;
+    background: rgba(217, 119, 6, 0.16);
+    color: #b45309;
+}
+
+.page-test .mark-review-btn.is-flagged i {
+    color: #d97706;
 }
 
 .page-test .palette-panel-header {
@@ -72,14 +91,76 @@
 
 .page-test .palette-close-btn {
     display: none;
-    min-height: 36px;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    min-height: 32px;
+    min-width: 32px;
     border: 1px solid var(--line-subtle);
-    border-radius: var(--radius-sm);
-    padding: 6px 10px;
+    border-radius: 50%;
+    padding: 0;
     background: var(--surface-subtle);
     color: var(--text-primary);
-    font-size: 0.76rem;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.page-test .palette-close-btn:hover {
+    background: var(--surface-bg);
+    border-color: var(--accent-primary);
+    color: var(--accent-primary);
+}
+
+.page-test .palette-progress-box {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0 0 12px;
+    padding: 10px 12px;
+    border: 1px solid var(--line-subtle);
+    border-radius: var(--radius-sm, 8px);
+    background: var(--surface-subtle);
+    font-size: 0.78rem;
+}
+
+.page-test .palette-progress-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    line-height: 1.2;
+}
+
+.page-test .palette-progress-label {
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+}
+
+.page-test .palette-progress-label strong {
+    color: var(--text-primary);
     font-weight: 700;
+}
+
+.page-test .palette-progress-percentage {
+    color: var(--accent-primary, #1d4ed8);
+    font-weight: 700;
+    font-size: 0.8rem;
+}
+
+.page-test .palette-progress-track {
+    width: 100%;
+    height: 7px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--line-subtle) 60%, transparent);
+    overflow: hidden;
+}
+
+.page-test .palette-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .page-test .palette-summary {
@@ -103,7 +184,7 @@
 
 .page-test .palette-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 10px;
+    gap: 8px;
 }
 
 .page-test .question-mobile-actions {
@@ -117,53 +198,100 @@
 }
 
 .page-test .palette-item {
-    min-height: 48px;
-    min-width: 48px;
-    border-radius: 10px;
+    min-height: 44px;
+    min-width: 44px;
+    aspect-ratio: 1;
+    border-radius: 6px !important;
     box-shadow: 0 1px 2px rgba(16, 24, 40, 0.08);
 }
 
+.page-test .palette-item.answered {
+    background: #2563eb !important;
+    border-color: #1d4ed8 !important;
+    border-style: solid !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 1px 3px rgba(37, 99, 235, 0.35) !important;
+}
+
+.page-test .palette-item.answered:hover {
+    background: #1d4ed8 !important;
+    border-color: #1e40af !important;
+    color: #ffffff !important;
+}
+
+.page-test .palette-item.answered.current {
+    background: #1d4ed8 !important;
+    border-color: #1e40af !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #2563eb !important;
+}
+
 .page-test .palette-item.flagged {
-    border-color: rgba(217, 119, 6, 0.55);
-    background: rgba(217, 119, 6, 0.12);
-    color: #92400e;
-    box-shadow: inset 0 0 0 1px rgba(217, 119, 6, 0.28);
+    border-color: rgba(217, 119, 6, 0.85) !important;
+    background: rgba(217, 119, 6, 0.16) !important;
+    color: #92400e !important;
+    box-shadow: inset 0 0 0 1.5px rgba(217, 119, 6, 0.4) !important;
 }
 
 .page-test .palette-item.flagged.current {
-    border-color: #1e3a8a;
-    background: #1e3a8a;
-    color: #ffffff;
-    box-shadow: inset 0 0 0 2px rgba(251, 191, 36, 0.85);
+    border-color: #1d4ed8 !important;
+    background: #1d4ed8 !important;
+    color: #ffffff !important;
+    box-shadow: inset 0 0 0 2px rgba(251, 191, 36, 0.9), 0 0 0 2px #ffffff !important;
 }
 
 .page-test .palette-item.pending {
-    border-style: dashed;
-    border-color: rgba(148, 163, 184, 0.7);
-    background: rgba(148, 163, 184, 0.12);
-    color: #475569;
+    border-style: dashed !important;
+    border-width: 1.5px !important;
+    border-color: rgba(148, 163, 184, 0.75) !important;
+    background: var(--surface-bg, #ffffff) !important;
+    color: #64748b !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+}
+
+.page-test .palette-item.pending:hover {
+    border-color: var(--accent-primary, #1d4ed8) !important;
+    background: rgba(29, 78, 216, 0.08) !important;
+    color: var(--accent-primary, #1d4ed8) !important;
 }
 
 .page-test .palette-item.pending.current {
-    border-style: solid;
-    border-color: #1e3a8a;
-    background: #1e3a8a;
-    color: #ffffff;
+    border-style: solid !important;
+    border-color: #1d4ed8 !important;
+    background: #1d4ed8 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.25) !important;
 }
 
 .page-test .palette-item.answered.flagged {
-    border-color: rgba(217, 119, 6, 0.72);
-    background: rgba(251, 191, 36, 0.2);
+    background: #2563eb !important;
+    border-color: #f59e0b !important;
+    border-width: 2px !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: inset 0 0 0 2px #d97706, 0 1px 3px rgba(37, 99, 235, 0.35) !important;
+}
+
+.page-test .legend-dot {
+    border-radius: 3px !important;
+}
+
+.page-test .legend-dot.answered {
+    background: #2563eb !important;
+    border-color: #1d4ed8 !important;
 }
 
 .page-test .legend-dot.flagged {
-    background: #d97706;
-    border-color: #d97706;
+    background: #d97706 !important;
+    border-color: #d97706 !important;
 }
 
 .page-test .legend-dot.pending {
-    background: #94a3b8;
-    border-color: #94a3b8;
+    background: #94a3b8 !important;
+    border-color: #94a3b8 !important;
 }
 
 .page-test .palette-toggle-btn {
@@ -281,20 +409,141 @@ body.tr-palette-open {
     .page-test .question-mobile-actions {
         display: flex;
         align-items: center;
-        gap: 8px;
-        margin-bottom: 10px;
+        gap: 10px;
+        margin-bottom: 12px;
+        width: 100%;
     }
 
-    .page-test .question-mobile-actions .palette-toggle-btn,
-    .page-test .question-mobile-actions .mark-review-btn {
-        flex: 1 1 0;
-        width: auto;
+    .page-test .question-mobile-actions .palette-toggle-btn {
+        flex: 0 0 auto !important;
+        width: auto !important;
+        min-width: 85px;
         margin-bottom: 0;
-        min-height: 44px;
+        min-height: 38px;
+        height: 38px;
+        padding: 0 12px;
+        border-radius: 8px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        justify-content: center;
+        white-space: nowrap;
+    }
+
+    .page-test .mobile-test-progress {
+        flex: 1 1 auto;
+        min-width: 0;
+        background: var(--surface-bg);
+        border: 1px solid var(--line-subtle);
+        border-radius: 8px;
+        padding: 5px 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 4px;
+        height: 38px;
+        box-sizing: border-box;
+    }
+
+    .page-test .mobile-progress-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        line-height: 1;
+    }
+
+    .page-test .mobile-progress-label {
+        font-size: 0.68rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        font-weight: 600;
+        color: var(--text-muted);
+    }
+
+    .page-test .mobile-progress-count {
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: var(--accent-primary, #1d4ed8);
+    }
+
+    .page-test .mobile-progress-track {
+        width: 100%;
+        height: 5px;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--line-subtle) 60%, transparent);
+        overflow: hidden;
+    }
+
+    .page-test .mobile-progress-fill {
+        height: 100%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #2563eb, #3b82f6);
+        transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .page-test .question-mobile-actions .mark-review-btn {
-        white-space: nowrap;
+        flex: 0 0 40px !important;
+        width: 40px !important;
+        min-width: 40px !important;
+        height: 40px !important;
+        min-height: 40px !important;
+        padding: 0 !important;
+        border-radius: 8px;
+        gap: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0;
+    }
+
+    .page-test .question-mobile-actions .mark-review-btn .mark-review-btn-text {
+        display: none !important;
+    }
+
+    .page-test .question-mobile-actions .mark-review-btn i {
+        font-size: 1.05rem;
+        margin: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-test .mark-review-btn {
+        flex: 0 0 40px;
+        width: 40px;
+        min-width: 40px;
+        height: 40px;
+        min-height: 40px;
+        padding: 0;
+        border-radius: 8px;
+        gap: 0;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .page-test .mark-review-btn .mark-review-btn-text {
+        display: none !important;
+    }
+
+    .page-test .mark-review-btn i {
+        font-size: 1.05rem;
+        margin: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-test .mark-review-btn {
+        flex: 0 0 36px;
+        width: 36px;
+        min-width: 36px;
+        height: 36px;
+        min-height: 36px;
+    }
+
+    .page-test .mark-review-btn i {
+        font-size: 0.95rem;
     }
 }
 

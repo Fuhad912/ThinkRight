@@ -324,9 +324,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             event.preventDefault();
             const hidden = passwordInput.type === 'password';
             passwordInput.type = hidden ? 'text' : 'password';
-            passwordToggle.textContent = hidden ? 'Hide' : 'Show';
             passwordToggle.setAttribute('aria-label', hidden ? 'Hide password' : 'Show password');
             passwordToggle.setAttribute('aria-pressed', hidden ? 'true' : 'false');
+            passwordToggle.setAttribute('title', hidden ? 'Hide password' : 'Show password');
+            const eyeOpen = passwordToggle.querySelector('.icon-eye-open');
+            const eyeOff = passwordToggle.querySelector('.icon-eye-off');
+            if (eyeOpen && eyeOff) {
+                eyeOpen.style.display = hidden ? 'none' : 'block';
+                eyeOff.style.display = hidden ? 'block' : 'none';
+            }
         });
     }
 
@@ -336,9 +342,15 @@ document.addEventListener('DOMContentLoaded', async () => {
             event.preventDefault();
             const hidden = confirmPasswordInput.type === 'password';
             confirmPasswordInput.type = hidden ? 'text' : 'password';
-            confirmPasswordToggle.textContent = hidden ? 'Hide' : 'Show';
             confirmPasswordToggle.setAttribute('aria-label', hidden ? 'Hide confirm password' : 'Show confirm password');
             confirmPasswordToggle.setAttribute('aria-pressed', hidden ? 'true' : 'false');
+            confirmPasswordToggle.setAttribute('title', hidden ? 'Hide confirm password' : 'Show confirm password');
+            const eyeOpen = confirmPasswordToggle.querySelector('.icon-eye-open');
+            const eyeOff = confirmPasswordToggle.querySelector('.icon-eye-off');
+            if (eyeOpen && eyeOff) {
+                eyeOpen.style.display = hidden ? 'none' : 'block';
+                eyeOff.style.display = hidden ? 'block' : 'none';
+            }
         });
     }
 

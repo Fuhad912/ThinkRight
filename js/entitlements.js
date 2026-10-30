@@ -88,108 +88,37 @@
     return subject;
   }
 
-  function canAccessSyllabus({ isPremium, isAdmin }) {
-    if (typeof isPremium !== "boolean" || typeof isAdmin !== "boolean") {
-      throw new Error(
-        "canAccessSyllabus expects strict booleans for isPremium and isAdmin"
-      );
-    }
-    return isAdmin === true || isPremium === true;
+  function canAccessSyllabus() {
+    return true;
   }
 
-  function canViewSyllabus({ subjectName, isPremium, isAdmin }) {
-    if (typeof isPremium !== "boolean" || typeof isAdmin !== "boolean") {
-      throw new Error(
-        "canViewSyllabus expects strict booleans for isPremium and isAdmin"
-      );
-    }
-
-    const normalized = normalizeSubject(subjectName);
-    if (normalized === "english" || normalized === "math") {
-      return true;
-    }
-    return Boolean(isAdmin || isPremium);
+  function canViewSyllabus() {
+    return true;
   }
 
-  function toEntitlement(row) {
-    const plan = normalizePlan(row?.plan);
-    const status = (row?.status || "active").toString().trim().toLowerCase();
-    const expiresAt = row?.expires_at ? new Date(row.expires_at) : null;
-    const notExpired = !expiresAt || expiresAt > new Date();
-
-    const isAdmin = plan === "admin";
-    const isPremiumPlan = plan === "monthly" || plan === "3-month" || plan === "admin";
-    const isPremium = status === "active" && notExpired && isPremiumPlan;
-
+  function toEntitlement() {
     return {
-      isAdmin: isAdmin === true,
-      isPremium: isPremium === true,
-      plan,
-      status,
-      expiresAt: row?.expires_at || null,
-      source: "subscriptions",
+      isAdmin: true,
+      isPremium: true,
+      plan: "free",
+      status: "active",
+      expiresAt: null,
+      source: "free",
     };
   }
 
-  async function fetchSyllabusEntitlement({ supabase, userId }) {
-    if (!supabase || !userId) {
-      return {
-        isAdmin: false,
-        isPremium: false,
-        plan: "free",
-        status: "active",
-        expiresAt: null,
-        source: "none",
-      };
-    }
-
-    const selectLatest = async () => {
-      const { data, error } = await supabase
-        .from("subscriptions")
-        .select("user_id, plan, status, expires_at, updated_at, started_at")
-        .eq("user_id", userId)
-        .order("updated_at", { ascending: false })
-        .limit(1)
-        .maybeSingle();
-
-      if (error && error.code !== "PGRST116") {
-        throw error;
-      }
-      return data || null;
+  async function fetchSyllabusEntitlement() {
+    return {
+      isAdmin: true,
+      isPremium: true,
+      plan: "free",
+      status: "active",
+      expiresAt: null,
+      source: "free",
     };
-
-    let row = await selectLatest();
-
-    // Guarantee row existence.
-    if (!row) {
-      const defaultRow = {
-        user_id: userId,
-        plan: "free",
-        status: "active",
-        started_at: new Date().toISOString(),
-        expires_at: null,
-      };
-
-      const { data: created, error: createError } = await supabase
-        .from("subscriptions")
-        .upsert(defaultRow, { onConflict: "user_id" })
-        .select("user_id, plan, status, expires_at, updated_at, started_at")
-        .maybeSingle();
-
-      if (createError && createError.code !== "23505") {
-        throw createError;
-      }
-      row = created || (await selectLatest()) || defaultRow;
-    }
-
-    const entitlement = toEntitlement(row);
-    devLog("fetched entitlement", {
-      user_id: userId,
-      isAdmin: entitlement.isAdmin,
-      isPremium: entitlement.isPremium,
-    });
-    return entitlement;
   }
+
+
 
   function runTruthTableChecks() {
     // Core 3 regression checks requested.

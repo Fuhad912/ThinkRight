@@ -48,9 +48,21 @@ const logoutBtn = document.getElementById('logoutBtn');
  * 3. Redirect to test.html
  */
 function initSubjectSelection() {
-    subjectCards.forEach(card => {
+    const cards = document.querySelectorAll('.subject-card');
+    cards.forEach(card => {
         card.addEventListener('click', handleSubjectClick);
     });
+
+    // Also attach delegated click handler on .subjects-grid for maximum resilience
+    const grid = document.querySelector('.subjects-grid');
+    if (grid) {
+        grid.addEventListener('click', (event) => {
+            const card = event.target.closest('.subject-card');
+            if (card && !card.__tr_handled) {
+                handleSubjectClick.call(card, event);
+            }
+        });
+    }
 }
 
 /**
@@ -59,30 +71,57 @@ function initSubjectSelection() {
  * @param {Event} event - Click event
  */
 function handleSubjectClick(event) {
-    const rawSubject = this.getAttribute('data-subject');
+    if (event) {
+        event.stopPropagation();
+    }
+    const card = this && this.getAttribute ? this : (event && event.target ? event.target.closest('.subject-card') : null);
+    if (!card) return;
+
+    // Prevent rapid multiple clicks
+    card.__tr_handled = true;
+    setTimeout(() => { card.__tr_handled = false; }, 500);
+
+    const rawSubject = card.getAttribute('data-subject');
     const subject = typeof normalizeSubject === 'function'
         ? normalizeSubject(rawSubject)
         : rawSubject;
     
     if (!subject) {
-        console.error('Subject not found on clicked card');
+        console.error('Subject not found on clicked card:', card);
         return;
     }
 
-    // Save selected subject to localStorage for test.js to retrieve
-    StorageManager.setSelectedSubject(subject);
+    // Show confirmation modal before going to test page
+    if (typeof window.showTestConfirmationModal === 'function') {
+        window.showTestConfirmationModal(subject, {
+            sourceCard: card
+        });
+        return;
+    }
+
+    // Fallback if modal is unavailable
+    if (window.StorageManager && typeof window.StorageManager.setSelectedSubject === 'function') {
+        StorageManager.setSelectedSubject(subject);
+    } else {
+        localStorage.setItem('selected_subject', subject);
+    }
     
-    // Add loading state to prevent multiple clicks
-    this.disabled = true;
-    this.style.opacity = '0.6';
+    try {
+        card.disabled = true;
+        card.style.opacity = '0.6';
+    } catch (e) {
+        // ignore
+    }
     
-    // Show visual feedback with animation
-    animateNavigation(this);
+    try {
+        animateNavigation(card);
+    } catch (animErr) {
+        console.warn('Animation error:', animErr);
+    }
     
-    // Small delay for visual feedback, then navigate
     setTimeout(() => {
         window.location.href = 'test.html';
-    }, 300);
+    }, 250);
 }
 
 // ============================================================================
@@ -95,29 +134,30 @@ function handleSubjectClick(event) {
  * Animate subject card on selection
  * 
  * @param {HTMLElement} card - The clicked card element
- * 
- * Animation sequence:
- * 1. Scale up the card
- * 2. Fade the background
- * 3. Create a ripple effect
  */
 function animateNavigation(card) {
-    // Animate the selected card
-    gsap.to(card, {
-        duration: 0.3,
-        scale: 1.05,
-        ease: 'back.out'
-    });
+    if (!window.gsap) return;
+    try {
+        // Animate the selected card
+        gsap.to(card, {
+            duration: 0.3,
+            scale: 1.05,
+            ease: 'back.out'
+        });
 
-    // Fade out other cards
-    subjectCards.forEach(c => {
-        if (c !== card) {
-            gsap.to(c, {
-                duration: 0.2,
-                opacity: 0.3
-            });
-        }
-    });
+        // Fade out other cards
+        const allCards = document.querySelectorAll('.subject-card');
+        allCards.forEach(c => {
+            if (c !== card) {
+                gsap.to(c, {
+                    duration: 0.2,
+                    opacity: 0.3
+                });
+            }
+        });
+    } catch (e) {
+        console.warn('GSAP navigation animation error:', e);
+    }
 }
 
 /**
@@ -126,46 +166,56 @@ function animateNavigation(card) {
  * Creates a pleasant entrance animation with staggered elements.
  */
 function animatePageLoad() {
-    // Animate header
-    gsap.fromTo('.header',
-        { opacity: 0, y: -30 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
-    );
-
-    // Animate welcome section
-    if (welcomeSection) {
-        gsap.fromTo(welcomeSection,
-            { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.6, delay: 0.1, ease: 'power2.out' }
+    if (!window.gsap) return;
+    try {
+        // Animate header
+        gsap.fromTo('.header',
+            { opacity: 0, y: -30 },
+            { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }
         );
-    }
 
-    // Animate subject cards with stagger
-    gsap.fromTo(subjectCards,
-        { opacity: 0, scale: 0.9 },
-        {
-            opacity: 1,
-            scale: 1,
-            duration: 0.5,
-            delay: 0.2,
-            stagger: 0.1,
-            ease: 'back.out'
+        // Animate welcome section
+        const welcome = document.querySelector('.welcome-section');
+        if (welcome) {
+            gsap.fromTo(welcome,
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.6, delay: 0.1, ease: 'power2.out' }
+            );
         }
-    );
 
-    // Animate info section
-    if (infoSection) {
-        gsap.fromTo(infoSection,
-            { opacity: 0, y: 20 },
-            { opacity: 1, y: 0, duration: 0.5, delay: 0.4, ease: 'power2.out' }
+        // Animate subject cards with stagger
+        const cards = document.querySelectorAll('.subject-card');
+        if (cards.length > 0) {
+            gsap.fromTo(cards,
+                { opacity: 0, scale: 0.9 },
+                {
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.5,
+                    delay: 0.2,
+                    stagger: 0.05,
+                    ease: 'back.out'
+                }
+            );
+        }
+
+        // Animate info section
+        const info = document.querySelector('.info-section');
+        if (info) {
+            gsap.fromTo(info,
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.5, delay: 0.4, ease: 'power2.out' }
+            );
+        }
+
+        // Animate footer
+        gsap.fromTo('.footer',
+            { opacity: 0 },
+            { opacity: 1, duration: 0.5, delay: 0.5 }
         );
+    } catch (e) {
+        console.warn('animatePageLoad error:', e);
     }
-
-    // Animate footer
-    gsap.fromTo('.footer',
-        { opacity: 0 },
-        { opacity: 1, duration: 0.5, delay: 0.5 }
-    );
 }
 
 // ============================================================================
@@ -180,21 +230,34 @@ function animatePageLoad() {
  * Makes the UI feel more responsive and modern.
  */
 function addCardHoverAnimations() {
-    subjectCards.forEach(card => {
+    if (!window.gsap) return;
+    if (document.body && document.body.classList.contains('page-practice')) {
+        return; // Remove hover effect on subject cards per design refinement
+    }
+    const cards = document.querySelectorAll('.subject-card');
+    cards.forEach(card => {
         card.addEventListener('mouseenter', () => {
-            gsap.to(card, {
-                duration: 0.3,
-                scale: 1.02,
-                ease: 'power2.out'
-            });
+            try {
+                if (window.gsap) {
+                    gsap.to(card, {
+                        duration: 0.3,
+                        scale: 1.02,
+                        ease: 'power2.out'
+                    });
+                }
+            } catch (e) {}
         });
 
         card.addEventListener('mouseleave', () => {
-            gsap.to(card, {
-                duration: 0.3,
-                scale: 1,
-                ease: 'power2.out'
-            });
+            try {
+                if (window.gsap) {
+                    gsap.to(card, {
+                        duration: 0.3,
+                        scale: 1,
+                        ease: 'power2.out'
+                    });
+                }
+            } catch (e) {}
         });
     });
 }
@@ -261,22 +324,18 @@ function initHamburgerMenu() {
 
     console.log('✓ Hamburger menu initialized');
 
-    // Toggle a single class (`open`) on the header when hamburger clicked.
-    // No inline styles are applied by JS; CSS handles animation, opacity and stacking.
     const header = document.querySelector('.header');
     if (!header) {
         console.error('Header element not found for hamburger menu');
         return;
     }
 
-    // Single toggle on header
     btn.addEventListener('click', function(e) {
         e.stopPropagation();
         header.classList.toggle('open');
         console.log('Hamburger toggled. Open:', header.classList.contains('open'));
     });
 
-    // Close menu when a menu link (or menu button except theme toggle) is clicked
     menuLinks?.forEach(link => {
         link.addEventListener('click', function(e) {
             header.classList.remove('open');
@@ -291,14 +350,12 @@ function initHamburgerMenu() {
         }
     });
 
-    // Close menu when clicking outside the header
     document.addEventListener('click', function(e) {
         if (header.classList.contains('open') && !header.contains(e.target)) {
             header.classList.remove('open');
         }
     });
 
-    // Close on ESC
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && header.classList.contains('open')) {
             header.classList.remove('open');
@@ -346,92 +403,6 @@ async function checkAuth() {
 
         // User authenticated - show their username and navigation items
         console.log('✓ User authenticated:', user.email);
-
-        // Fast first paint for free-test counter from auth metadata/local cache.
-        // This avoids waiting on full subscription init before the banner appears.
-        const quickMeta = user.user_metadata || {};
-        const quickPremium = quickMeta.is_premium === true || quickMeta.is_premium === 'true';
-        if (!quickPremium) {
-            const quickUsed = Number(quickMeta.free_tests_used);
-            renderFreeTestCounterUI({
-                isPremium: false,
-                freeTestsUsed: Number.isFinite(quickUsed) ? quickUsed : 0
-            });
-        } else {
-            renderFreeTestCounterUI({ isPremium: true, freeTestsUsed: 0 });
-        }
-        
-        // Wait for subscription module to be ready and initialized
-        retries = 0;
-        while ((!window.Subscription || typeof window.Subscription.init !== 'function') && retries < 50) {
-            await new Promise(resolve => setTimeout(resolve, 100));
-            retries++;
-        }
-        
-        // Initialize subscription state
-        if (window.Subscription && typeof window.Subscription.init === 'function') {
-            await window.Subscription.init();
-            console.log('✓ Subscription initialized');
-        }
-        
-        // Get username from localStorage (stored during login/signup)
-        const username = localStorage.getItem('thinkright_username') || user.email;
-        
-        // Check if user is premium (now that subscription is initialized)
-        const isPremium = !!(window.Subscription && typeof window.Subscription.isPremium === 'function' && window.Subscription.isPremium());
-        console.log('Is Premium:', isPremium);
-        
-        // Show premium welcome banner if user is premium
-        if (isPremium) {
-            const premiumBanner = document.getElementById('premiumWelcomeBanner');
-            if (premiumBanner) {
-                premiumBanner.style.display = 'block';
-                console.log('✓ Premium welcome banner displayed');
-            }
-            // Ensure free counter stays hidden for active premium users.
-            renderFreeTestCounterUI({ isPremium: true, freeTestsUsed: 0 });
-        } else {
-            // Show free test counter for non-premium users
-            // Keep this non-blocking for faster home render.
-            displayFreeTestCounter(user).catch((err) => {
-                console.error('displayFreeTestCounter sync error:', err);
-            });
-        }
-        
-        // Update user email display (desktop)
-        if (userEmail) {
-            userEmail.textContent = username;
-        }
-        if (userInfo) {
-            userInfo.style.display = 'block';
-        }
-        
-        // Show premium badge if premium
-        const premiumBadge = document.getElementById('premiumBadge');
-        if (premiumBadge && isPremium) {
-            premiumBadge.style.display = 'inline-block';
-        }
-        
-        // Update user email display (mobile menu)
-        const userEmailMobile = document.getElementById('userEmailMobile');
-        const mobileMenuHeader = document.getElementById('mobileMenuHeader');
-        if (userEmailMobile) {
-            userEmailMobile.textContent = username;
-            console.log('✓ Mobile menu username set to:', username);
-        }
-        
-        // Show premium badge on mobile if premium
-        const mobilePremiumBadge = document.getElementById('mobilePremiumBadge');
-        if (mobilePremiumBadge && isPremium) {
-            mobilePremiumBadge.style.display = 'inline-block';
-        }
-        
-        if (mobileMenuHeader) {
-            mobileMenuHeader.style.display = 'block';
-            console.log('✓ Mobile menu header displayed');
-        }
-        
-        // Show desktop dashboard link
         const dashboardLink = document.getElementById('dashboardLink');
         if (dashboardLink) {
             dashboardLink.style.display = 'block';
@@ -496,95 +467,11 @@ async function handleLogout() {
         }
     } catch (error) {
         console.error('Error during logout:', error);
-        const logoutBtnDesktop = document.getElementById('logoutBtn');
-        const logoutBtnMobile = document.getElementById('logoutBtnMobile');
-        if (logoutBtnDesktop) logoutBtnDesktop.disabled = false;
-        if (logoutBtnMobile) logoutBtnMobile.disabled = false;
     }
 }
-
-// ============================================================================
-// FREE TEST COUNTER DISPLAY
-// ============================================================================
-
-async function displayFreeTestCounter(user) {
-    try {
-        const freeTestCounter = document.getElementById('freeTestCounter');
-        if (!freeTestCounter) return;
-
-        // Immediate render from locally available values (no network wait).
-        const immediateMeta = (user && user.user_metadata) ? user.user_metadata : {};
-        const immediatePremium = immediateMeta.is_premium === true || immediateMeta.is_premium === 'true';
-        const immediateUsedRaw = Number(immediateMeta.free_tests_used);
-        renderFreeTestCounterUI({
-            isPremium: immediatePremium,
-            freeTestsUsed: Number.isFinite(immediateUsedRaw) ? immediateUsedRaw : 0
-        });
-
-        // Source of truth: Subscription module + metadata counters
-        if (window.Subscription && typeof window.Subscription.init === 'function') {
-            await window.Subscription.init();
-        }
-        if (window.Subscription && typeof window.Subscription.refreshMetadata === 'function') {
-            await window.Subscription.refreshMetadata();
-        }
-
-        const isPremium = window.Subscription && typeof window.Subscription.isPremium === 'function'
-            ? window.Subscription.isPremium()
-            : false;
-        const freeTestsUsed = window.Subscription && typeof window.Subscription.getFreeTestsUsed === 'function'
-            ? window.Subscription.getFreeTestsUsed()
-            : 0;
-        renderFreeTestCounterUI({ isPremium, freeTestsUsed });
-
-        // Add upgrade button handler
-        const upgradeBtn = document.getElementById('upgradeBtn');
-        upgradeBtn.onclick = () => {
-            if (window.Subscription && typeof window.Subscription.showPricingModal === 'function') {
-                window.Subscription.showPricingModal();
-            } else {
-                console.log('Open pricing modal');
-            }
-        };
-
-        console.log('✓ Free test counter displayed:', { freeTestsUsed, isPremium });
-
-    } catch (error) {
-        console.error('Error displaying free test counter:', error);
-    }
-}
-
-function renderFreeTestCounterUI({ isPremium, freeTestsUsed }) {
-    const freeTestCounter = document.getElementById('freeTestCounter');
-    const freeTestText = document.getElementById('freeTestText');
-    const upgradeBtn = document.getElementById('upgradeBtn');
-    if (!freeTestCounter || !freeTestText || !upgradeBtn) return;
-
-    const freeTestLimit = 6;
-    const used = Math.max(0, Number(freeTestsUsed) || 0);
-    const remaining = Math.max(0, freeTestLimit - used);
-
-    if (isPremium) {
-        freeTestCounter.style.display = 'none';
-        return;
-    }
-
-    freeTestCounter.style.display = 'block';
-    if (remaining > 0) {
-        freeTestText.textContent = `Free tests remaining: ${remaining}/${freeTestLimit}`;
-        upgradeBtn.style.display = 'none';
-    } else {
-        freeTestText.textContent = 'You have used all your free tests';
-        upgradeBtn.style.display = 'block';
-    }
-}
-
-// ============================================================================
-// THEME TOGGLE HANDLER
-// ============================================================================
 
 /**
- * Setup theme toggle for both desktop and mobile buttons
+ * Setup theme toggle
  */
 function setupThemeToggle() {
     const themeToggleBtn = document.getElementById('themeToggle');
@@ -627,9 +514,3 @@ function toggleTheme(e) {
     
     console.log(`🎨 Theme switched to: ${newTheme}`);
 }
-
-// ============================================================================
-// HAMBURGER MENU HANDLER - MOBILE NAVIGATION
-// ============================================================================
-
-

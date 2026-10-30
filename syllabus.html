@@ -11,21 +11,21 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <title>ThinkRight - Syllabus Download</title>
-    <link rel="stylesheet" href="css/style.css?v=20260226a">
-    <link rel="stylesheet" href="css/navbar.css?v=20260308b">
-    <link rel="stylesheet" href="css/premium-ui.css?v=20260226b">
-    <link rel="stylesheet" href="css/preloader.css?v=20260308a">
-    <script defer src="js/preloader.js?v=20260308a"></script>
-    <script defer src="https://checkout.flutterwave.com/v3.js"></script>
+    <title>Official JAMB Syllabus Library - ThinkRight</title>
+    <meta name="description" content="Download official JAMB UTME syllabi across all 15 subjects. Master core exam objectives, high-yield topics, and launch instant CBT practice drills.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=20260321-sg">
+    <link rel="stylesheet" href="css/navbar.css?v=20261018-more">
+    <link rel="stylesheet" href="css/premium-ui.css?v=20260321-sg">
+    <link rel="stylesheet" href="css/preloader.css?v=20261017a">
+    <link rel="stylesheet" href="css/syllabus.css?v=20261018b">
+    <script src="js/preloader.js?v=20261017b"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
 </head>
 <body class="page-syllabus tr-loading">
-    <div id="tr-preloader" class="tr-preloader" role="status" aria-live="polite" aria-label="Loading ThinkRight">
-      <div class="tr-preloader__inner">
-        <div class="tr-preloader__logo">ThinkRight</div>
-        <div class="tr-preloader__dots" aria-hidden="true"><span></span><span></span><span></span></div>
-      </div>
-    </div>
+    <div id="tr-preloader" class="tr-preloader" role="status" aria-live="polite" aria-label="Loading ThinkRight"><div class="tr-loader-stack"><div class="tr-loader-brand">ThinkRight<span>.</span></div><div class="tr-loader-spinner" aria-hidden="true"><span class="tr-loader-spinner__core"></span></div></div></div>
     <nav id="tr-navbar" class="tr-navbar" role="navigation" aria-label="ThinkRight main navigation">
       <div class="tr-navbar__container">
         <a href="index.html" class="tr-navbar__logo" aria-label="ThinkRight Home">
@@ -33,31 +33,31 @@
         </a>
 
         <ul class="tr-navbar__nav" role="list">
-          <li><a href="index.html" class="tr-navbar__link">Home</a></li>
+          <li><a href="index.html" class="tr-navbar__link tr-navbar__link--home" title="Home" aria-label="Home"><i class="fa-solid fa-house"></i></a></li>
+          <li><a href="practice.html" class="tr-navbar__link">Practice</a></li>
+          <li><a href="my-classes.html" class="tr-navbar__link">My Classes</a></li>
+          <li><a href="syllabus.html" class="tr-navbar__link active">Syllabus</a></li>
           <li><a href="dashboard.html" class="tr-navbar__link">Dashboard</a></li>
-          <li><a href="syllabus.html" class="tr-navbar__link">Syllabus</a></li>
-          <li><a href="insider.html" class="tr-navbar__link">JAMB Insider</a></li>
-          <li><a href="#" class="tr-navbar__link tr-navbar__link--pricing">Pricing</a></li>
+          <li><a href="leaderboard.html" class="tr-navbar__link">Leaderboard</a></li>
         </ul>
 
         <div id="tr-user-info" class="tr-navbar__user-info" style="display: none;">
           <div class="tr-navbar__user-avatar">
             <img id="tr-user-avatar" src="" alt="User avatar" class="tr-navbar__avatar-img">
-            <span id="tr-user-premium-star" class="tr-navbar__premium-star" style="display: none;">*</span>
           </div>
           <span id="tr-user-name" class="tr-navbar__user-name"></span>
-          <button id="tr-logout-btn" class="tr-navbar__logout-btn" type="button" title="Logout">Logout</button>
+          <button id="tr-logout-btn" class="tr-navbar__logout-btn" type="button" title="Logout" aria-label="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></button>
         </div>
 
         <button id="tr-auth-btn" class="tr-navbar__auth-btn" type="button">Login</button>
 
+        <a href="index.html" id="tr-home-btn-mobile" class="tr-navbar__home-btn" aria-label="Home" title="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+
         <button id="tr-theme-toggle" class="tr-navbar__theme-btn" aria-label="Toggle dark mode" type="button">
-            <svg class="tr-navbar__icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-            </svg>
-            <svg class="tr-navbar__icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
+            <i class="fa-solid fa-sun tr-navbar__icon-sun"></i>
+            <i class="fa-solid fa-moon tr-navbar__icon-moon"></i>
         </button>
 
         <button id="tr-hamburger" class="tr-navbar__hamburger" aria-label="Toggle navigation menu" aria-controls="tr-mobile-menu" aria-expanded="false" type="button">
@@ -69,61 +69,80 @@
 
       <div id="tr-mobile-menu" class="tr-navbar__mobile-menu" role="region" aria-label="Mobile navigation menu">
         <ul class="tr-navbar__mobile-nav" role="list">
-          <li><a href="index.html" class="tr-navbar__mobile-link">Home</a></li>
+          <li><a href="index.html" class="tr-navbar__mobile-link"><i class="fa-solid fa-house" style="font-size: 16px; margin-right: 10px; width: 20px; text-align: center;"></i> <span>Home</span></a></li>
+          <li><a href="practice.html" class="tr-navbar__mobile-link">Practice</a></li>
+          <li><a href="my-classes.html" class="tr-navbar__mobile-link">My Classes</a></li>
           <li><a href="dashboard.html" class="tr-navbar__mobile-link">Dashboard</a></li>
+          <li><a href="leaderboard.html" class="tr-navbar__mobile-link">Leaderboard</a></li>
           <li><a href="syllabus.html" class="tr-navbar__mobile-link">Syllabus</a></li>
           <li><a href="insider.html" class="tr-navbar__mobile-link">JAMB Insider</a></li>
-          <li><a href="#" class="tr-navbar__mobile-link tr-navbar__mobile-link--pricing">Pricing</a></li>
 
           <li id="tr-mobile-user-info" class="tr-navbar__mobile-user-info" style="display: none;">
             <div class="tr-navbar__mobile-user-avatar">
               <img id="tr-mobile-user-avatar" src="" alt="User avatar" class="tr-navbar__mobile-avatar-img">
-              <span id="tr-mobile-user-premium-star" class="tr-navbar__mobile-premium-star" style="display: none;">*</span>
             </div>
             <span id="tr-mobile-user-name" class="tr-navbar__mobile-user-name"></span>
-            <button id="tr-mobile-logout-btn" class="tr-navbar__mobile-logout-btn" type="button" title="Logout">Logout</button>
+            <button id="tr-mobile-logout-btn" class="tr-navbar__mobile-logout-btn" type="button" title="Logout" aria-label="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Logout</span></button>
           </li>
 
           <li><button id="tr-mobile-auth-btn" class="tr-navbar__mobile-auth-btn" type="button">Login</button></li>
           <li><button id="tr-theme-toggle-mobile" class="tr-navbar__mobile-theme-btn" type="button">
-            <svg class="tr-navbar__icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-            </svg>
-            <svg class="tr-navbar__icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
+            <i class="fa-solid fa-sun tr-navbar__icon-sun" style="font-size: 18px;"></i>
+            <i class="fa-solid fa-moon tr-navbar__icon-moon" style="font-size: 18px;"></i>
             <span class="tr-navbar__theme-label">Dark Mode</span>
           </button></li>
         </ul>
       </div>
     </nav>
 
-    <div class="container">
-        <main class="landing-page">
-            <section class="welcome-section">
-                <p class="eyebrow">Syllabus Library</p>
-                <h1>Download Official JAMB Syllabi</h1>
-                <p>Access complete subject outlines and exam coverage guides to structure your preparation effectively.</p>
+    <div class="container syllabus-container">
+        <main class="landing-page syllabus-main">
+            <!-- 1. CLEAN UNBOXED HERO SECTION -->
+            <section class="welcome-section syllabus-hero">
+                <h1 class="syllabus-title">JAMB Syllabus Library</h1>
+                <p class="syllabus-subtitle">
+                    Access complete official subject outlines, exam objectives, and topic coverage guides across all 15 UTME subjects to structure your study effectively.
+                </p>
             </section>
 
-            <section class="syllabus-section">
+            <!-- 2. STREAM FILTER TABS & LIVE TOPIC SEARCH BAR -->
+            <div class="syllabus-filter-bar">
+                <div class="syllabus-stream-tabs" role="tablist" aria-label="Filter syllabi by academic stream">
+                    <button type="button" class="syllabus-stream-tab is-active" data-stream="all" role="tab" aria-selected="true">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>All 15</span>
+                    </button>
+                    <button type="button" class="syllabus-stream-tab" data-stream="sciences" role="tab" aria-selected="false">
+                        <i class="fa-solid fa-atom"></i>
+                        <span>Sciences</span>
+                    </button>
+                    <button type="button" class="syllabus-stream-tab" data-stream="commercial" role="tab" aria-selected="false">
+                        <i class="fa-solid fa-chart-line"></i>
+                        <span>Commercial</span>
+                    </button>
+                    <button type="button" class="syllabus-stream-tab" data-stream="arts" role="tab" aria-selected="false">
+                        <i class="fa-solid fa-feather-pointed"></i>
+                        <span>Arts</span>
+                    </button>
+                </div>
+
                 <div class="tr-syllabus-search-wrap">
-                    <label for="tr-syllabus-topic-search" class="tr-syllabus-search-label">Search topics</label>
+                    <label for="tr-syllabus-topic-search" class="tr-syllabus-search-label">Search topics or subjects</label>
                     <div class="tr-syllabus-search-field">
                         <span class="tr-navbar__search-field-icon" aria-hidden="true">
-                            <svg class="tr-navbar__search-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="11" cy="11" r="7"></circle>
-                                <line x1="20" y1="20" x2="16.65" y2="16.65"></line>
-                            </svg>
+                            <i class="fa-solid fa-magnifying-glass tr-navbar__search-icon-svg"></i>
                         </span>
                         <input
                             id="tr-syllabus-topic-search"
                             class="tr-syllabus-search-input"
                             type="search"
-                            placeholder="Search syllabus topics..."
+                            placeholder="Search subject or topic..."
                             aria-label="Search syllabus topics"
                             autocomplete="off"
                         >
+                        <button type="button" id="syllabusSearchClearBtn" class="syllabus-search-clear" aria-label="Clear search" hidden>
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                     </div>
                     <div
                         id="tr-syllabus-search-suggestions"
@@ -131,151 +150,360 @@
                         role="listbox"
                         hidden
                     ></div>
-                    <p id="tr-syllabus-search-empty" class="tr-syllabus-search-empty" hidden>No matching topics found.</p>
                 </div>
+            </div>
+
+            <!-- 3. SYLLABUS SUBJECT CARDS GRID -->
+            <section class="syllabus-section" aria-label="Subject syllabi">
+                <div class="syllabus-deck-header">
+                    <h2 class="syllabus-deck-title">Select a Subject</h2>
+                    <span class="syllabus-count-text" id="syllabusCountBadge">Showing 15 subjects</span>
+                </div>
+
                 <div id="syllabusEntitlementLoader" class="syllabus-entitlement-loader" hidden aria-live="polite">
                     Checking your syllabus access...
                 </div>
+
+                <div id="tr-syllabus-search-empty" class="syllabus-empty-state" hidden>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <h3>No matching syllabus found</h3>
+                    <p>Try searching for another subject or topic keyword, or switch back to All 15.</p>
+                    <button type="button" id="syllabusResetFiltersBtn" class="syllabus-reset-link">
+                        <i class="fa-solid fa-rotate-left"></i> Reset filters
+                    </button>
+                </div>
+
                 <div class="syllabus-grid">
-                    <div class="syllabus-item">
+                    <!-- 1. Use of English -->
+                    <div class="syllabus-item" data-subject="english" data-stream="arts" style="--subject-accent: #7c3aed; --subject-bg: rgba(124, 58, 237, 0.1);">
                         <div class="syllabus-header">
-                            <div class="syllabus-icon">EN</div>
-                            <h3>Use of English</h3>
+                            <div class="syllabus-icon" aria-hidden="true">
+                                <i class="fa-solid fa-book-open"></i>
+                            </div>
+                            <span class="syllabus-stream-label">Core</span>
                         </div>
-                        <p class="syllabus-description">English language proficiency coverage including comprehension, vocabulary, grammar, and communication skills.</p>
-                        <button class="view-btn" data-file="Use-of-English.pdf">View Syllabus</button>
+                        <h3>Use of English</h3>
+                        <p class="syllabus-description">Comprehension passages, lexis and structure, register, grammar, and oral English forms required for all UTME candidates.</p>
+                        <div class="syllabus-card__footer">
+                            <button class="syllabus-practice-btn" data-practice-subject="english" type="button" title="Practice Use of English CBT">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Practice</span>
+                            </button>
+                            <button class="view-btn" data-file="Use-of-English.pdf" type="button">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>Open Syllabus PDF</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="syllabus-item">
+                    <!-- 2. Mathematics -->
+                    <div class="syllabus-item" data-subject="mathematics" data-stream="sciences" style="--subject-accent: #2563eb; --subject-bg: rgba(37, 99, 235, 0.1);">
                         <div class="syllabus-header">
-                            <div class="syllabus-icon">MA</div>
-                            <h3>Mathematics</h3>
+                            <div class="syllabus-icon" aria-hidden="true">
+                                <i class="fa-solid fa-calculator"></i>
+                            </div>
+                            <span class="syllabus-stream-label">Sciences</span>
                         </div>
-                        <p class="syllabus-description">Core and advanced mathematics topics including algebra, geometry, trigonometry, and introductory calculus.</p>
-                        <button class="view-btn" data-file="Mathematics.pdf">View Syllabus</button>
+                        <h3>Mathematics</h3>
+                        <p class="syllabus-description">Number bases, algebra, polynomials, geometry, trigonometry, statistics, probability, and introductory calculus.</p>
+                        <div class="syllabus-card__footer">
+                            <button class="syllabus-practice-btn" data-practice-subject="mathematics" type="button" title="Practice Mathematics CBT">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Practice</span>
+                            </button>
+                            <button class="view-btn" data-file="Mathematics.pdf" type="button">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>Open Syllabus PDF</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="syllabus-item">
+                    <!-- 3. Physics -->
+                    <div class="syllabus-item" data-subject="physics" data-stream="sciences" style="--subject-accent: #059669; --subject-bg: rgba(5, 150, 105, 0.1);">
                         <div class="syllabus-header">
-                            <div class="syllabus-icon">PH</div>
-                            <h3>Physics</h3>
+                            <div class="syllabus-icon" aria-hidden="true">
+                                <i class="fa-solid fa-atom"></i>
+                            </div>
+                            <span class="syllabus-stream-label">Sciences</span>
                         </div>
-                        <p class="syllabus-description">Mechanics, electricity, magnetism, waves, and modern physics principles required for examination success.</p>
-                        <button class="view-btn" data-file="Physics.pdf">View Syllabus</button>
+                        <h3>Physics</h3>
+                        <p class="syllabus-description">Mechanics, thermal physics, waves, optics, electricity, magnetism, and modern atomic physics principles.</p>
+                        <div class="syllabus-card__footer">
+                            <button class="syllabus-practice-btn" data-practice-subject="physics" type="button" title="Practice Physics CBT">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Practice</span>
+                            </button>
+                            <button class="view-btn" data-file="Physics.pdf" type="button">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>Open Syllabus PDF</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="syllabus-item">
+                    <!-- 4. Chemistry -->
+                    <div class="syllabus-item" data-subject="chemistry" data-stream="sciences" style="--subject-accent: #0891b2; --subject-bg: rgba(8, 145, 178, 0.1);">
                         <div class="syllabus-header">
-                            <div class="syllabus-icon">CH</div>
-                            <h3>Chemistry</h3>
+                            <div class="syllabus-icon" aria-hidden="true">
+                                <i class="fa-solid fa-flask"></i>
+                            </div>
+                            <span class="syllabus-stream-label">Sciences</span>
                         </div>
-                        <p class="syllabus-description">Inorganic, organic, and physical chemistry fundamentals, including reactions, bonding, and quantitative analysis.</p>
-                        <button class="view-btn" data-file="Chemistry.pdf">View Syllabus</button>
+                        <h3>Chemistry</h3>
+                        <p class="syllabus-description">Stoichiometry, atomic structure, chemical bonding, kinetics, electrochemistry, inorganic, and organic chemistry.</p>
+                        <div class="syllabus-card__footer">
+                            <button class="syllabus-practice-btn" data-practice-subject="chemistry" type="button" title="Practice Chemistry CBT">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Practice</span>
+                            </button>
+                            <button class="view-btn" data-file="Chemistry.pdf" type="button">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>Open Syllabus PDF</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="syllabus-item">
+                    <!-- 5. Biology -->
+                    <div class="syllabus-item" data-subject="biology" data-stream="sciences" style="--subject-accent: #16a34a; --subject-bg: rgba(22, 163, 74, 0.1);">
                         <div class="syllabus-header">
-                            <div class="syllabus-icon">BI</div>
-                            <h3>Biology</h3>
+                            <div class="syllabus-icon" aria-hidden="true">
+                                <i class="fa-solid fa-dna"></i>
+                            </div>
+                            <span class="syllabus-stream-label">Sciences</span>
                         </div>
-                        <p class="syllabus-description">Cell structure, genetics, ecology, physiology, and evolution for comprehensive life science preparation.</p>
-                        <button class="view-btn" data-file="Biology.pdf">View Syllabus</button>
+                        <h3>Biology</h3>
+                        <p class="syllabus-description">Cell structure, diversity of organisms, plant and animal physiology, ecology, heredity, genetics, and evolution.</p>
+                        <div class="syllabus-card__footer">
+                            <button class="syllabus-practice-btn" data-practice-subject="biology" type="button" title="Practice Biology CBT">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Practice</span>
+                            </button>
+                            <button class="view-btn" data-file="Biology.pdf" type="button">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>Open Syllabus PDF</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="syllabus-item">
+                    <!-- 6. Agricultural Science -->
+                    <div class="syllabus-item" data-subject="agriculture" data-stream="sciences" style="--subject-accent: #65a30d; --subject-bg: rgba(101, 163, 13, 0.1);">
                         <div class="syllabus-header">
-                            <div class="syllabus-icon">AG</div>
-                            <h3>Agricultural Science</h3>
+                            <div class="syllabus-icon" aria-hidden="true">
+                                <i class="fa-solid fa-seedling"></i>
+                            </div>
+                            <span class="syllabus-stream-label">Sciences</span>
                         </div>
-                        <p class="syllabus-description">Crop and animal production, farm management, ecology, and agricultural economics for exam preparation.</p>
-                        <button class="view-btn" data-file="Agriculture_260216_203837.pdf">View Syllabus</button>
+                        <h3>Agricultural Science</h3>
+                        <p class="syllabus-description">Crop and animal production, soil science, agronomy, farm management, forestry, and agricultural economics.</p>
+                        <div class="syllabus-card__footer">
+                            <button class="syllabus-practice-btn" data-practice-subject="agriculture" type="button" title="Practice Agricultural Science CBT">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Practice</span>
+                            </button>
+                            <button class="view-btn" data-file="Agriculture_260216_203837.pdf" type="button">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>Open Syllabus PDF</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="syllabus-item">
+                    <!-- 7. Computer Studies -->
+                    <div class="syllabus-item" data-subject="computer" data-stream="sciences" style="--subject-accent: #0284c7; --subject-bg: rgba(2, 132, 199, 0.1);">
                         <div class="syllabus-header">
-                            <div class="syllabus-icon">CS</div>
-                            <h3>Computer Studies</h3>
+                            <div class="syllabus-icon" aria-hidden="true">
+                                <i class="fa-solid fa-laptop-code"></i>
+                            </div>
+                            <span class="syllabus-stream-label">Sciences</span>
                         </div>
-                        <p class="syllabus-description">Computer fundamentals, data processing, ICT applications, and problem-solving concepts required for JAMB.</p>
-                        <button class="view-btn" data-file="Computer-Studies_260216_210959.pdf">View Syllabus</button>
+                        <h3>Computer Studies</h3>
+                        <p class="syllabus-description">Computing fundamentals, hardware architecture, data representation, software systems, networking, and algorithms.</p>
+                        <div class="syllabus-card__footer">
+                            <button class="syllabus-practice-btn" data-practice-subject="computer" type="button" title="Practice Computer Studies CBT">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Practice</span>
+                            </button>
+                            <button class="view-btn" data-file="Computer-Studies_260216_210959.pdf" type="button">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>Open Syllabus PDF</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="syllabus-item">
+                    <!-- 8. Christian Religious Studies -->
+                    <div class="syllabus-item" data-subject="crs" data-stream="arts" style="--subject-accent: #9333ea; --subject-bg: rgba(147, 51, 234, 0.1);">
                         <div class="syllabus-header">
-                            <div class="syllabus-icon">CR</div>
-                            <h3>Christian Religious Studies</h3>
+                            <div class="syllabus-icon" aria-hidden="true">
+                                <i class="fa-solid fa-cross"></i>
+                            </div>
+                            <span class="syllabus-stream-label">Arts</span>
                         </div>
-                        <p class="syllabus-description">Biblical themes, moral teachings, and Christian ethics with focus on interpretation and application.</p>
-                        <button class="view-btn" data-file="Christian-Religious-Studies-jambportals.pdf">View Syllabus</button>
+                        <h3>Christian Religious Studies</h3>
+                        <p class="syllabus-description">Old Testament themes, the synoptic Gospels, history of the early church, and Christian moral teachings.</p>
+                        <div class="syllabus-card__footer">
+                            <button class="syllabus-practice-btn" data-practice-subject="crs" type="button" title="Practice CRS CBT">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Practice</span>
+                            </button>
+                            <button class="view-btn" data-file="Christian-Religious-Studies-jambportals.pdf" type="button">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>Open Syllabus PDF</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="syllabus-item">
+                    <!-- 9. Islamic Religious Studies -->
+                    <div class="syllabus-item" data-subject="irs" data-stream="arts" style="--subject-accent: #0d9488; --subject-bg: rgba(13, 148, 136, 0.1);">
                         <div class="syllabus-header">
-                            <div class="syllabus-icon">IR</div>
-                            <h3>Islamic Religious Studies</h3>
+                            <div class="syllabus-icon" aria-hidden="true">
+                                <i class="fa-solid fa-moon"></i>
+                            </div>
+                            <span class="syllabus-stream-label">Arts</span>
                         </div>
-                        <p class="syllabus-description">Qur'anic studies, Hadith, Islamic jurisprudence, and moral principles for complete exam readiness.</p>
-                        <button class="view-btn" data-file="Islamic-Studies-jambportals.pdf">View Syllabus</button>
+                        <h3>Islamic Religious Studies</h3>
+                        <p class="syllabus-description">Qur'anic studies, Hadith, Tawhid, Fiqh (Islamic jurisprudence), Sirah, and Islamic civilization history.</p>
+                        <div class="syllabus-card__footer">
+                            <button class="syllabus-practice-btn" data-practice-subject="irs" type="button" title="Practice IRS CBT">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Practice</span>
+                            </button>
+                            <button class="view-btn" data-file="Islamic-Studies-jambportals.pdf" type="button">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>Open Syllabus PDF</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="syllabus-item">
+                    <!-- 10. Commerce -->
+                    <div class="syllabus-item" data-subject="commerce" data-stream="commercial" style="--subject-accent: #d97706; --subject-bg: rgba(217, 119, 6, 0.1);">
                         <div class="syllabus-header">
-                            <div class="syllabus-icon">CO</div>
-                            <h3>Commerce</h3>
+                            <div class="syllabus-icon" aria-hidden="true">
+                                <i class="fa-solid fa-scale-balanced"></i>
+                            </div>
+                            <span class="syllabus-stream-label">Commercial</span>
                         </div>
-                        <p class="syllabus-description">Business principles, trade structures, accounting concepts, and commercial systems in modern economies.</p>
-                        <button class="view-btn" data-file="Commerce.pdf">View Syllabus</button>
+                        <h3>Commerce</h3>
+                        <p class="syllabus-description">Production, home and foreign trade, banking, insurance, transportation, marketing, and business law.</p>
+                        <div class="syllabus-card__footer">
+                            <button class="syllabus-practice-btn" data-practice-subject="commerce" type="button" title="Practice Commerce CBT">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Practice</span>
+                            </button>
+                            <button class="view-btn" data-file="Commerce.pdf" type="button">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>Open Syllabus PDF</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="syllabus-item">
+                    <!-- 11. Literature in English -->
+                    <div class="syllabus-item" data-subject="literature" data-stream="arts" style="--subject-accent: #db2777; --subject-bg: rgba(219, 39, 119, 0.1);">
                         <div class="syllabus-header">
-                            <div class="syllabus-icon">LI</div>
-                            <h3>Literature in English</h3>
+                            <div class="syllabus-icon" aria-hidden="true">
+                                <i class="fa-solid fa-feather-pointed"></i>
+                            </div>
+                            <span class="syllabus-stream-label">Arts</span>
                         </div>
-                        <p class="syllabus-description">Prose, poetry, and drama analysis with emphasis on themes, literary devices, and interpretation skills.</p>
-                        <button class="view-btn" data-file="Literature-in-English.pdf">View Syllabus</button>
+                        <h3>Literature in English</h3>
+                        <p class="syllabus-description">African and non-African drama, prose, and poetry analysis with focus on literary appreciation and devices.</p>
+                        <div class="syllabus-card__footer">
+                            <button class="syllabus-practice-btn" data-practice-subject="literature" type="button" title="Practice Literature CBT">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Practice</span>
+                            </button>
+                            <button class="view-btn" data-file="Literature-in-English.pdf" type="button">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>Open Syllabus PDF</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="syllabus-item">
+                    <!-- 12. Economics -->
+                    <div class="syllabus-item" data-subject="economics" data-stream="commercial" style="--subject-accent: #ea580c; --subject-bg: rgba(234, 88, 12, 0.1);">
                         <div class="syllabus-header">
-                            <div class="syllabus-icon">EC</div>
-                            <h3>Economics</h3>
+                            <div class="syllabus-icon" aria-hidden="true">
+                                <i class="fa-solid fa-chart-line"></i>
+                            </div>
+                            <span class="syllabus-stream-label">Commercial</span>
                         </div>
-                        <p class="syllabus-description">Micro and macroeconomic models, market structures, policy tools, and international trade concepts.</p>
-                        <button class="view-btn" data-file="Economics.pdf">View Syllabus</button>
+                        <h3>Economics</h3>
+                        <p class="syllabus-description">Micro and macroeconomic theory, price determination, national income, money, public finance, and international trade.</p>
+                        <div class="syllabus-card__footer">
+                            <button class="syllabus-practice-btn" data-practice-subject="economics" type="button" title="Practice Economics CBT">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Practice</span>
+                            </button>
+                            <button class="view-btn" data-file="Economics.pdf" type="button">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>Open Syllabus PDF</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="syllabus-item">
+                    <!-- 13. Government -->
+                    <div class="syllabus-item" data-subject="government" data-stream="commercial" style="--subject-accent: #4f46e5; --subject-bg: rgba(79, 70, 229, 0.1);">
                         <div class="syllabus-header">
-                            <div class="syllabus-icon">GV</div>
-                            <h3>Government</h3>
+                            <div class="syllabus-icon" aria-hidden="true">
+                                <i class="fa-solid fa-landmark"></i>
+                            </div>
+                            <span class="syllabus-stream-label">Commercial</span>
                         </div>
-                        <p class="syllabus-description">Constitutional principles, governance institutions, comparative politics, and civic participation frameworks.</p>
-                        <button class="view-btn" data-file="Government.pdf">View Syllabus</button>
+                        <h3>Government</h3>
+                        <p class="syllabus-description">Elements of government, political ideologies, constitutional development in Nigeria, public administration, and foreign policy.</p>
+                        <div class="syllabus-card__footer">
+                            <button class="syllabus-practice-btn" data-practice-subject="government" type="button" title="Practice Government CBT">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Practice</span>
+                            </button>
+                            <button class="view-btn" data-file="Government.pdf" type="button">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>Open Syllabus PDF</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="syllabus-item">
+                    <!-- 14. Geography -->
+                    <div class="syllabus-item" data-subject="geography" data-stream="commercial" style="--subject-accent: #0369a1; --subject-bg: rgba(3, 105, 161, 0.1);">
                         <div class="syllabus-header">
-                            <div class="syllabus-icon">GE</div>
-                            <h3>Geography</h3>
+                            <div class="syllabus-icon" aria-hidden="true">
+                                <i class="fa-solid fa-earth-africa"></i>
+                            </div>
+                            <span class="syllabus-stream-label">Commercial</span>
                         </div>
-                        <p class="syllabus-description">Physical and human geography topics including map reading, environment, settlements, and regional studies.</p>
-                        <button class="view-btn" data-file="JAMB-Syllabus-for-Geography.pdf">View Syllabus</button>
+                        <h3>Geography</h3>
+                        <p class="syllabus-description">Practical map reading, physical geography, human settlement patterns, environmental hazards, and regional geography of Nigeria.</p>
+                        <div class="syllabus-card__footer">
+                            <button class="syllabus-practice-btn" data-practice-subject="geography" type="button" title="Practice Geography CBT">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Practice</span>
+                            </button>
+                            <button class="view-btn" data-file="JAMB-Syllabus-for-Geography.pdf" type="button">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>Open Syllabus PDF</span>
+                            </button>
+                        </div>
                     </div>
 
-                    <div class="syllabus-item">
+                    <!-- 15. History -->
+                    <div class="syllabus-item" data-subject="history" data-stream="arts" style="--subject-accent: #b45309; --subject-bg: rgba(180, 83, 9, 0.1);">
                         <div class="syllabus-header">
-                            <div class="syllabus-icon">HI</div>
-                            <h3>History</h3>
+                            <div class="syllabus-icon" aria-hidden="true">
+                                <i class="fa-solid fa-landmark-dome"></i>
+                            </div>
+                            <span class="syllabus-stream-label">Arts</span>
                         </div>
-                        <p class="syllabus-description">Key historical periods, civilizations, and national developments with focus on interpretation and context.</p>
-                        <button class="view-btn" data-file="History-JAMB-Syllabus-2025.pdf">View Syllabus</button>
+                        <h3>History</h3>
+                        <p class="syllabus-description">Pre-colonial Nigerian states, British colonial administration, nationalist movements, post-independence Nigeria, and African history.</p>
+                        <div class="syllabus-card__footer">
+                            <button class="syllabus-practice-btn" data-practice-subject="history" type="button" title="Practice History CBT">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>Practice</span>
+                            </button>
+                            <button class="view-btn" data-file="History-JAMB-Syllabus-2025.pdf" type="button">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>Open Syllabus PDF</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </section>
-
-            <section class="dashboard-section dashboard-actions syllabus-actions">
-                <a href="index.html" class="action-button primary-btn">Start Practicing Tests</a>
             </section>
         </main>
 
@@ -292,18 +520,14 @@
 
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
-    <script defer src="js/utils.js?v=20260211d"></script>
-    <script defer src="js/auth.js?v=20260215a"></script>
-    <script defer src="js/subscription.js?v=20260215b"></script>
-    <script defer src="js/subscription-sync.js?v=20260215b"></script>
-    <script defer src="js/entitlements.js?v=20260215b"></script>
-    <script defer src="js/syllabus.js?v=20260215i"></script>
-    <script defer src="js/navbar-load.js?v=20260215a"></script>
-    <script defer src="js/navbar-search.js?v=20260216e"></script>
-    <script defer src="js/pwa-register.js"></script>
+    <script defer src="js/utils.js?v=20260321-sg"></script>
+    <script defer src="js/auth.js?v=20261016c"></script>
+    <script defer src="js/subscription.js?v=20260321-sg"></script>
+    <script defer src="js/subscription-sync.js?v=20260321-sg"></script>
+    <script defer src="js/entitlements.js?v=20260321-sg"></script>
+    <script defer src="js/syllabus.js?v=20261018b"></script>
+    <script defer src="js/navbar-load.js?v=20261018-more"></script>
+    <script defer src="js/navbar-search.js?v=20260321-sg"></script>
+    <script defer src="js/pwa-register.js?v=20260321-sg"></script>
 </body>
 </html>
-
-
-
-

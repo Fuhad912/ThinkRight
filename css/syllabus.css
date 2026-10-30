@@ -1,0 +1,605 @@
+/* ============================================================================
+   THINKRIGHT - STUDENT SYLLABUS LIBRARY STYLES (css/syllabus.css)
+   Clean, unboxed typography aligned with ThinkRight Design System
+   ============================================================================ */
+
+.page-syllabus {
+  overflow-x: hidden;
+  background: var(--surface-bg);
+  color: var(--text-primary);
+  font-family: var(--font-body, 'Manrope', system-ui, -apple-system, sans-serif);
+}
+
+/* Hide redundant navbar search icon on Syllabus page since page has dedicated search bar */
+.page-syllabus .tr-navbar__search-toggle,
+.page-syllabus .tr-navbar__search-row,
+.page-syllabus #tr-navbar-search-toggle,
+.page-syllabus #tr-navbar-search-row {
+  display: none !important;
+}
+
+.syllabus-container {
+  width: 100%;
+  max-width: 1160px;
+  margin: 1.5rem auto 5rem;
+  padding: 0 1.25rem;
+  box-sizing: border-box;
+}
+
+.syllabus-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  min-width: 0;
+}
+
+/* ----------------------------------------------------------------------------
+   1. CLEAN UNBOXED HERO SECTION
+   ---------------------------------------------------------------------------- */
+.page-syllabus .welcome-section.syllabus-hero {
+  position: relative;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0.5rem 0 0 !important;
+  margin: 0 !important;
+  text-align: left !important;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.syllabus-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--accent-primary, #1d4ed8);
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 0.45rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+html[data-theme='dark'] .syllabus-eyebrow {
+  color: #60a5fa;
+}
+
+.syllabus-pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: syllabusPulse 1.8s infinite;
+}
+
+@keyframes syllabusPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.page-syllabus .welcome-section .syllabus-title {
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+  font-size: clamp(2rem, 3.8vw, 2.75rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 0.55rem 0;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.page-syllabus .welcome-section .syllabus-subtitle {
+  color: var(--text-secondary);
+  font-size: 1.02rem;
+  line-height: 1.6;
+  max-width: 680px;
+  margin: 0 !important;
+}
+
+/* ----------------------------------------------------------------------------
+   2. STREAM FILTER TABS & LIVE SEARCH BAR
+   ---------------------------------------------------------------------------- */
+.syllabus-filter-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.syllabus-stream-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--surface-subtle);
+  padding: 5px;
+  border-radius: 14px;
+  border: 1px solid var(--line-subtle);
+  overflow-x: auto;
+  max-width: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.syllabus-stream-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+html[data-theme='dark'] .syllabus-stream-tabs {
+  background: rgba(17, 24, 39, 0.9);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.syllabus-stream-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.18s ease;
+}
+
+.syllabus-stream-tab i {
+  font-size: 0.88rem;
+}
+
+.syllabus-stream-tab:hover {
+  color: var(--text-primary);
+}
+
+.syllabus-stream-tab.is-active {
+  background: var(--accent-primary, #1d4ed8);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(29, 78, 216, 0.28);
+}
+
+/* Search Box */
+.page-syllabus .tr-syllabus-search-wrap {
+  position: relative;
+  min-width: 250px;
+  max-width: 340px;
+  flex: 1;
+  margin: 0;
+}
+
+.page-syllabus .tr-syllabus-search-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.page-syllabus .tr-syllabus-search-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.page-syllabus .tr-syllabus-search-field .tr-navbar__search-field-icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.page-syllabus .tr-syllabus-search-input {
+  width: 100%;
+  height: 44px;
+  padding: 0.65rem 2.4rem 0.65rem 2.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--line-subtle);
+  background: var(--surface-bg);
+  color: var(--text-primary);
+  font-family: var(--font-body, 'Manrope', sans-serif);
+  font-size: 0.88rem;
+  font-weight: 500;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+html[data-theme='dark'] .page-syllabus .tr-syllabus-search-input {
+  background: rgba(17, 24, 39, 0.85);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
+}
+
+.page-syllabus .tr-syllabus-search-input:focus {
+  outline: none;
+  border-color: var(--accent-primary, #1d4ed8);
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.15);
+}
+
+.syllabus-search-clear {
+  position: absolute;
+  right: 0.65rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.syllabus-search-clear:hover {
+  color: var(--text-primary);
+}
+
+.syllabus-search-clear[hidden] {
+  display: none !important;
+}
+
+/* ----------------------------------------------------------------------------
+   3. SYLLABUS DECK & MODERN SUBJECT CARDS
+   ---------------------------------------------------------------------------- */
+.syllabus-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  margin: 0;
+}
+
+.syllabus-deck-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.syllabus-deck-title {
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Unboxed count text */
+.syllabus-count-text {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* Grid */
+.page-syllabus .syllabus-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+}
+
+/* Individual Syllabus Card */
+.page-syllabus .syllabus-item {
+  position: relative;
+  background: var(--surface-bg);
+  border: 1px solid var(--line-subtle);
+  border-radius: 18px;
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  transition: border-color 0.18s ease;
+  box-shadow: 0 4px 16px rgba(16, 24, 40, 0.03);
+  box-sizing: border-box;
+  transform: none !important;
+}
+
+.page-syllabus .syllabus-item[hidden],
+.page-syllabus .syllabus-item.is-stream-hidden {
+  display: none !important;
+}
+
+html[data-theme='dark'] .page-syllabus .syllabus-item {
+  background: rgba(17, 24, 39, 0.75);
+  border-color: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
+.page-syllabus .syllabus-item:hover {
+  transform: none !important;
+  border-color: var(--subject-accent, var(--accent-primary, #1d4ed8));
+}
+
+html[data-theme='dark'] .page-syllabus .syllabus-item:hover {
+  transform: none !important;
+  border-color: var(--subject-accent, #60a5fa);
+}
+
+/* Top bar of Card: Icon Pod + Unboxed Stream Label */
+.page-syllabus .syllabus-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.page-syllabus .syllabus-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.28rem;
+  background: var(--subject-bg, rgba(29, 78, 216, 0.1)) !important;
+  color: var(--subject-accent, var(--accent-primary, #1d4ed8)) !important;
+  flex-shrink: 0;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+.page-syllabus .syllabus-item:hover .syllabus-icon {
+  transform: none !important;
+  background: var(--subject-bg, rgba(29, 78, 216, 0.14)) !important;
+  color: var(--subject-accent, var(--accent-primary, #1d4ed8)) !important;
+}
+
+/* Unboxed Stream Label */
+.syllabus-stream-label {
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+/* Title & Description */
+.page-syllabus .syllabus-item h3 {
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 0 0.4rem 0;
+  line-height: 1.25;
+}
+
+.page-syllabus .syllabus-description {
+  color: var(--text-secondary);
+  font-size: 0.86rem;
+  line-height: 1.55;
+  margin: 0 0 1.2rem 0;
+  flex: 1;
+}
+
+/* Card Footer Actions: Unboxed Practice Link on Left + Primary Open PDF Button on Right */
+.syllabus-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line-subtle);
+  margin-top: auto;
+}
+
+html[data-theme='dark'] .syllabus-card__footer {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Unboxed Practice Link */
+.syllabus-practice-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+  padding: 0.35rem 0;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.16s ease;
+}
+
+.syllabus-practice-btn i {
+  color: var(--subject-accent, var(--accent-primary, #1d4ed8));
+  font-size: 0.82rem;
+}
+
+.syllabus-practice-btn:hover {
+  color: var(--subject-accent, var(--accent-primary, #1d4ed8));
+}
+
+html[data-theme='dark'] .syllabus-practice-btn {
+  color: #cbd5e1;
+}
+
+html[data-theme='dark'] .syllabus-practice-btn:hover {
+  color: #60a5fa;
+}
+
+/* Primary Open Syllabus PDF Button */
+.page-syllabus .view-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.48rem;
+  min-height: 40px;
+  padding: 0.55rem 1.05rem;
+  border-radius: 10px;
+  border: 1px solid var(--accent-primary, #1d4ed8);
+  background: var(--accent-primary, #1d4ed8);
+  color: #ffffff;
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+  text-decoration: none;
+  width: auto;
+  margin: 0;
+}
+
+.page-syllabus .view-btn:hover {
+  background: var(--accent-primary-hover, #1e40af);
+  border-color: var(--accent-primary-hover, #1e40af);
+  transform: none !important;
+}
+
+html[data-theme='dark'] .page-syllabus .view-btn {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+}
+
+html[data-theme='dark'] .page-syllabus .view-btn:hover {
+  background: #1d4ed8;
+  border-color: #3b82f6;
+}
+
+/* Unboxed Empty Search State */
+.syllabus-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2.5rem 1rem;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+}
+
+.syllabus-empty-state[hidden] {
+  display: none !important;
+}
+
+.syllabus-empty-state > i {
+  font-size: 1.6rem;
+  color: var(--text-muted);
+  margin-bottom: 0.25rem;
+}
+
+.syllabus-empty-state h3 {
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.syllabus-empty-state p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 400px;
+}
+
+.syllabus-reset-link {
+  margin-top: 0.35rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--accent-primary, #1d4ed8);
+  font-family: var(--font-heading, 'Space Grotesk', sans-serif);
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.syllabus-reset-link:hover {
+  text-decoration: underline;
+}
+
+/* ----------------------------------------------------------------------------
+   4. MOBILE & TABLET RESPONSIVENESS
+   ---------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .syllabus-container {
+    margin: 1rem auto 4rem;
+    padding: 0 1rem;
+  }
+
+  .syllabus-main {
+    gap: 1.5rem;
+  }
+
+  .page-syllabus .welcome-section .syllabus-title {
+    font-size: 1.95rem;
+  }
+
+  .page-syllabus .welcome-section .syllabus-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .syllabus-filter-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.85rem;
+  }
+
+  .syllabus-stream-tabs {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .page-syllabus .tr-syllabus-search-wrap {
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .page-syllabus .syllabus-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .page-syllabus .syllabus-item {
+    padding: 1.25rem;
+    border-radius: 16px;
+  }
+
+  .page-syllabus .view-btn {
+    min-height: 42px;
+  }
+}

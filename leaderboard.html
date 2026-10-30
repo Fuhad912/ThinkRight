@@ -11,22 +11,21 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <title>ThinkRight - Weekly Leaderboard</title>
+    <title>ThinkRight - National UTME Arena & Leaderboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css?v=20260226a">
-    <link rel="stylesheet" href="css/navbar.css?v=20260308b">
+    <link rel="stylesheet" href="css/navbar.css?v=20261018-more">
     <link rel="stylesheet" href="css/premium-ui.css?v=20260308e">
-    <link rel="stylesheet" href="css/preloader.css?v=20260308a">
-    <link rel="stylesheet" href="css/leaderboard.css?v=20260215b">
-    <script defer src="js/preloader.js?v=20260308a"></script>
-    <script defer src="https://checkout.flutterwave.com/v3.js"></script>
+    <link rel="stylesheet" href="css/preloader.css?v=20261016d">
+    <link rel="stylesheet" href="css/leaderboard.css?v=20260923-arena">
+    <script src="js/preloader.js?v=20261016d"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
 </head>
 <body class="page-leaderboard tr-loading">
-    <div id="tr-preloader" class="tr-preloader" role="status" aria-live="polite" aria-label="Loading ThinkRight">
-      <div class="tr-preloader__inner">
-        <div class="tr-preloader__logo">ThinkRight</div>
-        <div class="tr-preloader__dots" aria-hidden="true"><span></span><span></span><span></span></div>
-      </div>
-    </div>
+    <div id="tr-preloader" class="tr-preloader" role="status" aria-live="polite" aria-label="Loading ThinkRight"><div class="tr-loader-stack"><div class="tr-loader-brand">ThinkRight<span>.</span></div><div class="tr-loader-spinner" aria-hidden="true"><span class="tr-loader-spinner__core"></span></div></div></div>
+
     <nav id="tr-navbar" class="tr-navbar" role="navigation" aria-label="ThinkRight main navigation">
       <div class="tr-navbar__container">
         <a href="index.html" class="tr-navbar__logo" aria-label="ThinkRight Home">
@@ -34,32 +33,31 @@
         </a>
 
         <ul class="tr-navbar__nav" role="list">
-          <li><a href="index.html" class="tr-navbar__link">Home</a></li>
-          <li><a href="dashboard.html" class="tr-navbar__link">Dashboard</a></li>
-          <li><a href="leaderboard.html" class="tr-navbar__link">Leaderboard</a></li>
+          <li><a href="index.html" class="tr-navbar__link tr-navbar__link--home" title="Home" aria-label="Home"><i class="fa-solid fa-house"></i></a></li>
+          <li><a href="practice.html" class="tr-navbar__link">Practice</a></li>
+          <li><a href="my-classes.html" class="tr-navbar__link">My Classes</a></li>
           <li><a href="syllabus.html" class="tr-navbar__link">Syllabus</a></li>
-          <li><a href="insider.html" class="tr-navbar__link">JAMB Insider</a></li>
-          <li><a href="#" class="tr-navbar__link tr-navbar__link--pricing">Pricing</a></li>
+          <li><a href="dashboard.html" class="tr-navbar__link">Dashboard</a></li>
+          <li><a href="leaderboard.html" class="tr-navbar__link is-active">Leaderboard</a></li>
         </ul>
 
         <div id="tr-user-info" class="tr-navbar__user-info" style="display: none;">
           <div class="tr-navbar__user-avatar">
             <img id="tr-user-avatar" src="" alt="User avatar" class="tr-navbar__avatar-img">
-            <span id="tr-user-premium-star" class="tr-navbar__premium-star" style="display: none;">*</span>
           </div>
           <span id="tr-user-name" class="tr-navbar__user-name"></span>
-          <button id="tr-logout-btn" class="tr-navbar__logout-btn" type="button" title="Logout">Logout</button>
+          <button id="tr-logout-btn" class="tr-navbar__logout-btn" type="button" title="Logout" aria-label="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></button>
         </div>
 
         <button id="tr-auth-btn" class="tr-navbar__auth-btn" type="button">Login</button>
 
+        <a href="index.html" id="tr-home-btn-mobile" class="tr-navbar__home-btn" aria-label="Home" title="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+
         <button id="tr-theme-toggle" class="tr-navbar__theme-btn" aria-label="Toggle dark mode" type="button">
-            <svg class="tr-navbar__icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-            </svg>
-            <svg class="tr-navbar__icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
+            <i class="fa-solid fa-sun tr-navbar__icon-sun"></i>
+            <i class="fa-solid fa-moon tr-navbar__icon-moon"></i>
         </button>
 
         <button id="tr-hamburger" class="tr-navbar__hamburger" aria-label="Toggle navigation menu" aria-controls="tr-mobile-menu" aria-expanded="false" type="button">
@@ -71,156 +69,320 @@
 
       <div id="tr-mobile-menu" class="tr-navbar__mobile-menu" role="region" aria-label="Mobile navigation menu">
         <ul class="tr-navbar__mobile-nav" role="list">
-          <li><a href="index.html" class="tr-navbar__mobile-link">Home</a></li>
+          <li><a href="index.html" class="tr-navbar__mobile-link"><i class="fa-solid fa-house" style="font-size: 16px; margin-right: 10px; width: 20px; text-align: center;"></i> <span>Home</span></a></li>
+          <li><a href="practice.html" class="tr-navbar__mobile-link">Practice</a></li>
+          <li><a href="classes.html" class="tr-navbar__mobile-link">Classes</a></li>
+          <li><a href="my-classes.html" class="tr-navbar__mobile-link">My Classes</a></li>
           <li><a href="dashboard.html" class="tr-navbar__mobile-link">Dashboard</a></li>
-          <li><a href="leaderboard.html" class="tr-navbar__mobile-link">Leaderboard</a></li>
+          <li><a href="leaderboard.html" class="tr-navbar__mobile-link is-active">Leaderboard</a></li>
           <li><a href="syllabus.html" class="tr-navbar__mobile-link">Syllabus</a></li>
           <li><a href="insider.html" class="tr-navbar__mobile-link">JAMB Insider</a></li>
-          <li><a href="#" class="tr-navbar__mobile-link tr-navbar__mobile-link--pricing">Pricing</a></li>
 
           <li id="tr-mobile-user-info" class="tr-navbar__mobile-user-info" style="display: none;">
             <div class="tr-navbar__mobile-user-avatar">
               <img id="tr-mobile-user-avatar" src="" alt="User avatar" class="tr-navbar__mobile-avatar-img">
-              <span id="tr-mobile-user-premium-star" class="tr-navbar__mobile-premium-star" style="display: none;">*</span>
             </div>
             <span id="tr-mobile-user-name" class="tr-navbar__mobile-user-name"></span>
-            <button id="tr-mobile-logout-btn" class="tr-navbar__mobile-logout-btn" type="button" title="Logout">Logout</button>
+            <button id="tr-mobile-logout-btn" class="tr-navbar__mobile-logout-btn" type="button" title="Logout" aria-label="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Logout</span></button>
           </li>
 
           <li><button id="tr-mobile-auth-btn" class="tr-navbar__mobile-auth-btn" type="button">Login</button></li>
           <li><button id="tr-theme-toggle-mobile" class="tr-navbar__mobile-theme-btn" type="button">
-            <svg class="tr-navbar__icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-            </svg>
-            <svg class="tr-navbar__icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
+            <i class="fa-solid fa-sun tr-navbar__icon-sun" style="font-size: 18px;"></i>
+            <i class="fa-solid fa-moon tr-navbar__icon-moon" style="font-size: 18px;"></i>
             <span class="tr-navbar__theme-label">Dark Mode</span>
           </button></li>
         </ul>
       </div>
     </nav>
 
-    <div class="container">
+    <div class="container arena-container">
+        <!-- Preload Screen Overlay -->
         <div id="leaderboardLoadingOverlay" class="leaderboard-loading-overlay" role="status" aria-live="polite" aria-busy="true">
             <div class="leaderboard-loading-card">
-                <p class="leaderboard-loading-title">Preparing leaderboard</p>
-                <p class="leaderboard-loading-subtitle" id="leaderboardLoadingLabel">Initializing...</p>
+                <p class="leaderboard-loading-title">Entering UTME Arena</p>
+                <p class="leaderboard-loading-subtitle" id="leaderboardLoadingLabel">Calculating live national standings...</p>
                 <div class="leaderboard-loading-progress-track" aria-hidden="true">
                     <div id="leaderboardLoadingProgressBar" class="leaderboard-loading-progress-bar" style="width: 0%;"></div>
                 </div>
                 <p class="leaderboard-loading-percent"><span id="leaderboardLoadingPercent">0</span>%</p>
             </div>
         </div>
+
         <main class="leaderboard-main">
-            <section class="leaderboard-hero">
-                <p class="eyebrow">Weekly Competition</p>
-                <h1>Leaderboard</h1>
-                <p>Performance refreshes automatically as users complete tests this week.</p>
-                <p id="leaderboardWeekLabel" class="leaderboard-week-label">Week: --</p>
-            </section>
-
-            <section class="leaderboard-card">
-                <header class="leaderboard-card-header">
-                    <h2>Top Projected JAMB Performers This Week</h2>
-                </header>
-                <p id="projectedStatus" class="leaderboard-status">Loading projected rankings...</p>
-                <div class="leaderboard-table-wrap" id="projectedTableWrap" hidden>
-                    <table class="leaderboard-table" aria-label="Weekly projected JAMB ranking">
-                        <colgroup>
-                            <col class="leaderboard-col-rank">
-                            <col class="leaderboard-col-username">
-                            <col class="leaderboard-col-score">
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th scope="col">Rank</th>
-                                <th scope="col">Username</th>
-                                <th scope="col">Projected</th>
-                            </tr>
-                        </thead>
-                        <tbody id="projectedBody"></tbody>
-                    </table>
+            <!-- Arena Hero Section -->
+            <section class="arena-hero">
+                <div class="arena-hero__top">
+                    <div class="arena-live-chip">
+                        <span class="arena-pulse-dot"></span>
+                        <span id="arenaLiveText">WEEKLY SEASON ACTIVE</span>
+                        <span class="arena-live-sep">•</span>
+                        <span id="leaderboardWeekLabel" class="arena-week-tag">Week: --</span>
+                    </div>
+                    <button type="button" class="arena-rules-btn" id="openScoringRulesBtn" title="How rankings and projected scores work">
+                        <i class="fa-solid fa-circle-question"></i> How Scoring Works
+                    </button>
                 </div>
-                <p id="projectedEmpty" class="leaderboard-empty" hidden>No projected rankings yet for this week.</p>
 
-                <article class="leaderboard-my-rank-card" id="projectedMyRankCard" hidden>
-                    <header class="leaderboard-my-rank-header">
-                        <h3>Your ranking this week</h3>
-                    </header>
+                <div class="arena-hero__center">
+                    <span class="arena-brand-prefix">ThinkRight's</span>
+                    <h1 class="arena-title">National UTME Arena</h1>
+                    <p class="arena-subtitle">
+                        Nigeria's premier live academic battleground for JAMB candidates. Take real practice tests, push your projected score, and claim your place among the top performers nationwide.
+                    </p>
+                </div>
 
-                    <p class="leaderboard-my-rank-status" id="projectedMyRankStatus"></p>
-
-                    <div class="leaderboard-my-rank-sensitive" id="projectedMyRankSensitive">
-                        <div class="leaderboard-my-rank-grid">
-                            <div class="leaderboard-my-rank-item">
-                                <span class="leaderboard-my-rank-label">Rank</span>
-                                <span class="leaderboard-my-rank-value" id="projectedMyRankValue">--</span>
-                            </div>
-                            <div class="leaderboard-my-rank-item">
-                                <span class="leaderboard-my-rank-label">Projected Score</span>
-                                <span class="leaderboard-my-rank-value" id="projectedMyScoreValue">-- / 400</span>
-                            </div>
-                            <div class="leaderboard-my-rank-item" id="projectedMyPercentileItem" hidden>
-                                <span class="leaderboard-my-rank-label">Percentile</span>
-                                <span class="leaderboard-my-rank-value" id="projectedMyPercentileValue">--</span>
-                            </div>
+                <!-- Season Countdown Strip -->
+                <div class="arena-timer-strip">
+                    <div class="arena-timer-label">
+                        <i class="fa-solid fa-stopwatch-20"></i>
+                        <span>Weekly Season Resets In:</span>
+                    </div>
+                    <div class="arena-countdown" id="arenaCountdown" aria-label="Countdown to weekly reset">
+                        <div class="arena-countdown-unit">
+                            <span id="timerDays" class="arena-timer-num">00</span>
+                            <span class="arena-timer-lbl">Days</span>
+                        </div>
+                        <span class="arena-timer-colon">:</span>
+                        <div class="arena-countdown-unit">
+                            <span id="timerHours" class="arena-timer-num">00</span>
+                            <span class="arena-timer-lbl">Hours</span>
+                        </div>
+                        <span class="arena-timer-colon">:</span>
+                        <div class="arena-countdown-unit">
+                            <span id="timerMins" class="arena-timer-num">00</span>
+                            <span class="arena-timer-lbl">Mins</span>
+                        </div>
+                        <span class="arena-timer-colon">:</span>
+                        <div class="arena-countdown-unit">
+                            <span id="timerSecs" class="arena-timer-num">00</span>
+                            <span class="arena-timer-lbl">Secs</span>
                         </div>
                     </div>
+                </div>
 
-                    <div class="leaderboard-my-rank-overlay" id="projectedMyRankOverlay" hidden>
-                        <p>Premium feature: Upgrade to view your weekly rank</p>
-                        <button type="button" class="leaderboard-upgrade-btn" id="projectedMyRankUpgradeBtn">Upgrade</button>
+                <!-- League Tiers Banner -->
+                <div class="arena-tiers-strip">
+                    <div class="arena-tier-chip arena-tier-chip--titan">
+                        <i class="fa-solid fa-crown"></i>
+                        <span><strong>300+ Titans:</strong> Elite 400 Aggregate</span>
                     </div>
-                </article>
+                    <div class="arena-tier-chip arena-tier-chip--scholar">
+                        <i class="fa-solid fa-medal"></i>
+                        <span><strong>Scholars:</strong> 250 - 299 Range</span>
+                    </div>
+                    <div class="arena-tier-chip arena-tier-chip--contender">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span><strong>Contenders:</strong> 200 - 249 Range</span>
+                    </div>
+                </div>
             </section>
 
-            <section class="leaderboard-card">
-                <header class="leaderboard-card-header">
-                    <h2>Top Performers by Subject</h2>
+            <!-- Mode Switcher Tabs -->
+            <div class="arena-mode-switch-wrap">
+                <div class="arena-mode-switch" role="tablist" aria-label="Leaderboard views">
+                    <button type="button" class="arena-mode-btn is-active" id="tabModeProjected" role="tab" aria-selected="true">
+                        <i class="fa-solid fa-trophy"></i>
+                        <span>National 400 Aggregate</span>
+                    </button>
+                    <button type="button" class="arena-mode-btn" id="tabModeSubject" role="tab" aria-selected="false">
+                        <i class="fa-solid fa-flask-vial"></i>
+                        <span>Subject Masters</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Subject Picker Bar (Displayed only in Subject Masters mode) -->
+            <div id="subjectPickerContainer" class="arena-subject-picker-container" style="display: none;">
+                <div class="arena-subject-scroll-wrap">
+                    <div id="subjectTabs" class="arena-subject-tabs" role="tablist" aria-label="Select subject"></div>
+                </div>
+                <div class="arena-subject-mobile-select-wrap">
+                    <label for="subjectSelect" class="arena-subject-select-label">Select Subject:</label>
+                    <select id="subjectSelect" class="arena-subject-select" aria-label="Select subject"></select>
+                </div>
+            </div>
+
+            <!-- 3D Champions Podium -->
+            <section class="arena-podium-section" id="arenaPodiumSection">
+                <header class="arena-podium-header">
+                    <span class="arena-podium-badge"><i class="fa-solid fa-star"></i> Champions Circle</span>
+                    <h2 class="arena-podium-title" id="podiumHeading">Top 3 National Contenders</h2>
+                    <p class="arena-podium-subtitle" id="podiumSubheading">The current frontrunners setting the standard this week</p>
                 </header>
 
-                <div id="subjectTabs" class="leaderboard-tabs" role="tablist" aria-label="Subject leaderboard tabs"></div>
-                <div class="leaderboard-subject-select-wrap">
-                    <label for="subjectSelect" class="leaderboard-subject-select-label">Subject</label>
-                    <select id="subjectSelect" class="leaderboard-subject-select" aria-label="Select subject leaderboard"></select>
+                <div class="arena-podium" id="arenaPodium">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </section>
+
+            <!-- Candidates Roster Card (Ranks 4+) -->
+            <section class="arena-roster-card">
+                <div class="arena-roster-header">
+                    <div>
+                        <h3 class="arena-roster-title" id="rosterTitle">Contenders Leaderboard</h3>
+                        <p class="arena-roster-subtitle" id="rosterSubtitle">Live standings updated with every completed test</p>
+                    </div>
+                    <div class="arena-roster-meta">
+                        <span id="rosterCountBadge" class="arena-count-badge">Top 50 Rankings</span>
+                    </div>
                 </div>
 
-                <p id="subjectStatus" class="leaderboard-status">Loading subject rankings...</p>
-                <div class="leaderboard-table-wrap" id="subjectTableWrap" hidden>
-                    <table class="leaderboard-table" aria-label="Weekly subject ranking">
-                        <colgroup>
-                            <col class="leaderboard-col-rank">
-                            <col class="leaderboard-col-username">
-                            <col class="leaderboard-col-score">
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th scope="col">Rank</th>
-                                <th scope="col">Username</th>
-                                <th scope="col">Best 3 Avg</th>
-                            </tr>
-                        </thead>
-                        <tbody id="subjectBody"></tbody>
-                    </table>
+                <p id="projectedStatus" class="arena-status">Loading rankings...</p>
+                <p id="subjectStatus" class="arena-status" style="display: none;">Loading subject rankings...</p>
+
+                <!-- Roster Rows Container -->
+                <div class="arena-roster-list" id="candidateRosterList">
+                    <!-- Dynamic candidate cards inserted here -->
                 </div>
-                <p id="subjectEmpty" class="leaderboard-empty" hidden>No rankings yet for this subject this week.</p>
-                <p id="mySubjectRank" class="leaderboard-self-rank"></p>
+
+                <!-- Empty State -->
+                <div id="arenaEmptyState" class="arena-empty-state" style="display: none;">
+                    <div class="arena-empty-icon">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <h4>No contenders recorded yet this week!</h4>
+                    <p>Be the very first candidate to take 3 practice tests and claim #1 on the national leaderboard.</p>
+                    <a href="practice.html" class="tr-btn tr-btn--primary">
+                        <i class="fa-solid fa-play"></i> Start Practice Test
+                    </a>
+                </div>
             </section>
+
+            <!-- Legacy Support Hidden Hooks for existing tests/RPC bindings -->
+            <div id="projectedTableWrap" hidden><tbody id="projectedBody"></tbody></div>
+            <div id="subjectTableWrap" hidden><tbody id="subjectBody"></tbody></div>
+            <p id="projectedEmpty" hidden></p>
+            <p id="subjectEmpty" hidden></p>
+            <p id="mySubjectRank" class="arena-self-rank-text" style="display: none;"></p>
+            <article id="projectedMyRankCard" hidden>
+                <p id="projectedMyRankStatus"></p>
+                <div id="projectedMyRankSensitive">
+                    <span id="projectedMyRankValue"></span>
+                    <span id="projectedMyScoreValue"></span>
+                    <div id="projectedMyPercentileItem"><span id="projectedMyPercentileValue"></span></div>
+                </div>
+            </article>
         </main>
+
+        <!-- Floating Sticky "My Standing" HUD -->
+        <aside id="stickyRankHud" class="arena-sticky-hud" role="complementary" aria-label="Your standing">
+            <div class="arena-sticky-hud__inner">
+                <div class="arena-sticky-hud__user">
+                    <div class="arena-sticky-hud__avatar" id="hudUserAvatar">TR</div>
+                    <div class="arena-sticky-hud__details">
+                        <div class="arena-sticky-hud__name-row">
+                            <strong class="arena-sticky-hud__username" id="hudUsername">You</strong>
+                            <span class="arena-sticky-hud__rank-badge" id="hudRankBadge">Unranked</span>
+                        </div>
+                        <div class="arena-sticky-hud__gap-text" id="hudGapText">Take 3 tests to enter the national arena</div>
+                    </div>
+                </div>
+
+                <div class="arena-sticky-hud__score">
+                    <span class="arena-sticky-hud__score-lbl">Projected</span>
+                    <strong class="arena-sticky-hud__score-val" id="hudScoreVal">--</strong>
+                </div>
+
+                <div class="arena-sticky-hud__actions">
+                    <button type="button" class="arena-sticky-hud__share-btn" id="hudShareBtn" title="Share your rank">
+                        <i class="fa-solid fa-share-nodes"></i>
+                    </button>
+                    <a href="practice.html" class="arena-sticky-hud__boost-btn" id="hudBoostBtn">
+                        <i class="fa-solid fa-bolt"></i>
+                        <span>Boost Rank</span>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Scoring Rules Modal -->
+        <div id="scoringRulesModal" class="arena-modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="scoringModalTitle">
+            <div class="arena-modal-card">
+                <div class="arena-modal-header">
+                    <div>
+                        <span class="arena-podium-badge"><i class="fa-solid fa-circle-info"></i> Transparent Methodology</span>
+                        <h3 id="scoringModalTitle">How ThinkRight Rankings Work</h3>
+                    </div>
+                    <button type="button" class="arena-modal-close" id="closeScoringRulesBtn" aria-label="Close dialog">&times;</button>
+                </div>
+                <div class="arena-modal-body">
+                    <div class="arena-rule-item">
+                        <div class="arena-rule-num">1</div>
+                        <div>
+                            <h4>3-Test Qualification Minimum</h4>
+                            <p>To prevent lucky single-test anomalies, candidates must complete at least 3 valid practice tests during the active week to enter the national standings.</p>
+                        </div>
+                    </div>
+                    <div class="arena-rule-item">
+                        <div class="arena-rule-num">2</div>
+                        <div>
+                            <h4>Recency-Weighted Projection</h4>
+                            <p>Your projected score out of 400 is calculated with heavier weight on your most recent performances (up to 35% on your latest test), rewarding active improvement.</p>
+                        </div>
+                    </div>
+                    <div class="arena-rule-item">
+                        <div class="arena-rule-num">3</div>
+                        <div>
+                            <h4>Official JAMB Curve Calibration</h4>
+                            <p>Raw percentage scores are mapped through ThinkRight's empirical JAMB calibration algorithm (0.85 scaling factor) to reflect actual UTME grading difficulty.</p>
+                        </div>
+                    </div>
+                    <div class="arena-rule-item">
+                        <div class="arena-rule-num">4</div>
+                        <div>
+                            <h4>Weekly Reset Cycle</h4>
+                            <p>Every Sunday at 23:59:59 UTC, the competition resets for a brand-new weekly season, giving every candidate a fresh opportunity to claim the #1 spot.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="arena-modal-footer">
+                    <button type="button" class="tr-btn tr-btn--primary" id="gotItRulesBtn">Got It, Let's Compete!</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Share Rank Modal -->
+        <div id="shareRankModal" class="arena-modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
+            <div class="arena-modal-card arena-modal-card--share">
+                <div class="arena-modal-header">
+                    <div>
+                        <span class="arena-podium-badge"><i class="fa-solid fa-fire"></i> Challenger Card</span>
+                        <h3 id="shareModalTitle">Share Your Standing</h3>
+                    </div>
+                    <button type="button" class="arena-modal-close" id="closeShareModalBtn" aria-label="Close dialog">&times;</button>
+                </div>
+                <div class="arena-modal-body">
+                    <div class="arena-share-preview" id="shareCardPreview">
+                        <div class="arena-share-badge">ThinkRight National Arena</div>
+                        <h4 class="arena-share-name" id="shareCardName">Candidate</h4>
+                        <div class="arena-share-rank" id="shareCardRank">Rank #--</div>
+                        <div class="arena-share-score" id="shareCardScore">-- / 400 Projected UTME</div>
+                        <p class="arena-share-tagline">Can you beat my score? Join the arena on ThinkRight!</p>
+                    </div>
+                    <div class="arena-share-actions">
+                        <button type="button" class="tr-btn tr-btn--success" id="shareWhatsappBtn">
+                            <i class="fa-brands fa-whatsapp"></i> Share on WhatsApp
+                        </button>
+                        <button type="button" class="tr-btn tr-btn--secondary" id="copyShareTextBtn">
+                            <i class="fa-regular fa-copy"></i> Copy Challenge Text
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <div id="trToast" class="tr-toast" role="status" aria-live="polite"></div>
+
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
-    <script defer src="js/utils.js"></script>
-    <script defer src="js/auth.js"></script>
-    <script defer src="js/subscription.js"></script>
-    <script defer src="js/subscription-sync.js"></script>
-    <script defer src="js/weekly-comparison.js?v=20260215b"></script>
-    <script defer src="js/navbar-load.js?v=20260212d"></script>
-    <script defer src="js/leaderboard.js?v=20260308b"></script>
-    <script defer src="js/pwa-register.js"></script>
+    <script defer src="js/utils.js?v=20260321-sg"></script>
+    <script defer src="js/auth.js?v=20261016c"></script>
+    <script defer src="js/subscription.js?v=20260321-sg"></script>
+    <script defer src="js/subscription-sync.js?v=20260321-sg"></script>
+    <script defer src="js/weekly-comparison.js?v=20260321-sg"></script>
+    <script defer src="js/navbar-load.js?v=20261018-more"></script>
+    <script defer src="js/leaderboard.js?v=20260923-arena"></script>
+    <script defer src="js/pwa-register.js?v=20260321-sg"></script>
 </body>
 </html>
-
-
-

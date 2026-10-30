@@ -1,6 +1,9 @@
 /**
- * ThinkRight Syllabus Page
- * Single-source gating via window.ThinkRightEntitlements.canViewSyllabus(...)
+ * ThinkRight Syllabus Page Controller (js/syllabus.js)
+ * - Instant preloader synchronization & optimistic rendering
+ * - Stream filter tabs (All 15, Sciences, Commercial, Arts)
+ * - Quick high-yield topic chips & live search integration
+ * - Direct PDF viewer launcher + one-click Practice test modal trigger
  */
 (function () {
   "use strict";
@@ -16,135 +19,70 @@
     }
   };
 
-  const FALLBACK_FREE_SUBJECTS = new Set(["english", "math"]);
+  let activeStream = "all";
 
-  document.addEventListener("DOMContentLoaded", initSyllabusPage);
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSyllabusPage);
+  } else {
+    initSyllabusPage();
+  }
 
   async function initSyllabusPage() {
     try {
-      setSyllabusEntitlementLoading(true);
+      // 1. Bind all interactive controls immediately so UI is responsive right away
+      initSyllabusButtons();
+      initPracticeButtons();
+      initStreamFilterTabs();
+      initQuickTopicChips();
       animatePageLoad();
-
-      const user = await checkAuth();
-      if (!user) return;
-
-      const entitlement = await getEntitlement(user.id);
-      const entitlementFlags = {
-        isPremium: entitlement.isPremium === true,
-        isAdmin: entitlement.isAdmin === true,
-      };
-
-      logDev("entitlement loaded", {
-        user_id: user.id,
-        isPremium: entitlementFlags.isPremium,
-        isAdmin: entitlementFlags.isAdmin,
-      });
-
-      initSyllabusButtons(entitlementFlags);
     } catch (error) {
-      console.error("Syllabus initialization failed:", error);
-      initSyllabusButtons({ isPremium: false, isAdmin: false });
+      console.error("Syllabus UI setup error:", error);
     } finally {
-      setSyllabusEntitlementLoading(false);
+      // Release universal loader immediately so page reveals without network lag
+      window.ThinkRightLoader?.done("Syllabus ready");
     }
+
+    // 2. Non-blocking background auth check
+    checkAuthInBackground();
   }
 
-  async function checkAuth() {
+  async function checkAuthInBackground() {
     try {
+      if (!window.authInitialized && typeof window.initSupabase === "function") {
+        try { window.initSupabase(); } catch (_) {}
+      }
+
       let retries = 0;
-      while (!window.authInitialized && retries < 30) {
-        await new Promise((resolve) => setTimeout(resolve, 100));
+      while (!window.authInitialized && retries < 25) {
+        await new Promise((resolve) => setTimeout(resolve, 40));
         retries += 1;
       }
 
-      if (typeof window.getCurrentUser !== "function") {
-        window.location.href =
-          "login.html?next=" + encodeURIComponent(window.location.pathname);
-        return null;
+      if (typeof window.getCurrentUser === "function") {
+        const user = await window.getCurrentUser();
+        if (!user) {
+          // Allow guests with cached session or redirect if strictly unauthenticated
+          const hasCachedUser = Boolean(localStorage.getItem("thinkright_username"));
+          if (!hasCachedUser) {
+            window.location.href =
+              "login.html?next=" + encodeURIComponent(window.location.pathname);
+          }
+        }
       }
-
-      const user = await window.getCurrentUser();
-      if (!user) {
-        window.location.href =
-          "login.html?next=" + encodeURIComponent(window.location.pathname);
-        return null;
-      }
-
-      return user;
     } catch (error) {
-      console.error("Auth check failed:", error);
-      window.location.href =
-        "login.html?next=" + encodeURIComponent(window.location.pathname);
-      return null;
+      console.warn("Syllabus background auth check notice:", error);
     }
   }
 
-  async function getEntitlement(userId) {
-    if (window.Subscription && typeof window.Subscription.init === "function") {
-      await window.Subscription.init().catch(() => null);
+  function setButtonDefaultMarkup(button) {
+    if (!button) return;
+    if (!button.querySelector("i")) {
+      button.innerHTML =
+        '<i class="fa-solid fa-file-pdf"></i><span>Open Syllabus PDF</span>';
     }
-    if (
-      window.Subscription &&
-      typeof window.Subscription.ensureSubscriptionValid === "function"
-    ) {
-      await window.Subscription.ensureSubscriptionValid().catch(() => null);
-    }
-
-    if (
-      window.ThinkRightEntitlements &&
-      typeof window.ThinkRightEntitlements.fetchSyllabusEntitlement ===
-        "function"
-    ) {
-      try {
-        return await window.ThinkRightEntitlements.fetchSyllabusEntitlement({
-          supabase: window.supabase,
-          userId,
-        });
-      } catch (error) {
-        console.warn("Entitlement fetch failed, using subscription fallback:", error);
-      }
-    }
-
-    const subscriptionPlanRaw =
-      (window.Subscription && typeof window.Subscription.getSubscription === "function"
-        ? window.Subscription.getSubscription()?.plan
-        : "") || "";
-    const subscriptionPlan = subscriptionPlanRaw.toString().trim().toLowerCase();
-
-    return {
-      isPremium:
-        window.Subscription && typeof window.Subscription.isPremium === "function"
-          ? window.Subscription.isPremium() === true
-          : false,
-      isAdmin: subscriptionPlan === "admin",
-    };
   }
 
-  function setSyllabusEntitlementLoading(isLoading) {
-    const loader = document.getElementById("syllabusEntitlementLoader");
-    const grid = document.querySelector(".syllabus-grid");
-    const buttons = document.querySelectorAll(".view-btn");
-
-    if (loader) {
-      loader.hidden = !isLoading;
-      loader.setAttribute("aria-busy", isLoading ? "true" : "false");
-    }
-
-    if (grid) {
-      grid.classList.toggle("is-entitlement-loading", isLoading);
-    }
-
-    buttons.forEach((button) => {
-      const defaultLabel =
-        button.dataset.defaultLabel || button.textContent.trim() || "View Syllabus";
-      button.dataset.defaultLabel = defaultLabel;
-      button.disabled = isLoading;
-      button.style.cursor = isLoading ? "wait" : "";
-      button.textContent = isLoading ? "Checking access..." : defaultLabel;
-    });
-  }
-
-  function initSyllabusButtons(entitlement) {
+  function initSyllabusButtons() {
     const buttons = document.querySelectorAll(".view-btn");
 
     buttons.forEach((button) => {
@@ -153,78 +91,22 @@
         card && card.querySelector("h3")
           ? card.querySelector("h3").textContent.trim()
           : "";
-      const normalizedSubject =
-        window.ThinkRightEntitlements &&
-        typeof window.ThinkRightEntitlements.normalizeSubject === "function"
-          ? window.ThinkRightEntitlements.normalizeSubject(subjectName)
-          : normalizeSubjectFallback(subjectName);
-
-      let canView = false;
-      if (
-        window.ThinkRightEntitlements &&
-        typeof window.ThinkRightEntitlements.canViewSyllabus === "function"
-      ) {
-        canView = window.ThinkRightEntitlements.canViewSyllabus({
-          subjectName,
-          isPremium: entitlement.isPremium === true,
-          isAdmin: entitlement.isAdmin === true,
-        });
-      } else {
-        canView =
-          FALLBACK_FREE_SUBJECTS.has(normalizedSubject) ||
-          entitlement.isPremium === true ||
-          entitlement.isAdmin === true;
-      }
 
       button.dataset.subject = subjectName;
-      button.dataset.canView = canView ? "true" : "false";
+      button.dataset.canView = "true";
 
-      logDev("subject gating", {
-        subjectName,
-        normalizedSubject,
-        canView,
-      });
-
-      applyCardAccessState({ card, button, canView });
+      applyCardAccessState({ card, button });
       bindViewClick(button);
     });
 
-    logDev("render branch", "unlocked/locked per-card applied");
+    logDev("render branch", "all syllabi unlocked");
   }
 
-  function applyCardAccessState({ card, button, canView }) {
-    const defaultLabel = button.dataset.defaultLabel || "View Syllabus";
-
-    if (!card) {
-      button.textContent = canView ? defaultLabel : "Premium Only";
-      return;
-    }
-
-    if (canView) {
-      card.classList.remove("is-locked");
-      button.textContent = defaultLabel;
-      removeLockedOverlay(card);
-      return;
-    }
-
-    card.classList.add("is-locked");
-    button.textContent = "Premium Only";
-    ensureLockedOverlay(card);
-  }
-
-  function ensureLockedOverlay(card) {
-    let overlay = card.querySelector(".locked-overlay");
-    if (!overlay) {
-      overlay = document.createElement("div");
-      overlay.className = "locked-overlay";
-      overlay.innerHTML =
-        '<div class="locked-content">' +
-        '<div class="lock-icon">🔒</div>' +
-        '<div class="lock-text">Premium Required</div>' +
-        '<div class="lock-subtext">Upgrade to access this syllabus</div>' +
-        "</div>";
-      card.appendChild(overlay);
-    }
+  function applyCardAccessState({ card, button }) {
+    setButtonDefaultMarkup(button);
+    if (!card) return;
+    card.classList.remove("is-locked");
+    removeLockedOverlay(card);
   }
 
   function removeLockedOverlay(card) {
@@ -241,16 +123,9 @@
     button.addEventListener("click", () => {
       const subjectName = button.dataset.subject || "";
       const fileName = button.getAttribute("data-file") || "";
-      const canView = button.dataset.canView === "true";
 
-      if (canView) {
-        logDev("view click", { subjectName, branch: "open" });
-        openSyllabusFile(fileName);
-        return;
-      }
-
-      logDev("view click", { subjectName, branch: "premium-only" });
-      showPremiumOnlyPrompt();
+      logDev("view click", { subjectName, branch: "open" });
+      openSyllabusFile(fileName);
     });
   }
 
@@ -275,34 +150,195 @@
     link.remove();
   }
 
-  function showPremiumOnlyPrompt() {
-    if (window.Subscription && typeof window.Subscription.showPricingModal === "function") {
-      window.Subscription.showPricingModal();
-      return;
-    }
+  function initPracticeButtons() {
+    const practiceBtns = document.querySelectorAll(".syllabus-practice-btn");
+    practiceBtns.forEach((btn) => {
+      if (btn.dataset.boundPractice === "true") return;
+      btn.dataset.boundPractice = "true";
 
-    if (window.Subscription && typeof window.Subscription.showPaywallModal === "function") {
-      window.Subscription.showPaywallModal("syllabus");
-      return;
-    }
+      btn.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
 
-    alert("Premium only. Upgrade to access this syllabus.");
+        const rawSubject = btn.getAttribute("data-practice-subject") || "";
+        const subject =
+          typeof window.normalizeSubject === "function"
+            ? window.normalizeSubject(rawSubject)
+            : rawSubject;
+
+        if (!subject) {
+          window.location.href = "practice.html";
+          return;
+        }
+
+        // Trigger the ThinkRight test confirmation modal directly if available
+        if (typeof window.showTestConfirmationModal === "function") {
+          window.showTestConfirmationModal(subject, {
+            sourceCard: btn.closest(".syllabus-item") || btn,
+          });
+          return;
+        }
+
+        // Fallback: save selected subject and open test
+        if (
+          window.StorageManager &&
+          typeof window.StorageManager.setSelectedSubject === "function"
+        ) {
+          window.StorageManager.setSelectedSubject(subject);
+        } else {
+          localStorage.setItem("selected_subject", subject);
+        }
+        window.location.href = "test.html";
+      });
+    });
   }
 
-  function normalizeSubjectFallback(name) {
-    const normalized = (name || "")
-      .toString()
-      .trim()
-      .toLowerCase()
-      .replace(/[_-]+/g, " ")
-      .replace(/\s+/g, " ");
+  function initStreamFilterTabs() {
+    const tabs = document.querySelectorAll(".syllabus-stream-tab");
+    const searchInput = document.getElementById("tr-syllabus-topic-search");
+    const clearBtn = document.getElementById("syllabusSearchClearBtn");
+    const resetBtn = document.getElementById("syllabusResetFiltersBtn");
 
-    if (normalized === "english" || normalized === "use of english") return "english";
-    if (normalized === "mathematics" || normalized === "math" || normalized === "maths") {
-      return "math";
+    if (!tabs.length) return;
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const stream = tab.getAttribute("data-stream") || "all";
+        activeStream = stream;
+
+        tabs.forEach((t) => {
+          const isCurrent = t === tab;
+          t.classList.toggle("is-active", isCurrent);
+          t.setAttribute("aria-selected", isCurrent ? "true" : "false");
+        });
+
+        applyStreamAndCountFilter();
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener("input", () => {
+        if (clearBtn) {
+          clearBtn.hidden = !searchInput.value.trim();
+        }
+        syncQuickChipActiveState(searchInput.value.trim());
+        // Wait a tick for navbar-search.js to update card.hidden, then sync count & stream
+        window.setTimeout(applyStreamAndCountFilter, 20);
+      });
     }
 
-    return normalized;
+    if (clearBtn && searchInput) {
+      clearBtn.addEventListener("click", () => {
+        searchInput.value = "";
+        clearBtn.hidden = true;
+        syncQuickChipActiveState("");
+        searchInput.dispatchEvent(new Event("input", { bubbles: true }));
+        searchInput.focus();
+      });
+    }
+
+    if (resetBtn) {
+      resetBtn.addEventListener("click", () => {
+        activeStream = "all";
+        tabs.forEach((t) => {
+          const isAll = t.getAttribute("data-stream") === "all";
+          t.classList.toggle("is-active", isAll);
+          t.setAttribute("aria-selected", isAll ? "true" : "false");
+        });
+
+        if (searchInput) {
+          searchInput.value = "";
+          if (clearBtn) clearBtn.hidden = true;
+          syncQuickChipActiveState("");
+          searchInput.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+
+        applyStreamAndCountFilter();
+      });
+    }
+  }
+
+  function initQuickTopicChips() {
+    const chips = document.querySelectorAll(".syllabus-topic-filter-chip");
+    const searchInput = document.getElementById("tr-syllabus-topic-search");
+    const clearBtn = document.getElementById("syllabusSearchClearBtn");
+
+    if (!chips.length || !searchInput) return;
+
+    chips.forEach((chip) => {
+      chip.addEventListener("click", () => {
+        const topic = chip.getAttribute("data-topic-query") || "";
+        const currentVal = searchInput.value.trim().toLowerCase();
+        const isSame = currentVal === topic.toLowerCase();
+
+        const nextVal = isSame ? "" : topic;
+        searchInput.value = nextVal;
+        if (clearBtn) {
+          clearBtn.hidden = !nextVal;
+        }
+        syncQuickChipActiveState(nextVal);
+        searchInput.dispatchEvent(new Event("input", { bubbles: true }));
+        window.setTimeout(applyStreamAndCountFilter, 350);
+      });
+    });
+  }
+
+  function syncQuickChipActiveState(query) {
+    const q = (query || "").trim().toLowerCase();
+    const chips = document.querySelectorAll(".syllabus-topic-filter-chip");
+    chips.forEach((chip) => {
+      const chipTopic = (chip.getAttribute("data-topic-query") || "")
+        .trim()
+        .toLowerCase();
+      chip.classList.toggle("is-active", q !== "" && q === chipTopic);
+    });
+  }
+
+  function applyStreamAndCountFilter() {
+    const cards = document.querySelectorAll(".syllabus-item");
+    const searchInput = document.getElementById("tr-syllabus-topic-search");
+    const emptyState = document.getElementById("tr-syllabus-search-empty");
+    const countBadge = document.getElementById("syllabusCountBadge");
+    const q = searchInput ? searchInput.value.trim().toLowerCase() : "";
+
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const cardStream = (card.getAttribute("data-stream") || "").toLowerCase();
+      const cardSubject = (card.getAttribute("data-subject") || "").toLowerCase();
+
+      // Use of English is compulsory across all JAMB streams
+      const matchesStream =
+        activeStream === "all" ||
+        cardSubject === "english" ||
+        cardStream.includes(activeStream);
+
+      const titleText = card.querySelector("h3")?.textContent || "";
+      const descText = card.querySelector(".syllabus-description")?.textContent || "";
+      const pillsText = card.querySelector(".syllabus-topic-pills")?.textContent || "";
+      const haystack = `${titleText} ${descText} ${pillsText}`.toLowerCase();
+
+      const matchesSearch = !q || haystack.includes(q);
+      const shouldShow = matchesStream && matchesSearch;
+
+      card.classList.toggle("is-stream-hidden", !matchesStream);
+      card.hidden = !shouldShow;
+
+      if (shouldShow) {
+        visibleCount += 1;
+      }
+    });
+
+    if (countBadge) {
+      countBadge.textContent =
+        visibleCount === 1
+          ? "Showing 1 subject"
+          : `Showing ${visibleCount} subjects`;
+    }
+
+    if (emptyState) {
+      emptyState.hidden = visibleCount > 0;
+    }
   }
 
   function animatePageLoad() {
@@ -314,21 +350,21 @@
     if (welcomeSection) {
       window.gsap.fromTo(
         welcomeSection,
-        { opacity: 0, y: -16 },
-        { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }
+        { opacity: 0, y: -12 },
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }
       );
     }
 
     window.gsap.fromTo(
       syllabusItems,
-      { opacity: 0, y: 16 },
+      { opacity: 0, y: 12 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.4,
-        stagger: 0.06,
+        duration: 0.35,
+        stagger: 0.035,
         ease: "power2.out",
-        delay: 0.12,
+        delay: 0.06,
       }
     );
   }

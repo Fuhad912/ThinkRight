@@ -11,6 +11,12 @@ create table if not exists public.user_profiles (
     class_level text,
     track text,
     goal text,
+    exam_year integer,
+    target_school text,
+    target_course text,
+    target_score integer,
+    subject_combo text[],
+    daily_minutes integer,
     onboarding_completed boolean not null default false,
     has_seen_product_onboarding boolean not null default false,
     updated_at timestamptz not null default now(),
@@ -19,6 +25,14 @@ create table if not exists public.user_profiles (
 
 alter table if exists public.user_profiles
     add column if not exists has_seen_product_onboarding boolean not null default false;
+
+alter table if exists public.user_profiles
+    add column if not exists exam_year integer,
+    add column if not exists target_school text,
+    add column if not exists target_course text,
+    add column if not exists target_score integer,
+    add column if not exists subject_combo text[],
+    add column if not exists daily_minutes integer;
 
 create index if not exists idx_user_profiles_email on public.user_profiles(email);
 

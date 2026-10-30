@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#1d4ed8">
+  <title>Set up your study space · ThinkRight</title>
+  <meta name="description" content="Make ThinkRight yours with your UTME goals, subjects and study rhythm.">
+  <link rel="icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/onboarding.css?v=20261017">
+</head>
+<body class="page-onboarding">
+  <header class="ob-topbar">
+    <a class="ob-brand" href="index.html">ThinkRight<span>.</span></a>
+    <a class="ob-exit" href="index.html">I’ll do this later <span aria-hidden="true">↗</span></a>
+  </header>
+  <main class="ob-layout" id="main">
+    <aside class="ob-story" aria-label="Your setup journey">
+      <p class="ob-eyebrow">YOUR STUDY SPACE</p>
+      <h1>Make every study session count<span>.</span></h1>
+      <p>Tell us where you’re headed. We’ll shape your profile, subject shortcuts and practice recommendations around your goal.</p>
+      <div class="ob-story-line"><span>01</span><div><strong>Your path</strong><small>Class, track and exam year</small></div></div>
+      <div class="ob-story-line"><span>02</span><div><strong>Your destination</strong><small>Course, school and target score</small></div></div>
+      <div class="ob-story-line"><span>03</span><div><strong>Your plan</strong><small>Subjects and study rhythm</small></div></div>
+      <div class="ob-story-note">Your answers are yours to change anytime in your profile.</div>
+    </aside>
+    <section class="ob-workspace" aria-labelledby="obHeading">
+      <div class="ob-loading" id="obLoading" role="status">Getting your study space ready…</div>
+      <form id="onboardingForm" class="ob-form" hidden novalidate>
+        <div class="ob-progress-top"><span id="obStepLabel">STEP 1 OF 3</span><span id="obProgressText">Your path</span></div>
+        <div class="ob-progress" aria-hidden="true"><span id="obProgressFill"></span></div>
+        <p class="ob-kicker" id="obKicker">FIRST, THE BASICS</p>
+        <h2 id="obHeading">Where are you starting from?</h2>
+        <p class="ob-description" id="obDescription">We’ll use this to keep your experience relevant to you.</p>
+        <div class="ob-step" data-step="1">
+          <label class="ob-label" for="obName">What should we call you?</label>
+          <input class="ob-input" id="obName" name="name" type="text" maxlength="60" autocomplete="name" placeholder="Your name" required>
+          <div class="ob-fieldset"><span class="ob-label">Your current level</span><div class="ob-choices" data-field="class_level" role="group" aria-label="Current level"><button type="button" data-value="SS1">SS1</button><button type="button" data-value="SS2">SS2</button><button type="button" data-value="SS3">SS3</button><button type="button" data-value="Other">Other</button></div></div>
+          <div class="ob-fieldset"><span class="ob-label">Your track</span><div class="ob-choices" data-field="track" role="group" aria-label="Study track"><button type="button" data-value="Science">Science</button><button type="button" data-value="Art">Art</button><button type="button" data-value="Commercial">Commercial</button><button type="button" data-value="Undecided">Still deciding</button></div></div>
+          <label class="ob-label" for="obExamYear">When are you writing UTME?</label>
+          <select class="ob-input" id="obExamYear" name="exam_year"><option value="">Select a year</option></select>
+        </div>
+        <div class="ob-step" data-step="2" hidden>
+          <label class="ob-label" for="obCourse">What course are you aiming for?</label>
+          <input class="ob-input" id="obCourse" name="target_course" type="text" maxlength="100" placeholder="e.g. Computer Science">
+          <p class="ob-hint">Still deciding? Leave it blank. You can update this later.</p>
+          <label class="ob-label" for="obSchool">Dream school <span class="ob-optional">optional</span></label>
+          <input class="ob-input" id="obSchool" name="target_school" type="text" maxlength="100" placeholder="e.g. University of Lagos">
+          <label class="ob-label" for="obTargetScore">Target UTME score <span class="ob-optional">optional</span></label>
+          <div class="ob-score-field"><input class="ob-input" id="obTargetScore" name="target_score" type="number" min="1" max="400" inputmode="numeric" placeholder="e.g. 300"><span>/ 400</span></div>
+          <p class="ob-hint">This is a direction, not a promise. You can always raise it.</p>
+        </div>
+        <div class="ob-step" data-step="3" hidden>
+          <p class="ob-label">Pick your other three UTME subjects</p>
+          <div class="ob-english"><strong>Use of English</strong><span>Required for every candidate</span></div>
+          <p class="ob-hint">Choose the subjects you plan to write. We’ll bring them forward in practice.</p>
+          <div class="ob-subject-grid" id="obSubjects" role="group" aria-label="Choose three additional subjects"></div>
+          <div class="ob-count" id="obSubjectCount" aria-live="polite">0 of 3 selected</div>
+          <label class="ob-label" for="obStudyMinutes">A realistic daily study goal</label>
+          <select class="ob-input" id="obStudyMinutes" name="daily_minutes"><option value="15">15 minutes</option><option value="30" selected>30 minutes</option><option value="45">45 minutes</option><option value="60">1 hour</option><option value="90">90 minutes</option></select>
+        </div>
+        <p class="ob-error" id="obError" role="alert" hidden></p>
+        <div class="ob-actions"><button class="ob-back" id="obBack" type="button" hidden>← Back</button><button class="ob-next" id="obNext" type="submit">Continue <span aria-hidden="true">→</span></button></div>
+        <p class="ob-footer-note">Private to your account. No payment required.</p>
+      </form>
+    </section>
+  </main>
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
+  <script defer src="js/auth.js?v=20261020-obfix"></script>
+  <script defer src="js/onboarding.js?v=20261020-obfix"></script>
+</body>
+</html>

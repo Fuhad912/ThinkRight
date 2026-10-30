@@ -12,21 +12,22 @@
     <link rel="shortcut icon" href="/favicon.ico?v=20260221a">
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <title>ThinkRight - JAMB Practice Platform</title>
-    <link rel="stylesheet" href="css/style.css?v=20260226a">
-    <link rel="stylesheet" href="css/navbar.css?v=20260308b">
-    <link rel="stylesheet" href="css/premium-ui.css?v=20260226b">
-    <link rel="stylesheet" href="css/preloader.css?v=20260308a">
-    <script defer src="js/preloader.js?v=20260308a"></script>
-    <script defer src="https://checkout.flutterwave.com/v3.js"></script>
+    <title>ThinkRight - JAMB Learning Platform & Free CBT Practice</title>
+    <meta name="description" content="Pass JAMB in one sitting. Master your syllabus with expert tutors in structured async cohorts, combined with 100% free unlimited CBT practice tests.">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=20260321-sg">
+    <link rel="stylesheet" href="css/navbar.css?v=20261018-more">
+    <link rel="stylesheet" href="css/premium-ui.css?v=20261019-score-digits">
+    <link rel="stylesheet" href="css/learning-platform.css?v=20261018-wave">
+    <link rel="stylesheet" href="css/preloader.css?v=20261017a">
+    <script src="js/preloader.js?v=20261017a"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
 </head>
 <body class="page-home tr-loading">
-    <div id="tr-preloader" class="tr-preloader" role="status" aria-live="polite" aria-label="Loading ThinkRight">
-      <div class="tr-preloader__inner">
-        <div class="tr-preloader__logo">ThinkRight</div>
-        <div class="tr-preloader__dots" aria-hidden="true"><span></span><span></span><span></span></div>
-      </div>
-    </div>
+    <div id="tr-preloader" class="tr-preloader" role="status" aria-live="polite" aria-label="Loading ThinkRight"><div class="tr-loader-stack"><div class="tr-loader-brand">ThinkRight<span>.</span></div><div class="tr-loader-spinner" aria-hidden="true"><span class="tr-loader-spinner__core"></span></div></div></div>
+    
     <nav id="tr-navbar" class="tr-navbar" role="navigation" aria-label="ThinkRight main navigation">
       <div class="tr-navbar__container">
         <a href="index.html" class="tr-navbar__logo" aria-label="ThinkRight Home">
@@ -34,31 +35,31 @@
         </a>
 
         <ul class="tr-navbar__nav" role="list">
-          <li><a href="index.html" class="tr-navbar__link">Home</a></li>
-          <li><a href="dashboard.html" class="tr-navbar__link">Dashboard</a></li>
+          <li><a href="index.html" class="tr-navbar__link tr-navbar__link--home" title="Home" aria-label="Home"><i class="fa-solid fa-house"></i></a></li>
+          <li><a href="practice.html" class="tr-navbar__link">Practice</a></li>
+          <li><a href="my-classes.html" class="tr-navbar__link">My Classes</a></li>
           <li><a href="syllabus.html" class="tr-navbar__link">Syllabus</a></li>
-          <li><a href="insider.html" class="tr-navbar__link">JAMB Insider</a></li>
-          <li><a href="#" class="tr-navbar__link tr-navbar__link--pricing">Pricing</a></li>
+          <li><a href="dashboard.html" class="tr-navbar__link">Dashboard</a></li>
+          <li><a href="leaderboard.html" class="tr-navbar__link">Leaderboard</a></li>
         </ul>
 
         <div id="tr-user-info" class="tr-navbar__user-info" style="display: none;">
           <div class="tr-navbar__user-avatar">
             <img id="tr-user-avatar" src="" alt="User avatar" class="tr-navbar__avatar-img">
-            <span id="tr-user-premium-star" class="tr-navbar__premium-star" style="display: none;">*</span>
           </div>
           <span id="tr-user-name" class="tr-navbar__user-name"></span>
-          <button id="tr-logout-btn" class="tr-navbar__logout-btn" type="button" title="Logout">Logout</button>
+          <button id="tr-logout-btn" class="tr-navbar__logout-btn" type="button" title="Logout" aria-label="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></button>
         </div>
 
         <button id="tr-auth-btn" class="tr-navbar__auth-btn" type="button">Login</button>
 
+        <a href="index.html" id="tr-home-btn-mobile" class="tr-navbar__home-btn" aria-label="Home" title="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+
         <button id="tr-theme-toggle" class="tr-navbar__theme-btn" aria-label="Toggle dark mode" type="button">
-            <svg class="tr-navbar__icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-            </svg>
-            <svg class="tr-navbar__icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
+            <i class="fa-solid fa-sun tr-navbar__icon-sun"></i>
+            <i class="fa-solid fa-moon tr-navbar__icon-moon"></i>
         </button>
 
         <button id="tr-hamburger" class="tr-navbar__hamburger" aria-label="Toggle navigation menu" aria-controls="tr-mobile-menu" aria-expanded="false" type="button">
@@ -70,216 +71,356 @@
 
       <div id="tr-mobile-menu" class="tr-navbar__mobile-menu" role="region" aria-label="Mobile navigation menu">
         <ul class="tr-navbar__mobile-nav" role="list">
-          <li><a href="index.html" class="tr-navbar__mobile-link">Home</a></li>
+          <li><a href="index.html" class="tr-navbar__mobile-link"><i class="fa-solid fa-house" style="font-size: 16px; margin-right: 10px; width: 20px; text-align: center;"></i> <span>Home</span></a></li>
+          <li><a href="practice.html" class="tr-navbar__mobile-link">Practice</a></li>
+          <li><a href="my-classes.html" class="tr-navbar__mobile-link">My Classes</a></li>
           <li><a href="dashboard.html" class="tr-navbar__mobile-link">Dashboard</a></li>
+          <li><a href="leaderboard.html" class="tr-navbar__mobile-link">Leaderboard</a></li>
           <li><a href="syllabus.html" class="tr-navbar__mobile-link">Syllabus</a></li>
           <li><a href="insider.html" class="tr-navbar__mobile-link">JAMB Insider</a></li>
-          <li><a href="#" class="tr-navbar__mobile-link tr-navbar__mobile-link--pricing">Pricing</a></li>
 
           <li id="tr-mobile-user-info" class="tr-navbar__mobile-user-info" style="display: none;">
             <div class="tr-navbar__mobile-user-avatar">
               <img id="tr-mobile-user-avatar" src="" alt="User avatar" class="tr-navbar__mobile-avatar-img">
-              <span id="tr-mobile-user-premium-star" class="tr-navbar__mobile-premium-star" style="display: none;">*</span>
             </div>
             <span id="tr-mobile-user-name" class="tr-navbar__mobile-user-name"></span>
-            <button id="tr-mobile-logout-btn" class="tr-navbar__mobile-logout-btn" type="button" title="Logout">Logout</button>
+            <button id="tr-mobile-logout-btn" class="tr-navbar__mobile-logout-btn" type="button" title="Logout" aria-label="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Logout</span></button>
           </li>
 
           <li><button id="tr-mobile-auth-btn" class="tr-navbar__mobile-auth-btn" type="button">Login</button></li>
           <li><button id="tr-theme-toggle-mobile" class="tr-navbar__mobile-theme-btn" type="button">
-            <svg class="tr-navbar__icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-            </svg>
-            <svg class="tr-navbar__icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-            </svg>
+            <i class="fa-solid fa-sun tr-navbar__icon-sun" style="font-size: 18px;"></i>
+            <i class="fa-solid fa-moon tr-navbar__icon-moon" style="font-size: 18px;"></i>
             <span class="tr-navbar__theme-label">Dark Mode</span>
           </button></li>
         </ul>
       </div>
     </nav>
 
-    <div class="container">
-        <div id="premiumWelcomeBanner" class="status-banner premium-banner" style="display: none;">
-            <h2>Welcome, Premium Member</h2>
-            <p>You now have unlimited access to all subjects and premium features.</p>
-            <p>Enjoy enhanced learning with full curriculum access.</p>
-        </div>
+    <div class="container home-hub-page">
+        <!-- ================================================================= -->
+        <!-- 1. LOGGED-OUT MARKETING LANDING VIEW                              -->
+        <!-- ================================================================= -->
+        <noscript>
+            <style>
+                #homeLoggedOutView { display: block !important; }
+            </style>
+        </noscript>
+        <div id="homeLoggedOutView" style="display: none;">
+            <header class="home-hero">
+                <div class="home-hero__badge">
+                    <i class="fa-solid fa-bolt" style="color: #f59e0b;"></i>
+                    <span>The Complete JAMB UTME Ecosystem</span>
+                </div>
+                <h1 class="home-hero__title">
+                    Pass JAMB with Confidence.<br>
+                    <span class="home-hero__title-gradient">Expert Classes + 100% Free CBT.</span>
+                </h1>
+                <p class="home-hero__subtitle">
+                    Structured async video lessons mapped to the JAMB syllabus, led by top tutors with peer discussion — combined with unlimited realistic practice tests.
+                </p>
+                <div class="home-hero__ctas">
+                    <a href="practice.html" class="tr-btn tr-btn--primary">
+                        <span>Start Practicing (Free)</span>
+                        <i class="fa-solid fa-arrow-right" style="font-size: 16px;"></i>
+                    </a>
+                    <a href="classes.html" class="tr-btn tr-btn--secondary">
+                        <span>Explore Classes</span>
+                    </a>
+                </div>
+                <div class="home-hero__meta">
+                    <span class="home-hero__meta-item">&#10003; 15 Free Subjects</span>
+                    <span class="home-hero__meta-item">&#10003; No Credit Card Required</span>
+                    <span class="home-hero__meta-item">&#10003; Low Data Consumption</span>
+                </div>
+            </header>
 
-        <div id="freeTestCounter" class="status-banner free-counter-banner" style="display: none;">
-            <h3>Free Tests Remaining</h3>
-            <p id="freeTestText">Loading...</p>
-            <button id="upgradeBtn" class="status-banner-cta" style="display: none;">Upgrade to Continue</button>
-        </div>
+            <!-- Dual Pillars Section -->
+            <section class="home-pillars-section">
+                <div class="section-head-center">
+                    <h2>Two Powerful Ways to Prepare</h2>
+                    <p>Learn deeply with tutors, or test yourself with realistic exam drills.</p>
+                </div>
 
-        <main class="landing-page">
-            <section class="welcome-section">
-                <p class="eyebrow">Academic Readiness Platform</p>
-                <h1>Practice smarter for every subject.</h1>
-                <p>Select a subject and run a timed test built around exam-ready question sets.</p>
-                <p class="home-insider-link">Need smart UTME guidance? Visit <a href="insider.html">JAMB Insider</a>.</p>
-            </section>
+                <div class="home-pillars-grid">
+                    <!-- Pillar 1: Classes -->
+                    <article class="home-pillar-card home-pillar-card--featured">
+                        <span class="home-pillar-card__badge home-pillar-card__badge--blue">Tutor-Led Classes</span>
+                        <h3 class="home-pillar-card__title">JAMB Classes</h3>
+                        <p class="home-pillar-card__desc">
+                            Join a dedicated batch of students learning with an experienced tutor. High-quality pre-recorded video lessons mapped to the JAMB syllabus, embedded in-platform player, and peer WhatsApp study groups.
+                        </p>
+                        <ul class="home-pillar-card__features">
+                            <li>
+                                <i class="fa-solid fa-check" style="font-size: 16px; color: var(--accent-primary); flex-shrink: 0;"></i>
+                                <span><strong>Syllabus-Mapped:</strong> Every lesson directly covers official JAMB topics.</span>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-check" style="font-size: 16px; color: var(--accent-primary); flex-shrink: 0;"></i>
+                                <span><strong>Async Freedom:</strong> Watch anytime without fear of missing a live schedule.</span>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-check" style="font-size: 16px; color: var(--accent-primary); flex-shrink: 0;"></i>
+                                <span><strong>Direct Q&amp;A:</strong> In-platform comment threads plus private WhatsApp group.</span>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-check" style="font-size: 16px; color: var(--accent-primary); flex-shrink: 0;"></i>
+                                <span><strong>Embedded Player:</strong> Watch lessons sequentially on your own schedule directly inside ThinkRight.</span>
+                            </li>
+                        </ul>
+                        <a href="classes.html" class="tr-btn tr-btn--primary">Browse Open Classes</a>
+                    </article>
 
-            <section class="home-focus-row">
-                <section id="practiceStreakPill" class="tr-streak-pill is-loading" hidden aria-live="polite">
-                    <span class="tr-streak-pill__icon" aria-hidden="true">&#128293;</span>
-                    <div class="tr-streak-pill__copy">
-                        <p class="tr-streak-pill__title" id="practiceStreakTitle">Loading streak...</p>
-                        <p class="tr-streak-pill__subtitle" id="practiceStreakSubtitle">Checking your practice consistency</p>
-                    </div>
-                    <button type="button" class="tr-streak-pill__cta" id="practiceStreakCta" hidden>Take a quick test</button>
-                </section>
-
-                <section class="jamb-countdown-card" data-jamb-countdown aria-live="polite">
-                    <p class="jamb-countdown-title">JAMB Countdown</p>
-                    <p class="jamb-countdown-value" data-countdown-days>-- days remaining</p>
-                    <p class="jamb-countdown-subtext" data-countdown-date>Exam starts Apr 16, 2026</p>
-                </section>
-            </section>
-
-            <section id="tr-recommendations" class="tr-recos" hidden></section>
-
-            <section class="tr-projection" aria-labelledby="trProjectionTitle">
-                <div class="tr-card tr-projection-card" id="trProjectionCard">
-                    <div class="tr-projection-head">
-                        <div>
-                            <h2 id="trProjectionTitle" class="tr-projection-title">Projected JAMB Score</h2>
-                            <p class="tr-projection-subtitle">Based on your recent practice performance (estimate).</p>
-                        </div>
-                        <button type="button" class="tr-projection-link" id="trProjectionHowBtn">How it's calculated</button>
-                    </div>
-
-                    <div class="tr-projection-body" id="trProjectionBody" aria-live="polite">
-                        <div class="tr-projection-main">
-                            <div class="tr-projection-score-wrap">
-                                <div class="tr-projection-score" id="trProjectionScore">-- / 400</div>
-                                <span id="trProjectionTrend" class="tr-projection-trend" hidden>--</span>
-                                <span id="trProjectionBadge" class="tr-readiness-badge" hidden></span>
-                            </div>
-                            <div class="tr-projection-range" id="trProjectionRange" hidden></div>
-                        </div>
-                        <div class="tr-projection-state" id="trProjectionState">Loading your projection...</div>
-                    </div>
-                    <article id="homeComparisonCard" class="tr-comparison-card" hidden>
-                        <h3 class="tr-comparison-title">This Week vs Others</h3>
-                        <p class="tr-comparison-line" data-tr-comparison-average hidden></p>
-                        <p class="tr-comparison-line" data-tr-comparison-percentile hidden></p>
-                        <p class="tr-comparison-rank" data-tr-comparison-rank hidden></p>
-                        <p class="tr-comparison-message" data-tr-comparison-message hidden></p>
+                    <!-- Pillar 2: CBT Practice -->
+                    <article class="home-pillar-card">
+                        <span class="home-pillar-card__badge home-pillar-card__badge--green">100% Free Practice</span>
+                        <h3 class="home-pillar-card__title">Unlimited CBT Mock Tests</h3>
+                        <p class="home-pillar-card__desc">
+                            Build speed and exam familiarity with realistic 30-question test sessions across all 15 JAMB subjects.
+                        </p>
+                        <ul class="home-pillar-card__features">
+                            <li>
+                                <i class="fa-solid fa-check" style="font-size: 16px; color: var(--accent-primary); flex-shrink: 0;"></i>
+                                <span><strong>All 15 Subjects:</strong> English, Maths, Sciences, Arts, and Commercial subjects.</span>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-check" style="font-size: 16px; color: var(--accent-primary); flex-shrink: 0;"></i>
+                                <span><strong>Projected JAMB Score:</strong> Real-time estimation of your 400-point score.</span>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-check" style="font-size: 16px; color: var(--accent-primary); flex-shrink: 0;"></i>
+                                <span><strong>Practice Streaks:</strong> Daily habit tracker to keep your momentum high.</span>
+                            </li>
+                            <li>
+                                <i class="fa-solid fa-check" style="font-size: 16px; color: var(--accent-primary); flex-shrink: 0;"></i>
+                                <span><strong>Instant Review:</strong> Detailed explanations for questions you miss.</span>
+                            </li>
+                        </ul>
+                        <a href="practice.html" class="tr-btn tr-btn--secondary">Start Practicing Now</a>
                     </article>
                 </div>
             </section>
 
-            <section class="subjects-section">
-                <h2>Choose a Subject</h2>
-                <div class="subjects-grid">
-                    <button class="subject-card" data-subject="mathematics" aria-label="Select Mathematics">
-                        <div class="subject-icon">MA</div>
-                        <h3>Mathematics</h3>
-                        <p>30 questions</p>
-                    </button>
+            <!-- Why Async-First Section -->
+            <section class="home-benefits-section">
+                <div class="section-head-center">
+                    <h2>Designed for Nigerian Students</h2>
+                    <p>Built from the ground up to solve network and scheduling headaches.</p>
+                </div>
 
-                    <button class="subject-card" data-subject="english" aria-label="Select Use of English">
-                        <div class="subject-icon">EN</div>
-                        <h3>Use of English</h3>
-                        <p>30 questions</p>
-                    </button>
+                <div class="home-benefits-grid">
+                    <div class="home-benefit-card">
+                        <div class="home-benefit-card__icon"><i class="fa-solid fa-wifi" style="font-size: 20px;"></i></div>
+                        <h3>Works on Weak Data</h3>
+                        <p>No mandatory 2-hour live streams that burn heavy data or buffer. Watch pre-recorded lessons at 360p or 480p on your own schedule.</p>
+                    </div>
 
-                    <button class="subject-card" data-subject="physics" aria-label="Select Physics">
-                        <div class="subject-icon">PH</div>
-                        <h3>Physics</h3>
-                        <p>30 questions</p>
-                    </button>
+                    <div class="home-benefit-card">
+                        <div class="home-benefit-card__icon"><i class="fa-solid fa-rotate-left" style="font-size: 20px;"></i></div>
+                        <h3>Never Miss a Topic</h3>
+                        <p>Power outage? School clash? No problem. Replay difficult concepts as many times as you need until they click.</p>
+                    </div>
 
-                    <button class="subject-card" data-subject="chemistry" aria-label="Select Chemistry">
-                        <div class="subject-icon">CH</div>
-                        <h3>Chemistry</h3>
-                        <p>30 questions</p>
-                    </button>
-
-                    <button class="subject-card" data-subject="biology" aria-label="Select Biology">
-                        <div class="subject-icon">BI</div>
-                        <h3>Biology</h3>
-                        <p>30 questions</p>
-                    </button>
-
-                    <button class="subject-card" data-subject="agriculture" aria-label="Select Agricultural Science">
-                        <div class="subject-icon">AG</div>
-                        <h3>Agricultural Science</h3>
-                        <p>30 questions</p>
-                    </button>
-
-                    <button class="subject-card" data-subject="computer" aria-label="Select Computer Studies">
-                        <div class="subject-icon">CS</div>
-                        <h3>Computer Studies</h3>
-                        <p>30 questions</p>
-                    </button>
-
-                    <button class="subject-card" data-subject="crs" aria-label="Select Christian Religious Studies">
-                        <div class="subject-icon">CR</div>
-                        <h3>Christian Religious Studies</h3>
-                        <p>30 questions</p>
-                    </button>
-
-                    <button class="subject-card" data-subject="irs" aria-label="Select Islamic Religious Studies">
-                        <div class="subject-icon">IR</div>
-                        <h3>Islamic Religious Studies</h3>
-                        <p>30 questions</p>
-                    </button>
-
-                    <button class="subject-card" data-subject="commerce" aria-label="Select Commerce">
-                        <div class="subject-icon">CO</div>
-                        <h3>Commerce</h3>
-                        <p>30 questions</p>
-                    </button>
-
-                    <button class="subject-card" data-subject="economics" aria-label="Select Economics">
-                        <div class="subject-icon">EC</div>
-                        <h3>Economics</h3>
-                        <p>30 questions</p>
-                    </button>
-
-                    <button class="subject-card" data-subject="government" aria-label="Select Government">
-                        <div class="subject-icon">GV</div>
-                        <h3>Government</h3>
-                        <p>30 questions</p>
-                    </button>
-
-                    <button class="subject-card" data-subject="geography" aria-label="Select Geography">
-                        <div class="subject-icon">GE</div>
-                        <h3>Geography</h3>
-                        <p>30 questions</p>
-                    </button>
-
-                    <button class="subject-card" data-subject="history" aria-label="Select History">
-                        <div class="subject-icon">HI</div>
-                        <h3>History</h3>
-                        <p>30 questions</p>
-                    </button>
-
-                    <button class="subject-card" data-subject="literature" aria-label="Select Literature in English">
-                        <div class="subject-icon">LI</div>
-                        <h3>Literature in English</h3>
-                        <p>30 questions</p>
-                    </button>
+                    <div class="home-benefit-card">
+                        <div class="home-benefit-card__icon"><i class="fa-solid fa-users" style="font-size: 20px;"></i></div>
+                        <h3>Community &amp; Accountability</h3>
+                        <p>You're not studying alone. Compare answers, ask your tutor questions on every lesson, and stay motivated with your classmates.</p>
+                    </div>
                 </div>
             </section>
 
-            <section class="info-section">
-                <h3>How It Works</h3>
-                <ul>
-                    <li>Select a subject to begin a test</li>
-                    <li>Answer 30 questions within the allotted time</li>
-                    <li>Receive immediate performance feedback</li>
-                    <li>Review results to improve your next attempt</li>
-                </ul>
+            <!-- Bottom CTA Banner -->
+            <section class="home-cta-banner">
+                <h2>Ready to Ace Your 2026 JAMB?</h2>
+                <p>Join thousands of Nigerian candidates using ThinkRight to turn study hours into 300+ scores.</p>
+                <div class="home-cta-banner__actions">
+                    <a href="signup.html" class="tr-btn tr-btn--primary">Create Free Account</a>
+                    <a href="classes.html" class="tr-btn tr-btn--secondary">Explore Classes</a>
+                </div>
             </section>
-        </main>
+
+            <!-- Parallel Tutor Recruitment Banner on Homepage -->
+            <section class="tutor-recruit-banner" style="margin-top: 2rem;">
+                <div class="tutor-recruit-banner__header">
+                    <div>
+                        <span class="tutor-recruit-banner__badge">
+                            <i class="fa-solid fa-chalkboard-user"></i> Educator Recruitment Open
+                        </span>
+                        <h2 class="tutor-recruit-banner__title">Teach on ThinkRight. Earn 70% Revenue Share.</h2>
+                        <p class="tutor-recruit-banner__desc">
+                            Are you an experienced JAMB educator or 300+ scorer? Record async syllabus-mapped video lessons on your own schedule, build your educator brand, and inspire candidates nationwide.
+                        </p>
+                    </div>
+                    <a href="tutor-onboarding.html" class="tr-btn tr-btn--primary">
+                        Apply to Teach <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- 2. LOGGED-IN STUDENT HUB VIEW                                     -->
+        <!-- ================================================================= -->
+        <div id="homeTeacherHub" style="display: none;">
+            <section class="teacher-hub" aria-labelledby="teacherHubTitle">
+                <header class="teacher-hub__intro">
+                    <span class="teacher-hub__eyebrow"><i class="fa-solid fa-chalkboard-user"></i> Educator workspace</span>
+                    <h1 id="teacherHubTitle">Welcome back, <span id="teacherHubUserName">Educator</span>.</h1>
+                    <p>Manage your classes, publish syllabus lessons, support learners, and track your earnings from one focused workspace.</p>
+                </header>
+
+                <div class="teacher-hub__actions" aria-label="Educator quick actions">
+                    <a href="tutor-dashboard.html" class="tr-btn tr-btn--primary"><i class="fa-solid fa-table-columns"></i> Open workspace</a>
+                    <a href="tutor-dashboard.html#classes" class="tr-btn tr-btn--outline"><i class="fa-solid fa-plus"></i> Create or manage a class</a>
+                    <a href="tutor-payouts.html" class="teacher-hub__text-link">View payouts <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+
+                <div class="teacher-hub__guide">
+                    <div>
+                        <span>01</span>
+                        <h2>Build your class</h2>
+                        <p>Create a cohort and set its schedule, price, and student community link.</p>
+                    </div>
+                    <div>
+                        <span>02</span>
+                        <h2>Publish lessons</h2>
+                        <p>Map each video lesson to the official JAMB syllabus for a clear learning path.</p>
+                    </div>
+                    <div>
+                        <span>03</span>
+                        <h2>Guide students</h2>
+                        <p>Review enrolments, answer questions, and monitor the learning community.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="homeLoggedInHub" style="display: none;">
+            <div class="student-hub">
+                <div class="student-hub__header">
+                    <h1 class="student-hub__welcome">Welcome back, <span id="hubUserName">Student</span>! <i class="fa-solid fa-hand student-hub__wave" aria-hidden="true"></i></h1>
+                    <p class="student-hub__subtitle">Here is your preparation progress and today's learning priorities.</p>
+                </div>
+
+                <!-- Projected JAMB Score Card -->
+                <section class="hub-projection-section" aria-labelledby="hubProjectionTitle">
+                    <div class="hub-projection-card">
+                        <div class="hub-projection-card__header">
+                            <div class="hub-projection-card__title-group">
+                                <div class="hub-projection-card__icon" aria-hidden="true">
+                                    <i class="fa-solid fa-chart-line"></i>
+                                </div>
+                                <div class="hub-projection-card__headings">
+                                    <h2 id="hubProjectionTitle" class="hub-projection-card__title">Projected JAMB Score</h2>
+                                    <p class="hub-projection-card__subtitle">Real-time estimation based on your practice tests</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="hub-projection-card__body">
+                            <div class="hub-projection-card__score-wrap">
+                                <div class="hub-projection-card__score" id="trProjectionScore"><span class="tr-projection-loader" role="status"><span class="tr-projection-loader__sr">Calculating projected JAMB score</span><span class="tr-loader-spinner tr-loader-spinner--score" aria-hidden="true"><span class="tr-loader-spinner__core"></span></span><span class="tr-projection-loader__scale" aria-hidden="true">/ 400</span></span></div>
+                                <div id="trProjectionRange" class="tr-projection-range" hidden></div>
+                            </div>
+                            <p class="hub-projection-card__state" id="trProjectionState" hidden></p>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="student-hub__grid">
+                    <!-- Left Column: Practice Summary -->
+                    <div class="hub-card">
+                        <div class="hub-card__head">
+                            <h3 class="hub-card__title">
+                                <i class="fa-solid fa-fire" style="color: #f97316;"></i>
+                                <span>Continue Practicing</span>
+                            </h3>
+                            <span class="hub-card__pill" id="hubStreakValue">Streak Active</span>
+                        </div>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.25rem;">
+                            Daily tests are the fastest way to solidify topics learned in your classes.
+                        </p>
+                        <div class="hub-practice-stats" style="display: flex; gap: 2.5rem; align-items: baseline; margin-bottom: 1.75rem;">
+                            <div class="stat-item">
+                                <div class="stat-item__val" style="font-size: 2rem;">30 Qs</div>
+                                <div class="stat-item__label">Quick Session</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-item__val" style="font-size: 2rem;">15</div>
+                                <div class="stat-item__label">Available Subjects</div>
+                            </div>
+                        </div>
+                        <div class="hub-card__actions">
+                            <a href="practice.html" class="tr-btn tr-btn--primary">Go to Practice Hub</a>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Enrolled Classes -->
+                    <div class="hub-card">
+                        <div class="hub-card__head">
+                            <h3 class="hub-card__title">
+                                <i class="fa-solid fa-graduation-cap" style="color: var(--accent-primary);"></i>
+                                <span>Your Classes</span>
+                            </h3>
+                            <a href="classes.html" style="font-size: 0.85rem; color: var(--accent-primary); font-weight: 600; text-decoration: none;">Browse All &rarr;</a>
+                        </div>
+                        
+                        <div id="hubCohortsContainer">
+                            <div id="hubCohortsLoading" style="text-align: center; padding: 2rem 0; color: var(--text-secondary);">
+                                Checking your class enrollments...
+                            </div>
+                            <div id="hubCohortsEmpty" class="hub-cohorts-empty" style="display: none;">
+                                <div class="hub-cohorts-empty__icon"><i class="fa-solid fa-book-open" style="font-size: 2rem; color: var(--accent-primary);"></i></div>
+                                <h4>No active classes yet</h4>
+                                <p>Enroll in a subject class to get structured video lessons, tutor feedback, and peer discussion.</p>
+                                <a href="classes.html" class="tr-btn tr-btn--primary tr-btn--sm">Find a Class</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Navigation Tools -->
+                <div class="hub-tools-section">
+                    <h3>Study Resources</h3>
+                    <div class="hub-tools-grid">
+                        <a href="syllabus.html" class="hub-tool-item">
+                            <span class="hub-tool-item__icon"><i class="fa-solid fa-book-bookmark" style="color: #3b82f6;"></i></span>
+                            <div>
+                                <h4 class="hub-tool-item__title">JAMB Syllabus</h4>
+                                <p class="hub-tool-item__desc">Official topics &amp; objectives</p>
+                            </div>
+                        </a>
+                        <a href="dashboard.html" class="hub-tool-item">
+                            <span class="hub-tool-item__icon"><i class="fa-solid fa-chart-pie" style="color: #10b981;"></i></span>
+                            <div>
+                                <h4 class="hub-tool-item__title">Performance Analytics</h4>
+                                <p class="hub-tool-item__desc">Score trends &amp; weak areas</p>
+                            </div>
+                        </a>
+                        <a href="leaderboard.html" class="hub-tool-item">
+                            <span class="hub-tool-item__icon"><i class="fa-solid fa-trophy" style="color: #f59e0b;"></i></span>
+                            <div>
+                                <h4 class="hub-tool-item__title">Leaderboard</h4>
+                                <p class="hub-tool-item__desc">See top students nationwide</p>
+                            </div>
+                        </a>
+                        <a href="insider.html" class="hub-tool-item">
+                            <span class="hub-tool-item__icon"><i class="fa-solid fa-lightbulb" style="color: #8b5cf6;"></i></span>
+                            <div>
+                                <h4 class="hub-tool-item__title">JAMB Insider</h4>
+                                <p class="hub-tool-item__desc">Exam tips &amp; strategies</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <footer class="footer">
             <div class="footer-content">
                 <p>&copy; 2026 ThinkRight. All rights reserved.</p>
                 <div class="footer-links">
+                    <a href="tutor-onboarding.html" class="contact-button" style="color: var(--accent-primary); font-weight: 600;">Teach on ThinkRight</a>
                     <a href="mailto:thinkright912@gmail.com" class="contact-button">Email</a>
                     <a href="https://wa.me/2348160271964" target="_blank" class="contact-button">WhatsApp Support</a>
                 </div>
@@ -289,20 +430,17 @@
 
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
-    <script defer src="js/utils.js?v=20260211d"></script>
-    <script defer src="js/auth.js?v=20260211d"></script>
-    <script defer src="js/subscription.js?v=20260211d"></script>
-    <script defer src="js/subscription-sync.js?v=20260211d"></script>
-    <script defer src="js/jamb-countdown.js?v=20260217a"></script>
-    <script defer src="js/projection-utils.js?v=20260215b"></script>
-    <script defer src="js/projection-trend.js?v=20260218a"></script>
-    <script defer src="js/weekly-comparison.js?v=20260215a"></script>
-    <script defer src="js/practice-streak.js?v=20260215a"></script>
-    <script defer src="js/jamb-projection.js?v=20260218a"></script>
-    <script defer src="js/app.js?v=20260212f"></script>
-    <script defer src="js/onboarding.js?v=20260218b"></script>
-    <script defer src="js/navbar-load.js?v=20260212d"></script>
-    <script defer src="js/navbar-search.js?v=20260216e"></script>
-    <script defer src="js/pwa-register.js"></script>
+    <script defer src="js/utils.js?v=20260321-sg"></script>
+    <script defer src="js/auth.js?v=20261017-ob"></script>
+    <script defer src="js/subscription.js?v=20260321-sg"></script>
+    <script defer src="js/subscription-sync.js?v=20260321-sg"></script>
+    <script defer src="js/projection-utils.js?v=20260321-sg"></script>
+    <script defer src="js/projection-trend.js?v=20260321-sg"></script>
+    <script defer src="js/weekly-comparison.js?v=20260321-sg"></script>
+    <script defer src="js/practice-streak.js?v=20260321-sg"></script>
+    <script defer src="js/jamb-projection.js?v=20261019-score-digits"></script>
+    <script defer src="js/navbar-load.js?v=20261018-more"></script>
+    <script defer src="js/home-hub.js?v=20261017b"></script>
+    <script defer src="js/pwa-register.js?v=20260321-sg"></script>
 </body>
 </html>

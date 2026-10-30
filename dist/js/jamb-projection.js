@@ -1,4 +1,5 @@
 (() => {
+  const PROJECTION_LOADER = '<span class="tr-projection-loader" role="status"><span class="tr-projection-loader__sr">Calculating projected JAMB score</span><span class="tr-loader-spinner tr-loader-spinner--score" aria-hidden="true"><span class="tr-loader-spinner__core"></span></span><span class="tr-projection-loader__scale" aria-hidden="true">/ 400</span></span>';
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initProjection);
   } else {
@@ -21,7 +22,7 @@
     // Render quickly even if auth is still booting.
     renderState({
       mode: "loading",
-      message: "Loading your projection...",
+      message: "",
       scoreText: "-- / 400",
       trend: null,
       rangeText: "",
@@ -198,9 +199,14 @@
     rangeEl,
     stateEl,
   }) {
-    scoreEl.textContent = scoreText;
+    if (mode === "loading") {
+      scoreEl.innerHTML = PROJECTION_LOADER;
+    } else {
+      scoreEl.textContent = scoreText;
+    }
     applyProjectionTrendChip(trendEl, trend);
-    stateEl.textContent = message;
+    stateEl.textContent = mode === "loading" ? "" : message;
+    stateEl.hidden = mode === "loading";
     stateEl.dataset.mode = mode;
     if (rangeEl) {
       rangeEl.textContent = rangeText || "";

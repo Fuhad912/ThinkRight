@@ -1,110 +1,370 @@
+/* ============================================================================
+   THINKRIGHT UNIVERSAL LOADER — Dynamic Light/Dark Theme + Brand Header + Orbital Spinner
+   ============================================================================ */
+
+:root {
+  --tr-loader-bg-light: rgba(248, 250, 252, 0.95);
+  --tr-loader-bg-dark: rgba(2, 6, 23, 0.95);
+  --tr-loader-text-light: #0f172a;
+  --tr-loader-text-dark: #f8fafc;
+  --tr-loader-primary: #1d4ed8;
+  --tr-loader-accent: #38bdf8;
+  --tr-loader-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Lock scroll cleanly while loader is active */
+body.tr-loading {
+  overflow: hidden !important;
+}
+
+/* Hide legacy 3-dot elements, role gate, and duplicate per-page overlays */
+#tr-role-gate,
+.tr-preloader__logo,
+.tr-preloader__dots,
+#dashboardLoadingOverlay,
+.dashboard-loading-overlay,
+#leaderboardLoadingOverlay,
+.leaderboard-loading-overlay,
+#testLoadingOverlay,
+.test-loading-overlay,
+#myClassesLoading,
+#loadingState {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* ============================================================================
+   FULL-VIEWPORT LOADER BACKDROP (LIGHT MODE DEFAULT, DYNAMIC DARK MODE)
+   ============================================================================ */
 .tr-preloader {
   position: fixed;
   inset: 0;
   z-index: 2147483200;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 24px;
-  background: radial-gradient(circle at 20% 10%, rgba(29, 78, 216, 0.16), transparent 55%), #f8fafc;
+  background: var(--tr-loader-bg-light);
+  color: var(--tr-loader-text-light);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   opacity: 1;
   visibility: visible;
-  transition: opacity 320ms ease, visibility 320ms ease;
+  transition:
+    opacity 320ms var(--tr-loader-ease),
+    visibility 320ms linear,
+    background-color 200ms ease,
+    color 200ms ease;
+  will-change: opacity;
+  user-select: none;
 }
 
+/* Dynamic Dark Mode triggers */
+html[data-theme="dark"] .tr-preloader,
 body.dark .tr-preloader,
-body.tr-dark .tr-preloader {
-  background: radial-gradient(circle at 20% 10%, rgba(59, 130, 246, 0.18), transparent 55%), #020617;
+body.tr-dark .tr-preloader,
+.tr-preloader.tr-preloader--dark {
+  background: var(--tr-loader-bg-dark);
+  color: var(--tr-loader-text-dark);
+}
+
+/* Explicit Light Mode override when user theme is light */
+html[data-theme="light"] .tr-preloader.tr-preloader--light,
+.tr-preloader.tr-preloader--light {
+  background: var(--tr-loader-bg-light);
+  color: var(--tr-loader-text-light);
 }
 
 .tr-preloader.is-hiding {
   opacity: 0;
   visibility: hidden;
+  pointer-events: none !important;
 }
 
 .tr-preloader.is-hidden {
-  display: none;
+  display: none !important;
+  pointer-events: none !important;
 }
 
+/* Stack container holding ThinkRight text on top of the spinner */
+.tr-loader-stack,
 .tr-preloader__inner {
-  display: grid;
-  justify-items: center;
-  gap: 14px;
-  text-align: center;
-}
-
-.tr-preloader__logo {
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  font-size: clamp(1.75rem, 1.4rem + 1.1vw, 2.4rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: #1d4ed8;
-  text-shadow: 0 8px 24px rgba(29, 78, 216, 0.14);
-  animation: tr-loader-pulse 1.2s ease-in-out infinite;
-}
-
-body.dark .tr-preloader__logo,
-body.tr-dark .tr-preloader__logo {
-  color: #93c5fd;
-  text-shadow: 0 8px 28px rgba(59, 130, 246, 0.28);
-}
-
-.tr-preloader__dots {
-  display: inline-flex;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 18px;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  width: auto !important;
+  transform: scale(1);
+  transition: transform 320ms var(--tr-loader-ease);
 }
 
-.tr-preloader__dots span {
-  width: 7px;
-  height: 7px;
-  border-radius: 999px;
-  background: rgba(29, 78, 216, 0.72);
-  animation: tr-loader-dot 0.9s ease-in-out infinite;
+.tr-preloader.is-hiding .tr-loader-stack {
+  transform: scale(0.92);
 }
 
-body.dark .tr-preloader__dots span,
-body.tr-dark .tr-preloader__dots span {
-  background: rgba(147, 197, 253, 0.78);
+/* ============================================================================
+   THINKRIGHT BRAND TEXT ON TOP OF LOADER
+   ============================================================================ */
+.tr-loader-brand {
+  font-family: var(--font-heading, 'Space Grotesk', system-ui, -apple-system, sans-serif);
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: inherit;
 }
 
-.tr-preloader__dots span:nth-child(2) {
-  animation-delay: 0.12s;
+.tr-loader-brand span {
+  color: var(--tr-loader-primary);
 }
 
-.tr-preloader__dots span:nth-child(3) {
-  animation-delay: 0.24s;
+html[data-theme="dark"] .tr-loader-brand span,
+body.dark .tr-loader-brand span,
+body.tr-dark .tr-loader-brand span,
+.tr-preloader.tr-preloader--dark .tr-loader-brand span {
+  color: var(--tr-loader-accent);
 }
 
-@keyframes tr-loader-pulse {
-  0%,
+/* ============================================================================
+   RICH ORBITAL SPINNER ANIMATION
+   ============================================================================ */
+.tr-loader-spinner {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Outer primary spinning arc */
+.tr-loader-spinner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3.5px solid rgba(29, 78, 216, 0.14);
+  border-top-color: var(--tr-loader-primary);
+  border-right-color: var(--tr-loader-accent);
+  animation: tr-spinner-rotate 0.85s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  box-shadow: 0 0 18px rgba(59, 130, 246, 0.16);
+}
+
+html[data-theme="dark"] .tr-loader-spinner::before,
+body.dark .tr-loader-spinner::before,
+body.tr-dark .tr-loader-spinner::before,
+.tr-preloader.tr-preloader--dark .tr-loader-spinner::before {
+  border-color: rgba(255, 255, 255, 0.1);
+  border-top-color: #3b82f6;
+  border-right-color: var(--tr-loader-accent);
+  box-shadow: 0 0 22px rgba(56, 189, 248, 0.24);
+}
+
+html[data-theme="light"] .tr-preloader.tr-preloader--light .tr-loader-spinner::before,
+.tr-preloader.tr-preloader--light .tr-loader-spinner::before {
+  border-color: rgba(29, 78, 216, 0.14);
+  border-top-color: var(--tr-loader-primary);
+  border-right-color: var(--tr-loader-accent);
+  box-shadow: 0 0 18px rgba(59, 130, 246, 0.16);
+}
+
+/* Inner counter-rotating accent arc */
+.tr-loader-spinner::after {
+  content: "";
+  position: absolute;
+  inset: 10px;
+  border-radius: 50%;
+  border: 2.5px solid transparent;
+  border-bottom-color: var(--tr-loader-accent);
+  border-left-color: rgba(29, 78, 216, 0.45);
+  animation: tr-spinner-rotate-reverse 1.15s linear infinite;
+}
+
+html[data-theme="dark"] .tr-loader-spinner::after,
+body.dark .tr-loader-spinner::after,
+body.tr-dark .tr-loader-spinner::after,
+.tr-preloader.tr-preloader--dark .tr-loader-spinner::after {
+  border-bottom-color: var(--tr-loader-accent);
+  border-left-color: rgba(96, 165, 250, 0.5);
+}
+
+/* Core breathing dot */
+.tr-loader-spinner__core {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--tr-loader-primary), var(--tr-loader-accent));
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+  animation: tr-core-pulse 1.4s ease-in-out infinite;
+}
+
+/* Compact Score-card Modifier (Student Projected JAMB Score) */
+.tr-loader-spinner.tr-loader-spinner--score,
+.tr-loader-spinner--score {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  min-height: 28px;
+}
+
+.tr-loader-spinner--score::before {
+  border-width: 2.5px;
+}
+
+.tr-loader-spinner--score::after {
+  inset: 5px;
+  border-width: 2px;
+}
+
+.tr-loader-spinner--score .tr-loader-spinner__core {
+  width: 5px;
+  height: 5px;
+}
+
+/* ============================================================================
+   KEYFRAMES & REDUCED MOTION
+   ============================================================================ */
+@keyframes tr-spinner-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
   100% {
-    transform: scale(1);
-    opacity: 0.9;
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes tr-spinner-rotate-reverse {
+  0% {
+    transform: rotate(360deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes tr-core-pulse {
+  0%, 100% {
+    transform: scale(0.82);
+    opacity: 0.7;
   }
   50% {
-    transform: scale(1.03);
-    opacity: 1;
-  }
-}
-
-@keyframes tr-loader-dot {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.35;
-  }
-  50% {
-    transform: translateY(-3px);
+    transform: scale(1.18);
     opacity: 1;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tr-preloader,
-  .tr-preloader__logo,
-  .tr-preloader__dots span {
-    animation: none !important;
-    transition-duration: 180ms;
+  .tr-loader-spinner::before {
+    animation-duration: 1.8s;
+  }
+  .tr-loader-spinner::after,
+  .tr-loader-spinner__core {
+    animation: none;
+  }
+}
+
+/* ============================================================================
+   QUESTION LOADING PROGRESS (TEST PAGE ONLY)
+   Rendered by preloader.js only on test.html; other pages keep the spinner.
+   ============================================================================ */
+.tr-loader-progress {
+  width: min(280px, 72vw);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.tr-loader-progress__meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--font-body, 'Manrope', system-ui, sans-serif);
+}
+
+.tr-loader-progress__label {
+  font-size: 0.84rem;
+  font-weight: 600;
+  opacity: 0.72;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tr-loader-progress__pct {
+  font-family: var(--font-heading, 'Space Grotesk', system-ui, sans-serif);
+  font-size: 0.88rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--tr-loader-primary);
+}
+
+.tr-loader-progress__track {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(29, 78, 216, 0.12);
+}
+
+.tr-loader-progress__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--tr-loader-primary), var(--tr-loader-accent));
+  transition: width 380ms var(--tr-loader-ease);
+}
+
+/* Soft shimmer so the bar always feels alive between steps */
+.tr-loader-progress__fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: translateX(-100%);
+  animation: tr-progress-shimmer 1.3s ease-in-out infinite;
+}
+
+html[data-theme="dark"] .tr-loader-progress__track,
+body.dark .tr-loader-progress__track,
+body.tr-dark .tr-loader-progress__track,
+.tr-preloader.tr-preloader--dark .tr-loader-progress__track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+html[data-theme="dark"] .tr-loader-progress__pct,
+body.dark .tr-loader-progress__pct,
+body.tr-dark .tr-loader-progress__pct,
+.tr-preloader.tr-preloader--dark .tr-loader-progress__pct {
+  color: var(--tr-loader-accent);
+}
+
+.tr-preloader.tr-preloader--light .tr-loader-progress__track {
+  background: rgba(29, 78, 216, 0.12);
+}
+
+.tr-preloader.tr-preloader--light .tr-loader-progress__pct {
+  color: var(--tr-loader-primary);
+}
+
+@keyframes tr-progress-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tr-loader-progress__fill::after {
+    animation: none;
   }
 }
