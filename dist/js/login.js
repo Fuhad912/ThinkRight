@@ -6,6 +6,14 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Unified Auth page initialized');
     setupInstallAppCard();
+    const POLICY_VERSION = '2026-10-31';
+    const POLICY_ACCEPTANCE_KEY = 'thinkright_policy_acceptance';
+    const policyAgreement = document.getElementById('policyAgreement');
+    try {
+        if (localStorage.getItem('thinkright_policy_version') === POLICY_VERSION && policyAgreement) {
+            policyAgreement.checked = true;
+        }
+    } catch (_error) {}
 
     const errorMessage = document.getElementById('errorMessage');
     const errorText = document.getElementById('errorText');
@@ -59,6 +67,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const signupUsernameLabel = document.getElementById('signupUsernameLabel');
     const signupUsernameInput = document.getElementById('signupUsername');
 
+    // Cancel an interrupted entrance so rapid switching never leaves stale styles.
+    const authEntrances = new WeakMap();
+    function animateAuthSwitch(element) {
+        if (!element) return;
+        authEntrances.get(element)?.cancel();
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !element.animate) return;
+        const animation = element.animate([
+            { opacity: 0, transform: 'translateY(10px)' },
+            { opacity: 1, transform: 'translateY(0)' }
+        ], { duration: 360, easing: 'cubic-bezier(.22, 1, .36, 1)' });
+        authEntrances.set(element, animation);
+    }
+
     function switchRole(role, updateUrl = true) {
         currentRole = role === 'teacher' ? 'teacher' : 'student';
         const isTeacher = currentRole === 'teacher';
@@ -72,9 +93,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (roleDescText) {
             if (isTeacher) {
-                roleDescText.innerHTML = '<strong>Educator Account:</strong> Teach JAMB candidates, record async lessons &amp; earn 70% revenue share.';
+                roleDescText.innerHTML = '<strong>Educator Account:</strong> Teach JAMB students through video lessons and earn 70% of each class payment.';
             } else {
-                roleDescText.textContent = 'Practice 1,500+ JAMB questions, join tutor classes, and track your scores.';
+                roleDescText.textContent = 'Practice 10,000+ JAMB questions, join tutor classes, and track your scores.';
             }
         }
 
@@ -101,6 +122,10 @@ document.addEventListener('DOMContentLoaded', () => {
             signupUsernameInput.placeholder = isTeacher ? 'e.g. Mr. David A. or Dr. Michael B.' : 'Choose a username';
         }
 
+        if (updateUrl) {
+            animateAuthSwitch(document.querySelector('.auth-role-desc-banner'));
+            animateAuthSwitch(document.querySelector('.auth-panel:not([hidden])'));
+        }
         localStorage.setItem('thinkright_auth_role', currentRole);
 
         if (updateUrl) {
@@ -164,11 +189,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Animate transition if GSAP available
-            if (window.gsap) {
-                const activeEl = isLogin ? loginPanel : signupPanel;
-                gsap.fromTo(activeEl, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.25 });
-            }
+            if (updateUrl) animateAuthSwitch(isLogin ? loginPanel : signupPanel);
+
         }
     }
 
@@ -306,10 +328,34 @@ document.addEventListener('DOMContentLoaded', () => {
         authRedirectHandled = true;
 
         try {
+            if (urlParams.get('oauth') === 'google') {
+                const acceptance = JSON.parse(sessionStorage.getItem(POLICY_ACCEPTANCE_KEY) || 'null');
+                if (!acceptance || acceptance.version !== POLICY_VERSION || !acceptance.acceptedAt) {
+                    throw new Error('Please return to account creation and accept the Terms of Use and Privacy Notice.');
+                }
+                const { error: consentError } = await window.supabase.auth.updateUser({
+                    data: {
+                        terms_accepted_at: acceptance.acceptedAt,
+                        privacy_notice_acknowledged_at: acceptance.acceptedAt,
+                        policy_version: POLICY_VERSION
+                    }
+                });
+                if (consentError) throw consentError;
+                try { sessionStorage.removeItem(POLICY_ACCEPTANCE_KEY); } catch (_error) {}
+                try { localStorage.setItem('thinkright_policy_version', POLICY_VERSION); } catch (_error) {}
+            }
+
             // 1. Store username from Google metadata or email
             const name = String(user.user_metadata?.full_name || user.user_metadata?.name || user.user_metadata?.username || '').trim() || (user.email ? user.email.split('@')[0] : 'User');
             if (name) {
                 localStorage.setItem('thinkright_username', name);
+            }
+
+            const teacherSession = roleOverride === 'teacher' || user.user_metadata?.role === 'teacher' || user.user_metadata?.role === 'tutor';
+            if (teacherSession) {
+                // The onboarding page loads and validates the teacher's application itself.
+                window.location.replace('tutor-onboarding.html');
+                return;
             }
 
             // 2. Ensure baseline user profile and subscription rows
@@ -377,6 +423,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function handleGoogleAuth(button, mode) {
         clearMessages();
+        if (!policyAgreement?.checked) {
+            showError('Please agree to the Terms of Use and acknowledge the Privacy Notice to continue with Google.');
+            policyAgreement?.focus();
+            return;
+        }
+        try {
+            sessionStorage.setItem(POLICY_ACCEPTANCE_KEY, JSON.stringify({
+                acceptedAt: new Date().toISOString(),
+                version: POLICY_VERSION
+            }));
+        } catch (_error) {
+            showError('We could not save your agreement. Please enable session storage and try again.');
+            return;
+        }
         const span = button ? button.querySelector('span') : null;
         const originalText = span ? span.textContent : '';
 
@@ -395,7 +455,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             const nextUrl = urlParams.get('next');
-            localStorage.setItem('thinkright_auth_role', currentRole);
+            if (updateUrl) {
+            animateAuthSwitch(document.querySelector('.auth-role-desc-banner'));
+            animateAuthSwitch(document.querySelector('.auth-panel:not([hidden])'));
+        }
+        localStorage.setItem('thinkright_auth_role', currentRole);
             const result = await signInWithGoogle(currentRole, nextUrl, mode);
             if (!result.success) {
                 if (window.ThinkRightLoader?.done) {
@@ -475,7 +539,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
 
-                window.location.href = await window.workspaceDestination(urlParams.get('next'));
+                const signedInUser = result.user || await getCurrentUser();
+                await handleSuccessfulAuth(signedInUser);
             } catch (error) {
                 console.error('Login error:', error);
                 showError(error.message || 'An error occurred during login');
@@ -740,15 +805,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 showError('Passwords do not match.');
                 return;
             }
+            if (!policyAgreement?.checked) {
+                showError('Please agree to the Terms of Use and confirm you have read the Privacy Notice to create an account.');
+                policyAgreement?.focus();
+                return;
+            }
 
             setSignupLoading(true);
             try {
                 localStorage.setItem('thinkright_signup_role', currentRole);
-                const signupResult = await signUp(email, password, username, currentRole);
+                const acceptedAt = new Date().toISOString();
+                const signupResult = await signUp(email, password, username, currentRole, {
+                    acceptedAt,
+                    version: POLICY_VERSION
+                });
                 if (!signupResult.success) {
                     showError(signupResult.error || 'Failed to create account.');
                     return;
                 }
+                localStorage.setItem('thinkright_policy_version', POLICY_VERSION);
 
                 // Slide in OTP modal and send OTP code
                 openOtpModal(email);
@@ -793,9 +868,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (isTeacherSignup) {
                     showSuccess('Email verified! Redirecting to tutor onboarding...');
                     closeOtpModal();
-                    setTimeout(() => {
-                        window.location.href = 'tutor-onboarding.html';
-                    }, 1200);
+                    authRedirectHandled = true;
+                    window.location.replace('tutor-onboarding.html');
                 } else {
                     showSuccess('Email verified successfully! You can now sign in.');
                     closeOtpModal();
@@ -1043,32 +1117,56 @@ function showForgotPasswordModal() {
 }
 
 function setupInstallAppCard() {
-    const installCard = document.getElementById('installAppCard');
-    const installToggle = document.getElementById('installAppToggle');
-    const installBtn = document.getElementById('loginInstallBtn');
-
-    if (!installCard || !installToggle) return;
-
-    installToggle.addEventListener('click', () => {
-        const isOpen = installCard.classList.toggle('is-open');
-        installToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
-
-    let deferredPrompt = null;
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        deferredPrompt = e;
-        if (installBtn) {
-            installBtn.style.display = 'inline-flex';
-            installBtn.addEventListener('click', async () => {
-                if (!deferredPrompt) return;
-                deferredPrompt.prompt();
-                const choice = await deferredPrompt.userChoice;
-                if (choice.outcome === 'accepted') {
-                    installBtn.style.display = 'none';
-                }
-                deferredPrompt = null;
-            });
+    const card = document.getElementById('installAppCard');
+    const toggle = document.getElementById('installAppToggle');
+    const button = document.getElementById('loginInstallBtn');
+    if (!card || !toggle || !button) return;
+    const install = window.ThinkRightInstall;
+    const subtitle = card.querySelector('.install-app-toggle-subtitle');
+    const steps = card.querySelector('.install-app-steps');
+    const message = document.createElement('p');
+    message.className = 'install-app-description';
+    message.setAttribute('role', 'status');
+    card.querySelector('.install-app-panel-inner').prepend(message);
+    let busy = false;
+    function sync() {
+        card.hidden = !!install?.installed;
+        button.style.display = install?.installed ? 'none' : 'inline-flex';
+        button.textContent = install?.ready ? 'Install App' : 'How to install';
+        button.setAttribute('aria-hidden', String(!!install?.installed));
+        steps.hidden = false;
+        subtitle.textContent = install?.ready ? 'Tap to install. No app store needed.' : 'Your study space, one tap away.';
+        if (install?.ready) message.textContent = '';
+    }
+    async function promptInstall() {
+        if (busy) return;
+        if (!install?.ready) {
+            card.classList.add('is-open');
+            toggle.setAttribute('aria-expanded', 'true');
+            steps.hidden = false;
+            card.querySelector('.install-app-panel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            return;
         }
+        busy = true;
+        button.disabled = true;
+        try {
+            const outcome = await install.prompt();
+            message.textContent = outcome === 'accepted' ? 'Installation requested. Follow your device to finish.' : 'Installation cancelled. You can keep using ThinkRight here.';
+        } catch {
+            message.textContent = 'The install prompt could not open. You can use the instructions below.';
+        } finally {
+            busy = false;
+            button.disabled = false;
+            sync();
+        }
+    }
+    toggle.addEventListener('click', () => {
+        const open = card.classList.toggle('is-open');
+        toggle.setAttribute('aria-expanded', String(open));
     });
+    button.addEventListener('click', promptInstall);
+    window.addEventListener('thinkright-install-change', sync);
+    sync();
 }
+
+

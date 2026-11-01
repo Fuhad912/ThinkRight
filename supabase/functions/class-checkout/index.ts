@@ -9,6 +9,19 @@ const secretHash = env('FLUTTERWAVE_SECRET_HASH');
 const site = env('SITE_URL').replace(/\/$/, '');
 const allowedOrigins = [site, ...env('CHECKOUT_ALLOWED_ORIGINS').split(',').map(s => s.trim())].filter(Boolean);
 
+function validCheckoutURL(value: string) {
+  try { const url = new URL(value); return url.protocol === 'https:' && !url.username && !url.password && (url.hostname === 'flutterwave.com' || url.hostname.endsWith('.flutterwave.com') || url.hostname === 'ravemodal-dev.herokuapp.com'); }
+  catch { return false; }
+}
+async function equalSecret(left: string, right: string) {
+  const encoder = new TextEncoder();
+  const [a, b] = await Promise.all([left, right].map(value => crypto.subtle.digest('SHA-256', encoder.encode(value))));
+  const x = new Uint8Array(a), y = new Uint8Array(b);
+  let difference = 0;
+  for (let i = 0; i < x.length; i++) difference |= x[i] ^ y[i];
+  return difference === 0;
+}
+
 async function rpc(name: string, args: Record<string, unknown>, bearer: string, privileged = false) {
   const response = await fetch(`${base}/rest/v1/rpc/${name}`, {
     method: 'POST', headers: { 'content-type': 'application/json', apikey: privileged ? service : anon, authorization: `Bearer ${bearer}` },
@@ -36,11 +49,12 @@ async function verify(reference: string, userId?: string) {
   if (!owner || (userId && owner !== userId)) {
     throw new Error('This payment does not belong to your account');
   }
-  const paidAt = payment.created_at || new Date().toISOString();
+  const paidAt = payment.created_at;
+  if (!payment.currency || !paidAt || !Number.isFinite(Date.parse(paidAt))) throw new Error('Payment verification returned incomplete details. Please contact support.');
   return await rpc('class_order_settle', {
     p_reference: reference,
     p_amount: amountKobo,
-    p_currency: payment.currency || 'NGN',
+    p_currency: payment.currency,
     p_paid_at: paidAt,
     p_user: owner
   }, service, true);
@@ -69,12 +83,12 @@ Deno.serve(async (request: Request) => {
     // Handle Flutterwave webhook
     const flutterwaveSignature = request.headers.get('verif-hash');
     if (flutterwaveSignature) {
-      if (secretHash && flutterwaveSignature !== secretHash) {
+      if (!secretHash || !await equalSecret(flutterwaveSignature, secretHash)) {
         return json(401, { error: 'Invalid signature' });
       }
       const event = JSON.parse(raw);
       const txRef = event.data?.tx_ref || event.txRef;
-      if (String(txRef || '').startsWith('TR-')) {
+      if (event.event === 'charge.completed' && /^TR-[a-f0-9-]{36}$/i.test(String(txRef || '')) && ['successful', 'completed'].includes(event.data?.status)) {
         await verify(txRef);
       }
       return json(200, { received: true });
@@ -98,8 +112,9 @@ Deno.serve(async (request: Request) => {
     if (body.action !== 'initialize') return json(400, { error: 'Unknown checkout action' });
 
     const order = await rpc('class_order_create', { p_cohort: body.cohort_id }, token);
-    if (order.enrolled) return json(200, { enrolled: true });
+    if (order.enrolled) return json(200, { enrolled: true, cohort_id: order.cohort_id, subject_id: order.subject_id, tutor_id: order.tutor_id });
 
+    if (!Number.isSafeInteger(order.amount_kobo) || order.amount_kobo <= 0 || !/^TR-[a-f0-9-]{36}$/i.test(order.reference || '')) throw new Error('Invalid course order. Please contact support.');
     const amountNaira = order.amount_kobo / 100;
     const response = await fetch('https://api.flutterwave.com/v3/payments', {
       method: 'POST',
@@ -118,11 +133,14 @@ Deno.serve(async (request: Request) => {
         },
         meta: {
           user_id: user.id,
-          cohort_id: order.cohort_id
+          cohort_id: order.cohort_id,
+          subject_id: order.subject_id,
+          tutor_id: order.tutor_id,
+          access_scope: 'subject_course'
         },
         customizations: {
-          title: 'ThinkRight Class Enrollment',
-          description: 'JAMB UTME Preparation Class'
+          title: 'ThinkRight Subject Course',
+          description: 'Full access to this teacher’s course and all its topics'
         }
       }),
       signal: AbortSignal.timeout(15000)
@@ -133,10 +151,12 @@ Deno.serve(async (request: Request) => {
       throw new Error('Payment provider could not start checkout. Please retry.');
     }
 
+    if (!validCheckoutURL(payment.data.link)) throw new Error('Payment provider returned an invalid checkout link.');
     return json(200, {
       authorization_url: payment.data.link,
       reference: order.reference,
-      expires_at: order.expires_at
+      expires_at: order.expires_at,
+      access_scope: 'subject_course'
     });
   } catch (error) {
     return json(400, { error: error instanceof Error ? error.message : 'Unable to process enrollment' });

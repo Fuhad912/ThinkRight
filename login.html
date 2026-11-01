@@ -19,8 +19,11 @@
     <link rel="stylesheet" href="css/premium-ui.css?v=20260308noblur">
     <link rel="stylesheet" href="css/preloader.css?v=20261016d">
     <link rel="stylesheet" href="css/news.css?v=20261023-delete">
+    <link rel="stylesheet" href="css/login-refinement.css?v=20261031-consent">
+    <script src="js/install-prompt.js?v=20261031"></script>
     <script src="js/preloader.js?v=20261016d"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="css/footer.css?v=20261031">
 </head>
 <body class="auth-page page-auth page-login tr-loading">
     <div id="tr-preloader" class="tr-preloader" role="status" aria-live="polite" aria-label="Loading ThinkRight"><div class="tr-loader-stack"><div class="tr-loader-brand">ThinkRight<span>.</span></div><div class="tr-loader-spinner" aria-hidden="true"><span class="tr-loader-spinner__core"></span></div></div></div>
@@ -33,28 +36,21 @@
                 aria-expanded="false"
                 aria-controls="installAppPanel"
             >
+                <span class="install-app-mark" aria-hidden="true"><i class="fa-solid fa-download"></i></span>
                 <span class="install-app-toggle-copy">
-                    <span class="install-app-toggle-title">Install ThinkRight App</span>
+                    <span class="install-app-toggle-title">Install ThinkRight</span><span class="install-app-toggle-subtitle">Your study space, one tap away.</span>
                 </span>
                 <span class="install-app-chevron" aria-hidden="true">
                     <i class="fa-solid fa-chevron-down" style="font-size: 18px;"></i>
                 </span>
             </button>
-
             <div id="installAppPanel" class="install-app-panel" role="region" aria-labelledby="installAppToggle">
                 <div class="install-app-panel-inner">
-                    <p class="install-app-description">Install ThinkRight for a full app-like experience: launch directly from your home screen, open in standalone mode without browser tabs, and access practice tools faster whenever you return.</p>
-
-                    <button
-                        type="button"
-                        id="loginInstallBtn"
-                        class="install-app-button"
-                        style="display: none;"
-                        aria-label="Install ThinkRight App"
-                    >Install App</button>
+                    <p class="install-app-description">Add ThinkRight to your home screen for quicker access to your practice and classes.</p>
+                    <button type="button" id="loginInstallBtn" class="install-app-button" aria-label="Install ThinkRight App">Install App</button>
 
                     <div class="install-app-steps">
-                        <p><strong>Android (Chrome/Edge/Brave):</strong> Open ThinkRight in your browser, tap the menu icon (three dots) at the top-right, then choose <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong> and confirm <strong>Add/Install</strong>. If you see the Install button above, you can tap that directly.</p>
+                        <p><strong>Android (Chrome/Edge/Brave):</strong> Open ThinkRight in your browser, tap the menu icon (three dots) at the top-right, then choose <strong>"Install app"</strong> or <strong>"Add to Home screen"</strong> and confirm <strong>Add/Install</strong>. </p>
                         <p><strong>iPhone (Safari):</strong> Open ThinkRight in Safari, tap the <strong>Share</strong> icon (square with arrow), scroll and tap <strong>"Add to Home Screen"</strong>, then tap <strong>Add</strong> in the top-right corner.</p>
                     </div>
                 </div>
@@ -64,9 +60,9 @@
         <section class="auth-visual-panel has-news">
             <section id="auth-news" class="news-carousel is-empty" aria-label="JAMB and exam updates">
                 <header class="news-carousel-head">
-                    <span><i class="fa-regular fa-newspaper" aria-hidden="true"></i> The ThinkRight Brief</span>
+                    <span><i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i> Latest news</span>
                 </header>
-                <p class="news-carousel-intro">A little insight.<br>A step ahead.</p>
+                <p class="news-carousel-intro">Stay informed.<br>Stay a step ahead.</p>
                 <div class="news-placeholder">
                     <h2 class="news-headline">JAMB news and exam updates.</h2>
                     <p class="news-summary" id="auth-news-status" role="status" aria-live="polite">ThinkRight-curated news will appear here as soon as it’s published.</p>
@@ -89,7 +85,12 @@
                 <!-- Dynamic Role Description Banner -->
                 <div class="auth-role-desc-banner" id="roleDescBanner">
                     <i class="fa-solid fa-circle-info"></i>
-                    <span id="roleDescText">Practice 1,500+ JAMB questions, join tutor classes, and track your scores.</span>
+                    <span id="roleDescText">Practice 10,000+ JAMB questions, join tutor classes, and track your scores.</span>
+                </div>
+
+                <div class="auth-legal-consent">
+                    <input type="checkbox" id="policyAgreement" name="policyAgreement" form="signupForm" required>
+                    <label for="policyAgreement" id="policyAgreementHelp">I agree to ThinkRight’s <a href="terms-of-use.html" target="_blank" rel="noopener noreferrer">Terms of Use</a> and acknowledge that I have read the <a href="privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Notice</a>.</label>
                 </div>
 
                 <!-- Mode Switcher (Sign In vs Create Account) -->
@@ -376,20 +377,27 @@
         </section>
     </main>
 
-    <footer class="auth-footer">
-        <p>&copy; 2026 ThinkRight. All rights reserved.</p>
-        <div class="auth-footer-links">
-            <a href="mailto:thinkright912@gmail.com" class="contact-button">Email</a>
-            <a href="https://wa.me/2348160271964" target="_blank" class="contact-button">WhatsApp Support</a>
-        </div>
+    <footer class="tr-site-footer" aria-label="ThinkRight footer">
+      <div class="tr-site-footer__main">
+        <div class="tr-site-footer__identity"><a class="tr-site-footer__brand" href="index.html">ThinkRight<span>.</span></a><p>A clearer path to your next chapter.</p><span class="tr-site-footer__note">Learn. Practice. Move forward.</span></div>
+        <nav class="tr-site-footer__links" aria-label="Learning links"><h2>Keep learning</h2><a href="practice.html">Free CBT practice</a><a href="classes.html">Explore classes</a><a href="syllabus.html">JAMB syllabus</a><a href="news.html">Latest news</a></nav>
+        <nav class="tr-site-footer__links" aria-label="Support links"><h2>Here to help</h2><a href="mailto:thinkright912@gmail.com">Email support <span aria-hidden="true">?</span></a><a href="https://wa.me/2348160271964" target="_blank" rel="noopener noreferrer">WhatsApp <span class="tr-site-footer__sr">(opens in a new tab)</span><span aria-hidden="true">?</span></a><a href="tutor-onboarding.html">Teach on ThinkRight</a><a href="terms-of-use.html">Terms of Use</a><a href="privacy-policy.html">Privacy Notice</a></nav>
+      </div>
+      <div class="tr-site-footer__bottom"><p>&copy; 2026 ThinkRight. All rights reserved.</p><a href="#" class="tr-site-footer__top" onclick="window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});return false;">Back to top <span aria-hidden="true">?</span></a></div>
     </footer>
 
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
     <script defer src="js/utils.js?v=20260308noblur"></script>
-    <script defer src="js/auth.js?v=20261020-google-teacher"></script>
-    <script defer src="js/login.js?v=20261020-google-teacher"></script>
-    <script defer src="js/news.js?v=20261023-delete"></script>
+    <script defer src="js/auth.js?v=20261031-consent"></script>
+    <script defer src="js/login.js?v=20261031-consent"></script>
+    <script defer src="js/news.js?v=20261031-login"></script>
     <script defer src="js/pwa-register.js?v=20260308noblur"></script>
 </body>
 </html>
+
+
+
+
+
+

@@ -18,11 +18,19 @@
   <script defer src="js/auth.js?v=20261022-news"></script>
   <script defer src="js/news.js?v=20261022a"></script>
   <script defer src="js/pwa-register.js?v=20260308noblur"></script>
+    <link rel="stylesheet" href="css/footer.css?v=20261031">
 </head>
 <body class="news-page">
   <header class="news-site-header"><a class="news-brand" href="index.html" aria-label="ThinkRight home">ThinkRight<span>.</span></a><a href="login.html">Start practising <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a></header>
   <main class="news-main" id="news-content"><p role="status">Fetching updates…</p></main>
   <noscript><p>Enable JavaScript to read the latest updates.</p></noscript>
-  <footer class="news-site-footer">The ThinkRight Brief · Your next step, better informed.</footer>
+  <footer class="tr-site-footer" aria-label="ThinkRight footer">
+      <div class="tr-site-footer__main">
+        <div class="tr-site-footer__identity"><a class="tr-site-footer__brand" href="index.html">ThinkRight<span>.</span></a><p>A clearer path to your next chapter.</p><span class="tr-site-footer__note">Learn. Practice. Move forward.</span></div>
+        <nav class="tr-site-footer__links" aria-label="Learning links"><h2>Keep learning</h2><a href="practice.html">Free CBT practice</a><a href="classes.html">Explore classes</a><a href="syllabus.html">JAMB syllabus</a><a href="news.html">Latest news</a></nav>
+        <nav class="tr-site-footer__links" aria-label="Support links"><h2>Here to help</h2><a href="mailto:thinkright912@gmail.com">Email support <span aria-hidden="true">?</span></a><a href="https://wa.me/2348160271964" target="_blank" rel="noopener noreferrer">WhatsApp <span class="tr-site-footer__sr">(opens in a new tab)</span><span aria-hidden="true">?</span></a><a href="tutor-onboarding.html">Teach on ThinkRight</a></nav>
+      </div>
+      <div class="tr-site-footer__bottom"><p>&copy; 2026 ThinkRight. All rights reserved.</p><a href="#" class="tr-site-footer__top" onclick="window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});return false;">Back to top <span aria-hidden="true">?</span></a></div>
+    </footer>
 </body>
 </html>

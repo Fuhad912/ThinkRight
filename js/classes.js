@@ -1,6 +1,6 @@
 /**
  * ThinkRight - Student Classes Browsing, Enrollment, Curriculum Preview & Progress
- * Supports Paystack payment re-integration for paid cohorts & 1-click free enrollment.
+ * Subject-course checkout includes every topic class from the selected teacher.
  */
 
 (function () {
@@ -98,7 +98,8 @@
           ? '<i class="fa-solid fa-circle-exclamation" style="color: #ef4444;"></i>'
           : '<i class="fa-solid fa-circle-info" style="color: #38bdf8;"></i>';
 
-    toast.innerHTML = `${icon} <span>${message}</span>`;
+    toast.innerHTML = `${icon} <span></span>`;
+    toast.querySelector('span').textContent = message;
 
     setTimeout(() => {
       toast.classList.remove("is-visible");
@@ -328,7 +329,7 @@
           </a>
         `;
       } else {
-        const enrollBtnText = price === null ? "Enrollment opens soon" : price === 0 ? "Enroll Free" : `Enroll &#8358;${price.toLocaleString()}`;
+        const enrollBtnText = price === null ? "Enrollment opens soon" : price === 0 ? "Enroll Free" : `Get full course · &#8358;${price.toLocaleString()}`;
         actionButtons = `
           <button type="button" class="tr-btn tr-btn--outline tr-btn--sm btn-preview-curriculum" data-cohort-id="${cohort.id}">
             <i class="fa-solid fa-list-check"></i> Preview
@@ -409,17 +410,55 @@
     }
     if (handleEnrollment.busy) return;
     handleEnrollment.busy = true;
+    const enrollmentButtons = [...document.querySelectorAll('.btn-enroll-cohort')].filter(button => button.dataset.cohortId === cohortId);
+    enrollmentButtons.forEach(button => { button.disabled = true; button.setAttribute('aria-busy', 'true'); });
+    showToast('Opening secure checkout...', 'info');
     try {
       const { data, error } = await window.supabase.functions.invoke('class-checkout', { body: { action: 'initialize', cohort_id: cohortId } });
       if (error || data?.error) throw new Error(data?.error || 'Enrollment could not start. Please retry.');
       if (data.enrolled) location.href = 'cohort.html?id=' + encodeURIComponent(cohortId);
       else {
         const checkout = new URL(data.authorization_url);
-        if (checkout.protocol !== 'https:' || (!checkout.hostname.includes('flutterwave.com') && !checkout.hostname.includes('ravemodal-dev.herokuapp.com'))) throw new Error('Invalid checkout destination');
+        if (checkout.protocol !== 'https:' || checkout.username || checkout.password || !(checkout.hostname === 'flutterwave.com' || checkout.hostname.endsWith('.flutterwave.com') || checkout.hostname === 'ravemodal-dev.herokuapp.com')) throw new Error('Invalid checkout destination');
+        try { sessionStorage.setItem('thinkright_class_payment_' + currentUser.id, data.reference); } catch (_) {}
         location.href = checkout.href;
       }
     } catch (error) { showToast(error.message, 'error'); }
-    finally { handleEnrollment.busy = false; }
+    finally { handleEnrollment.busy = false; enrollmentButtons.forEach(button => { button.disabled = false; button.removeAttribute('aria-busy'); }); }
+  }
+
+  async function verifyCoursePayment(reference) {
+    if (verifyCoursePayment.busy) return;
+    if (!/^TR-[a-f0-9-]{36}$/i.test(reference || '')) { showToast('Invalid payment reference.', 'error'); return; }
+    verifyCoursePayment.busy = true;
+    let panel = document.getElementById('classPaymentStatus');
+    if (!panel) {
+      panel = document.createElement('section');
+      panel.id = 'classPaymentStatus';
+      panel.className = 'class-payment-status';
+      panel.setAttribute('aria-label', 'Class payment status');
+      const target = document.getElementById('studentClassesHeader');
+      if (target) target.insertAdjacentElement('afterend', panel);
+      else if (cohortsGrid?.parentElement) cohortsGrid.parentElement.prepend(panel);
+    }
+    panel.innerHTML = '<h2>Checking your payment</h2><p role="status">Please wait while we confirm your course access.</p><small></small>';
+    panel.querySelector('small').textContent = 'Reference: ' + reference;
+    try {
+      const { data, error } = await window.supabase.functions.invoke('class-checkout', { body: { action: 'verify', reference } });
+      if (error || data?.error || !data?.cohort_id) throw new Error('We could not confirm your payment yet. If you have paid, do not pay again. Retry verification or contact support with the reference below.');
+      try { sessionStorage.removeItem('thinkright_class_payment_' + currentUser.id); } catch (_) {}
+      location.replace('cohort.html?id=' + encodeURIComponent(data.cohort_id));
+    } catch (error) {
+      panel.querySelector('h2').textContent = 'Your payment needs confirmation';
+      panel.querySelector('p').textContent = error.message;
+      const retry = document.createElement('button');
+      retry.type = 'button'; retry.textContent = 'Retry verification';
+      retry.addEventListener('click', () => verifyCoursePayment(reference));
+      panel.append(retry);
+      const support = document.createElement('a');
+      support.href = 'mailto:thinkright912@gmail.com?subject=' + encodeURIComponent('Class payment ' + reference);
+      support.textContent = 'Contact support'; panel.append(support);
+    } finally { verifyCoursePayment.busy = false; }
   }
 
   async function openCurriculumModal(cohortId) {
@@ -535,20 +574,21 @@
       if (isEnrolled) {
         curriculumModalFooter.innerHTML = `
           <span style="font-size: 0.85rem; color: #10b981; font-weight: 600;">
-            <i class="fa-solid fa-circle-check"></i> Enrolled in Class
+            <i class="fa-solid fa-circle-check"></i> Subject course unlocked
           </span>
           <a href="cohort.html?id=${cohortId}" class="tr-btn tr-btn--primary tr-btn--sm">
             Enter Classroom <i class="fa-solid fa-arrow-right"></i>
           </a>
         `;
       } else {
-        const enrollBtnText = price === null ? "Enrollment opens soon" : price === 0 ? "Enroll Free" : `Enroll for &#8358;${price.toLocaleString()}`;
+        const enrollBtnText = price === null ? "Enrollment opens soon" : price === 0 ? "Enroll Free" : `Get full course for &#8358;${price.toLocaleString()}`;
         curriculumModalFooter.innerHTML = `
           <div style="display: flex; flex-direction: column;">
-            <span style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase;">Class Fee</span>
+            <span style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase;">Full subject course</span>
             <span style="font-family: var(--font-heading, 'Space Grotesk', sans-serif); font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">
               ${price === null ? 'Price pending' : price === 0 ? "Free" : `&#8358;${price.toLocaleString()}`}
             </span>
+            <small style="color: var(--text-secondary);">All topics with this tutor. One payment.</small>
           </div>
           <button type="button" class="tr-btn tr-btn--primary tr-btn--sm" id="modalEnrollBtn" ${price === null ? 'disabled' : ''}>
             ${enrollBtnText} <i class="fa-solid fa-arrow-right"></i>
@@ -674,17 +714,19 @@
       const paymentStatus = urlParams.get('status');
       if (reference) {
         if (paymentStatus === 'cancelled') {
-          showToast('Payment was cancelled.', 'info');
+          try { sessionStorage.removeItem('thinkright_class_payment_' + currentUser?.id); } catch (_) {}
+          showToast('Checkout was cancelled. If your account was debited, contact support with your payment reference.', 'info');
           window.ThinkRightLoader?.done('Classes ready');
           return;
         }
         if (!currentUser) { location.replace('login.html?next=' + encodeURIComponent(location.pathname + location.search)); return; }
-        window.ThinkRightLoader?.setProgress(90, 'Verifying enrollment payment...');
-        showToast('Verifying your enrollment payment…', 'info');
-        const { data, error } = await window.supabase.functions.invoke('class-checkout', { body: { action: 'verify', reference } });
-        if (error || data?.error) throw new Error(data?.error || 'Payment verification is pending. Reload to retry, or contact support with your payment reference.');
-        location.replace('cohort.html?id=' + encodeURIComponent(data.cohort_id));
+        await verifyCoursePayment(reference);
         return;
+      }
+      if (currentUser) {
+        let pending;
+        try { pending = sessionStorage.getItem('thinkright_class_payment_' + currentUser.id); } catch (_) {}
+        if (pending) { await verifyCoursePayment(pending); return; }
       }
       checkUrlEnrollment();
     } catch (error) {

@@ -32,7 +32,7 @@ interface SendEmailPayload {
   template?: EmailTemplateName;
   template_data?: Record<string, unknown>;
   // Broadcast fields
-  audience?: "all" | "subscribers" | "students" | "teachers" | "custom";
+  audience?: "all" | "subscribers" | "students" | "teachers" | "admins" | "custom";
   category?: "jamb_news" | "exam_alert" | "study_reminder" | "announcement";
   custom_emails?: string | string[];
   title?: string;
@@ -630,7 +630,7 @@ async function resolveBroadcastRecipients(
     if (clean && clean.includes("@")) emailSet.add(clean);
   };
 
-  if (customEmails) {
+  if (audience === "custom" && customEmails) {
     const list = Array.isArray(customEmails)
       ? customEmails
       : String(customEmails).split(/[,;\s]+/);
@@ -646,7 +646,7 @@ async function resolveBroadcastRecipients(
     Authorization: `Bearer ${serviceRoleKey}`,
   };
 
-  try {
+  if (audience === "subscribers") try {
     let queryUrl = `${supabaseUrl}/rest/v1/email_subscribers?select=email,role&subscribed=eq.true`;
     if (audience === "students") queryUrl += `&role=eq.student`;
     if (audience === "teachers") queryUrl += `&role=eq.teacher`;
@@ -657,23 +657,34 @@ async function resolveBroadcastRecipients(
     }
   } catch (_e) {}
 
-  if (audience === "all" || audience === "students" || audience === "teachers") {
-    try {
-      const usersRes = await fetch(`${supabaseUrl}/auth/v1/admin/users?per_page=1000`, {
+  if (["all", "students", "teachers", "admins"].includes(audience)) {
+    const roles = new Map<string, string>();
+    for (let offset = 0; ; offset += 1000) {
+      const roleRes = await fetch(`${supabaseUrl}/rest/v1/workspace_roles?select=user_id,role&order=user_id&offset=${offset}&limit=1000`, { headers, signal: AbortSignal.timeout(12000) });
+      if (!roleRes.ok) throw new Error("Could not load notification roles. No broadcast was sent.");
+      const rows = await roleRes.json();
+      for (const row of rows) roles.set(row.user_id, row.role);
+      if (rows.length < 1000) break;
+    }
+    for (let page = 1; ; page++) {
+      const usersRes = await fetch(`${supabaseUrl}/auth/v1/admin/users?per_page=1000&page=${page}`, {
         headers,
         signal: AbortSignal.timeout(12000),
       });
-      if (usersRes.ok) {
+      if (!usersRes.ok) throw new Error("Could not load notification recipients. No broadcast was sent.");
+      {
         const usersPayload = await usersRes.json();
         const users = Array.isArray(usersPayload?.users) ? usersPayload.users : [];
         for (const u of users) {
-          const role = String(u.user_metadata?.role || "student").toLowerCase();
+          const role = roles.get(u.id) || "student";
           if (audience === "all") addEmail(u.email);
           else if (audience === "teachers" && role === "teacher") addEmail(u.email);
-          else if (audience === "students" && role !== "teacher") addEmail(u.email);
+          else if (audience === "students" && role === "student") addEmail(u.email);
+          else if (audience === "admins" && role === "admin") addEmail(u.email);
         }
+        if (users.length < 1000) break;
       }
-    } catch (_e) {}
+    }
   }
 
   return Array.from(emailSet);
@@ -713,8 +724,21 @@ serve(async (req: Request) => {
 
     // MODE 1: ADMIN BROADCAST
     if (payload.action === "broadcast") {
+      const authorization = req.headers.get("Authorization") || "";
+      const adminRes = await fetch(`${supabaseUrl}/rest/v1/rpc/workspace_admin`, {
+        method: "POST",
+        headers: { apikey: serviceRoleKey, Authorization: authorization, "Content-Type": "application/json" },
+        body: "{}",
+        signal: AbortSignal.timeout(10000),
+      });
+      if (!authorization || !adminRes.ok || await adminRes.json() !== true) {
+        return new Response(JSON.stringify({ ok: false, error: "Administrator access required" }), { status: 403, headers: CORS_HEADERS });
+      }
       const audience = payload.audience || "all";
-      const category = payload.category || "jamb_news";
+      if (!["all", "subscribers", "students", "teachers", "admins", "custom"].includes(audience)) {
+        return new Response(JSON.stringify({ ok: false, error: "Invalid notification audience" }), { status: 400, headers: CORS_HEADERS });
+      }
+      const category = payload.category || "announcement";
       const title = String(payload.title || payload.subject || "ThinkRight Alert").trim();
       const body = String(payload.body || "").trim();
 

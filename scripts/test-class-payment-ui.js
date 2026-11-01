@@ -1,0 +1,24 @@
+const { readFileSync } = require('node:fs');
+const { runInNewContext } = require('node:vm');
+const { parseHTML } = require('linkedom');
+const assert = require('node:assert/strict');
+(async () => {
+ const { window, document } = parseHTML(readFileSync('classes.html','utf8'));
+ const stored = new Map(), actions=[];
+ const location={href:'https://app.example/classes.html',replace(value){this.href=value;}};
+ let mode='pending', checkout='https://checkout.flutterwave.com/test';
+ const reference='TR-10000000-0000-4000-8000-000000000001';
+ window.supabase={functions:{invoke:async(name,{body})=>{assert.equal(name,'class-checkout');actions.push(body.action);return body.action==='initialize'?{data:{authorization_url:checkout,reference}}:mode==='pending'?{error:new Error('Waiting')}:{data:{cohort_id:'course'}};}}};
+ let source=readFileSync('js/classes.js','utf8');
+ source=source.replace('  if (document.readyState === "loading") {','  window.checkoutTest={verifyCoursePayment,handleEnrollment,setUser(value){currentUser=value;}}; return;\n  if (document.readyState === "loading") {');
+ runInNewContext(source,{window,document,location,URL,URLSearchParams,sessionStorage:{setItem:(k,v)=>stored.set(k,v),getItem:k=>stored.get(k),removeItem:k=>stored.delete(k)},setTimeout:()=>0,console});
+ const api=window.checkoutTest;api.setUser({id:'student'});
+ checkout='https://flutterwave.com.attacker.example/';await api.handleEnrollment('course');assert.equal(location.href,'https://app.example/classes.html');
+ checkout='https://checkout.flutterwave.com/test';await api.handleEnrollment('course');assert.equal(location.href,checkout);assert.equal(stored.get('thinkright_class_payment_student'),reference);
+ await api.verifyCoursePayment(reference);
+ assert.ok(document.querySelector('#studentClassesHeader + #classPaymentStatus'));assert.ok(document.querySelector('#classPaymentStatus button'));assert.match(document.querySelector('#classPaymentStatus').textContent,/do not pay again/);
+ const initializations=actions.filter(a=>a==='initialize').length;
+ mode='paid';document.querySelector('#classPaymentStatus button').click();await new Promise(resolve=>setImmediate(resolve));
+ assert.equal(location.href,'cohort.html?id=course');assert.equal(stored.has('thinkright_class_payment_student'),false);assert.equal(actions.filter(a=>a==='initialize').length,initializations,'Retry verifies without creating another checkout');
+ console.log('PASS: trusted checkout URL, saved reference, visible delayed-payment state, retry without a second charge, and enrollment redirect');
+})().catch(error=>{console.error(error);process.exitCode=1;});

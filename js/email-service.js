@@ -93,7 +93,7 @@
    */
   async function sendBroadcast({
     audience = 'all',
-    category = 'jamb_news',
+    category = 'announcement',
     subject = '',
     title = '',
     body = '',

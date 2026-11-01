@@ -125,7 +125,7 @@ function initSupabase() {
  * NOTE: Email confirmation is REQUIRED. User must confirm email before logging in.
  * Username is stored in user metadata.
  */
-async function signUp(email, password, username, role = 'student') {
+async function signUp(email, password, username, role = 'student', policyAcceptance = null) {
     try {
         if (!supabase) {
             return { success: false, error: 'Supabase not initialized' };
@@ -153,6 +153,9 @@ async function signUp(email, password, username, role = 'student') {
         }
 
         const normalizedRole = role === 'teacher' ? 'teacher' : 'student';
+        if (!policyAcceptance?.acceptedAt || !policyAcceptance?.version) {
+            return { success: false, error: 'Please accept the Terms of Use and Privacy Notice to create an account.' };
+        }
 
         // Sign up with Supabase
         console.log('📝 Attempting to sign up with email:', email.toLowerCase(), 'role:', normalizedRole);
@@ -163,7 +166,10 @@ async function signUp(email, password, username, role = 'student') {
             options: {
                 data: {
                     username: username.trim(),
-                    role: normalizedRole
+                    role: normalizedRole,
+                    terms_accepted_at: policyAcceptance.acceptedAt,
+                    privacy_notice_acknowledged_at: policyAcceptance.acceptedAt,
+                    policy_version: policyAcceptance.version
                 }
             }
         });
@@ -1067,7 +1073,7 @@ async function getTutorProfile(userId) {
     try {
         const { data, error } = await supabase
             .from('tutors')
-            .select('id, status, display_name, subjects, whatsapp_number')
+            .select('id, status, display_name, subjects, whatsapp_number, bio, sample_video_url')
             .eq('id', userId)
             .maybeSingle();
         if (error) return null;
@@ -1135,7 +1141,18 @@ window.resolveWorkspaceIdentity = async function () {
 window.workspaceDestination = async function (next) {
     const identity = await window.resolveWorkspaceIdentity();
     if (identity.role === 'admin') return 'admin.html';
-    if (identity.role === 'teacher') return 'tutor-dashboard.html';
+    if (identity.role === 'teacher') {
+        const tutor = await getTutorProfile(identity.user?.id);
+        const incomplete = !tutor || (tutor.status !== 'active' && (
+            !tutor.display_name || !tutor.whatsapp_number || String(tutor.bio || '').trim().length < 20 ||
+            !tutor.sample_video_url || !tutor.subjects?.length
+        ));
+        if (!incomplete && tutor.status !== 'active') {
+            const application = await window.supabase.from('teacher_applications').select('tutor_id, details').eq('tutor_id', identity.user.id).maybeSingle();
+            if (application.error || !application.data?.details?.credential_path) return 'tutor-onboarding.html';
+        }
+        return incomplete ? 'tutor-onboarding.html' : 'tutor-dashboard.html';
+    }
     if (identity.role === 'student' && identity.user && window.supabase) {
         try {
             const { data: studentProfile } = await window.supabase.from('user_profiles')

@@ -1,0 +1,6 @@
+project_id = "thinkright"
+
+# JWT validation is performed inside the handler for checkout requests.
+# Flutterwave webhooks authenticate with the configured verif-hash instead.
+[functions.class-checkout]
+verify_jwt = false

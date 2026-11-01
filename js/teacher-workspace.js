@@ -1,4 +1,4 @@
-/* ThinkRight teacher/admin workspace: all privileged writes use checked database RPCs. */
+﻿/* ThinkRight teacher/admin workspace: all privileged writes use checked database RPCs. */
 (() => {
   'use strict';
   const $ = (selector, root = document) => root.querySelector(selector);
@@ -20,7 +20,9 @@
   const textArea = (label,name,value='',extra='') => `<label class="tw-field"><span>${label}</span><textarea name="${name}" ${extra}>${esc(value)}</textarea></label>`;
   const safeURL = value => {try{const url=new URL(value);return url.protocol==='https:'?url.href:'';}catch{return '';}};
   let page = document.body.dataset.workspacePage, data, user, draft, draftId, draftVersion=1, step=0, dirty=false, busy=false;
-  let search='', statusFilter='all', subjectFilter='all', classFilter='all', period='30', fromDate='', toDate='', adminTab='reviews', profileTab='overview', profileModalOpen=false, profileEditorTab='about';
+  const adminTabs=['overview','reviews','teachers','payments','textbooks','pricing','payouts','reconcile','news','broadcasts','audit'];
+  const validAdminTab=value=>adminTabs.includes(value)?value:'overview';
+  let search='', statusFilter='all', subjectFilter='all', classFilter='all', period='30', fromDate='', toDate='', adminTab='overview', profileTab='overview', profileModalOpen=false, profileEditorTab='about';
   const root = $('#workspace-root'), dialog = $('#workspace-dialog');
   const subject = id => data.subjects.find(s=>s.id===id);
   const cohort = id => data.classes.find(c=>c.id===id);
@@ -41,6 +43,7 @@
       data=await rpc('workspace_snapshot');
     }catch(_err){
       const idObj=fallbackIdentity||data?.identity||{role:'teacher',status:'active',name:user?.user_metadata?.username||user?.email?.split('@')[0]||'Educator'};
+      if(page==='admin'||idObj.role==='admin')throw _err;
       const safeSelect=async(table,col='*')=>{try{if(!window.supabase?.from)return[];const r=await window.supabase.from(table).select(col);return r.data||[];}catch{return[];}};
       const [subjects,tutors,classes,enrollments,lessons,progress,posts]=await Promise.all([safeSelect('subjects'),safeSelect('tutors'),safeSelect('cohorts'),safeSelect('enrollments'),safeSelect('lessons'),safeSelect('lesson_progress'),safeSelect('cohort_posts')]);
       const ownClasses=idObj.role==='admin'?classes:classes.filter(c=>!c.tutor_id||c.tutor_id===user?.id);
@@ -84,7 +87,8 @@
   function head(eyebrow,title,description,actions=''){return `<header class="tw-page-head"><div>${eyebrow?`<span class="tw-eyebrow">${eyebrow}</span>`:''}<h1>${title}</h1><p>${description}</p></div><div class="tw-actions">${actions}</div></header>`;}
   function shell(){
     const admin=data.identity.role==='admin', name=ownTutor().display_name||data.identity.name||user.email?.split('@')[0]||'Educator';
-    const navKeys=admin?['admin']:['dashboard','classes','students','discussions','earnings','profile'];
+    const pendingTeacher=!admin&&data.identity.status==='pending';
+    const navKeys=admin?['admin']:pendingTeacher?['profile']:['dashboard','classes','students','discussions','earnings','profile'];
     const isDark = document.documentElement.dataset.theme === 'dark' || document.documentElement.getAttribute('data-theme') === 'dark';
     const unansweredCount = (data.posts||[]).filter(post=>!post.parent_id&&!post.resolved&&!(data.posts||[]).some(reply=>reply.parent_id===post.id)).length;
     const badges = {
@@ -94,7 +98,7 @@
     const statusLabel = admin ? 'Super Admin' : (data.identity.status==='active' ? 'Verified Educator' : (data.identity.status==='pending' ? 'Application Pending' : 'Account Suspended'));
     const statusClass = admin ? 'admin' : (data.identity.status||'pending');
 
-    root.innerHTML=`<div class="tw-scrim" data-action="close-menu"></div><aside class="tw-sidebar" id="teacher-navigation" aria-label="${admin?'Admin':'Teacher'} mobile navigation"><button class="tw-icon-btn tw-drawer-theme-btn tw-drawer-theme-top" data-action="theme" type="button" aria-label="Toggle dark mode" title="Toggle dark mode"><i class="fa-solid fa-sun tr-navbar__icon-sun" aria-hidden="true"></i><i class="fa-solid fa-moon tr-navbar__icon-moon" aria-hidden="true"></i></button><button class="tw-icon-btn tw-drawer-close" data-action="close-menu" aria-label="Close navigation">${icon('close')}</button><div class="tw-brand-block"><a class="tw-brand" href="${paths[admin?'admin':'dashboard']}">ThinkRight</a></div><nav class="tw-nav">${navKeys.map(key=>{const b=badges[key]?`<span class="tw-nav-badge">${badges[key]}</span>`:'';return `<a href="${paths[key]}" ${page===key||(page==='class'&&key==='classes')?'aria-current="page"':''}><span class="tw-nav-icon">${icon(key)}</span><span class="tw-nav-label">${titles[key]}</span>${b}</a>`;}).join('')}</nav><div class="tw-sidebar-foot"><div class="tw-foot-tools"><a class="tw-foot-btn" href="mailto:thinkright912@gmail.com" aria-label="Contact support" title="Contact support"><i class="fa-solid fa-life-ring tw-i" aria-hidden="true"></i><span>Support</span></a></div><div class="tw-user"><span class="tw-avatar">${esc(name.slice(0,1).toUpperCase())}<i class="tw-avatar-dot ${statusClass}" title="${statusLabel}" aria-label="${statusLabel}"></i></span><strong title="${esc(name)}">${esc(name)}</strong><button class="tw-foot-btn tw-logout-btn" data-action="logout" type="button" aria-label="Sign out" title="Sign out">${icon('logout')}</button></div></div></aside><header id="tr-navbar" class="tr-navbar tw-header" role="navigation" aria-label="${admin?'Admin':'Teacher'} main navigation"><div class="tr-navbar__container"><a href="${paths[admin?'admin':'dashboard']}" class="tr-navbar__logo tw-brand" aria-label="ThinkRight Home"><span class="tr-navbar__brand">ThinkRight</span></a><ul class="tr-navbar__nav" role="list"><li><a href="${paths[admin?'admin':'dashboard']}" class="tr-navbar__link tr-navbar__link--home" title="Home" aria-label="Home"><i class="fa-solid fa-house"></i></a></li>${navKeys.map(key=>{const isActive=page===key||(page==='class'&&key==='classes');const b=badges[key]?`<span class="tw-nav-badge">${badges[key]}</span>`:'';return `<li><a href="${paths[key]}" class="tr-navbar__link${isActive?' active':''}" ${isActive?'aria-current="page"':''}>${titles[key]}${b}</a></li>`;}).join('')}</ul><div id="tr-user-info" class="tr-navbar__user-info"><div class="tr-navbar__user-avatar" title="${esc(name)} · ${statusLabel}"><span class="tr-navbar__avatar-initial">${esc(name.slice(0,1).toUpperCase())}</span><i class="tw-avatar-dot ${statusClass}" title="${statusLabel}" aria-label="${statusLabel}"></i></div><button id="tr-logout-btn" class="tr-navbar__logout-btn" data-action="logout" type="button" title="Logout" aria-label="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></button></div><button id="tr-theme-toggle" class="tr-navbar__theme-btn tw-theme-btn" data-action="theme" aria-label="Toggle dark mode" title="Toggle dark mode" type="button"><i class="fa-solid fa-sun tr-navbar__icon-sun" aria-hidden="true"></i><i class="fa-solid fa-moon tr-navbar__icon-moon" aria-hidden="true"></i></button><button id="tr-hamburger" class="tr-navbar__hamburger tw-mobile-menu" data-action="menu" aria-label="Toggle navigation menu" aria-controls="teacher-navigation" aria-expanded="false" type="button"><span class="tr-navbar__hamburger-line"></span><span class="tr-navbar__hamburger-line"></span><span class="tr-navbar__hamburger-line"></span></button></div></header><main id="workspace-main" class="tw-main" tabindex="-1"></main><nav class="tw-bottom-nav" aria-label="Quick navigation">${(admin?['admin','profile','earnings']:['dashboard','classes','earnings']).map(key=>`<a href="${admin?'admin.html#'+(key==='profile'?'teachers':key==='earnings'?'payouts':'reviews'):paths[key]}" ${page===key?'aria-current="page"':''}>${icon(key)}<span>${admin?({admin:'Reviews',profile:'Teachers',earnings:'Payouts'}[key]):titles[key]}</span></a>`).join('')}<button data-action="menu" aria-label="More navigation">${icon('menu')}<span>More</span></button></nav>`;
+    root.innerHTML=`<div class="tw-scrim" data-action="close-menu"></div><aside class="tw-sidebar" id="teacher-navigation" aria-label="${admin?'Admin':'Teacher'} mobile navigation"><button class="tw-icon-btn tw-drawer-theme-btn tw-drawer-theme-top" data-action="theme" type="button" aria-label="Toggle dark mode" title="Toggle dark mode"><i class="fa-solid fa-sun tr-navbar__icon-sun" aria-hidden="true"></i><i class="fa-solid fa-moon tr-navbar__icon-moon" aria-hidden="true"></i></button><button class="tw-icon-btn tw-drawer-close" data-action="close-menu" aria-label="Close navigation">${icon('close')}</button><div class="tw-more-heading"><span>${admin?'ADMIN WORKSPACE':'TEACHER WORKSPACE'}</span><h2 id="teacher-more-title">More</h2></div><div class="tw-brand-block"><a class="tw-brand" href="${paths[admin?'admin':'dashboard']}">ThinkRight</a></div><nav class="tw-nav">${navKeys.map(key=>{const b=badges[key]?`<span class="tw-nav-badge">${badges[key]}</span>`:'';return `<a data-nav-key="${key}" href="${paths[key]}" ${page===key||(page==='class'&&key==='classes')?'aria-current="page"':''}><span class="tw-nav-icon">${icon(key)}</span><span class="tw-nav-label">${key==='profile'?'Teaching profile':titles[key]}</span>${b}<i class="fa-solid fa-chevron-right tw-more-chevron" aria-hidden="true"></i></a>`;}).join('')}</nav><div class="tw-sidebar-foot"><div class="tw-foot-tools"><a class="tw-foot-btn" href="mailto:thinkright912@gmail.com" aria-label="Contact support" title="Contact support"><i class="fa-solid fa-life-ring tw-i" aria-hidden="true"></i><span>Support</span></a></div><div class="tw-user"><span class="tw-avatar">${esc(name.slice(0,1).toUpperCase())}<i class="tw-avatar-dot ${statusClass}" title="${statusLabel}" aria-label="${statusLabel}"></i></span><strong title="${esc(name)}">${esc(name)}</strong><button class="tw-foot-btn tw-logout-btn" data-action="logout" type="button" aria-label="Sign out" title="Sign out">${icon('logout')}</button></div></div></aside><header id="tr-navbar" class="tr-navbar tw-header" role="navigation" aria-label="${admin?'Admin':'Teacher'} main navigation"><div class="tr-navbar__container"><a href="${paths[admin?'admin':'dashboard']}" class="tr-navbar__logo tw-brand" aria-label="ThinkRight Home"><span class="tr-navbar__brand">ThinkRight</span></a><ul class="tr-navbar__nav" role="list"><li><a href="${paths[admin?'admin':'dashboard']}" class="tr-navbar__link tr-navbar__link--home" title="Home" aria-label="Home"><i class="fa-solid fa-house"></i></a></li>${navKeys.map(key=>{const isActive=page===key||(page==='class'&&key==='classes');const b=badges[key]?`<span class="tw-nav-badge">${badges[key]}</span>`:'';return `<li><a href="${paths[key]}" class="tr-navbar__link${isActive?' active':''}" ${isActive?'aria-current="page"':''}>${titles[key]}${b}</a></li>`;}).join('')}</ul><div id="tr-user-info" class="tr-navbar__user-info"><div class="tr-navbar__user-avatar" title="${esc(name)} · ${statusLabel}"><span class="tr-navbar__avatar-initial">${esc(name.slice(0,1).toUpperCase())}</span><i class="tw-avatar-dot ${statusClass}" title="${statusLabel}" aria-label="${statusLabel}"></i></div><button id="tr-logout-btn" class="tr-navbar__logout-btn" data-action="logout" type="button" title="Logout" aria-label="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></button></div><button id="tr-theme-toggle" class="tr-navbar__theme-btn tw-theme-btn" data-action="theme" aria-label="Toggle dark mode" title="Toggle dark mode" type="button"><i class="fa-solid fa-sun tr-navbar__icon-sun" aria-hidden="true"></i><i class="fa-solid fa-moon tr-navbar__icon-moon" aria-hidden="true"></i></button><button class="tr-navbar__logout-btn tw-mobile-logout" data-action="logout" type="button" aria-label="Log out"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i><span>Log out</span></button><button id="tr-hamburger" class="tr-navbar__hamburger tw-mobile-menu" data-action="menu" aria-label="Toggle navigation menu" aria-controls="teacher-navigation" aria-expanded="false" type="button"><span class="tr-navbar__hamburger-line"></span><span class="tr-navbar__hamburger-line"></span><span class="tr-navbar__hamburger-line"></span></button></div></header><main id="workspace-main" class="tw-main" tabindex="-1"></main><nav class="tw-bottom-nav" aria-label="Quick navigation">${(admin?['admin','profile','earnings']:data.identity.status==='pending'?['profile']:['dashboard','classes','earnings']).map(key=>`<a href="${admin?'admin.html#'+(key==='profile'?'teachers':key==='earnings'?'payouts':'reviews'):paths[key]}" ${page===key?'aria-current="page"':''}>${icon(key)}<span>${admin?({admin:'Reviews',profile:'Teachers',earnings:'Payouts'}[key]):titles[key]}</span></a>`).join('')}<button data-action="menu" aria-label="More navigation">${icon('menu')}<span>More</span></button></nav>`;
     if(!admin){
       root.querySelector('.tr-navbar__link--home')?.closest('li')?.remove();
       root.querySelector(`.tr-navbar__nav a[href="${paths.dashboard}"]`)?.insertAdjacentHTML('afterbegin',icon('dashboard'));
@@ -723,8 +727,48 @@
       </div>
     </div>`;
   }
+  const applicationFields = [
+    ['legal_name','Full legal name','text'],['location','City and state / country','text'],
+    ['qualification','Highest qualification and course of study','text'],['institution','Awarding institution','text'],
+    ['qualification_year','Year qualification was awarded','number'],['experience_years','Years of teaching experience (0 if new)','number'],
+    ['weekly_hours','Hours available each week','number'],
+    ['equipment','Recording device, microphone and internet access','text']
+  ];
+  function applicationEvidence(t){
+    const a=t.application||{};
+    return `<h2>Qualifications and availability</h2><p class="tw-hint">These details and your certificate are visible only to you and ThinkRight reviewers.</p><div class="tw-application-grid">${applicationFields.map(([key,label,type])=>field(label,'application_'+key,a[key]||'',type,`required maxlength="1000" ${type==='url'?'pattern="https://.*"':''} ${key==='qualification_year'?`min="1950" max="${new Date().getFullYear()}"`:key==='experience_years'?'min="0" max="60"':key==='weekly_hours'?'min="1" max="60"':''}`)).join('')}</div>
+      <label class="tw-field"><span>Upload your certificate or qualification document</span><input class="tw-input" type="file" name="application_document" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png" ${a.credential_path?'':'required'} aria-describedby="credentialUploadHelp"></label>
+      <p class="tw-hint" id="credentialUploadHelp">PDF, JPG or PNG. Maximum size: 5 MB. Upload a clear, readable copy.</p>
+      ${a.credential_path?`<p class="tw-hint">Uploaded: ${esc(a.credential_name||'Certificate document')} ${button('View document','open-credential',`data-id="${esc(user.id)}"`)}</p>`:''}
+      ${textArea('JAMB teaching experience and results','application_jamb_experience',a.jamb_experience||'','required minlength="50" maxlength="4000" rows="4" placeholder="Describe where you have taught, the JAMB subjects you know, and results you can support. If new to teaching, explain your preparation and subject knowledge."')}
+      ${textArea('How would you teach one difficult JAMB topic?','application_teaching_plan',a.teaching_plan||'','required minlength="100" maxlength="4000" rows="5" placeholder="Name a topic, state the learning goal, explain your approach, and give a practice question or a way to check understanding."')}
+      <label class="tw-check"><input type="checkbox" name="application_declaration" required ${a.declaration==='true'?'checked':''}><span>I confirm these details and materials are accurate, I have permission to share them, and I agree to ThinkRight reviewing them.</span></label>`;
+  }
+  function needsTeacherApplication(t){
+    return !t.id || (t.status!=='active' && (!t.application?.credential_path || !t.display_name || !t.whatsapp_number || String(t.bio||'').trim().length<20 || !safeURL(t.sample_video_url) || !t.subjects?.length));
+  }
+  function teacherApplication(t){
+    return `${head('','Tell us about yourself','Share your teaching experience, contact details and a sample lesson so our team can review your application.')}
+      <section class="tw-panel tw-application"><form data-form="profile">
+        <h2>Your details</h2>
+        <div class="tw-application-grid">
+          ${field('Full name / educator name','display_name',t.display_name||user.user_metadata?.username||'','text','required maxlength="120" autocomplete="name"')}
+          ${field('WhatsApp number','whatsapp_number',t.whatsapp_number||'','tel','required maxlength="25" autocomplete="tel" placeholder="+234 801 234 5678"')}
+        </div>
+        ${textArea('Teaching experience and qualifications','bio',t.bio||'','required minlength="20" maxlength="4000" rows="5" placeholder="Tell us about your education, subjects you teach and teaching experience."')}
+        ${field('Sample lesson video link','sample_video_url',t.sample_video_url||'','url','required pattern="https://.*" placeholder="https://youtube.com/watch?v=..."')}
+        <p class="tw-hint">Share an HTTPS video link our reviewers can open to see how you teach.</p>
+        <fieldset class="tw-application-subjects"><legend>Subjects you teach</legend><p class="tw-hint">Select at least one subject.</p><div class="tw-checks">${data.subjects.map(s=>`<label class="tw-check"><input type="checkbox" name="subjects" value="${esc(s.id)}" ${(t.subjects||[]).includes(s.id)?'checked':''}><span>${esc(s.name)}</span></label>`).join('')}</div></fieldset>
+        ${applicationEvidence(t)}
+        <p class="tw-hint">Submitting does not guarantee approval. Our team reviews your qualifications, sample lesson and teaching approach before making a decision.</p>
+        <button type="submit" class="tw-button primary">Submit teaching application ${icon('arrow')}</button>
+      </form></section>`;
+  }
   function profilePage(){
     const t=ownTutor();
+    if(needsTeacherApplication(t)) return teacherApplication(t);
+    if(t.status==='pending'||data.identity.status==='pending') return `${head('APPLICATION STATUS','Your application is under review','You can use your workspace once ThinkRight approves your teaching application.')}${notice()}<section class="tw-panel tw-application-status"><span class="tw-application-status__icon"><i class="fa-solid fa-clock" aria-hidden="true"></i></span><h2>Thanks for applying, ${esc(t.display_name||data.identity.name||'Educator')}.</h2><p>Our team is reviewing your qualifications, certificate, teaching experience and sample lesson. We?ll update you when a decision is ready.</p>${t.review_feedback?`<div class="tw-notice">${esc(t.review_feedback)}</div>`:''}<a class="tw-button" href="mailto:thinkright912@gmail.com">Contact support ${icon('arrow')}</a></section>`;
+
     const displayName=t.display_name||data.identity.name||user?.email?.split('@')[0]||'Educator';
     const handle=String(displayName).toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'')||'educator';
     const status=t.status||data.identity.status||'pending';
@@ -765,7 +809,7 @@
         icon:'fa-book-open',
         color:'#10b981',
         bg:'rgba(16,185,129,.12)',
-        title:c.published?'Published class live':'Class draft in studio',
+        title:c.published?'Recorded class published':'Class draft in studio',
         desc:`${c.title||'Untitled class'} · ${subject(c.subject_id)?.name||'Subject'}`,
         time:date(c.start_date),
         ts:new Date(c.start_date||0).getTime()
@@ -777,6 +821,7 @@
       ${t.review_feedback?`<div class="profile-guest-notice" style="margin-bottom:20px"><i class="fa-solid fa-triangle-exclamation" style="font-size:18px;color:var(--warning,#d97706)"></i><div><strong>Reviewer Feedback:</strong> ${esc(t.review_feedback)}</div></div>`:''}
       <article class="social-card">
         <div class="social-header">
+          
           <div class="social-top-row">
             <div class="social-identity-lead">
               <div class="social-avatar-container">
@@ -805,9 +850,6 @@
             <div class="social-actions">
               <button type="button" class="social-btn social-btn--edit" id="openEditModalBtn" data-action="open-profile-modal" data-editor-tab="about" aria-label="Edit profile" title="Edit profile">
                 <i class="fa-solid fa-pen"></i> Edit profile
-              </button>
-              <button type="button" class="social-btn social-btn--logout" data-action="logout" aria-label="Log out" title="Log out">
-                <i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i> Log out
               </button>
               <a href="${paths.classes}" class="social-btn social-btn--icon" title="My classes" aria-label="My classes">
                 <i class="fa-solid fa-book-open" aria-hidden="true"></i>
@@ -897,7 +939,7 @@
               </div>
               <div class="social-badge-card is-green ${publishedCount>0?'':'is-locked'}">
                 <div class="social-badge-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
-                <div class="social-badge-info"><strong>Published Mentor</strong><small>Launched a live JAMB class</small></div>
+                <div class="social-badge-info"><strong>Published Mentor</strong><small>Published a recorded JAMB class</small></div>
               </div>
               <div class="social-badge-card ${activeEnrollments.length>0?'':'is-locked'}">
                 <div class="social-badge-icon"><i class="fa-solid fa-users"></i></div>
@@ -947,6 +989,7 @@
                     </div>
                     <textarea class="social-textarea" id="twInputBio" name="bio" required minlength="20" maxlength="4000" rows="4" placeholder="Detail your background, university degrees, teaching achievements, and why students excel in your classes...">${esc(t.bio||'')}</textarea>
                     <p class="profile-editor-hint">This biography appears directly on your educator profile and class pages.</p>
+                    ${t.application?applicationEvidence(t):''}
                   </div>
                 </section>
 
@@ -975,7 +1018,8 @@
       </div>
     </div>`;
   }
-  function loadDraft(){draftId=new URLSearchParams(location.search).get('id');const r=draftId?revision(draftId):null;if(draftId&&!r)throw new Error('This class is unavailable to your account.');draft=r?structuredClone(r.body):{title:'',description:'',subject_id:data.subjects[0]?.id||'',start_date:today(),whatsapp_link:'',lessons:[]};draftVersion=r?.version||1;}
+  const teachingSubjects=()=>data.identity.role==='admin'?data.subjects:data.subjects.filter(s=>(ownTutor().subjects||[]).includes(s.id));
+  function loadDraft(){draftId=new URLSearchParams(location.search).get('id');const r=draftId?revision(draftId):null;if(draftId&&!r)throw new Error('This class is unavailable to your account.');draft=r?structuredClone(r.body):{title:'',description:'',subject_id:teachingSubjects()[0]?.id||'',start_date:today(),whatsapp_link:'',lessons:[]};draftVersion=r?.version||1;}
   function captureDraft(){const form=$('#class-editor');if(!form)return;for(const input of form.querySelectorAll('[data-draft]'))draft[input.dataset.draft]=input.value;for(const input of form.querySelectorAll('[data-lesson]')){const item=draft.lessons[Number(input.dataset.lesson)];if(item)item[input.name]=input.value;}}
   function editorPage(){
     const r=revision(draftId),readOnly=r?.state==='in_review',s=subject(draft.subject_id),savedClass=cohort(draftId);
@@ -984,15 +1028,14 @@
       content=`<div class="tw-studio-canvas-step">
         <div class="tw-studio-section-head">
           <div>
-            <h2>Class foundation & details</h2>
-            <p class="tw-studio-subtitle">A clear title, focused description, and schedule set student expectations for success.</p>
+            <h2>Introduce your class</h2>
+            <p class="tw-studio-subtitle">Students work through your recorded lessons at their own pace. Tell them what they will learn and who the class is for.</p>
           </div>
         </div>
         <div class="tw-form-grid">
-          <label class="tw-field"><span>Subject</span><select data-draft="subject_id">${options(data.subjects.map(s=>[s.id,s.name]),draft.subject_id)}</select></label>
+          <label class="tw-field"><span>Subject</span><select data-draft="subject_id">${options((data.identity.role==='admin'?data.subjects:data.subjects.filter(subject=>(ownTutor().subjects||[]).includes(subject.id))).map(s=>[s.id,s.name]),draft.subject_id)}</select></label>
           ${field('Class title','title',draft.title,'text','data-draft="title" maxlength="160" required placeholder="e.g. Master JAMB Physics: Mechanics & Waves"')}
-          ${field('Start date','start_date',draft.start_date,'date','data-draft="start_date" required')}
-          ${field('WhatsApp group link (optional)','whatsapp_link',draft.whatsapp_link,'url','data-draft="whatsapp_link" pattern="https://.*" placeholder="https://chat.whatsapp.com/..."')}
+          ${field('Student support group (optional)','whatsapp_link',draft.whatsapp_link,'url','data-draft="whatsapp_link" pattern="https://.*" placeholder="https://chat.whatsapp.com/..."')}
         </div>
         ${textArea('What will students master? (Course description)','description',draft.description,'data-draft="description" maxlength="4000" placeholder="Describe the topics covered, learning outcomes, and prerequisites for students..."')}
         <div class="tw-price-pill"><i class="fa-solid fa-tag"></i> <span><strong>${s?.enrollment_price==null?'Price awaiting ThinkRight configuration':money(Number(s.enrollment_price)*100)}</strong> · Subject enrollment rate set by ThinkRight. Your educator share is 70% of verified student payments.</span></div>
@@ -1001,8 +1044,8 @@
       content=`<div class="tw-studio-canvas-step">
         <div class="tw-studio-section-head">
           <div>
-            <h2>Curriculum & video lessons</h2>
-            <p class="tw-studio-subtitle">Structure your lessons in the logical order students should study them.</p>
+            <h2>Build your lesson library</h2>
+            <p class="tw-studio-subtitle">Upload each recording to YouTube as Unlisted, then add its link below. Arrange lessons in the order students should follow.</p>
           </div>
           ${button(`${icon('plus')} Add lesson`,'add-lesson','','primary small')}
         </div>
@@ -1020,7 +1063,8 @@
               ${field('Lesson title','title',l.title,'text',`data-lesson="${i}" required maxlength="160" placeholder="e.g. Newton’s Laws of Motion"`)}
               ${field('Syllabus topic','syllabus_topic',l.syllabus_topic,'text',`data-lesson="${i}" required maxlength="160" placeholder="e.g. Mechanics"`)}
             </div>
-            ${field('Lesson video URL (HTTPS)','video_url',l.video_url,'url',`data-lesson="${i}" required pattern="https://.*" placeholder="https://..."`)}
+            ${field('Unlisted YouTube video link','video_url',l.video_url,'url',`data-lesson="${i}" required pattern="https://.*" placeholder="https://www.youtube.com/watch?v=..."`)}
+            <p class="tw-hint">Use the link to this lesson’s recording, rather than a channel or playlist. Set visibility to Unlisted in YouTube.</p>
           </section>`).join('')||empty('Start with lesson one','Add a video lesson and connect it to a syllabus topic.',button(`${icon('plus')} Add first lesson`,'add-lesson','','primary small'))}
         </div>
       </div>`;
@@ -1038,10 +1082,10 @@
         </div>
       </div>`;
     }
-    return head('Class studio',draft.title?esc(draft.title):'Make something worth learning.','A focused curriculum. Your teaching style. One step at a time.',button('Student preview','preview')+link('All classes',paths.classes))
+    return head('RECORDED CLASSES',draft.title?esc(draft.title):'Create a recorded class','Add your class details, link your YouTube lessons, and send the curriculum to ThinkRight for review.',link('All classes',paths.classes))
       +notice()
       +`<div class="tw-editor">
-        ${r?`<div class="tw-studio-status-row">${tag(r.state)}<span class="tw-hint">${savedClass?.published?'The last approved revision is live.':'Not visible to students yet.'}</span></div>`:''}
+        ${r?`<div class="tw-studio-status-row">${tag(r.state)}<span class="tw-hint">${savedClass?.published?'Students can access the last approved version.':'Not visible to students yet.'}</span></div>`:''}
         ${savedClass?.published?`<div class="tw-tabs"><button data-action="class-tab" data-tab="editor" aria-pressed="true">Editor</button><button data-action="class-tab" data-tab="students">Students</button><button data-action="class-tab" data-tab="discussions">Discussions</button></div><label class="tw-field"><span>Enrollment availability</span><select data-filter="availability">${options([['open','Open for enrollment'],['in_progress','In progress'],['closed','Closed to new enrollments']],savedClass.status)}</select></label>`:''}
         <div class="tw-steps" aria-label="Class creation steps">${['Details','Curriculum','Review'].map((name,i)=>`<button data-action="step" data-step="${i}" ${step===i?'aria-current="step"':''}><b>0${i+1}</b><span>${name}</span></button>`).join('')}</div>
         ${readOnly?'<div class="tw-notice">This revision is in review. Withdraw it if you need to make changes.</div>':''}
@@ -1065,7 +1109,7 @@
         <h2 class="tw-preview-title">${esc(body.title||'Untitled class')}</h2>
         <p class="tw-preview-desc">${esc(body.description||'Add a description for your class.')}</p>
         <div class="tw-course-stats-bar">
-          <span class="tw-course-stat-item"><i class="fa-solid fa-calendar-day"></i> Starts ${date(body.start_date)}</span>
+          <span class="tw-course-stat-item"><i class="fa-solid fa-circle-play"></i> Recorded · Learn at your own pace</span>
           <span class="tw-course-stat-item"><i class="fa-solid fa-layer-group"></i> ${lessonsList.length} ${lessonsList.length===1?'lesson':'lessons'}</span>
           <span class="tw-course-stat-item"><i class="fa-solid fa-tag"></i> ${sub?.enrollment_price==null?'Price pending':money(Number(sub.enrollment_price)*100)}</span>
         </div>
@@ -1086,7 +1130,9 @@
   function adminPage(){
     const pending=data.revisions.filter(r=>r.state==='in_review');
     let body='';
-    if(adminTab==='reviews'){
+    if(['overview','payments','textbooks'].includes(adminTab)){
+      body='<section id="admin-console" aria-live="polite"></section>';
+    }else if(adminTab==='reviews'){
       body=`<div class="tw-admin-card">
         <div class="tw-admin-section-head">
           <h2>Class review queue</h2>
@@ -1204,32 +1250,33 @@
     }else if(adminTab==='broadcasts'){
       body=`<div class="tw-admin-card">
         <div class="tw-admin-section-head">
-          <h2>Resend email news, exam alerts & announcements</h2>
-          <p>Compose and dispatch JAMB UTME updates, urgent deadline alerts, and study reminders via Resend.</p>
+          <h2>Email notifications & announcements</h2>
+          <p>General notifications reach every registered user by default. Choose a role to send updates only to students, teachers or admins; no subscription is required.</p>
         </div>
         <form data-form="broadcast" class="tw-broadcast-form" style="display:grid;gap:16px;padding:18px 0 6px">
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
             <label class="tw-field">
               <span>Alert category</span>
               <select name="category">
+                <option value="announcement">General notification</option>
                 <option value="jamb_news">JAMB Insider News &amp; Policy</option>
                 <option value="exam_alert">Urgent Exam / Deadline Alert</option>
                 <option value="study_reminder">Study &amp; CBT Mock Reminder</option>
-                <option value="announcement">Platform Announcement</option>
               </select>
             </label>
             <label class="tw-field">
               <span>Target audience</span>
               <select name="audience">
-                <option value="all">All Subscribers, Students &amp; Educators</option>
+                <option value="all">General — all registered users</option>
                 <option value="subscribers">Subscribed Alert Recipients Only</option>
                 <option value="students">UTME Students Only</option>
                 <option value="teachers">Educators Only</option>
+                <option value="admins">Admins Only</option>
                 <option value="custom">Specific Email Address(es) Only</option>
               </select>
             </label>
           </div>
-          ${field('Specific or test email addresses (comma-separated, used when audience is Specific or added to list)','custom_emails',user?.email||'','text','placeholder="e.g. scholar@example.com"')}
+          ${field('Specific email addresses (used only for the Specific audience)','custom_emails','','text','placeholder="e.g. scholar@example.com"')}
           ${field('Email subject line','subject','','text','required maxlength="160" placeholder="e.g. Official JAMB UTME Registration & Mock Exam Update"')}
           ${field('Headline title','title','','text','required maxlength="160" placeholder="e.g. Important Update on JAMB UTME Registration & Cut-Off Marks"')}
           ${textArea('Message content','body','','required rows="5" placeholder="Write the full news update, exam alert, or study reminder here..."')}
@@ -1259,7 +1306,7 @@
       </div>`;
     }
     return `<div class="tw-admin-page">
-      ${head('THINKRIGHT CONTROL ROOM','Good teaching deserves a strong foundation.','Review the work, set consistent prices, and keep earnings accountable.')}
+      ${head('ADMINISTRATION','Your platform, at a glance.','Manage learning, review applications, and keep track of payments.')}
       <div class="tw-stats-grid">
         <div class="tw-metric-card">
           <div class="tw-metric-header"><div class="tw-metric-icon"><i class="fa-solid fa-list-check"></i></div><span class="tw-metric-badge">Queue</span></div>
@@ -1287,12 +1334,12 @@
         </div>
       </div>
       <nav class="tw-tabs" aria-label="Admin sections">
-        ${[['reviews','Class reviews'],['teachers','Teachers'],['pricing','Subject pricing'],['payouts','Payouts'],['reconcile','Reconciliation'],['news','Website news'],['broadcasts','Email alerts'],['audit','Activity']].map(([id,label])=>`<button data-action="admin-tab" data-tab="${id}" aria-pressed="${adminTab===id}">${label}</button>`).join('')}
+        ${adminTabs.map((id,index)=>`<button data-action="admin-tab" data-tab="${id}" aria-pressed="${adminTab===id}">${['Overview','Class reviews','Teachers','Payments','Textbooks','Pricing','Payouts','Reconciliation','News','Email alerts','Activity'][index]}</button>`).join('')}
       </nav>
       ${body}
     </div>`;
   }
-  function render(){const views={dashboard,classes:classesPage,students:studentsPage,analytics:analyticsPage,discussions:discussionsPage,earnings:earningsPage,profile:profilePage,class:editorPage,admin:adminPage};$('#workspace-main').innerHTML=views[page]();if(page==='dashboard')initDashboardCharts();if(page==='analytics')initAnalyticsCharts();if(page==='admin'&&adminTab==='news')window.ThinkRightAdminNews?.mount($('#admin-news'));}
+  function render(){const views={dashboard,classes:classesPage,students:studentsPage,analytics:analyticsPage,discussions:discussionsPage,earnings:earningsPage,profile:profilePage,class:editorPage,admin:adminPage};$('#workspace-main').innerHTML=views[page]();if(page==='dashboard')initDashboardCharts();if(page==='analytics')initAnalyticsCharts();if(page==='admin'&&adminTab==='news')window.ThinkRightAdminNews?.mount($('#admin-news'));if(page==='admin'&&$('#admin-console'))window.ThinkRightAdminConsole?.mount($('#admin-console'),adminTab,data);}
   function showDialog(title,content){dialog.innerHTML=`<div class="tw-dialog-head"><h2 id="dialog-title">${title}</h2><button class="tw-icon-btn" data-action="close-dialog" aria-label="Close dialog">${icon('close')}</button></div>${content}`;if(!dialog.open)dialog.showModal();}
   function menu(open){
     const nav=$('.tw-sidebar');
@@ -1303,6 +1350,8 @@
     headerToggle?.setAttribute('aria-expanded',String(open));
     moreToggle?.setAttribute('aria-expanded',String(open));
     nav.inert=!open;
+    if(open){nav.setAttribute('role','dialog');nav.setAttribute('aria-modal','true');nav.setAttribute('aria-label','More teacher navigation');}
+    else{nav.removeAttribute('role');nav.removeAttribute('aria-modal');}
     document.body.style.overflow=open?'hidden':'';
     if(open){nav.querySelector('button').focus();$('#workspace-main').inert=true;}
     else{$('#workspace-main').inert=false;((typeof window.matchMedia==='function'&&window.matchMedia('(max-width:639px)').matches)?moreToggle:headerToggle)?.focus();}
@@ -1335,7 +1384,7 @@
       if(op==='move-lesson'){captureDraft();const i=Number(el.dataset.index),j=i+Number(el.dataset.direction);if(j>=0&&j<draft.lessons.length)[draft.lessons[i],draft.lessons[j]]=[draft.lessons[j],draft.lessons[i]];dirty=true;render();return;}
       if(op==='remove-lesson'){if(!confirm('Remove this lesson from the draft? Published content changes only after approval.'))return;captureDraft();draft.lessons.splice(Number(el.dataset.index),1);dirty=true;render();return;}
       if(op==='preview'){captureDraft();showDialog('Student preview',previewContent(draft));return;}
-      if(op==='admin-tab'){adminTab=el.dataset.tab;history.replaceState(null,'','#'+adminTab);render();return;}
+      if(op==='admin-tab'){adminTab=validAdminTab(el.dataset.tab);history.replaceState(null,'','#'+adminTab);render();return;}
       if(op==='class-tab'){const tab=el.dataset.tab;if(tab==='editor')return;captureDraft();classFilter=draftId;showDialog(tab==='students'?'Class students':'Class discussions',tab==='students'?studentsContent():discussionsContent());return;}
       if(op==='student'){
         const sName=student(id);
@@ -1351,7 +1400,20 @@
         return;
       }
       if(op==='admin-class'){const r=revision(id);showDialog('Review class',previewContent(r.body)+`<form data-form="class-review" data-id="${id}">${textArea('Feedback (required when requesting changes)','feedback')}<div class="tw-actions"><button class="tw-button" name="decision" value="changes" type="submit">Request changes</button><button class="tw-button primary" name="decision" value="approve" type="submit">Approve & publish</button></div></form>`);return;}
-      if(op==='admin-teacher'){const t=tutor(id);showDialog(esc(t.display_name),`<p>${esc(t.bio||'No biography yet.')}</p><p>${esc((t.subjects||[]).join(', '))}</p>${safeURL(t.sample_video_url)?`<p><a class="tw-button" href="${esc(safeURL(t.sample_video_url))}" target="_blank" rel="noopener noreferrer">Watch sample lesson ↗</a></p>`:''}<form data-form="teacher-review" data-id="${id}"><label class="tw-field"><span>Account status</span><select name="status">${options([['pending','Pending review'],['active','Approved'],['suspended','Suspended']],t.status)}</select></label>${textArea('Decision feedback','feedback',t.review_feedback||'')}<button class="tw-button primary" type="submit">Save decision</button></form>`);return;}
+      if(op==='open-credential'){
+        const t=tutor(id), path=t?.application?.credential_path;
+        if(!path){toast('No document has been uploaded.');return;}
+        try {
+          const url=await window.ThinkRightDocuments.signedURL(path);
+          showDialog('Certificate document',`<p>${esc(t.application.credential_name||'Certificate document')}</p><p><a class="tw-button primary" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Open document ${icon('arrow')}</a></p><p class="tw-hint">This private link expires in 5 minutes.</p>`);
+        }catch(error){toast(error.message);}
+        return;
+      }
+      if(op==='admin-teacher'){
+        const t=tutor(id), app=t.application||{};
+        const evidence=Object.keys(app).length?`<dl class="tw-application-review">${[...applicationFields.map(([key,label])=>[key,label]),['jamb_experience','JAMB experience and results'],['teaching_plan','Sample teaching plan']].map(([key,label])=>`<dt><strong>${esc(label)}</strong></dt><dd>${key==='credential_url'&&safeURL(app[key])?`<a href="${esc(safeURL(app[key]))}" target="_blank" rel="noopener noreferrer">Open credential evidence ?</a>`:esc(app[key]||'Not provided')}</dd>`).join('')}</dl>`:'<p class="tw-hint">This teacher has not submitted the extended application. Approval requires a complete application.</p>';
+        showDialog(esc(t.display_name),`<p>${esc(t.bio||'No biography yet.')}</p><p>WhatsApp: ${esc(t.whatsapp_number||'Not provided')}</p><p>${esc((t.subjects||[]).join(', '))}</p>${safeURL(t.sample_video_url)?`<p><a class="tw-button" href="${esc(safeURL(t.sample_video_url))}" target="_blank" rel="noopener noreferrer">Watch sample lesson ?</a></p>`:''}${evidence}${app.credential_path?button('View uploaded certificate','open-credential',`data-id="${esc(t.id)}"`):'<p class="tw-hint">No certificate uploaded yet.</p>'}<form data-form="teacher-review" data-id="${id}"><fieldset><legend>Approval checklist</legend>${[['credentials_checked','I checked the qualifications and supporting evidence.'],['lesson_checked','I watched the sample lesson and assessed accuracy and clarity.'],['experience_checked','I assessed JAMB knowledge, teaching approach and availability.']].map(([key,label])=>`<label class="tw-check"><input type="checkbox" name="${key}"><span>${label}</span></label>`).join('')}</fieldset><label class="tw-field"><span>Account status</span><select name="status">${options([['pending','Pending review'],['active','Approved'],['suspended','Suspended']],t.status)}</select></label>${textArea('Decision and reasons','feedback',t.review_feedback||'','required minlength="20" maxlength="4000"')}<button class="tw-button primary" type="submit">Save decision</button></form>`);return;}
+
       if(op==='admin-payout'){const b=data.banks.find(b=>b.tutor_id===id);showDialog('Bank details & manual payout',b?`<p><strong>${esc(tutor(id)?.display_name)}</strong></p><div class="tw-notice">${esc(b.bank)}<br>${esc(b.account_name)}<br>${esc(b.account_number)}<br>${b.reviewed?'Reviewed by ThinkRight':'Awaiting review'}</div>${b.reviewed?'':button('Mark details reviewed','bank-review',`data-id="${id}"`)}<form data-form="payout" data-id="${id}" style="margin-top:20px">${field('Amount transferred (NGN)','amount','','number','required min="0.01" step="0.01"')}${field('Payment date','paid_at',today(),'date','required')}${field('External transfer reference','reference','','text','required minlength="3"')}<p class="tw-hint">Only record a transfer already completed outside ThinkRight.</p><button class="tw-button primary" type="submit" ${b.reviewed?'':'disabled'}>Record completed payout</button></form>`:empty('No bank details submitted','Ask the teacher to add their payout account.'));return;}
       if(op==='reverse-payout'){showDialog('Correct a payout record',`<form data-form="reverse-payout" data-id="${id}">${textArea('Reason for reversing this record','reason','','required minlength="3"')}<p class="tw-hint">This restores the unpaid balance. It does not reverse a bank transfer.</p><button class="tw-button danger" type="submit">Reverse record</button></form>`);return;}
       busy=true;el.disabled=true;window.ThinkRightLoader?.ribbonStart();
@@ -1367,11 +1429,31 @@
     try{
       if(op==='profile'){
         payload.subjects=fields.getAll('subjects');
+        if (fields.has('application_legal_name')) {
+          const ready = await window.supabase.from('teacher_applications').select('tutor_id').limit(1);
+          if (ready.error) throw new Error('Teaching applications are temporarily unavailable. Please contact ThinkRight support.');
+          payload.application=Object.fromEntries(applicationFields.map(([key])=>[key,String(fields.get('application_'+key)||'').trim()]));
+          for (const key of ['jamb_experience','teaching_plan']) payload.application[key]=String(fields.get('application_'+key)||'').trim();
+          payload.application.declaration=fields.has('application_declaration')?'true':'false';
+        }
+
         if(!String(payload.display_name||'').trim()){switchProfileEditorTab('about');throw new Error('Enter your display name');}
         if(!String(payload.whatsapp_number||'').trim()){switchProfileEditorTab('about');throw new Error('Enter your WhatsApp number');}
         if(String(payload.bio||'').trim().length<20){switchProfileEditorTab('about');throw new Error('Please share at least 20 characters about your teaching experience');}
         if(!safeURL(payload.sample_video_url)){switchProfileEditorTab('credentials');throw new Error('Enter a valid HTTPS sample lesson video URL');}
         if(!payload.subjects.length){switchProfileEditorTab('subjects');throw new Error('Choose at least one subject');}
+      }
+      if(op==='profile' && payload.application){
+        const file=form.querySelector('[name="application_document"]')?.files?.[0];
+        const existing=ownTutor().application||{};
+        if(file){
+          toast('Uploading your certificate...');
+          Object.assign(payload.application,await window.ThinkRightDocuments.upload(file,user.id));
+        }else if(existing.credential_path){
+          payload.application.credential_path=existing.credential_path;
+          payload.application.credential_name=existing.credential_name;
+        }else throw new Error('Upload your certificate or qualification document.');
+        delete payload.application_document;
       }
       if(op==='broadcast'){
         if(!window.ThinkRightEmail?.sendBroadcast)throw new Error('Resend email service is not loaded');
@@ -1412,7 +1494,7 @@
     document.addEventListener('change',async event=>{const key=event.target.dataset.filter;if(event.target.dataset.draft==='subject_id'){captureDraft();render();return;}if(!key)return;if(key==='availability'){window.ThinkRightLoader?.ribbonStart();try{await action('availability',{id:draftId,status:event.target.value});await refresh();toast('Availability updated');}catch(error){toast(error.message);render();}finally{window.ThinkRightLoader?.ribbonDone();}return;}({subject:v=>subjectFilter=v,status:v=>statusFilter=v,class:v=>classFilter=v,period:v=>period=v,from:v=>fromDate=v,to:v=>toDate=v}[key])?.(event.target.value);render();});
     document.addEventListener('keydown',event=>{const nav=$('.tw-sidebar');if(!nav?.classList.contains('open'))return;if(event.key==='Escape'){menu(false);return;}if(event.key==='Tab'){const items=[...nav.querySelectorAll('button,a[href]')].filter(e=>e.offsetParent!==null),first=items[0],last=items.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}});
     window.addEventListener('beforeunload',event=>{if(dirty){event.preventDefault();event.returnValue='';}});
-    window.addEventListener('hashchange',()=>{if(page==='admin'){adminTab=location.hash.slice(1)||'reviews';menu(false);render();}});
+    window.addEventListener('hashchange',()=>{if(page==='admin'){adminTab=validAdminTab(location.hash.slice(1));menu(false);render();}});
     document.addEventListener('click',event=>{if(dirty&&event.target.closest('a[href]')&&!event.target.closest('a[target=_blank]')&&!confirm('Leave without saving your draft?'))event.preventDefault();});
     const resize=()=>{const narrow=matchMedia('(max-width:1023px)').matches;$('.tw-sidebar').inert=!$('.tw-sidebar').classList.contains('open');if(!narrow){$('.tw-sidebar').classList.remove('open');$('.tw-scrim').classList.remove('open');$('.tw-mobile-menu[data-action=menu]')?.setAttribute('aria-expanded','false');$('#workspace-main').inert=false;document.body.style.overflow='';}};window.addEventListener('resize',resize);resize();
   }
@@ -1435,7 +1517,7 @@
       }else await refresh(identity);
       if(page==='dashboard'&&location.hash==='#classes'){location.replace(paths.classes);return;}
       if(page==='analytics'){location.replace(paths.dashboard);return;}
-      if(page==='class')loadDraft();if(page==='admin'&&location.hash)adminTab=location.hash.slice(1);
+      if(page==='class')loadDraft();if(page==='admin'&&location.hash)adminTab=validAdminTab(location.hash.slice(1));
       window.ThinkRightLoader?.setProgress(90,'Rendering workspace...');
       const theme=localStorage.getItem('thinkright_theme')||localStorage.getItem('theme');
       applyTheme(theme==='dark');
@@ -1448,3 +1530,4 @@
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
 })();
+

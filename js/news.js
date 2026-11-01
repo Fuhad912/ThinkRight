@@ -53,8 +53,8 @@
     root.classList.remove('is-empty');
     root.setAttribute('aria-label', 'Latest JAMB and exam updates');
     root.setAttribute('aria-roledescription', 'carousel');
-    root.innerHTML = `<header class="news-carousel-head"><span><i class="fa-regular fa-newspaper" aria-hidden="true"></i> The ThinkRight Brief</span></header>
-      <p class="news-carousel-intro">A little insight.<br>A step ahead.</p>
+    root.innerHTML = `<header class="news-carousel-head"><span><i class="fa-solid fa-tower-broadcast" aria-hidden="true"></i> Latest news</span></header>
+      <p class="news-carousel-intro">Stay informed.<br>Stay a step ahead.</p>
       <div class="news-slides" aria-live="off">${posts.map((p, i) => `<article class="news-slide" role="group" aria-roledescription="slide" aria-label="${i + 1} of ${posts.length}" ${i ? 'inert aria-hidden="true"' : 'aria-hidden="false"'}>${brief(p)}</article>`).join('')}</div>
       <footer class="news-carousel-footer"><div class="news-position"><span class="news-current">01</span><span class="news-position-line"></span><span>${String(posts.length).padStart(2, '0')}</span></div>
       <div class="news-controls" ${posts.length < 2 ? 'hidden' : ''}><button type="button" data-news="previous" aria-label="Previous news update"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button><button type="button" data-news="pause" aria-label="Pause news rotation"><i class="fa-solid fa-pause" aria-hidden="true"></i></button><button type="button" data-news="next" aria-label="Next news update"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div></footer>`;

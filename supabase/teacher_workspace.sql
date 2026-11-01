@@ -9,6 +9,21 @@ alter table public.workspace_roles enable row level security;
 create or replace function public.workspace_admin() returns boolean language sql stable security definer set search_path = public as $$
   select exists(select 1 from workspace_roles where user_id=auth.uid() and role='admin');
 $$;
+
+-- Application evidence is private, unlike the public teaching profile.
+create table if not exists public.teacher_applications (
+ tutor_id uuid primary key references public.tutors(id) on delete cascade,
+ details jsonb not null check(jsonb_typeof(details)='object'),
+ submitted_at timestamptz not null default now(),
+ reviewed_at timestamptz,
+ reviewed_by uuid references auth.users(id),
+ review_checks jsonb
+);
+alter table public.teacher_applications enable row level security;
+revoke all on public.teacher_applications from anon, authenticated;
+grant select on public.teacher_applications to authenticated;
+drop policy if exists application_read on public.teacher_applications;
+create policy application_read on public.teacher_applications for select to authenticated using(tutor_id=auth.uid() or workspace_admin());
 create policy workspace_role_self on public.workspace_roles for select to authenticated using(user_id=auth.uid());
 alter table public.subjects add column if not exists enrollment_price numeric(10,2) check(enrollment_price>=0);
 alter table public.tutors add column if not exists review_feedback text;
@@ -125,7 +140,7 @@ begin
  select jsonb_build_object(
  'identity',workspace_identity(),
  'subjects',(select coalesce(jsonb_agg(s order by s.name),'[]') from subjects s),
- 'tutors',(select coalesce(jsonb_agg(t),'[]') from tutors t where a or id=uid),
+ 'tutors',(select coalesce(jsonb_agg(to_jsonb(t)||jsonb_build_object('application',ap.details,'application_submitted_at',ap.submitted_at)),'[]') from tutors t left join teacher_applications ap on ap.tutor_id=t.id where a or t.id=uid),
  'classes',(select coalesce(jsonb_agg(c order by c.created_at desc),'[]') from cohorts c where id=any(ids)),
  'revisions',(select coalesce(jsonb_agg(r),'[]') from class_revisions r where cohort_id=any(ids)),
  'lessons',(select coalesce(jsonb_agg(l order by l.order_index),'[]') from lessons l where cohort_id=any(ids) and not archived),
@@ -146,13 +161,35 @@ declare uid uuid:=auth.uid(); a boolean:=workspace_admin(); cid uuid; tid uuid; 
  body jsonb; entry jsonb; lid uuid; kept uuid[]:='{}'; amt bigint; bal bigint; eid uuid; bank teacher_bank_details; result jsonb:='{}';
 begin
  if uid is null then raise exception 'Sign in required'; end if;
+ if not a and exists(select 1 from tutors where id=uid and status='pending') and p_action<>'profile' then raise exception 'Your teaching application is under review. Workspace access is available after approval.'; end if;
  if p_action in ('price','teacher_review','class_review','bank_review','payout','reverse_payout','reconcile') and not a then raise exception 'Administrator access required'; end if;
  if p_action='profile' then
    if length(trim(coalesce(p_data->>'display_name','')))<2 then raise exception 'Enter your name'; end if;
    if exists(select 1 from tutors where id=uid and status='suspended') then raise exception 'Account suspended'; end if;
+   if p_data ? 'application' then
+     body:=p_data->'application';
+     if jsonb_typeof(body)<>'object' then raise exception 'Invalid application'; end if;
+     for entry in select value from jsonb_array_elements('["legal_name","location","qualification","institution","qualification_year","experience_years","jamb_experience","teaching_plan","weekly_hours","equipment"]'::jsonb) loop
+       if length(trim(coalesce(body->>(entry#>>'{}'),'')))<1 or length(body->>(entry#>>'{}'))>4000 then raise exception 'Complete all application details'; end if;
+     end loop;
+     if body->>'qualification_year' !~ '^[0-9]{4}$' or (body->>'qualification_year')::int not between 1950 and extract(year from now())::int then raise exception 'Enter a valid qualification year'; end if;
+     if body->>'experience_years' !~ '^[0-9]{1,2}$' or (body->>'experience_years')::int>60 then raise exception 'Enter valid years of experience'; end if;
+     if body->>'weekly_hours' !~ '^[0-9]{1,2}$' or (body->>'weekly_hours')::int not between 1 and 60 then raise exception 'Enter 1 to 60 weekly hours'; end if;
+     if length(trim(body->>'teaching_plan'))<100 or length(trim(body->>'jamb_experience'))<50 or coalesce(body->>'declaration','')<>'true' then raise exception 'Add credential evidence, JAMB experience, a lesson plan and confirm your declaration'; end if;
+     if coalesce(body->>'credential_path','') !~ ('^'||uid::text||'/[0-9a-f-]+[.](pdf|jpg|jpeg|png)$') or not exists(select 1 from storage.objects where bucket_id='teacher-credentials' and name=body->>'credential_path') then raise exception 'Upload your certificate document before submitting'; end if;
+     if length(trim(coalesce(p_data->>'bio','')))<20 or coalesce(p_data->>'sample_video_url','') !~ '^https://' or length(regexp_replace(coalesce(p_data->>'whatsapp_number',''),'[^0-9]','','g'))<10 then raise exception 'Add teaching background, a valid WhatsApp number and sample video'; end if;
+     if jsonb_array_length(coalesce(p_data->'subjects','[]'))=0 or exists(select 1 from jsonb_array_elements_text(p_data->'subjects') x where not exists(select 1 from subjects where id=x)) then raise exception 'Choose valid teaching subjects'; end if;
+   elsif not exists(select 1 from tutors where id=uid and status='active') and not exists(select 1 from teacher_applications where tutor_id=uid) then
+     raise exception 'Complete the teaching application first';
+   end if;
    insert into tutors(id,display_name,bio,subjects,whatsapp_number,sample_video_url,status,revenue_share_pct)
    values(uid,trim(p_data->>'display_name'),p_data->>'bio',array(select jsonb_array_elements_text(coalesce(p_data->'subjects','[]'))),p_data->>'whatsapp_number',p_data->>'sample_video_url','pending',70)
    on conflict(id) do update set display_name=excluded.display_name,bio=excluded.bio,subjects=excluded.subjects,whatsapp_number=excluded.whatsapp_number,sample_video_url=excluded.sample_video_url,updated_at=now();
+   if p_data ? 'application' then
+     insert into teacher_applications(tutor_id,details) values(uid,p_data->'application')
+     on conflict(tutor_id) do update set details=excluded.details,submitted_at=now(),reviewed_at=null,reviewed_by=null,review_checks=null;
+     update tutors set status='pending',review_feedback=null where id=uid and status<>'active';
+   end if;
  elsif p_action='price' then
    if (p_data->>'price')::numeric<0 or p_data->>'price' is null then raise exception 'Enter a valid price'; end if;
    update subjects set enrollment_price=(p_data->>'price')::numeric where id=p_data->>'subject_id';
@@ -161,6 +198,13 @@ begin
  elsif p_action='teacher_review' then
    if p_data->>'status' not in ('active','pending','suspended') then raise exception 'Invalid status'; end if;
    if p_data->>'status'<>'active' and length(trim(coalesce(p_data->>'feedback','')))=0 then raise exception 'Explain the decision'; end if;
+   if p_data->>'status'='active' then
+     if length(trim(coalesce(p_data->>'feedback','')))<20 then raise exception 'Write a review decision of at least 20 characters'; end if;
+     if not exists(select 1 from teacher_applications where tutor_id=(p_data->>'id')::uuid) then raise exception 'A complete teaching application is required before approval'; end if;
+     if not exists(select 1 from teacher_applications ap join storage.objects o on o.bucket_id='teacher-credentials' and o.name=ap.details->>'credential_path' where ap.tutor_id=(p_data->>'id')::uuid) then raise exception 'An uploaded certificate document is required before approval'; end if;
+     if coalesce(p_data->>'credentials_checked','')<>'on' or coalesce(p_data->>'lesson_checked','')<>'on' or coalesce(p_data->>'experience_checked','')<>'on' then raise exception 'Confirm credentials, lesson quality and teaching experience before approval'; end if;
+     update teacher_applications set reviewed_at=now(),reviewed_by=uid,review_checks=jsonb_build_object('credentials',true,'lesson',true,'experience',true) where tutor_id=(p_data->>'id')::uuid;
+   end if;
    update tutors set status=p_data->>'status',review_feedback=p_data->>'feedback',updated_at=now() where id=(p_data->>'id')::uuid;
  elsif p_action in ('save_class','submit_class','withdraw_class','class_review','availability') then
    cid:=nullif(p_data->>'id','')::uuid;
@@ -168,6 +212,7 @@ begin
      select * into t from tutors where id=uid;
      if t.id is null or t.status='suspended' then raise exception 'Teacher access required'; end if;
      body:=p_data->'body';
+     if not a and not ((body->>'subject_id')=any(coalesce(t.subjects,'{}'::text[]))) then raise exception 'You can only create classes for subjects in your teaching application'; end if;
      insert into cohorts(tutor_id,subject_id,title,start_date,price,status,published) values(uid,body->>'subject_id',coalesce(nullif(trim(body->>'title'),''),'Untitled class'),coalesce(nullif(body->>'start_date','')::date,current_date),0,'closed',false) returning id into cid;
      insert into class_revisions(cohort_id,body) values(cid,body);
    else
@@ -179,11 +224,13 @@ begin
      if p_action='save_class' then
        if r.state='in_review' then raise exception 'Withdraw your submission before editing'; end if;
        if r.version<>(p_data->>'version')::integer or p_data->>'version' is null then raise exception 'This draft changed. Reload before saving.'; end if;
+       if not a and not ((p_data->'body'->>'subject_id')=any(coalesce(t.subjects,'{}'::text[]))) then raise exception 'You can only create classes for subjects in your teaching application'; end if;
        update class_revisions set body=p_data->'body',state='draft',version=version+1,updated_at=now() where cohort_id=cid;
      elsif p_action='submit_class' then
        if t.status<>'active' then raise exception 'Teacher approval is required first'; end if;
        if r.state not in ('draft','changes_requested') then raise exception 'This revision cannot be submitted'; end if;
        body:=r.body;
+       if not a and not ((body->>'subject_id')=any(coalesce(t.subjects,'{}'::text[]))) then raise exception 'This class subject is not in your teaching application'; end if;
        if coalesce(body->>'whatsapp_link','')<>'' and body->>'whatsapp_link' !~ '^https://' then raise exception 'The group link must use HTTPS'; end if;
        if length(trim(coalesce(body->>'title','')))<3 or length(trim(coalesce(body->>'description','')))<20 or nullif(body->>'start_date','') is null or jsonb_array_length(coalesce(body->'lessons','[]'))=0 then raise exception 'Add a title, description, start date and at least one lesson'; end if;
        if not exists(select 1 from subjects where id=body->>'subject_id' and enrollment_price is not null) then raise exception 'ThinkRight must set the subject price first'; end if;
@@ -262,7 +309,10 @@ begin
  return result;
 end $$;
 
--- Client supplies a class, never an amount. Payment verification is service-role only.
+-- A purchase is for one teacher's complete subject course (the cohort), never an
+-- individual lesson/topic. workspace_enrolled() therefore unlocks every current
+-- lesson belonging to that cohort. The client supplies only the course id; the
+-- server resolves its subject price. Payment verification is service-role only.
 create or replace function public.class_curriculum(p_cohort uuid) returns jsonb language sql stable security definer set search_path=public as $$
  select coalesce(jsonb_agg(jsonb_build_object('id',l.id,'title',l.title,'syllabus_topic',l.syllabus_topic,'order_index',l.order_index) order by l.order_index),'[]')
  from lessons l join cohorts c on c.id=l.cohort_id
@@ -284,7 +334,11 @@ begin
    return jsonb_build_object('enrolled',true);
  end if;
  insert into class_orders(user_id,cohort_id,amount_kobo,reference) values(auth.uid(),p_cohort,round(price*100),'TR-'||gen_random_uuid()::text) returning * into o;
- return to_jsonb(o);
+ return to_jsonb(o)||jsonb_build_object(
+   'subject_id',c.subject_id,
+   'tutor_id',c.tutor_id,
+   'access_scope','subject_course'
+ );
 end $$;
 
 create or replace function public.class_order_settle(p_reference text,p_amount bigint,p_currency text,p_paid_at timestamptz,p_user uuid) returns uuid language plpgsql security definer set search_path=public as $$

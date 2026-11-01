@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#1d4ed8">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <link rel="icon" type="image/png" href="/favicon.png?v=20260221a">
+    <link rel="shortcut icon" href="/favicon.ico?v=20260221a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <title>Textbooks - ThinkRight</title>
+    <meta name="description" content="Browse textbooks for your JAMB preparation on ThinkRight.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css?v=20260321-sg">
+    <link rel="stylesheet" href="css/navbar.css?v=20261018-more">
+    <link rel="stylesheet" href="css/premium-ui.css?v=20260321-sg">
+    <link rel="stylesheet" href="css/preloader.css?v=20261017a">
+    <link rel="stylesheet" href="css/books.css?v=20261031-catalog">
+    <script src="js/preloader.js?v=20261017b"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="css/footer.css?v=20261031">
+</head>
+<body class="page-books tr-loading">
+    <div id="tr-preloader" class="tr-preloader" role="status" aria-live="polite" aria-label="Loading ThinkRight"><div class="tr-loader-stack"><div class="tr-loader-brand">ThinkRight<span>.</span></div><div class="tr-loader-spinner" aria-hidden="true"><span class="tr-loader-spinner__core"></span></div></div></div>
+    <nav id="tr-navbar" class="tr-navbar" role="navigation" aria-label="ThinkRight main navigation">
+      <div class="tr-navbar__container">
+        <a href="index.html" class="tr-navbar__logo" aria-label="ThinkRight Home">
+          <span class="tr-navbar__brand">ThinkRight</span>
+        </a>
+
+        <ul class="tr-navbar__nav" role="list">
+          <li><a href="index.html" class="tr-navbar__link tr-navbar__link--home" title="Home" aria-label="Home"><i class="fa-solid fa-house"></i></a></li>
+          <li><a href="practice.html" class="tr-navbar__link">Practice</a></li>
+          <li><a href="my-classes.html" class="tr-navbar__link">My Classes</a></li>
+          <li><a href="syllabus.html" class="tr-navbar__link">Syllabus</a></li>
+          <li><a href="dashboard.html" class="tr-navbar__link">Dashboard</a></li>
+          <li><a href="leaderboard.html" class="tr-navbar__link">Leaderboard</a></li>
+        </ul>
+
+        <div id="tr-user-info" class="tr-navbar__user-info" style="display: none;">
+          <div class="tr-navbar__user-avatar">
+            <img id="tr-user-avatar" src="" alt="User avatar" class="tr-navbar__avatar-img">
+          </div>
+          <span id="tr-user-name" class="tr-navbar__user-name"></span>
+          <button id="tr-logout-btn" class="tr-navbar__logout-btn" type="button" title="Logout" aria-label="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></button>
+        </div>
+
+        <button id="tr-auth-btn" class="tr-navbar__auth-btn" type="button">Login</button>
+
+        <a href="index.html" id="tr-home-btn-mobile" class="tr-navbar__home-btn" aria-label="Home" title="Home">
+            <i class="fa-solid fa-house"></i>
+        </a>
+
+        <button id="tr-theme-toggle" class="tr-navbar__theme-btn" aria-label="Toggle dark mode" type="button">
+            <i class="fa-solid fa-sun tr-navbar__icon-sun"></i>
+            <i class="fa-solid fa-moon tr-navbar__icon-moon"></i>
+        </button>
+
+        <button id="tr-hamburger" class="tr-navbar__hamburger" aria-label="Toggle navigation menu" aria-controls="tr-mobile-menu" aria-expanded="false" type="button">
+          <span class="tr-navbar__hamburger-line"></span>
+          <span class="tr-navbar__hamburger-line"></span>
+          <span class="tr-navbar__hamburger-line"></span>
+        </button>
+      </div>
+
+      <div id="tr-mobile-menu" class="tr-navbar__mobile-menu" role="region" aria-label="Mobile navigation menu">
+        <ul class="tr-navbar__mobile-nav" role="list">
+          <li><a href="index.html" class="tr-navbar__mobile-link"><i class="fa-solid fa-house" style="font-size: 16px; margin-right: 10px; width: 20px; text-align: center;"></i> <span>Home</span></a></li>
+          <li><a href="practice.html" class="tr-navbar__mobile-link">Practice</a></li>
+          <li><a href="my-classes.html" class="tr-navbar__mobile-link">My Classes</a></li>
+          <li><a href="dashboard.html" class="tr-navbar__mobile-link">Dashboard</a></li>
+          <li><a href="leaderboard.html" class="tr-navbar__mobile-link">Leaderboard</a></li>
+          <li><a href="syllabus.html" class="tr-navbar__mobile-link">Syllabus</a></li>
+          <li><a href="insider.html" class="tr-navbar__mobile-link">JAMB Insider</a></li>
+
+          <li id="tr-mobile-user-info" class="tr-navbar__mobile-user-info" style="display: none;">
+            <div class="tr-navbar__mobile-user-avatar">
+              <img id="tr-mobile-user-avatar" src="" alt="User avatar" class="tr-navbar__mobile-avatar-img">
+            </div>
+            <span id="tr-mobile-user-name" class="tr-navbar__mobile-user-name"></span>
+            <button id="tr-mobile-logout-btn" class="tr-navbar__mobile-logout-btn" type="button" title="Logout" aria-label="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i> <span>Logout</span></button>
+          </li>
+
+          <li><button id="tr-mobile-auth-btn" class="tr-navbar__mobile-auth-btn" type="button">Login</button></li>
+          <li><button id="tr-theme-toggle-mobile" class="tr-navbar__mobile-theme-btn" type="button">
+            <i class="fa-solid fa-sun tr-navbar__icon-sun" style="font-size: 18px;"></i>
+            <i class="fa-solid fa-moon tr-navbar__icon-moon" style="font-size: 18px;"></i>
+            <span class="tr-navbar__theme-label">Dark Mode</span>
+          </button></li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="books-main">
+      <header class="books-heading"><h1>Textbooks</h1><p>A place for the books that support your JAMB preparation.</p></header>
+      <section class="books-library" aria-labelledby="booksLibraryTitle">
+        <div class="books-library__intro"><span class="books-empty__label">YOUR BOOKSHELF</span><h2 id="booksLibraryTitle">Study resources</h2><p>Open a textbook to continue your preparation.</p></div>
+        <div id="booksCatalog" aria-live="polite"><p>Loading your textbooks...</p></div>
+        <p class="books-status" id="booksStatus" role="status" aria-live="polite"></p>
+        <a class="books-syllabus-link" href="syllabus.html"><i class="fa-solid fa-list-check" aria-hidden="true"></i> Browse the JAMB syllabus <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>
+      </section>
+    </main>
+    <footer class="tr-site-footer" aria-label="ThinkRight footer"><div class="tr-site-footer__main"><div class="tr-site-footer__identity"><a class="tr-site-footer__brand" href="index.html">ThinkRight<span>.</span></a><p>A clearer path to your next chapter.</p></div><nav class="tr-site-footer__links" aria-label="Learning links"><h2>Keep learning</h2><a href="practice.html">Free CBT practice</a><a href="syllabus.html">JAMB syllabus</a></nav><nav class="tr-site-footer__links" aria-label="Support links"><h2>Here to help</h2><a href="mailto:thinkright912@gmail.com">Email support</a><a href="https://wa.me/2348160271964">WhatsApp</a></nav></div><div class="tr-site-footer__bottom"><p>&copy; 2026 ThinkRight. All rights reserved.</p></div></footer>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script><script defer src="js/utils.js?v=20260321-sg"></script><script defer src="js/auth.js?v=20261016c"></script><script defer src="js/books.js?v=20261031-catalog"></script><script defer src="js/navbar-load.js?v=20261031-books"></script><script defer src="js/pwa-register.js?v=20260321-sg"></script>
+</body>
+</html>
+
