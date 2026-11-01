@@ -20,6 +20,7 @@ const ROOT_FILES = [
   'tutor-analytics.html',
   'tutor-discussions.html',
   'admin.html',
+  'admin-analytics.html',
   'dashboard.html',
   'profile.html',
   'leaderboard.html',

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Platform analytics · ThinkRight</title>
+  <link rel="icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin-analytics.css?v=20261101">
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
+  <script defer src="js/auth.js?v=20261031-documents"></script>
+  <script defer src="js/admin-analytics.js?v=20261101"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to analytics</a>
+  <header class="site-head"><a class="brand" href="admin.html">ThinkRight<span>.</span></a><nav aria-label="Administration"><a href="admin.html">Admin workspace</a><button id="logout" type="button">Log out</button></nav></header>
+  <main id="main">
+    <header class="page-head"><div><span class="eyebrow">PLATFORM INSIGHTS</span><h1>A clearer view of your platform.</h1><p>See how students learn and teachers build, with records you can act on.</p></div><button type="button" id="refresh">Refresh data</button></header>
+    <form id="filters" class="filters" aria-label="Analytics filters">
+      <label>Period<select id="period"><option value="1">Today</option><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="custom">Custom dates</option></select></label>
+      <label>From<input id="from" type="date" required></label><label>To<input id="to" type="date" required></label>
+      <label>Subject<select id="subject"><option value="">All subjects</option></select></label><button type="submit" class="primary">Apply filters</button>
+    </form>
+    <p id="status" role="status" aria-live="polite">Checking admin access…</p>
+    <div id="report" hidden>
+      <p class="scope">Dates use Lagos time. Learning activity means a completed test or lesson, not a login. New student counts cover all subjects.</p>
+      <section id="metrics" class="metrics" aria-label="Key metrics"></section>
+      <div class="insights"><section class="panel"><div class="section-head"><div><h2>Learning activity</h2><p>Completed tests and lessons per day</p></div><span class="legend">● Tests <span>● Lessons</span></span></div><div id="chart" class="chart"></div><details><summary>View daily figures</summary><div class="table-wrap"><table><thead><tr><th>Date</th><th>Tests</th><th>Lessons</th></tr></thead><tbody id="daily"></tbody></table></div></details></section>
+      <section class="panel attention"><h2>Needs attention</h2><p>Platform-wide, as of now</p><div id="attention"></div></section></div>
+      <section class="panel"><div class="section-head"><div><h2>People behind the numbers</h2><p>Open a report to see recorded activity in the selected period.</p></div><div class="tabs" role="group" aria-label="Report type"><button type="button" data-kind="student" aria-pressed="true">Students</button><button type="button" data-kind="teacher" aria-pressed="false">Teachers</button></div></div>
+        <form id="search-form" class="search"><label for="search">Search by name</label><input id="search" type="search" maxlength="100" placeholder="Find a student or teacher"><button type="submit">Search</button></form>
+        <p id="people-note" class="scope"></p><div class="table-wrap"><table><thead id="people-head"></thead><tbody id="people"></tbody></table></div><div class="pagination"><button type="button" id="previous">Previous</button><span id="page"></span><button type="button" id="next">Next</button></div>
+      </section>
+      <p class="scope">Coverage: synced test results, recorded lesson completions, course enrollments and teacher workspace actions. Browsing, logins, textbook opens and time online are not tracked here. Scores are self-reported practice results, not verified exam outcomes.</p>
+    </div>
+    <noscript>Enable JavaScript to view analytics.</noscript>
+  </main>
+  <dialog id="person"><div class="section-head"><div><span class="eyebrow">ACTIVITY REPORT</span><h2 id="person-title"></h2></div><button type="button" id="close-person">Close</button></div><p>Selected dates · all subjects · latest 100 recorded events</p><div id="person-body" role="status"></div></dialog>
+</body>
+</html>

@@ -4,7 +4,7 @@ begin;
 create table if not exists public.news_posts (
   id uuid primary key default gen_random_uuid(),
   title text not null check (char_length(trim(title)) between 1 and 140),
-  summary text not null check (char_length(trim(summary)) between 1 and 240),
+  summary text not null check (char_length(trim(summary)) between 1 and 600),
   body text not null default '' check (char_length(body) <= 16000),
   category text not null default 'jamb' check (category in ('jamb','admissions','exam_prep','announcement')),
   source_name text not null default 'ThinkRight' check (char_length(trim(source_name)) between 1 and 80),
@@ -20,6 +20,11 @@ create table if not exists public.news_posts (
   constraint news_publication_date check (status <> 'published' or published_at is not null),
   constraint news_expiry check (expires_at is null or published_at is null or expires_at > published_at)
 );
+
+-- Upgrade the limit on existing installations as well as fresh ones.
+alter table public.news_posts drop constraint if exists news_posts_summary_check;
+alter table public.news_posts add constraint news_posts_summary_check
+  check (char_length(trim(summary)) between 1 and 600);
 
 create index if not exists news_posts_feed on public.news_posts (featured desc, published_at desc, id) where status = 'published';
 alter table public.news_posts enable row level security;

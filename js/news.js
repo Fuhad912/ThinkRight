@@ -57,16 +57,17 @@
       <p class="news-carousel-intro">Stay informed.<br>Stay a step ahead.</p>
       <div class="news-slides" aria-live="off">${posts.map((p, i) => `<article class="news-slide" role="group" aria-roledescription="slide" aria-label="${i + 1} of ${posts.length}" ${i ? 'inert aria-hidden="true"' : 'aria-hidden="false"'}>${brief(p)}</article>`).join('')}</div>
       <footer class="news-carousel-footer"><div class="news-position"><span class="news-current">01</span><span class="news-position-line"></span><span>${String(posts.length).padStart(2, '0')}</span></div>
-      <div class="news-controls" ${posts.length < 2 ? 'hidden' : ''}><button type="button" data-news="previous" aria-label="Previous news update"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button><button type="button" data-news="pause" aria-label="Pause news rotation"><i class="fa-solid fa-pause" aria-hidden="true"></i></button><button type="button" data-news="next" aria-label="Next news update"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div></footer>`;
+      </footer>`;
     const slides = [...root.querySelectorAll('.news-slide')];
     const reduced = matchMedia('(prefers-reduced-motion: reduce)');
     let index = 0, timer, paused = reduced.matches, hovered = false, focused = false, visible = true, touchStart, suppressClick = false, playRequested = false;
     const pauseButton = root.querySelector('[data-news="pause"]');
     function schedule() {
       clearTimeout(timer);
-      if (posts.length > 1 && !paused && !hovered && (!focused || playRequested) && !document.hidden && visible) timer = setTimeout(() => show(index + 1), 8000);
+      if (posts.length > 1 && !document.hidden && visible) timer = setTimeout(() => show(index + 1), 3000);
     }
     function updatePause() {
+      if (!pauseButton) return;
       pauseButton.setAttribute('aria-label', paused ? 'Play news rotation' : 'Pause news rotation');
       pauseButton.innerHTML = `<i class="fa-solid fa-${paused ? 'play' : 'pause'}" aria-hidden="true"></i>`;
       root.querySelector('.news-slides').setAttribute('aria-live', paused || (focused && !playRequested) ? 'polite' : 'off');
@@ -118,7 +119,7 @@
       } catch { root.innerHTML = '<div class="news-empty"><h2>We couldn’t load this update.</h2><p>Please check your connection and try again.</p><button type="button" class="news-source" id="news-retry">Try again</button></div>'; root.querySelector('#news-retry').onclick = () => initArchive(root); }
       return;
     }
-    root.innerHTML = `<header class="news-page-heading"><span class="news-category"><i class="fa-regular fa-newspaper" aria-hidden="true"></i> THE THINKRIGHT BRIEF</span><h1>Stay in the know.<br><span>Keep moving forward.</span></h1><p>JAMB updates, admissions and exam prep, selected by ThinkRight.</p></header><nav class="news-filters" aria-label="Filter news">${[['','All updates'], ...Object.entries(categories)].map(([key,label]) => `<button type="button" data-category="${key}" aria-pressed="${!key}">${label}</button>`).join('')}</nav><div id="news-list" class="news-list"></div><p id="news-status" role="status"></p><button type="button" id="news-more" class="news-source" hidden>Load more updates <i class="fa-solid fa-arrow-down" aria-hidden="true"></i></button>`;
+    root.innerHTML = `<header class="news-page-heading"><span class="news-category"><i class="fa-regular fa-newspaper" aria-hidden="true"></i> THINKRIGHT NEWSROOM</span><h1>Latest news<span class="news-heading-dot">.</span></h1><p>Your briefing on JAMB, admissions and exam preparation. Latest updates first.</p></header><nav class="news-filters" aria-label="Filter news">${[['','All updates'], ...Object.entries(categories)].map(([key,label]) => `<button type="button" data-category="${key}" aria-pressed="${!key}">${label}</button>`).join('')}</nav><div id="news-list" class="news-list"></div><p id="news-status" role="status"></p><button type="button" id="news-more" class="news-source" hidden>Load more updates <i class="fa-solid fa-arrow-down" aria-hidden="true"></i></button>`;
     const list = root.querySelector('#news-list'), status = root.querySelector('#news-status'), more = root.querySelector('#news-more');
     let offset = 0, category = '', request = 0, loading = false;
     async function load(reset = false) {

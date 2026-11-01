@@ -5,6 +5,7 @@
   "main": "sw.js",
   "scripts": {
     "test:admin": "node scripts/test-admin-console.js && node scripts/test-admin-console-ui.js",
+    "test:analytics": "node scripts/test-admin-analytics.js && node scripts/test-admin-analytics-ui.js",
     "test:news": "node scripts/test-news.js",
     "test:teacher": "node scripts/test-teacher-workspace-base.js && node scripts/test-teacher-workspace.js && node scripts/test-teacher-ui.js && node scripts/test-class-checkout.js",
     "build:web": "node scripts/build-web.js",

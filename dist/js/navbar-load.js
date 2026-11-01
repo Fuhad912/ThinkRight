@@ -81,6 +81,17 @@
   }
 
   function initNavbar() {
+    const isProfilePage = location.pathname.split('/').pop() === 'profile.html';
+    document.body.classList.toggle('tr-profile-route', isProfilePage);
+    document.getElementById('tr-mobile-logout-btn')?.remove();
+    document.getElementById('profileLogoutBtn')?.remove();
+    const headerLogout = document.getElementById('tr-logout-btn');
+    if (isProfilePage && headerLogout) {
+      headerLogout.classList.add('tr-profile-header-logout');
+      document.querySelector('#tr-navbar .tr-navbar__container')?.appendChild(headerLogout);
+    } else {
+      headerLogout?.remove();
+    }
     const hamburger = document.getElementById("tr-hamburger");
     const mobileMenu = document.getElementById("tr-mobile-menu");
     const authBtn = document.getElementById("tr-auth-btn");
@@ -169,7 +180,7 @@
     sheet.id = 'tr-student-more-sheet';
     sheet.className = 'tr-student-more-sheet';
     sheet.hidden = true;
-    sheet.innerHTML = `<div class="tr-student-more-sheet__scrim" data-more-close></div><section class="tr-student-more-sheet__panel" role="dialog" aria-modal="true" aria-labelledby="tr-student-more-title"><div class="tr-student-more-sheet__handle" aria-hidden="true"></div><div class="tr-student-more-sheet__heading"><div><h2 id="tr-student-more-title">More to explore</h2></div><div class="tr-student-more-sheet__actions"><button type="button" class="tr-student-more-sheet__theme" id="tr-student-more-theme-btn" aria-label="Toggle dark mode" title="Toggle dark mode"><i class="fa-solid fa-sun tr-navbar__icon-sun" aria-hidden="true"></i><i class="fa-solid fa-moon tr-navbar__icon-moon" aria-hidden="true"></i></button><button type="button" class="tr-student-more-sheet__close" data-more-close aria-label="Close menu"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div></div><nav aria-label="More student pages"><a href="textbooks.html"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span>Textbooks</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a><a href="syllabus.html"><i class="fa-solid fa-book-bookmark" aria-hidden="true"></i><span>Syllabus</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a><a href="leaderboard.html"><i class="fa-solid fa-trophy" aria-hidden="true"></i><span>Leaderboard</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a><a href="profile.html"><i class="fa-solid fa-user" aria-hidden="true"></i><span>Profile</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></nav></section>`;
+    sheet.innerHTML = `<div class="tr-student-more-sheet__scrim" data-more-close></div><section class="tr-student-more-sheet__panel" role="dialog" aria-modal="true" aria-labelledby="tr-student-more-title"><div class="tr-student-more-sheet__handle" aria-hidden="true"></div><div class="tr-student-more-sheet__heading"><div><h2 id="tr-student-more-title">More to explore</h2></div><div class="tr-student-more-sheet__actions"><button type="button" class="tr-student-more-sheet__theme" id="tr-student-more-theme-btn" aria-label="Toggle dark mode" title="Toggle dark mode"><i class="fa-solid fa-sun tr-navbar__icon-sun" aria-hidden="true"></i><i class="fa-solid fa-moon tr-navbar__icon-moon" aria-hidden="true"></i></button><button type="button" class="tr-student-more-sheet__close" data-more-close aria-label="Close menu"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button></div></div><nav aria-label="More student pages"><a href="textbooks.html"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span>Textbooks</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a><a href="syllabus.html"><i class="fa-solid fa-book-bookmark" aria-hidden="true"></i><span>Syllabus</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a><a href="leaderboard.html"><i class="fa-solid fa-trophy" aria-hidden="true"></i><span>Leaderboard</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a><a href="profile.html"><i class="fa-solid fa-user" aria-hidden="true"></i><span>Profile</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a><a href="mailto:thinkright912@gmail.com"><i class="fa-solid fa-life-ring" aria-hidden="true"></i><span>Support</span><i class="fa-solid fa-chevron-right" aria-hidden="true"></i></a></nav></section>`;
     document.body.appendChild(sheet);
     sheet.querySelector('#tr-student-more-theme-btn')?.addEventListener('click', () => {
       const dark = !(document.body.classList.contains('tr-dark') || document.documentElement.getAttribute('data-theme') === 'dark');
@@ -233,7 +244,8 @@
 
     const studentMobileExtraItems = [
       { href: "insider.html", label: "JAMB Insider" },
-      { href: "settings.html", label: "Settings" }
+      { href: "settings.html", label: "Settings" },
+      { href: "mailto:thinkright912@gmail.com", label: "Support" }
     ];
 
     const teacherNavItems = [

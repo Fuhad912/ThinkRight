@@ -1181,10 +1181,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (['login.html','signup.html','reset-password.html','payment-callback.html','news.html'].includes(file)) return;
     try {
         const identity = await window.resolveWorkspaceIdentity();
+        const notificationQuery = new URLSearchParams(location.search).get('notifications') === '1' ? '?notifications=1' : '';
         if (identity.role === 'teacher') {
-            location.replace(file === 'classes.html' ? (new URLSearchParams(location.search).get('create') === '1' ? 'tutor-class.html' : 'tutor-classes.html') : 'tutor-dashboard.html');
+            location.replace((file === 'classes.html' ? (new URLSearchParams(location.search).get('create') === '1' ? 'tutor-class.html' : 'tutor-classes.html') : 'tutor-dashboard.html') + notificationQuery);
         } else if (identity.role === 'admin') {
-            location.replace('admin.html');
+            location.replace('admin.html' + notificationQuery);
         }
     } catch (_) {
         // Never block page load if role check fails
