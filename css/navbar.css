@@ -269,6 +269,17 @@ body:not(.tr-role--teacher) .tr-navbar__user-name {
   background: #1e40af;
 }
 
+.tr-profile-route #tr-navbar .tr-profile-header-logout {
+  margin-left: auto;
+  flex-shrink: 0;
+  min-height: 44px;
+}
+@media(max-width:899px) {
+  .tr-profile-route #tr-navbar .tr-profile-header-logout {
+    display: inline-flex !important;
+    padding: 0 10px;
+  }
+}
 .tr-navbar__logout-btn {
   display: inline-flex;
   align-items: center;

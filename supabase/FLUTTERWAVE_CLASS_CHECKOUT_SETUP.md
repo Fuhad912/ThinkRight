@@ -4,7 +4,7 @@ Class enrollment uses Flutterwave v3 Standard hosted checkout. One purchase unlo
 
 ## 1. Database
 
-On an existing workspace database, run `supabase/subject_course_enrollment.sql` once in the Supabase SQL Editor (the migration can be rerun). Do not paste repeated fragments from chat or rerun the original `teacher_workspace.sql` over an existing installation.
+On an existing workspace database, run `supabase/subject_course_enrollment.sql`, then `supabase/class_specific_enrollment.sql` in the Supabase SQL Editor. If the subject migration is already installed, run only the class migration. See `CLASS_ENROLLMENT_SETUP.md`. Do not rerun the older subject migration after the class migration.
 
 Set each subject's price using **Admin > Subject enrollment prices**. The teacher must be approved and the class must be published and open for enrollment. A zero price grants access directly; a positive price starts Flutterwave checkout. A missing price disables enrollment.
 

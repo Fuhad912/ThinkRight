@@ -136,7 +136,7 @@ Deno.serve(async (request: Request) => {
           cohort_id: order.cohort_id,
           subject_id: order.subject_id,
           tutor_id: order.tutor_id,
-          access_scope: 'subject_course'
+          access_scope: 'class'
         },
         customizations: {
           title: 'ThinkRight Subject Course',
@@ -156,7 +156,7 @@ Deno.serve(async (request: Request) => {
       authorization_url: payment.data.link,
       reference: order.reference,
       expires_at: order.expires_at,
-      access_scope: 'subject_course'
+      access_scope: 'class'
     });
   } catch (error) {
     return json(400, { error: error instanceof Error ? error.message : 'Unable to process enrollment' });

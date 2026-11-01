@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
         authRedirectHandled = true;
 
         try {
-            if (urlParams.get('oauth') === 'google') {
+            if (urlParams.get('oauth') === 'google' && urlParams.get('mode') === 'signup') {
                 const acceptance = JSON.parse(sessionStorage.getItem(POLICY_ACCEPTANCE_KEY) || 'null');
                 if (!acceptance || acceptance.version !== POLICY_VERSION || !acceptance.acceptedAt) {
                     throw new Error('Please return to account creation and accept the Terms of Use and Privacy Notice.');
@@ -423,13 +423,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function handleGoogleAuth(button, mode) {
         clearMessages();
-        if (!policyAgreement?.checked) {
+        if (mode === 'signup' && !policyAgreement?.checked) {
             showError('Please agree to the Terms of Use and acknowledge the Privacy Notice to continue with Google.');
             policyAgreement?.focus();
             return;
         }
         try {
-            sessionStorage.setItem(POLICY_ACCEPTANCE_KEY, JSON.stringify({
+            if (mode === 'signup') sessionStorage.setItem(POLICY_ACCEPTANCE_KEY, JSON.stringify({
                 acceptedAt: new Date().toISOString(),
                 version: POLICY_VERSION
             }));

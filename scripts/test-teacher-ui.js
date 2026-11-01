@@ -78,7 +78,7 @@ async function check(page,width,populated=false,homeState=''){
  if(page==='admin')for(const tab of ['teachers','pricing','payouts','reconcile','audit','reviews'])document.querySelector(`[data-tab="${tab}"]`).click();
  if(page==='tutor-class'){
   for(const step of ['1','2','0']){document.querySelector(`[data-action="step"][data-step="${step}"]`).click();assert.ok(document.querySelector('#class-editor'));}
-  const dialog=document.querySelector('dialog');dialog.showModal=()=>dialog.open=true;document.querySelector('[data-action="preview"]').click();assert.equal(dialog.open,true);
+  assert.equal(document.querySelector('[data-action="preview"]'),null,'Student preview is removed from the teacher class editor');
  }
 }
 (async()=>{for(const page of pages)for(const width of [320,375,768,1440])for(const populated of [false,true])await check(page,width,populated);for(const state of ['questions','changes','caught-up','pending','suspended','first-class'])for(const width of [375,1440])await check('tutor-dashboard',width,true,state);console.log('PASS: 64 populated/empty page/media-state DOM checks plus 12 teacher Home state checks, navigation, links, safe titles, editor and admin flows. Real-browser visual QA still required.');})().catch(error=>{console.error(error);process.exitCode=1;});

@@ -1,0 +1,56 @@
+/* Quiet, edge-to-edge section rules for mobile home pages. */
+@media (max-width: 640px) {
+  body { --home-divider-color: #1d4ed8; }
+  html[data-theme="dark"] body,
+  body[data-theme="dark"],
+  body.dark,
+  body.tr-dark { --home-divider-color: #fff; }
+
+  .page-home .home-brief,
+  .page-home #homeLoggedOutView > .home-actions,
+  .page-home #homeLoggedOutView > .home-details,
+  .page-home .student-hub > .hub-projection-section,
+  .page-home .student-hub__grid > .hub-card,
+  .page-dashboard .dashboard-main > .dashboard-section:not(.dashboard-intro),
+  .tw-teacher-home > .tw-home-overview,
+  .tw-teacher-home-content > section,
+  .tw-teacher-home > .tw-home-tools,
+  .tw-teacher-home > .tw-home-recent {
+    position: relative;
+    border-top: 0;
+    padding-top: 24px;
+  }
+
+  .page-home .home-brief { border-bottom: 0; }
+
+  .page-home .home-brief::before,
+  .page-home .home-brief::after,
+  .page-home #homeLoggedOutView > .home-actions::before,
+  .page-home #homeLoggedOutView > .home-details::before,
+  .page-home .student-hub > .hub-projection-section::before,
+  .page-home .student-hub__grid > .hub-card::before,
+  .page-dashboard .dashboard-main > .dashboard-section:not(.dashboard-intro)::before,
+  .tw-teacher-home > .tw-home-overview::before,
+  .tw-teacher-home-content > section::before,
+  .tw-teacher-home > .tw-home-tools::before,
+  .tw-teacher-home > .tw-home-recent::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100vw;
+    height: 1px;
+    /* A restrained centre with soft edges keeps long pages feeling open. */
+    background: linear-gradient(90deg,
+      color-mix(in srgb, var(--home-divider-color) 12%, transparent) 0%,
+      color-mix(in srgb, var(--home-divider-color) 32%, transparent) 18%,
+      color-mix(in srgb, var(--home-divider-color) 65%, transparent) 50%,
+      color-mix(in srgb, var(--home-divider-color) 32%, transparent) 82%,
+      color-mix(in srgb, var(--home-divider-color) 12%, transparent) 100%);
+    border-radius: 1px;
+    transform: translateX(-50%) scaleY(.5);
+    transform-origin: center;
+    pointer-events: none;
+  }
+  .page-home .home-brief::after { top: auto; bottom: 0; }
+}

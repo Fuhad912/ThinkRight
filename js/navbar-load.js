@@ -81,6 +81,17 @@
   }
 
   function initNavbar() {
+    const isProfilePage = location.pathname.split('/').pop() === 'profile.html';
+    document.body.classList.toggle('tr-profile-route', isProfilePage);
+    document.getElementById('tr-mobile-logout-btn')?.remove();
+    document.getElementById('profileLogoutBtn')?.remove();
+    const headerLogout = document.getElementById('tr-logout-btn');
+    if (isProfilePage && headerLogout) {
+      headerLogout.classList.add('tr-profile-header-logout');
+      document.querySelector('#tr-navbar .tr-navbar__container')?.appendChild(headerLogout);
+    } else {
+      headerLogout?.remove();
+    }
     const hamburger = document.getElementById("tr-hamburger");
     const mobileMenu = document.getElementById("tr-mobile-menu");
     const authBtn = document.getElementById("tr-auth-btn");

@@ -170,6 +170,7 @@
             id,
             subject_id,
             title,
+            thumbnail_path,
             start_date,
             price,
             whatsapp_link,
@@ -329,7 +330,7 @@
           </a>
         `;
       } else {
-        const enrollBtnText = price === null ? "Enrollment opens soon" : price === 0 ? "Enroll Free" : `Get full course · &#8358;${price.toLocaleString()}`;
+        const enrollBtnText = price === null ? "Enrollment opens soon" : price === 0 ? "Enroll Free" : `Enrol in this class · &#8358;${price.toLocaleString()}`;
         actionButtons = `
           <button type="button" class="tr-btn tr-btn--outline tr-btn--sm btn-preview-curriculum" data-cohort-id="${cohort.id}">
             <i class="fa-solid fa-list-check"></i> Preview
@@ -344,8 +345,15 @@
         ? new Date(cohort.start_date).toLocaleDateString("en-NG", { month: "short", day: "numeric", year: "numeric" })
         : "October 2026";
 
+      const coverPath = cohort.thumbnail_path;
+      const coverURL = typeof coverPath === 'string' && /^[-a-f0-9]+\/[-a-f0-9]+\.(jpg|png|webp)$/.test(coverPath)
+        ? window.supabase.storage.from('class-thumbnails').getPublicUrl(coverPath).data.publicUrl : '';
       return `
         <article class="student-cohort-card" data-cohort-id="${cohort.id}">
+          <div class="class-cover">
+            <div class="class-cover__fallback"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span>${escapeHtml(subjectName)}</span></div>
+            ${coverURL?`<img src="${escapeHtml(coverURL)}" alt="${escapeHtml(cohort.title)} — ${escapeHtml(cohort.tutors?.display_name||'ThinkRight educator')}" width="640" height="360" loading="lazy" decoding="async">`:''}
+          </div>
           <div class="student-cohort-card__badge-row">
             <span class="home-pillar-card__badge ${badgeClass}">${badgeText}: ${escapeHtml(subjectName)}</span>
             ${priceHtml}
@@ -574,21 +582,21 @@
       if (isEnrolled) {
         curriculumModalFooter.innerHTML = `
           <span style="font-size: 0.85rem; color: #10b981; font-weight: 600;">
-            <i class="fa-solid fa-circle-check"></i> Subject course unlocked
+            <i class="fa-solid fa-circle-check"></i> Class unlocked
           </span>
           <a href="cohort.html?id=${cohortId}" class="tr-btn tr-btn--primary tr-btn--sm">
             Enter Classroom <i class="fa-solid fa-arrow-right"></i>
           </a>
         `;
       } else {
-        const enrollBtnText = price === null ? "Enrollment opens soon" : price === 0 ? "Enroll Free" : `Get full course for &#8358;${price.toLocaleString()}`;
+        const enrollBtnText = price === null ? "Enrollment opens soon" : price === 0 ? "Enroll Free" : `Enrol in this class · &#8358;${price.toLocaleString()}`;
         curriculumModalFooter.innerHTML = `
           <div style="display: flex; flex-direction: column;">
-            <span style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase;">Full subject course</span>
+            <span style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase;">One-time class enrolment</span>
             <span style="font-family: var(--font-heading, 'Space Grotesk', sans-serif); font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">
               ${price === null ? 'Price pending' : price === 0 ? "Free" : `&#8358;${price.toLocaleString()}`}
             </span>
-            <small style="color: var(--text-secondary);">All topics with this tutor. One payment.</small>
+            <small style="color: var(--text-secondary);">Access to this class with this teacher. Other classes are purchased separately.</small>
           </div>
           <button type="button" class="tr-btn tr-btn--primary tr-btn--sm" id="modalEnrollBtn" ${price === null ? 'disabled' : ''}>
             ${enrollBtnText} <i class="fa-solid fa-arrow-right"></i>
@@ -736,6 +744,9 @@
     }
   }
 
+  document.addEventListener('error', event => {
+    if (event.target.matches?.('.class-cover img')) event.target.hidden = true;
+  }, true);
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {

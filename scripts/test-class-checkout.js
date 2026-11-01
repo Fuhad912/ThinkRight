@@ -10,7 +10,7 @@ async function main(){
  const json=value=>new Response(JSON.stringify(value),{status:200,headers:{'content-type':'application/json'}});
  async function fetch(url,options){
   if(url.endsWith('/auth/v1/user'))return json({id:'student',email:'test@example.com'});
-  if(url.endsWith('/rpc/class_order_create')){orderArgs=JSON.parse(options.body);return json({enrolled:alreadyEnrolled,amount_kobo:100000,cohort_id:'class',subject_id:'physics',tutor_id:'teacher',access_scope:'subject_course',reference:ref});}
+  if(url.endsWith('/rpc/class_order_create')){orderArgs=JSON.parse(options.body);return json({enrolled:alreadyEnrolled,amount_kobo:100000,cohort_id:'class',subject_id:'physics',tutor_id:'teacher',access_scope:'class',reference:ref});}
   if(url.includes('/payments')){initialization=JSON.parse(options.body);return json({status:'success',data:{link:checkoutURL}});}
   if(url.includes('/transactions/verify_by_reference'))return json({status:'success',data:{status:paymentStatus,tx_ref:ref,amount:1000,currency,created_at:paidAt,meta:{user_id:owner}}});
   if(url.endsWith('/rpc/class_order_settle')){settlement=JSON.parse(options.body);assert.equal(options.headers.authorization,'Bearer test-service');return json('class');}
@@ -26,7 +26,7 @@ async function main(){
  assert.equal(initialization.meta.cohort_id,'class','Checkout is tied to the selected teacher course');
  assert.equal(initialization.meta.subject_id,'physics','Subject is resolved by the backend');
  assert.equal(initialization.meta.tutor_id,'teacher','Teacher is resolved by the backend');
- assert.equal(initialization.meta.access_scope,'subject_course','Payment covers the whole subject course');
+ assert.equal(initialization.meta.access_scope,'class','Payment covers only the selected class');
  alreadyEnrolled=true;initialization=null;
  const existing=await request({action:'initialize',cohort_id:'topic-class'});
  assert.equal(existing.status,200);assert.equal((await existing.json()).enrolled,true);assert.equal(initialization,null,'An unlocked course must not request another payment');alreadyEnrolled=false;

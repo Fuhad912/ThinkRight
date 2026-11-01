@@ -9,7 +9,7 @@
   const paths = {dashboard:'tutor-dashboard.html',classes:'tutor-classes.html',class:'tutor-class.html',students:'tutor-students.html',analytics:'tutor-analytics.html',discussions:'tutor-discussions.html',earnings:'tutor-payouts.html',profile:'tutor-onboarding.html',admin:'admin.html'};
   const titles = {dashboard:'Home',classes:'My classes',class:'Class studio',students:'Students',analytics:'Dashboard',discussions:'Discussions',earnings:'Earnings',profile:'Profile',admin:'Administration'};
   /* Font Awesome names shared with the student view (same CDN build). */
-  const fa = {dashboard:'fa-house',classes:'fa-book-open',students:'fa-user-graduate',analytics:'fa-chart-line',discussions:'fa-comments',earnings:'fa-wallet',profile:'fa-id-badge',admin:'fa-shield-halved',plus:'fa-plus',arrow:'fa-arrow-right',arrowLeft:'fa-arrow-left',menu:'fa-bars',close:'fa-xmark',sun:'fa-sun',moon:'fa-moon',check:'fa-check',checkCircle:'fa-circle-check',up:'fa-chevron-up',down:'fa-chevron-down',logout:'fa-arrow-right-from-bracket',play:'fa-play',bell:'fa-bell',users:'fa-users',layers:'fa-layer-group',clock:'fa-clock',flag:'fa-flag',question:'fa-circle-question',trend:'fa-arrow-trend-up',trendDown:'fa-arrow-trend-down',money:'fa-naira-sign',bank:'fa-building-columns',help:'fa-life-ring'};
+  const fa = {dashboard:'fa-house',classes:'fa-book-open',students:'fa-user-graduate',analytics:'fa-chart-line',discussions:'fa-comments',earnings:'fa-wallet',profile:'fa-user',admin:'fa-shield-halved',plus:'fa-plus',arrow:'fa-arrow-right',arrowLeft:'fa-arrow-left',menu:'fa-bars',close:'fa-xmark',sun:'fa-sun',moon:'fa-moon',check:'fa-check',checkCircle:'fa-circle-check',up:'fa-chevron-up',down:'fa-chevron-down',logout:'fa-arrow-right-from-bracket',play:'fa-play',bell:'fa-bell',users:'fa-users',layers:'fa-layer-group',clock:'fa-clock',flag:'fa-flag',question:'fa-circle-question',trend:'fa-arrow-trend-up',trendDown:'fa-arrow-trend-down',money:'fa-naira-sign',bank:'fa-building-columns',help:'fa-life-ring'};
   const icon = name => `<i class="fa-solid ${name==='analytics'?'fa-chart-pie':name==='menu'?'fa-ellipsis':fa[name] || 'fa-book-open'} tw-i" aria-hidden="true"></i>`;
   const button = (text, action, extra='', type='') => `<button type="button" class="tw-button ${type}" data-action="${action}" ${extra}>${text}</button>`;
   const link = (text, href, primary=false) => `<a class="tw-button ${primary?'primary':''}" href="${esc(href)}">${text}</a>`;
@@ -99,6 +99,13 @@
     const statusClass = admin ? 'admin' : (data.identity.status||'pending');
 
     root.innerHTML=`<div class="tw-scrim" data-action="close-menu"></div><aside class="tw-sidebar" id="teacher-navigation" aria-label="${admin?'Admin':'Teacher'} mobile navigation"><button class="tw-icon-btn tw-drawer-theme-btn tw-drawer-theme-top" data-action="theme" type="button" aria-label="Toggle dark mode" title="Toggle dark mode"><i class="fa-solid fa-sun tr-navbar__icon-sun" aria-hidden="true"></i><i class="fa-solid fa-moon tr-navbar__icon-moon" aria-hidden="true"></i></button><button class="tw-icon-btn tw-drawer-close" data-action="close-menu" aria-label="Close navigation">${icon('close')}</button><div class="tw-more-heading"><span>${admin?'ADMIN WORKSPACE':'TEACHER WORKSPACE'}</span><h2 id="teacher-more-title">More</h2></div><div class="tw-brand-block"><a class="tw-brand" href="${paths[admin?'admin':'dashboard']}">ThinkRight</a></div><nav class="tw-nav">${navKeys.map(key=>{const b=badges[key]?`<span class="tw-nav-badge">${badges[key]}</span>`:'';return `<a data-nav-key="${key}" href="${paths[key]}" ${page===key||(page==='class'&&key==='classes')?'aria-current="page"':''}><span class="tw-nav-icon">${icon(key)}</span><span class="tw-nav-label">${key==='profile'?'Teaching profile':titles[key]}</span>${b}<i class="fa-solid fa-chevron-right tw-more-chevron" aria-hidden="true"></i></a>`;}).join('')}</nav><div class="tw-sidebar-foot"><div class="tw-foot-tools"><a class="tw-foot-btn" href="mailto:thinkright912@gmail.com" aria-label="Contact support" title="Contact support"><i class="fa-solid fa-life-ring tw-i" aria-hidden="true"></i><span>Support</span></a></div><div class="tw-user"><span class="tw-avatar">${esc(name.slice(0,1).toUpperCase())}<i class="tw-avatar-dot ${statusClass}" title="${statusLabel}" aria-label="${statusLabel}"></i></span><strong title="${esc(name)}">${esc(name)}</strong><button class="tw-foot-btn tw-logout-btn" data-action="logout" type="button" aria-label="Sign out" title="Sign out">${icon('logout')}</button></div></div></aside><header id="tr-navbar" class="tr-navbar tw-header" role="navigation" aria-label="${admin?'Admin':'Teacher'} main navigation"><div class="tr-navbar__container"><a href="${paths[admin?'admin':'dashboard']}" class="tr-navbar__logo tw-brand" aria-label="ThinkRight Home"><span class="tr-navbar__brand">ThinkRight</span></a><ul class="tr-navbar__nav" role="list"><li><a href="${paths[admin?'admin':'dashboard']}" class="tr-navbar__link tr-navbar__link--home" title="Home" aria-label="Home"><i class="fa-solid fa-house"></i></a></li>${navKeys.map(key=>{const isActive=page===key||(page==='class'&&key==='classes');const b=badges[key]?`<span class="tw-nav-badge">${badges[key]}</span>`:'';return `<li><a href="${paths[key]}" class="tr-navbar__link${isActive?' active':''}" ${isActive?'aria-current="page"':''}>${titles[key]}${b}</a></li>`;}).join('')}</ul><div id="tr-user-info" class="tr-navbar__user-info"><div class="tr-navbar__user-avatar" title="${esc(name)} · ${statusLabel}"><span class="tr-navbar__avatar-initial">${esc(name.slice(0,1).toUpperCase())}</span><i class="tw-avatar-dot ${statusClass}" title="${statusLabel}" aria-label="${statusLabel}"></i></div><button id="tr-logout-btn" class="tr-navbar__logout-btn" data-action="logout" type="button" title="Logout" aria-label="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></button></div><button id="tr-theme-toggle" class="tr-navbar__theme-btn tw-theme-btn" data-action="theme" aria-label="Toggle dark mode" title="Toggle dark mode" type="button"><i class="fa-solid fa-sun tr-navbar__icon-sun" aria-hidden="true"></i><i class="fa-solid fa-moon tr-navbar__icon-moon" aria-hidden="true"></i></button><button class="tr-navbar__logout-btn tw-mobile-logout" data-action="logout" type="button" aria-label="Log out"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i><span>Log out</span></button><button id="tr-hamburger" class="tr-navbar__hamburger tw-mobile-menu" data-action="menu" aria-label="Toggle navigation menu" aria-controls="teacher-navigation" aria-expanded="false" type="button"><span class="tr-navbar__hamburger-line"></span><span class="tr-navbar__hamburger-line"></span><span class="tr-navbar__hamburger-line"></span></button></div></header><main id="workspace-main" class="tw-main" tabindex="-1"></main><nav class="tw-bottom-nav" aria-label="Quick navigation">${(admin?['admin','profile','earnings']:data.identity.status==='pending'?['profile']:['dashboard','classes','earnings']).map(key=>`<a href="${admin?'admin.html#'+(key==='profile'?'teachers':key==='earnings'?'payouts':'reviews'):paths[key]}" ${page===key?'aria-current="page"':''}>${icon(key)}<span>${admin?({admin:'Reviews',profile:'Teachers',earnings:'Payouts'}[key]):titles[key]}</span></a>`).join('')}<button data-action="menu" aria-label="More navigation">${icon('menu')}<span>More</span></button></nav>`;
+    // Logout belongs only in the profile header, never in the navigation drawer.
+    const headerLogout = root.querySelector('#tr-logout-btn');
+    root.querySelectorAll('.tw-sidebar [data-action="logout"], .tw-mobile-logout').forEach(button=>button.remove());
+    if(page==='profile' && headerLogout){
+      headerLogout.classList.add('tr-profile-header-logout');
+      root.querySelector('.tw-header .tr-navbar__container').appendChild(headerLogout);
+    }else headerLogout?.remove();
     if(!admin){
       root.querySelector('.tr-navbar__link--home')?.closest('li')?.remove();
       root.querySelector(`.tr-navbar__nav a[href="${paths.dashboard}"]`)?.insertAdjacentHTML('afterbegin',icon('dashboard'));
@@ -835,15 +842,7 @@
                     <i class="fa-solid fa-circle-check"></i>
                   </span>
                 </div>
-                <div class="social-meta-inline">
-                  <span><strong>${esc(statusLabel)}</strong></span>
-                  <span class="social-meta-sep" aria-hidden="true">·</span>
-                  <span>${esc(user?.email||'Educator account')}</span>
-                  ${t.whatsapp_number?`<span class="social-meta-sep" aria-hidden="true">·</span><span>${esc(t.whatsapp_number)}</span>`:''}
-                  <span class="social-meta-sep" aria-hidden="true">·</span>
-                  <span>Payouts: <strong>${esc(bank?(bank.reviewed?'Verified':'Pending'):'Not set')}</strong></span>
-                  ${safeSampleUrl?`<span class="social-meta-sep" aria-hidden="true">·</span><a href="${esc(safeSampleUrl)}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-primary);font-weight:600">Sample video ↗</a>`:''}
-                </div>
+                <div class="social-meta-inline"><span class="tw-profile-status">${esc(statusLabel)}</span><span>JAMB educator</span></div>
                 <p class="social-bio" id="socialBio">${esc(t.bio||'Add your teaching background, university credentials, and why students excel in your classes.')}</p>
               </div>
             </div>
@@ -881,9 +880,9 @@
         </section>
 
         <div class="profile-sections">
-          <section class="social-section">
+          ${completenessPct<100?`<section class="social-section">
             <h2 class="social-section__title">
-              <span>Studio status</span>
+              <span>Your next step</span>
             </h2>
             <div class="social-spotlight-card">
               <div class="social-spotlight-info">
@@ -893,7 +892,7 @@
               </div>
               ${completenessPct<100||!t.id?`<button type="button" class="social-spotlight-badge" data-action="open-profile-modal" data-editor-tab="about">Complete profile <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>`:`<a class="social-spotlight-badge" href="${paths.class}">Create a class <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></a>`}
             </div>
-          </section>
+          </section>`:''}
 
           <section class="social-section">
             <h2 class="social-section__title">
@@ -922,34 +921,14 @@
             </div>
           </section>
 
-          <section class="social-section">
-            <h2 class="social-section__title"><span>Milestones</span></h2>
-            <div class="social-badges-grid">
-              <div class="social-badge-card is-green ${isApproved?'':'is-locked'}">
-                <div class="social-badge-icon"><i class="fa-solid fa-user-check"></i></div>
-                <div class="social-badge-info"><strong>Verified Educator</strong><small>Approved by ThinkRight</small></div>
-              </div>
-              <div class="social-badge-card is-gold ${completenessPct===100?'':'is-locked'}">
-                <div class="social-badge-icon"><i class="fa-solid fa-id-badge"></i></div>
-                <div class="social-badge-info"><strong>Profile Complete</strong><small>Credentials & sample video set</small></div>
-              </div>
-              <div class="social-badge-card ${selectedSubjects.length?'':'is-locked'}">
-                <div class="social-badge-icon"><i class="fa-solid fa-book-bookmark"></i></div>
-                <div class="social-badge-info"><strong>Subject Specialist</strong><small>${selectedSubjects.length?`${selectedSubjects.length} subject${selectedSubjects.length===1?'':'s'} selected`:'Select teaching subjects'}</small></div>
-              </div>
-              <div class="social-badge-card is-green ${publishedCount>0?'':'is-locked'}">
-                <div class="social-badge-icon"><i class="fa-solid fa-chalkboard-user"></i></div>
-                <div class="social-badge-info"><strong>Published Mentor</strong><small>Published a recorded JAMB class</small></div>
-              </div>
-              <div class="social-badge-card ${activeEnrollments.length>0?'':'is-locked'}">
-                <div class="social-badge-icon"><i class="fa-solid fa-users"></i></div>
-                <div class="social-badge-info"><strong>Cohort Builder</strong><small>Enrolled active students</small></div>
-              </div>
-              <div class="social-badge-card is-gold ${totalEarnedKobo>0?'':'is-locked'}">
-                <div class="social-badge-icon"><i class="fa-solid fa-award"></i></div>
-                <div class="social-badge-info"><strong>First Earnings</strong><small>Earned from student cohorts</small></div>
-              </div>
-            </div>
+          <section class="social-section tw-profile-account">
+            <h2 class="social-section__title">Account details</h2>
+            <dl class="tw-profile-details">
+              <div><dt>Email address</dt><dd>${esc(user?.email||'Not provided')}</dd></div>
+              <div><dt>WhatsApp</dt><dd>${esc(t.whatsapp_number||'Not added')}</dd></div>
+              <div><dt>Payout account</dt><dd><a href="${paths.earnings}">${esc(bank?(bank.reviewed?'Verified':'Awaiting verification'):'Set up payouts')} ${icon('arrow')}</a></dd></div>
+              ${safeSampleUrl?`<div><dt>Sample lesson</dt><dd><a href="${esc(safeSampleUrl)}" target="_blank" rel="noopener noreferrer">Watch lesson ?</a></dd></div>`:''}
+            </dl>
           </section>
         </div>
       </article>
@@ -959,8 +938,8 @@
           <div class="profile-editor-main">
             <div class="social-modal__header">
               <div>
-                <h2 class="social-modal__title" id="editModalTitle">Edit educator profile</h2>
-                <p class="social-modal__intro" id="editModalIntro">Update your teaching bio, sample lesson video, and UTME subjects.</p>
+                <h2 class="social-modal__title" id="editModalTitle">Edit profile</h2>
+                <p class="social-modal__intro" id="editModalIntro">Your teaching identity, all in one place.</p>
               </div>
               <button type="button" class="social-modal__close" data-action="close-profile-modal" aria-label="Close editor"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
             </div>
@@ -984,12 +963,12 @@
                   </div>
                   <div class="social-form-group">
                     <div class="profile-editor-label-line">
-                      <label class="social-form-label" for="twInputBio">Teaching experience & credentials <span>Required (min 20 chars)</span></label>
+                      <label class="social-form-label" for="twInputBio">About your teaching <span>Required</span></label>
                       <span id="editorBioCount">${(t.bio||'').length} / 4000</span>
                     </div>
                     <textarea class="social-textarea" id="twInputBio" name="bio" required minlength="20" maxlength="4000" rows="4" placeholder="Detail your background, university degrees, teaching achievements, and why students excel in your classes...">${esc(t.bio||'')}</textarea>
                     <p class="profile-editor-hint">This biography appears directly on your educator profile and class pages.</p>
-                    ${t.application?applicationEvidence(t):''}
+                    ${t.application?`<details class="tw-profile-evidence"><summary>Application & credentials</summary><p class="profile-editor-hint">Your submitted qualifications and teaching experience.</p>${applicationEvidence(t)}</details>`:''}
                   </div>
                 </section>
 
@@ -1036,6 +1015,10 @@
           <label class="tw-field"><span>Subject</span><select data-draft="subject_id">${options((data.identity.role==='admin'?data.subjects:data.subjects.filter(subject=>(ownTutor().subjects||[]).includes(subject.id))).map(s=>[s.id,s.name]),draft.subject_id)}</select></label>
           ${field('Class title','title',draft.title,'text','data-draft="title" maxlength="160" required placeholder="e.g. Master JAMB Physics: Mechanics & Waves"')}
           ${field('Student support group (optional)','whatsapp_link',draft.whatsapp_link,'url','data-draft="whatsapp_link" pattern="https://.*" placeholder="https://chat.whatsapp.com/..."')}
+        </div>
+        <div class="tw-thumbnail-editor">
+          ${thumbnailURL(draft.thumbnail_path)?`<img src="${esc(thumbnailURL(draft.thumbnail_path))}" alt="Class thumbnail preview" width="640" height="360">`:'<div class="tw-thumbnail-placeholder"><i class="fa-regular fa-image" aria-hidden="true"></i><span>Your class cover</span></div>'}
+          <div><label class="tw-field"><span>Class thumbnail</span><input id="class-thumbnail-upload" type="file" accept="image/jpeg,image/png,image/webp"></label><p class="tw-hint">Choose a clear photo or course cover. Landscape 16:9 works best. JPG, PNG or WebP, up to 3 MB. Published after review.</p>${draft.thumbnail_path?button('Remove image','remove-thumbnail','','small'):''}</div>
         </div>
         ${textArea('What will students master? (Course description)','description',draft.description,'data-draft="description" maxlength="4000" placeholder="Describe the topics covered, learning outcomes, and prerequisites for students..."')}
         <div class="tw-price-pill"><i class="fa-solid fa-tag"></i> <span><strong>${s?.enrollment_price==null?'Price awaiting ThinkRight configuration':money(Number(s.enrollment_price)*100)}</strong> · Subject enrollment rate set by ThinkRight. Your educator share is 70% of verified student payments.</span></div>
@@ -1099,11 +1082,21 @@
         </footer>
       </div>`;
   }
+  function thumbnailURL(path){if(!path||!/^[-a-f0-9]+\/[-a-f0-9]+\.(jpg|png|webp)$/.test(path))return '';return window.supabase?.storage?.from('class-thumbnails').getPublicUrl(path).data.publicUrl||'';}
+  async function uploadClassThumbnail(event){
+    if(event.target.id!=='class-thumbnail-upload')return;
+    const input=event.target,file=input.files?.[0];if(!file)return;
+    const ext={'image/jpeg':'jpg','image/png':'png','image/webp':'webp'}[file.type];
+    if(!ext||file.size>3*1024*1024){toast('Choose a JPG, PNG or WebP image up to 3 MB.');input.value='';return;}
+    input.disabled=true;
+    try{captureDraft();const path=`${user.id}/${crypto.randomUUID()}.${ext}`;const {error}=await window.supabase.storage.from('class-thumbnails').upload(path,file,{contentType:file.type,upsert:false});if(error)throw error;draft.thumbnail_path=path;dirty=true;render();toast('Thumbnail uploaded. Save your draft to keep it.');}
+    catch(error){toast(error.message||'Thumbnail upload failed. Please retry.');input.disabled=false;input.value='';}
+  }
   function previewContent(body){
     const sub=subject(body.subject_id);
     const lessonsList=body.lessons||[];
     return `<div class="tw-preview-card">
-      <div class="tw-preview-banner"><i class="fa-solid fa-eye"></i> Read-only student preview · No enrollment or progress is recorded.</div>
+      ${thumbnailURL(body.thumbnail_path)?`<img class="tw-class-cover" src="${esc(thumbnailURL(body.thumbnail_path))}" alt="${esc(body.title||'Class cover')}" width="640" height="360">`:''}
       <div class="tw-preview-body">
         <span class="tw-subject-tag"><i class="fa-solid fa-book-open"></i> ${esc(sub?.name||body.subject_id||'Subject')}</span>
         <h2 class="tw-preview-title">${esc(body.title||'Untitled class')}</h2>
@@ -1350,10 +1343,10 @@
     headerToggle?.setAttribute('aria-expanded',String(open));
     moreToggle?.setAttribute('aria-expanded',String(open));
     nav.inert=!open;
-    if(open){nav.setAttribute('role','dialog');nav.setAttribute('aria-modal','true');nav.setAttribute('aria-label','More teacher navigation');}
+    if(open){nav.setAttribute('role','dialog');nav.setAttribute('aria-modal','true');nav.setAttribute('aria-labelledby','teacher-more-title');}
     else{nav.removeAttribute('role');nav.removeAttribute('aria-modal');}
     document.body.style.overflow=open?'hidden':'';
-    if(open){nav.querySelector('button').focus();$('#workspace-main').inert=true;}
+    if(open){nav.querySelector('[data-action="close-menu"]').focus();$('#workspace-main').inert=true;}
     else{$('#workspace-main').inert=false;((typeof window.matchMedia==='function'&&window.matchMedia('(max-width:639px)').matches)?moreToggle:headerToggle)?.focus();}
   }
   async function saveDraft(){captureDraft();const result=await action('save_class',{id:draftId,version:draftVersion,body:draft});draftId=result.id;history.replaceState(null,'',`${paths.class}?id=${draftId}`);dirty=false;await refresh();draftVersion=revision(draftId).version;toast('Draft saved');}
@@ -1371,8 +1364,8 @@
   async function handleClick(event){const el=event.target.closest('[data-action]');if(!el)return;const op=el.dataset.action,id=el.dataset.id;
     if(op==='menu'||op==='close-menu'){menu(op==='menu');return;}if(op==='close-dialog'){dialog.close();return;}if(op==='theme'){const isDark=document.documentElement.dataset.theme==='dark'||document.documentElement.getAttribute('data-theme')==='dark';applyTheme(!isDark);return;}
     if(op==='profile-tab'){profileTab=el.dataset.profileTab||'overview';render();return;}
-    if(op==='open-profile-modal'){profileEditorTab=el.dataset.editorTab||'about';profileModalOpen=true;render();return;}
-    if(op==='close-profile-modal'){profileModalOpen=false;render();return;}
+    if(op==='open-profile-modal'){profileEditorTab=el.dataset.editorTab||'about';profileModalOpen=true;render();document.body.style.overflow='hidden';$('#editProfileModal .social-modal__close')?.focus();return;}
+    if(op==='close-profile-modal'){profileModalOpen=false;document.body.style.overflow='';render();$('#openEditModalBtn')?.focus();return;}
     if(op==='profile-editor-tab'){switchProfileEditorTab(el.dataset.editorTab);return;}
     if(page==='classes'&&op==='class-status'){statusFilter=el.dataset.status;$('#filtered-content').innerHTML=classCards();return;}
     if(page==='classes'&&op==='clear-class-filters'){subjectFilter='all';statusFilter='all';search='';render();return;}
@@ -1417,6 +1410,7 @@
       if(op==='admin-payout'){const b=data.banks.find(b=>b.tutor_id===id);showDialog('Bank details & manual payout',b?`<p><strong>${esc(tutor(id)?.display_name)}</strong></p><div class="tw-notice">${esc(b.bank)}<br>${esc(b.account_name)}<br>${esc(b.account_number)}<br>${b.reviewed?'Reviewed by ThinkRight':'Awaiting review'}</div>${b.reviewed?'':button('Mark details reviewed','bank-review',`data-id="${id}"`)}<form data-form="payout" data-id="${id}" style="margin-top:20px">${field('Amount transferred (NGN)','amount','','number','required min="0.01" step="0.01"')}${field('Payment date','paid_at',today(),'date','required')}${field('External transfer reference','reference','','text','required minlength="3"')}<p class="tw-hint">Only record a transfer already completed outside ThinkRight.</p><button class="tw-button primary" type="submit" ${b.reviewed?'':'disabled'}>Record completed payout</button></form>`:empty('No bank details submitted','Ask the teacher to add their payout account.'));return;}
       if(op==='reverse-payout'){showDialog('Correct a payout record',`<form data-form="reverse-payout" data-id="${id}">${textArea('Reason for reversing this record','reason','','required minlength="3"')}<p class="tw-hint">This restores the unpaid balance. It does not reverse a bank transfer.</p><button class="tw-button danger" type="submit">Reverse record</button></form>`);return;}
       busy=true;el.disabled=true;window.ThinkRightLoader?.ribbonStart();
+      if(op==='remove-thumbnail'){captureDraft();draft.thumbnail_path='';dirty=true;render();return;}
       if(op==='save-class')await saveDraft();
       else if(op==='submit-class'){await saveDraft();await action('submit_class',{id:draftId});toast('Submitted to ThinkRight for review');}
       else if(op==='withdraw-class'){await action('withdraw_class',{id:draftId});toast('Submission withdrawn');}
@@ -1485,10 +1479,20 @@
           }
         }
       }
-      await refresh();if(dialog.open)dialog.close();if(op==='profile')profileModalOpen=false;shell();render();toast('Saved successfully');
+      await refresh();if(dialog.open)dialog.close();if(op==='profile'){profileModalOpen=false;document.body.style.overflow='';}shell();render();toast('Saved successfully');
     }catch(error){toast(error.message);}finally{busy=false;if(submitter)submitter.disabled=false;window.ThinkRightLoader?.ribbonDone();}
   }
   function wire(){
+    document.addEventListener('keydown',event=>{
+      if(!profileModalOpen)return;
+      if(event.key==='Escape'){$('#editProfileModal [data-action="close-profile-modal"]')?.click();return;}
+      if(event.key!=='Tab')return;
+      const items=[...document.querySelectorAll('#editProfileModal button, #editProfileModal input, #editProfileModal textarea, #editProfileModal select, #editProfileModal a[href]')].filter(item=>!item.disabled&&item.getClientRects().length);
+      const first=items[0],last=items.at(-1);
+      if(event.shiftKey&&document.activeElement===first){event.preventDefault();last?.focus();}
+      else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
+    });
+    document.addEventListener('change',uploadClassThumbnail);
     document.addEventListener('click',handleClick);document.addEventListener('submit',submit);
     document.addEventListener('input',event=>{if(event.target.closest('#class-editor')){dirty=true;$('#draft-status').textContent='Unsaved changes';}if(event.target.id==='twInputDisplayName'){const v=event.target.value.trim()||'Educator';const av=$('#editorAvatar'),nm=$('#editorPreviewName'),hd=$('#editorPreviewHandle');if(av)av.textContent=v.slice(0,1).toUpperCase();if(nm)nm.textContent=v;if(hd)hd.textContent='@'+(v.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'')||'educator');}if(event.target.id==='twInputBio'){const cnt=$('#editorBioCount');if(cnt)cnt.textContent=`${event.target.value.length} / 4000`;}if(event.target.id==='workspace-search'){search=event.target.value;clearTimeout(wire.timer);wire.timer=setTimeout(()=>{const fn={classes:classCards,students:studentsContent,analytics:analyticsContent,discussions:discussionsContent};if(fn[page])$('#filtered-content').innerHTML=fn[page]();},150);}});
     document.addEventListener('change',async event=>{const key=event.target.dataset.filter;if(event.target.dataset.draft==='subject_id'){captureDraft();render();return;}if(!key)return;if(key==='availability'){window.ThinkRightLoader?.ribbonStart();try{await action('availability',{id:draftId,status:event.target.value});await refresh();toast('Availability updated');}catch(error){toast(error.message);render();}finally{window.ThinkRightLoader?.ribbonDone();}return;}({subject:v=>subjectFilter=v,status:v=>statusFilter=v,class:v=>classFilter=v,period:v=>period=v,from:v=>fromDate=v,to:v=>toDate=v}[key])?.(event.target.value);render();});
