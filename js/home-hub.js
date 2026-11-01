@@ -135,6 +135,7 @@
   }
 
   function showLoggedOutState() {
+    document.querySelector('.home-brief')?.removeAttribute('hidden');
     document.documentElement.classList.remove("tr-cached-student", "tr-cached-teacher");
     document.documentElement.classList.add("tr-cached-guest");
     if (loggedOutSection) loggedOutSection.style.display = "block";
@@ -143,6 +144,7 @@
   }
 
   function showLoggedInState(user) {
+    document.querySelector('.home-brief')?.setAttribute('hidden', '');
     document.documentElement.classList.remove("tr-cached-guest", "tr-cached-teacher");
     document.documentElement.classList.add("tr-cached-student");
     if (loggedOutSection) loggedOutSection.style.display = "none";

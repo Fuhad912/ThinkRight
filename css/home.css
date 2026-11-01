@@ -1,4 +1,5 @@
 /* A short front page: headlines, introduction and two clear study paths. */
+html.tr-cached-student .page-home .home-brief { display: none; }
 .page-home { background: var(--surface-bg, #fff); }
 .page-home .home-hub-page { max-width: 1120px; padding: 28px 32px 0; }
 .home-brief { border-top: 2px solid var(--text-primary); border-bottom: 1px solid var(--line-subtle); padding: 0 0 18px; }

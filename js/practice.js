@@ -3,7 +3,6 @@
  * 
  * Provides interactive enhancements for practice.html:
  * - Standout Merged Spotlight Hub (Target Faculty Combos + Recommended Drills)
- * - Surprise Speed Drill picking strictly from Recommended / Target track subjects
  * - Category stream filters (All, Sciences, Commercial, Arts)
  * - Real-time keyword search
  * - Dynamic personalized greeting
@@ -73,7 +72,6 @@
     renderCuratedRail();
     setupStreamTabs();
     setupSearchFilter();
-    setupRandomDrillButton();
   }
 
   // 1. Personalized Greeting
@@ -284,37 +282,6 @@
     if (countBadge) {
       countBadge.textContent = `${visibleCount} Subject${visibleCount !== 1 ? "s" : ""}`;
     }
-  }
-
-  // 7. Surprise Speed Drill Button (Picks strictly from Recommended Subjects)
-  function setupRandomDrillButton() {
-    const randomBtn = document.getElementById("practiceRandomBtn");
-    if (!randomBtn) return;
-
-    randomBtn.addEventListener("click", () => {
-      // Strictly pick from recommended pool
-      const recommendedKeys = getRecommendedSubjectKeys();
-      if (!recommendedKeys.length) return;
-
-      const chosenKey = recommendedKeys[Math.floor(Math.random() * recommendedKeys.length)];
-      const meta = SUBJECT_META[chosenKey] || { name: chosenKey, icon: "fa-book" };
-      const targetCard = document.querySelector(`.subject-card[data-subject="${chosenKey}"]`);
-
-      showToast(`🎯 Speed Drill: ${meta.name} chosen from your recommended track!`);
-
-      if (targetCard) {
-        targetCard.scrollIntoView({ behavior: "smooth", block: "center" });
-        targetCard.classList.add("is-combo-highlighted");
-      }
-
-      setTimeout(() => {
-        if (typeof window.showTestConfirmationModal === "function") {
-          window.showTestConfirmationModal(chosenKey, { sourceCard: targetCard || randomBtn });
-        } else if (targetCard) {
-          targetCard.click();
-        }
-      }, 350);
-    });
   }
 
   // Toast Notification Helper
