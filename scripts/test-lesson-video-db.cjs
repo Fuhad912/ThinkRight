@@ -27,6 +27,7 @@ async function main() {
  await db.exec('reset role');
  await db.exec(readFileSync('supabase/lesson_videos.sql','utf8'));
  await db.exec(readFileSync('supabase/class_review_validation.sql','utf8'));
+ await db.exec(readFileSync('supabase/class_review_before_pricing.sql','utf8'));
  const guarded=(await db.query("select pg_get_functiondef('public.workspace_action(text,jsonb)'::regprocedure) as definition")).rows[0].definition;
  assert.match(guarded,/Please expand your class description to at least 20 characters/);
  assert.doesNotMatch(guarded,/Add a title, description, start date and at least one lesson/);
@@ -52,8 +53,12 @@ async function main() {
  assert.equal((await db.query('select video_playback_allowed($1) as x',[asset])).rows[0].x,true);
  await as('student');assert.equal((await db.query('select video_playback_allowed($1) as x',[asset])).rows[0].x,false);
  await as('admin');assert.equal((await db.query('select video_playback_allowed($1) as x',[asset])).rows[0].x,true);
+ await db.exec("reset role;update subjects set enrollment_price=null where id='physics'");
  await as('teacher');await action('submit_class',{id:cid});
+ assert.equal((await db.query('select workspace_snapshot() as snapshot')).rows[0].snapshot.revisions.find(r=>r.cohort_id===cid).state,'in_review','teachers can submit before pricing');
  assert.equal((await db.query('select video_upload_allowed($1,$2) as x',[cid,lid])).rows[0].x,false);
+ await as('admin');await assert.rejects(()=>action('class_review',{id:cid,decision:'approve'}),/Set the subject price in Pricing/);
+ await db.exec("reset role;update subjects set enrollment_price=1000 where id='physics'");
  await as('admin');await action('class_review',{id:cid,decision:'approve'});
  await as('student');assert.equal((await db.query('select video_playback_allowed($1) as x',[asset])).rows[0].x,true);
  assert.equal((await db.query('select video_asset_id from lessons where id=$1',[lid])).rows[0].video_asset_id,asset);

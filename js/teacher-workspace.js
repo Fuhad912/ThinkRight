@@ -1067,7 +1067,7 @@
         <div class="tw-studio-section-head">
           <div>
             <h2>One final look before review</h2>
-            <p class="tw-studio-subtitle">ThinkRight reviews your class curriculum and lesson videos before students can enroll.</p>
+            <p class="tw-studio-subtitle">Submit your class even if pricing is pending. ThinkRight reviews your lessons and sets the subject price before approving the class for students.</p>
           </div>
         </div>
         ${r?.feedback?`<div class="tw-course-feedback" style="margin-bottom:20px"><i class="fa-solid fa-triangle-exclamation"></i> <strong>Reviewer feedback:</strong> ${esc(r.feedback)}</div>`:''}
