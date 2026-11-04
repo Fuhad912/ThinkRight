@@ -1443,7 +1443,17 @@
     }catch(error){toast(error.message);}finally{busy=false;el.disabled=false;window.ThinkRightLoader?.ribbonDone();}
   }
   async function submit(event){const form=event.target.closest('[data-form]');if(!form)return;event.preventDefault();if(busy)return;const fields=new FormData(form),payload=Object.fromEntries(fields),id=form.dataset.id;let op=form.dataset.form;busy=true;const submitter=event.submitter;if(submitter)submitter.disabled=true;window.ThinkRightLoader?.ribbonStart();
+    const applicationSubmission=op==='profile'&&fields.has('application_legal_name');
+    const submissionLoader=applicationSubmission?window.ThinkRightLoader:null;
+    let loaderHeartbeat=null;
     try{
+      if(submissionLoader){
+        submissionLoader.hold('teacher-application');
+        submissionLoader.show('Submitting your teaching application...');
+        submissionLoader.setProgress(10,'Checking your application...');
+        // Keep the existing loader's safety timeout from dismissing an active upload.
+        loaderHeartbeat=window.setInterval(()=>submissionLoader.hold('teacher-application'),10000);
+      }
       if(op==='profile'){
         payload.subjects=fields.getAll('subjects');
         if (fields.has('application_legal_name')) {
@@ -1464,7 +1474,7 @@
         const file=form.querySelector('[name="application_document"]')?.files?.[0];
         const existing=ownTutor().application||{};
         if(file){
-          toast('Uploading your certificate...');
+          submissionLoader?.setProgress(30,'Uploading your certificate...');
           Object.assign(payload.application,await window.ThinkRightDocuments.upload(file,user.id));
         }else if(existing.credential_path){
           payload.application.credential_path=existing.credential_path;
@@ -1485,6 +1495,7 @@
       if(op==='class-review'){payload.decision=event.submitter?.value;op='class_review';}
       if(op==='teacher-review')op='teacher_review';if(op==='reverse-payout')op='reverse_payout';
       if(op==='payout'){payload.amount_kobo=Math.round(Number(payload.amount)*100);payload.paid_at=payload.paid_at+'T00:00:00+01:00';}
+      submissionLoader?.setProgress(65,'Saving your teaching application...');
       await action(op,payload);
       if(window.ThinkRightEmail){
         if(op==='teacher_review'){
@@ -1502,8 +1513,13 @@
           }
         }
       }
+      submissionLoader?.setProgress(85,'Updating your teaching workspace...');
       await refresh();if(dialog.open)dialog.close();if(op==='profile'){profileModalOpen=false;document.body.style.overflow='';}shell();render();toast('Saved successfully');
-    }catch(error){toast(error.message);}finally{busy=false;if(submitter)submitter.disabled=false;window.ThinkRightLoader?.ribbonDone();}
+    }catch(error){toast(error.message);}finally{
+      if(loaderHeartbeat!==null)window.clearInterval(loaderHeartbeat);
+      if(submissionLoader){submissionLoader.release('teacher-application');submissionLoader.done();}
+      busy=false;if(submitter)submitter.disabled=false;window.ThinkRightLoader?.ribbonDone();
+    }
   }
   function wire(){
     document.addEventListener('keydown',event=>{
