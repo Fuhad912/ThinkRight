@@ -12,7 +12,7 @@ ThinkRight uses **Supabase Auth** natively for authentication emails (sign-up ve
 1. Log in at [Resend](https://resend.com) &rarr; **API Keys** &rarr; **Create API Key**.
 2. Name it `ThinkRight Notifications & Alerts` with **Sending access**.
 3. Copy your key (starts with `re_...`).
-4. Under **Domains**, verify your domain (e.g. `thinkright.name.ng`) so you can send from `ThinkRight Alerts <notifications@thinkright.name.ng>`.
+4. Under **Domains**, verify your domain (e.g. `thinkright.com.ng`) so you can send from `ThinkRight Alerts <notifications@thinkright.com.ng>`.
    *(For testing before domain verification, set `RESEND_DEFAULT_FROM="ThinkRight <onboarding@resend.dev>"`)*.
 
 ---
@@ -35,10 +35,10 @@ Run in your terminal via Supabase CLI:
 supabase secrets set RESEND_API_KEY="re_your_api_key_here"
 
 # 2. Set your sender address
-supabase secrets set RESEND_DEFAULT_FROM="ThinkRight Alerts <notifications@thinkright.name.ng>"
+supabase secrets set RESEND_DEFAULT_FROM="ThinkRight Alerts <notifications@thinkright.com.ng>"
 
 # 3. Set your site URL
-supabase secrets set SITE_URL="https://thinkright.name.ng"
+supabase secrets set SITE_URL="https://thinkright.com.ng"
 
 # 4. Deploy the send-email Edge Function
 supabase functions deploy send-email

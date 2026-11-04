@@ -14,7 +14,7 @@ In Supabase **Edge Functions > Secrets**, set:
 
 - `FLUTTERWAVE_SECRET_KEY`: the Flutterwave v3 secret key, initially from test mode.
 - `FLUTTERWAVE_SECRET_HASH`: a long random webhook secret, identical to the hash configured in Flutterwave.
-- `SITE_URL`: the exact HTTPS website origin, for example `https://thinkright.name.ng`.
+- `SITE_URL`: the exact HTTPS website origin, for example `https://thinkright.com.ng`.
 - `CHECKOUT_ALLOWED_ORIGINS`: optional comma-separated additional frontend origins. Include preview origins only when needed.
 
 Supabase supplies `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` to the deployed function. All secret keys stay in server configuration.

@@ -10,7 +10,7 @@ The application code is not sufficient on its own. Configure and test staging be
 ```json
 [
   {
-    "AllowedOrigins": ["https://thinkright.name.ng"],
+    "AllowedOrigins": ["https://thinkright.com.ng"],
     "AllowedMethods": ["PUT", "GET", "HEAD"],
     "AllowedHeaders": ["content-type", "range", "if-match", "if-none-match", "x-amz-*"],
     "ExposeHeaders": ["ETag", "Content-Range", "Accept-Ranges", "Content-Length"],

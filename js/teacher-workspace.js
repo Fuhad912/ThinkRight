@@ -1297,7 +1297,7 @@
           ${textArea('Message content','body','','required rows="5" placeholder="Write the full news update, exam alert, or study reminder here..."')}
           <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px">
             ${field('Action button text (optional)','action_text','Read on JAMB Insider','text','maxlength="60"')}
-            ${field('Action button URL (optional)','action_url','https://thinkright.name.ng/insider.html','url','placeholder="https://thinkright.name.ng/insider.html"')}
+            ${field('Action button URL (optional)','action_url','https://thinkright.com.ng/insider.html','url','placeholder="https://thinkright.com.ng/insider.html"')}
           </div>
           <div class="tw-actions" style="justify-content:flex-end;margin-top:6px">
             <button class="tw-button primary" type="submit"><i class="fa-solid fa-paper-plane"></i> Send email broadcast</button>
