@@ -22,6 +22,16 @@
   const cohortCommunityLinks = document.getElementById("cohortCommunityLinks");
   const videoPlaceholder = document.getElementById("videoPlaceholder");
   const videoIframe = document.getElementById("videoIframe");
+  const lessonVideoPlayer = document.getElementById("lessonVideoPlayer");
+  let playbackRequest = 0;
+  const lessonSpeedControl = document.getElementById('lessonSpeedControl');
+  document.getElementById('lessonPlaybackSpeed')?.addEventListener('change', event => {
+    if (lessonVideoPlayer) lessonVideoPlayer.playbackRate = Number(event.target.value);
+  });
+  lessonVideoPlayer?.addEventListener('video-access-error', () => {
+    lessonVideoPlayer.style.display = 'none';
+    if (videoPlaceholder) { videoPlaceholder.style.display = 'flex'; videoPlaceholder.textContent = 'Video access could not be renewed. Select the lesson again to retry.'; }
+  });
   const currentLessonTitle = document.getElementById("currentLessonTitle");
   const currentLessonTopic = document.getElementById("currentLessonTopic");
   const markCompleteBtn = document.getElementById("markCompleteBtn");
@@ -134,7 +144,8 @@
       // 2. Fetch Lessons
       const { data: lessons, error: lErr } = await window.supabase
         .from("lessons")
-        .select("id, title, syllabus_topic, video_url, order_index")
+        // Wildcard keeps legacy paid playback working before the additive video migration is deployed.
+        .select("*")
         .eq("cohort_id", cohortId)
         .order("order_index", { ascending: true });
 
@@ -216,18 +227,28 @@
     });
   }
 
-  function playLesson(lesson) {
+  async function playLesson(lesson) {
     currentLesson = lesson;
+    const request = ++playbackRequest;
 
     if (currentLessonTitle) currentLessonTitle.textContent = lesson.title;
     if (currentLessonTopic) currentLessonTopic.textContent = lesson.syllabus_topic || "JAMB Syllabus Topic";
 
-    const embedUrl = getEmbedUrl(lesson.video_url);
-
-    if (videoPlaceholder) videoPlaceholder.style.display = "none";
-    if (videoIframe) {
-      videoIframe.style.display = "block";
-      videoIframe.src = embedUrl;
+    if (videoIframe) { videoIframe.style.display = 'none'; videoIframe.src = ''; }
+    if (lessonVideoPlayer) { window.ThinkRightVideo.stop(lessonVideoPlayer); lessonVideoPlayer.style.display = 'none'; }
+    if (videoPlaceholder) videoPlaceholder.style.display = 'none';
+    if (lessonSpeedControl) lessonSpeedControl.hidden = !lesson.video_asset_id;
+    if (lesson.video_asset_id) {
+      lessonVideoPlayer.style.display = 'block';
+      try { await window.ThinkRightVideo.mount(lessonVideoPlayer, lesson.video_asset_id); }
+      catch (error) {
+        if (request !== playbackRequest) return;
+        if (videoPlaceholder) { videoPlaceholder.style.display = 'flex'; videoPlaceholder.textContent = error.message || 'Unable to load this video. Please try again.'; }
+        lessonVideoPlayer.style.display = 'none';
+      }
+      if (request !== playbackRequest) return;
+    } else if (videoIframe) {
+      videoIframe.style.display = 'block'; videoIframe.src = getEmbedUrl(lesson.video_url);
     }
 
     if (markCompleteBtn) {

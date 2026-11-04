@@ -4,6 +4,7 @@
   "description": "> A production-ready, mobile-responsive CBT (Computer-Based Testing) practice platform for Nigerian students.",
   "main": "sw.js",
   "scripts": {
+    "test:video": "node scripts/test-lesson-video.cjs && node scripts/test-lesson-video-db.cjs && node scripts/test-lesson-video-ui.cjs",
     "test:admin": "node scripts/test-admin-console.js && node scripts/test-admin-console-ui.js",
     "test:analytics": "node scripts/test-admin-analytics.js && node scripts/test-admin-analytics-ui.js",
     "test:news": "node scripts/test-news.js",

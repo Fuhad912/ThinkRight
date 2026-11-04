@@ -1033,7 +1033,7 @@
         <div class="tw-studio-section-head">
           <div>
             <h2>Build your lesson library</h2>
-            <p class="tw-studio-subtitle">Upload each recording to YouTube as Unlisted, then add its link below. Arrange lessons in the order students should follow.</p>
+            <p class="tw-studio-subtitle">Upload your lesson recordings directly to ThinkRight. Arrange lessons in the order students should follow.</p>
           </div>
           ${button(`${icon('plus')} Add lesson`,'add-lesson','','primary small')}
         </div>
@@ -1051,8 +1051,7 @@
               ${field('Lesson title','title',l.title,'text',`data-lesson="${i}" required maxlength="160" placeholder="e.g. Newton’s Laws of Motion"`)}
               ${field('Syllabus topic','syllabus_topic',l.syllabus_topic,'text',`data-lesson="${i}" required maxlength="160" placeholder="e.g. Mechanics"`)}
             </div>
-            ${field('Unlisted YouTube video link','video_url',l.video_url,'url',`data-lesson="${i}" required pattern="https://.*" placeholder="https://www.youtube.com/watch?v=..."`)}
-            <p class="tw-hint">Use the link to this lesson’s recording, rather than a channel or playlist. Set visibility to Unlisted in YouTube.</p>
+            ${window.ThinkRightVideo.editor(l)}
           </section>`).join('')||empty('Start with lesson one','Add a video lesson and connect it to a syllabus topic.',button(`${icon('plus')} Add first lesson`,'add-lesson','','primary small'))}
         </div>
       </div>`;
@@ -1070,10 +1069,11 @@
         </div>
       </div>`;
     }
-    return head('RECORDED CLASSES',draft.title?esc(draft.title):'Create a recorded class','Add your class details, link your YouTube lessons, and send the curriculum to ThinkRight for review.',link('All classes',paths.classes))
+    return head('RECORDED CLASSES',draft.title?esc(draft.title):'Create a recorded class','Add your class details, upload your lessons, and send the curriculum to ThinkRight for review.',link('All classes',paths.classes))
       +notice()
       +`<div class="tw-editor">
         ${r?`<div class="tw-studio-status-row">${tag(r.state)}<span class="tw-hint">${savedClass?.published?'Students can access the last approved version.':'Not visible to students yet.'}</span></div>`:''}
+        ${savedClass?.video_migration_required?'<div class="tw-notice">Upload replacements for every lesson and submit for review. New enrollments are paused; existing students keep access to the last approved lessons.</div>':''}
         ${savedClass?.published?`<div class="tw-tabs"><button data-action="class-tab" data-tab="editor" aria-pressed="true">Editor</button><button data-action="class-tab" data-tab="students">Students</button><button data-action="class-tab" data-tab="discussions">Discussions</button></div><label class="tw-field"><span>Enrollment availability</span><select data-filter="availability">${options([['open','Open for enrollment'],['in_progress','In progress'],['closed','Closed to new enrollments']],savedClass.status)}</select></label>`:''}
         <div class="tw-steps" aria-label="Class creation steps">${['Details','Curriculum','Review'].map((name,i)=>`<button data-action="step" data-step="${i}" ${step===i?'aria-current="step"':''}><b>0${i+1}</b><span>${name}</span></button>`).join('')}</div>
         ${readOnly?'<div class="tw-notice">This revision is in review. Withdraw it if you need to make changes.</div>':''}
@@ -1088,6 +1088,23 @@
       </div>`;
   }
   function thumbnailURL(path){if(!path||!/^[-a-f0-9]+\/[-a-f0-9]+\.(jpg|png|webp)$/.test(path))return '';return window.supabase?.storage?.from('class-thumbnails').getPublicUrl(path).data.publicUrl||'';}
+  async function uploadLessonVideo(event){
+    const input=event.target,lessonId=input.dataset.videoLesson,file=input.files?.[0];
+    if(!lessonId||!file)return;
+    if(uploadLessonVideo.preparing||window.ThinkRightVideo.busy()){toast('Finish or cancel the current upload first.');return;}
+    uploadLessonVideo.preparing=true;
+    input.disabled=true;
+    try{
+      captureDraft();
+      await saveDraft(); // Persist the class and lesson IDs before requesting an upload.
+      const assetId=await window.ThinkRightVideo.upload(file,draftId,lessonId);
+      const lesson=draft.lessons.find(l=>l.id===lessonId);
+      if(!lesson)throw new Error('Lesson removed. Upload was not attached.');
+      lesson.video_asset_id=assetId;lesson.video_url='';dirty=true;
+      await saveDraft();render();toast('Video uploaded and draft saved. Submit for review when ready.');
+    }catch(error){toast(error.message||'Video upload failed. Reselect the same file to retry.');render();}
+    finally{uploadLessonVideo.preparing=false;input.disabled=false;input.value='';}
+  }
   async function uploadClassThumbnail(event){
     if(event.target.id!=='class-thumbnail-upload')return;
     const input=event.target,file=input.files?.[0];if(!file)return;
@@ -1119,7 +1136,7 @@
               <strong>${esc(l.title||'Untitled lesson')}</strong>
               <small>${esc(l.syllabus_topic||'General')}</small>
             </div>
-            ${safeURL(l.video_url)?`<a href="${esc(safeURL(l.video_url))}" target="_blank" rel="noopener noreferrer" class="tw-preview-video-link"><i class="fa-solid fa-arrow-up-right-from-square"></i> Open video</a>`:'<span class="tw-hint">Video link not added</span>'}
+            ${l.video_asset_id?`<button type="button" class="tw-button small" data-video-preview="${esc(l.video_asset_id)}">Watch video</button>`:safeURL(l.video_url)?`<a href="${esc(safeURL(l.video_url))}" target="_blank" rel="noopener noreferrer" class="tw-preview-video-link">Watch existing video</a>`:'<span class="tw-hint">Video not uploaded</span>'}
           </div>`).join(''):'<p class="tw-hint">No lessons added yet.</p>'}
         </div>
       </div>
@@ -1367,6 +1384,7 @@
     }
   }
   async function handleClick(event){const el=event.target.closest('[data-action]');if(!el)return;const op=el.dataset.action,id=el.dataset.id;
+    if((uploadLessonVideo.preparing||window.ThinkRightVideo?.busy())&&['save-class','submit-class','remove-lesson','move-lesson','add-lesson','withdraw-class'].includes(op)){toast('Finish or cancel the current video upload first.');return;}
     if(op==='menu'||op==='close-menu'){menu(op==='menu');return;}if(op==='close-dialog'){dialog.close();return;}if(op==='theme'){const isDark=document.documentElement.dataset.theme==='dark'||document.documentElement.getAttribute('data-theme')==='dark';applyTheme(!isDark);return;}
     if(op==='profile-tab'){profileTab=el.dataset.profileTab||'overview';render();return;}
     if(op==='open-profile-modal'){profileEditorTab=el.dataset.editorTab||'about';profileModalOpen=true;render();document.body.style.overflow='hidden';$('#editProfileModal .social-modal__close')?.focus();return;}
@@ -1417,7 +1435,7 @@
       busy=true;el.disabled=true;window.ThinkRightLoader?.ribbonStart();
       if(op==='remove-thumbnail'){captureDraft();draft.thumbnail_path='';dirty=true;render();return;}
       if(op==='save-class')await saveDraft();
-      else if(op==='submit-class'){await saveDraft();await action('submit_class',{id:draftId});toast('Submitted to ThinkRight for review');}
+      else if(op==='submit-class'){if(window.ThinkRightVideo.busy())throw new Error('Wait for the video upload to finish.');if(draft.lessons.some(l=>!l.video_asset_id))throw new Error('Upload a ThinkRight video for every lesson before review.');await saveDraft();await action('submit_class',{id:draftId});toast('Submitted to ThinkRight for review');}
       else if(op==='withdraw-class'){await action('withdraw_class',{id:draftId});toast('Submission withdrawn');}
       else if(op==='resolve')await action('resolve',{id,resolved:el.dataset.resolved==='true'});
       else if(op==='bank-review'){await action('bank_review',{id});dialog.close();toast('Bank details marked reviewed');}
@@ -1498,6 +1516,7 @@
       else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first?.focus();}
     });
     document.addEventListener('change',uploadClassThumbnail);
+    document.addEventListener('change',uploadLessonVideo);
     document.addEventListener('click',handleClick);document.addEventListener('submit',submit);
     document.addEventListener('input',event=>{if(event.target.closest('#class-editor')){dirty=true;$('#draft-status').textContent='Unsaved changes';}if(event.target.id==='twInputDisplayName'){const v=event.target.value.trim()||'Educator';const av=$('#editorAvatar'),nm=$('#editorPreviewName'),hd=$('#editorPreviewHandle');if(av)av.textContent=v.slice(0,1).toUpperCase();if(nm)nm.textContent=v;if(hd)hd.textContent='@'+(v.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'')||'educator');}if(event.target.id==='twInputBio'){const cnt=$('#editorBioCount');if(cnt)cnt.textContent=`${event.target.value.length} / 4000`;}if(event.target.id==='workspace-search'){search=event.target.value;clearTimeout(wire.timer);wire.timer=setTimeout(()=>{const fn={classes:classCards,students:studentsContent,analytics:analyticsContent,discussions:discussionsContent};if(fn[page])$('#filtered-content').innerHTML=fn[page]();},150);}});
     document.addEventListener('change',async event=>{const key=event.target.dataset.filter;if(event.target.dataset.draft==='subject_id'){captureDraft();render();return;}if(!key)return;if(key==='availability'){window.ThinkRightLoader?.ribbonStart();try{await action('availability',{id:draftId,status:event.target.value});await refresh();toast('Availability updated');}catch(error){toast(error.message);render();}finally{window.ThinkRightLoader?.ribbonDone();}return;}({subject:v=>subjectFilter=v,status:v=>statusFilter=v,class:v=>classFilter=v,period:v=>period=v,from:v=>fromDate=v,to:v=>toDate=v}[key])?.(event.target.value);render();});

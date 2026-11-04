@@ -4,3 +4,7 @@ project_id = "thinkright"
 # Flutterwave webhooks authenticate with the configured verif-hash instead.
 [functions.class-checkout]
 verify_jwt = false
+
+# User sessions and the scheduled cleanup secret are validated inside the handler.
+[functions.lesson-video]
+verify_jwt = false

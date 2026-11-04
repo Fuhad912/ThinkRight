@@ -132,13 +132,19 @@
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2.5rem; margin-bottom: 3rem;">
             <!-- Left: Current Lesson / Video -->
             <div>
-                <div id="videoContainer" style="position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 16px; overflow: hidden; margin-bottom: 1rem;">
+                <div id="videoContainer" style="position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 4px; overflow: hidden; margin-bottom: 1rem;">
                     <div id="videoPlaceholder" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff;">
                         <span style="font-size: 3rem; margin-bottom: 0.5rem;">&#9654;</span>
                         <p style="margin: 0; font-size: 0.95rem;">Select a lesson to begin watching</p>
                     </div>
                     <iframe id="videoIframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; display: none;" allowfullscreen></iframe>
+                    <video id="lessonVideoPlayer" controls playsinline preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;display:none;background:#000" aria-label="Lesson video"></video>
                 </div>
+                <label id="lessonSpeedControl" hidden>Playback speed
+                    <select id="lessonPlaybackSpeed" aria-label="Playback speed" style="padding:6px;border-radius:3px;background:var(--bg-card);color:var(--text-primary)">
+                        <option value="0.75">0.75×</option><option value="1" selected>Normal</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option><option value="2">2×</option>
+                    </select>
+                </label>
 
                 <div style="margin-top: 1.25rem; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
                     <div>
@@ -200,6 +206,7 @@
     <script defer src="js/auth.js?v=20261016c"></script>
     <script defer src="js/navbar-load.js?v=20261018-more"></script>
     <script defer src="js/pwa-register.js?v=20260321-sg"></script>
-    <script defer src="js/cohort.js?v=20260321-sg"></script>
+    <script defer src="js/lesson-video.js?v=20261104-r2"></script>
+  <script defer src="js/cohort.js?v=20261104-r2"></script>
 </body>
 </html>

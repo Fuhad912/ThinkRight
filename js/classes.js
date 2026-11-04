@@ -167,15 +167,7 @@
         const { data, error } = await window.supabase
           .from("cohorts")
           .select(`
-            id,
-            subject_id,
-            title,
-            thumbnail_path,
-            start_date,
-            price,
-            whatsapp_link,
-            status,
-            tutor_id,
+            *,
             tutors (
               display_name,
               bio
@@ -330,12 +322,12 @@
           </a>
         `;
       } else {
-        const enrollBtnText = price === null ? "Enrollment opens soon" : price === 0 ? "Enroll Free" : `Enrol in this class · &#8358;${price.toLocaleString()}`;
+        const enrollBtnText = cohort.video_migration_required ? "Videos being updated" : price === null ? "Enrollment opens soon" : price === 0 ? "Enroll Free" : `Enrol in this class · &#8358;${price.toLocaleString()}`;
         actionButtons = `
           <button type="button" class="tr-btn tr-btn--outline tr-btn--sm btn-preview-curriculum" data-cohort-id="${cohort.id}">
             <i class="fa-solid fa-list-check"></i> Preview
           </button>
-          <button type="button" class="tr-btn tr-btn--primary tr-btn--sm btn-enroll-cohort" data-cohort-id="${cohort.id}" ${price === null ? 'disabled' : ''}>
+          <button type="button" class="tr-btn tr-btn--primary tr-btn--sm btn-enroll-cohort" data-cohort-id="${cohort.id}" ${price === null || cohort.video_migration_required ? 'disabled' : ''}>
             ${enrollBtnText}
           </button>
         `;
@@ -589,7 +581,7 @@
           </a>
         `;
       } else {
-        const enrollBtnText = price === null ? "Enrollment opens soon" : price === 0 ? "Enroll Free" : `Enrol in this class · &#8358;${price.toLocaleString()}`;
+        const enrollBtnText = cohort.video_migration_required ? "Videos being updated" : price === null ? "Enrollment opens soon" : price === 0 ? "Enroll Free" : `Enrol in this class · &#8358;${price.toLocaleString()}`;
         curriculumModalFooter.innerHTML = `
           <div style="display: flex; flex-direction: column;">
             <span style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase;">One-time class enrolment</span>
@@ -598,7 +590,7 @@
             </span>
             <small style="color: var(--text-secondary);">Access to this class with this teacher. Other classes are purchased separately.</small>
           </div>
-          <button type="button" class="tr-btn tr-btn--primary tr-btn--sm" id="modalEnrollBtn" ${price === null ? 'disabled' : ''}>
+          <button type="button" class="tr-btn tr-btn--primary tr-btn--sm" id="modalEnrollBtn" ${price === null || cohort.video_migration_required ? 'disabled' : ''}>
             ${enrollBtnText} <i class="fa-solid fa-arrow-right"></i>
           </button>
         `;
