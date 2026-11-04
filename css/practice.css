@@ -511,8 +511,7 @@ html[data-theme='dark'] .faculty-preset-chip.is-active {
   align-items: center;
   gap: 0.65rem;
   flex-wrap: wrap;
-  padding-top: 0.55rem;
-  border-top: 1px solid var(--line-subtle);
+  padding-top: 0;
 }
 
 .practice-curated-label {
@@ -533,8 +532,9 @@ html[data-theme='dark'] .faculty-preset-chip.is-active {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.3rem 0.75rem;
-  border-radius: 999px;
+  min-height: 44px;
+  padding: 0.65rem 0.9rem;
+  border-radius: 8px;
   background: var(--surface-bg);
   border: 1px solid var(--line-subtle);
   color: var(--text-primary);

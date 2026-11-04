@@ -12,6 +12,17 @@
   const loggedInSection = document.getElementById("homeLoggedInHub");
   const teacherHubSection = document.getElementById("homeTeacherHub");
   const hubUserName = document.getElementById("hubUserName");
+  const hubGreeting = document.getElementById("hubGreeting");
+
+  function updateGreeting() {
+    const hour = new Date().getHours();
+    if (hubGreeting) {
+      hubGreeting.textContent = hour < 12 ? "Good morning" : hour < 17 ? "Good afternoon" : "Good evening";
+    }
+  }
+
+  updateGreeting();
+  setInterval(updateGreeting, 60000);
   const hubStreakValue = document.getElementById("hubStreakValue");
   const hubCohortsContainer = document.getElementById("hubCohortsContainer");
   const hubCohortsLoading = document.getElementById("hubCohortsLoading");
