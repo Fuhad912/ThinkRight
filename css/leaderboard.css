@@ -12,7 +12,7 @@
 .arena-container {
   width: 100%;
   max-width: 1140px;
-  margin: 1.5rem auto 7rem;
+  margin: 0.75rem auto 7rem;
   padding: 0 1.25rem;
   box-sizing: border-box;
 }
@@ -20,7 +20,7 @@
 .leaderboard-main {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.25rem;
   min-width: 0;
 }
 
@@ -1352,10 +1352,21 @@ html[data-theme='dark'] .arena-sticky-hud {
 .arena-hero .arena-timer-strip { justify-content: space-between; padding: 12px 16px; border-radius: 10px; box-shadow: none; }
 .arena-countdown .arena-countdown-unit { background: transparent; border: 0; min-width: 36px; padding: 4px; }
 .arena-countdown .arena-timer-num { font-size: 1.1rem; font-variant-numeric: tabular-nums; }
-.subject-picker-dialog { width: min(440px, calc(100% - 32px)); max-height: 80vh; padding: 20px; border: 1px solid var(--line-subtle); border-radius: 16px; background: var(--surface-bg); color: var(--text-primary); }
+.subject-picker-dialog { position: fixed; inset: 0; margin: auto; width: min(440px, calc(100% - 32px)); max-height: 80vh; padding: 20px; border: 1px solid var(--line-subtle); border-radius: 4px; background: var(--surface-bg); color: var(--text-primary); }
 .subject-picker-dialog::backdrop { background: rgba(0,0,0,.55); }
 .subject-picker-dialog header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
 .subject-picker-dialog h3 { margin: 0; font-size: 1.1rem; }
 #closeSubjectPicker { background: transparent; border: 0; color: inherit; font-size: 1.6rem; cursor: pointer; }
 .subject-modal-options { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
 .subject-modal-options .arena-subject-pill { white-space: normal; text-align: left; }
+
+.arena-scoring-help { display: flex; justify-content: center; margin-top: -12px; }
+.arena-rules-btn { border: 0; border-radius: 0; background: transparent; padding: 6px; }
+.arena-rules-btn:hover { background: transparent; transform: none; text-decoration: underline; }
+.arena-mode-switch { border-radius: 4px; box-shadow: none; }
+.arena-mode-btn { border-radius: 2px; }
+.arena-mode-btn.is-active { box-shadow: none; }
+.arena-subject-pill, .arena-subject-select { border-radius: 3px; }
+.subject-modal-options { grid-template-columns: 1fr; gap: 0; }
+.subject-modal-options .arena-subject-pill { width: 100%; border: 0; border-bottom: 1px solid var(--line-subtle); border-radius: 0; min-height: 44px; padding: 12px 10px; }
+.subject-modal-options .arena-subject-pill:focus-visible { outline: 2px solid var(--accent-primary); outline-offset: -2px; }
