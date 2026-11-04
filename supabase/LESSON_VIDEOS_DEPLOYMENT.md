@@ -1,5 +1,9 @@
 # Lesson video infrastructure status
 
+## Latest production status
+
+On 2026-11-04, confirmed both R2 credential secret names are present in Supabase. Enabled `VIDEO_UPLOADS_ENABLED=true` after diagnosing the disabled switch as the cause of the teacher upload "temporarily unavailable" message. This supersedes the earlier disabled-upload setup notes below. A full teacher upload/playback smoke test and scheduled cleanup configuration still need verification.
+
 Verified on 2026-11-04 through the authenticated Cloudflare MCP connection.
 
 | Setting | Staging | Production |
