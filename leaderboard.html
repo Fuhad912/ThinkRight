@@ -114,12 +114,6 @@
             <!-- Arena Hero Section -->
             <section class="arena-hero">
                 <div class="arena-hero__top">
-                    <div class="arena-live-chip">
-                        <span class="arena-pulse-dot"></span>
-                        <span id="arenaLiveText">WEEKLY SEASON ACTIVE</span>
-                        <span class="arena-live-sep">•</span>
-                        <span id="leaderboardWeekLabel" class="arena-week-tag">Week: --</span>
-                    </div>
                     <button type="button" class="arena-rules-btn" id="openScoringRulesBtn" title="How rankings and projected scores work">
                         <i class="fa-solid fa-circle-question"></i> How Scoring Works
                     </button>
@@ -137,7 +131,7 @@
                 <div class="arena-timer-strip">
                     <div class="arena-timer-label">
                         <i class="fa-solid fa-stopwatch-20"></i>
-                        <span>Weekly Season Resets In:</span>
+                        <span>Rankings reset in</span>
                     </div>
                     <div class="arena-countdown" id="arenaCountdown" aria-label="Countdown to weekly reset">
                         <div class="arena-countdown-unit">
@@ -199,8 +193,7 @@
                     <div id="subjectTabs" class="arena-subject-tabs" role="tablist" aria-label="Select subject"></div>
                 </div>
                 <div class="arena-subject-mobile-select-wrap">
-                    <label for="subjectSelect" class="arena-subject-select-label">Select Subject:</label>
-                    <select id="subjectSelect" class="arena-subject-select" aria-label="Select subject"></select>
+                    <button type="button" id="subjectSelect" class="arena-subject-select" aria-haspopup="dialog">Select subject</button>
                 </div>
             </div>
 
@@ -297,13 +290,18 @@
             </div>
         </aside>
 
+        <dialog id="subjectPickerModal" class="subject-picker-dialog" aria-labelledby="subjectPickerTitle">
+            <header><h3 id="subjectPickerTitle">Choose a subject</h3><button type="button" id="closeSubjectPicker" aria-label="Close subject picker">&times;</button></header>
+            <div id="subjectModalOptions" class="subject-modal-options"></div>
+        </dialog>
+
         <!-- Scoring Rules Modal -->
         <div id="scoringRulesModal" class="arena-modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="scoringModalTitle">
             <div class="arena-modal-card">
                 <div class="arena-modal-header">
                     <div>
-                        <span class="arena-podium-badge"><i class="fa-solid fa-circle-info"></i> Transparent Methodology</span>
-                        <h3 id="scoringModalTitle">How ThinkRight Rankings Work</h3>
+                        <span class="arena-podium-badge"><i class="fa-solid fa-circle-info"></i> Ranking guide</span>
+                        <h3 id="scoringModalTitle">How rankings work</h3>
                     </div>
                     <button type="button" class="arena-modal-close" id="closeScoringRulesBtn" aria-label="Close dialog">&times;</button>
                 </div>
@@ -311,34 +309,34 @@
                     <div class="arena-rule-item">
                         <div class="arena-rule-num">1</div>
                         <div>
-                            <h4>3-Test Qualification Minimum</h4>
-                            <p>To prevent lucky single-test anomalies, candidates must complete at least 3 valid practice tests during the active week to enter the national standings.</p>
+                            <h4>Take 3 tests</h4>
+                            <p>Complete at least 3 valid practice tests this week to join the rankings.</p>
                         </div>
                     </div>
                     <div class="arena-rule-item">
                         <div class="arena-rule-num">2</div>
                         <div>
-                            <h4>Recency-Weighted Projection</h4>
-                            <p>Your projected score out of 400 is calculated with heavier weight on your most recent performances (up to 35% on your latest test), rewarding active improvement.</p>
+                            <h4>Recent tests count more</h4>
+                            <p>Your estimated score is out of 400. Recent tests have more effect on your score.</p>
                         </div>
                     </div>
                     <div class="arena-rule-item">
                         <div class="arena-rule-num">3</div>
                         <div>
-                            <h4>Official JAMB Curve Calibration</h4>
-                            <p>Raw percentage scores are mapped through ThinkRight's empirical JAMB calibration algorithm (0.85 scaling factor) to reflect actual UTME grading difficulty.</p>
+                            <h4>An estimated score</h4>
+                            <p>We adjust practice results to estimate your JAMB score. This is not an official JAMB result.</p>
                         </div>
                     </div>
                     <div class="arena-rule-item">
                         <div class="arena-rule-num">4</div>
                         <div>
-                            <h4>Weekly Reset Cycle</h4>
-                            <p>Every Sunday at 23:59:59 UTC, the competition resets for a brand-new weekly season, giving every candidate a fresh opportunity to claim the #1 spot.</p>
+                            <h4>A fresh start each week</h4>
+                            <p>Rankings reset every Sunday at 23:59:59 UTC.</p>
                         </div>
                     </div>
                 </div>
                 <div class="arena-modal-footer">
-                    <button type="button" class="tr-btn tr-btn--primary" id="gotItRulesBtn">Got It, Let's Compete!</button>
+                    <button type="button" class="tr-btn tr-btn--primary" id="gotItRulesBtn">Got it</button>
                 </div>
             </div>
         </div>
