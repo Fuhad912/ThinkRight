@@ -26,6 +26,10 @@ async function main() {
  await as('student');const order=(await db.query('select class_order_create($1) as x',[cid])).rows[0].x;
  await db.exec('reset role');
  await db.exec(readFileSync('supabase/lesson_videos.sql','utf8'));
+ await db.exec(readFileSync('supabase/class_review_validation.sql','utf8'));
+ const guarded=(await db.query("select pg_get_functiondef('public.workspace_action(text,jsonb)'::regprocedure) as definition")).rows[0].definition;
+ assert.match(guarded,/Please expand your class description to at least 20 characters/);
+ assert.doesNotMatch(guarded,/Add a title, description, start date and at least one lesson/);
  assert.equal((await db.query('select video_migration_required as x from cohorts where id=$1',[cid])).rows[0].x,true);
  await as('student');await assert.rejects(()=>db.query('select class_order_create($1)',[cid]),/updating its videos/);
  // An already pending payment still settles after the migration gate is applied.

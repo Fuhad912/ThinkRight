@@ -1005,6 +1005,12 @@
   const teachingSubjects=()=>data.identity.role==='admin'?data.subjects:data.subjects.filter(s=>(ownTutor().subjects||[]).includes(s.id));
   function loadDraft(){draftId=new URLSearchParams(location.search).get('id');const r=draftId?revision(draftId):null;if(draftId&&!r)throw new Error('This class is unavailable to your account.');draft=r?structuredClone(r.body):{title:'',description:'',subject_id:teachingSubjects()[0]?.id||'',start_date:today(),whatsapp_link:'',lessons:[]};draftVersion=r?.version||1;}
   function captureDraft(){const form=$('#class-editor');if(!form)return;for(const input of form.querySelectorAll('[data-draft]'))draft[input.dataset.draft]=input.value;for(const input of form.querySelectorAll('[data-lesson]')){const item=draft.lessons[Number(input.dataset.lesson)];if(item)item[input.name]=input.value;}}
+  function reviewDraftError(body){
+    if(String(body.title||'').trim().length<3)return {step:0,field:'title',message:'Enter a class title of at least 3 characters.'};
+    if(String(body.description||'').trim().length<20)return {step:0,field:'description',message:'Please expand your class description to at least 20 characters.'};
+    if(!body.lessons?.length)return {step:1,message:'Add at least one lesson before submitting for review.'};
+    return null;
+  }
   function editorPage(){
     const r=revision(draftId),readOnly=r?.state==='in_review',s=subject(draft.subject_id),savedClass=cohort(draftId);
     let content='';
@@ -1018,14 +1024,15 @@
         </div>
         <div class="tw-form-grid">
           <label class="tw-field"><span>Subject</span><select data-draft="subject_id">${options((data.identity.role==='admin'?data.subjects:data.subjects.filter(subject=>(ownTutor().subjects||[]).includes(subject.id))).map(s=>[s.id,s.name]),draft.subject_id)}</select></label>
-          ${field('Class title','title',draft.title,'text','data-draft="title" maxlength="160" required placeholder="e.g. Master JAMB Physics: Mechanics & Waves"')}
+          ${field('Class title','title',draft.title,'text','data-draft="title" minlength="3" maxlength="160" required placeholder="e.g. Master JAMB Physics: Mechanics & Waves"')}
           ${field('Student support group (optional)','whatsapp_link',draft.whatsapp_link,'url','data-draft="whatsapp_link" pattern="https://.*" placeholder="https://chat.whatsapp.com/..."')}
         </div>
         <div class="tw-thumbnail-editor">
           ${thumbnailURL(draft.thumbnail_path)?`<img src="${esc(thumbnailURL(draft.thumbnail_path))}" alt="Class thumbnail preview" width="640" height="360">`:'<div class="tw-thumbnail-placeholder"><i class="fa-regular fa-image" aria-hidden="true"></i><span>Your class cover</span></div>'}
           <div><label class="tw-field"><span>Class thumbnail</span><input id="class-thumbnail-upload" type="file" accept="image/jpeg,image/png,image/webp"></label><p class="tw-hint">Choose a clear photo or course cover. Landscape 16:9 works best. JPG, PNG or WebP, up to 3 MB. Published after review.</p>${draft.thumbnail_path?button('Remove image','remove-thumbnail','','small'):''}</div>
         </div>
-        ${textArea('What will students master? (Course description)','description',draft.description,'data-draft="description" maxlength="4000" placeholder="Describe the topics covered, learning outcomes, and prerequisites for students..."')}
+        ${textArea('What will students master? (Course description)','description',draft.description,'data-draft="description" required minlength="20" maxlength="4000" aria-describedby="classDescriptionHelp" placeholder="Describe the topics covered, learning outcomes, and prerequisites for students..."')}
+        <p class="tw-hint" id="classDescriptionHelp">Use at least 20 characters to explain what students will learn.</p>
         <div class="tw-price-pill"><i class="fa-solid fa-tag"></i> <span><strong>${s?.enrollment_price==null?'Price awaiting ThinkRight configuration':money(Number(s.enrollment_price)*100)}</strong> · Subject enrollment rate set by ThinkRight. Your educator share is 70% of verified student payments.</span></div>
       </div>`;
     }else if(step===1){
@@ -1436,7 +1443,7 @@
       busy=true;el.disabled=true;window.ThinkRightLoader?.ribbonStart();
       if(op==='remove-thumbnail'){captureDraft();draft.thumbnail_path='';dirty=true;render();return;}
       if(op==='save-class')await saveDraft();
-      else if(op==='submit-class'){if(window.ThinkRightVideo.busy())throw new Error('Wait for the video upload to finish.');if(draft.lessons.some(l=>!l.video_asset_id))throw new Error('Upload a ThinkRight video for every lesson before review.');await saveDraft();await action('submit_class',{id:draftId});toast('Submitted to ThinkRight for review');}
+      else if(op==='submit-class'){if(window.ThinkRightVideo.busy())throw new Error('Wait for the video upload to finish.');captureDraft();const problem=reviewDraftError(draft);if(problem){step=problem.step;render();if(problem.field)document.querySelector(`[data-draft="${problem.field}"]`)?.focus();throw new Error(problem.message);}if(draft.lessons.some(l=>!l.video_asset_id))throw new Error('Upload a ThinkRight video for every lesson before review.');await saveDraft();await action('submit_class',{id:draftId});toast('Submitted to ThinkRight for review');}
       else if(op==='withdraw-class'){await action('withdraw_class',{id:draftId});toast('Submission withdrawn');}
       else if(op==='resolve')await action('resolve',{id,resolved:el.dataset.resolved==='true'});
       else if(op==='bank-review'){await action('bank_review',{id});dialog.close();toast('Bank details marked reviewed');}

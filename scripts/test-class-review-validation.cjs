@@ -1,0 +1,17 @@
+const {readFileSync}=require('node:fs');
+const {runInNewContext}=require('node:vm');
+const assert=require('node:assert/strict');
+const source=readFileSync('js/teacher-workspace.js','utf8');
+const start=source.indexOf('  function reviewDraftError(body)');
+const end=source.indexOf('  function editorPage()',start);
+const context={};runInNewContext(source.slice(start,end)+';this.validate=reviewDraftError;',context);
+const body={title:'Complete title',description:'1234567890',lessons:[{video_asset_id:'uploaded'}]};
+const snapshot=JSON.stringify(body);
+assert.match(context.validate(body).message,/description.*20 characters/);
+assert.equal(context.validate(body).field,'description');assert.equal(context.validate(body).step,0);
+assert.equal(JSON.stringify(body),snapshot,'validation must preserve teacher content');
+assert.equal(context.validate({...body,description:'x'.repeat(20)}),null);
+assert.match(context.validate({...body,description:' '+ 'x'.repeat(19)+' '}).message,/description/);
+assert.match(context.validate({...body,title:'  '}).message,/title/);
+assert.equal(context.validate({...body,description:'x'.repeat(20),lessons:[]}).step,1);
+console.log('PASS: complete draft with short description points to the description; boundaries, missing lessons and content preservation checked.');
