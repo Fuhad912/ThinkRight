@@ -36,11 +36,25 @@
       <p class="tw-hint" role="status" data-video-status="${esc(lesson.id)}">${esc(job?.message || (lesson.video_asset_id ? 'Video uploaded. Changes go live after review.' : 'No video uploaded yet.'))}</p>
       <button type="button" class="tw-button small" data-video-cancel="${esc(lesson.id)}" ${job?.running ? '' : 'hidden'}>Cancel upload</button></div>`;
   }
+  async function readChunk(blob) {
+    try { return await blob.arrayBuffer(); }
+    catch (error) {
+      if (!['NotReadableError','NotAllowedError','SecurityError'].includes(error?.name)) throw error;
+      // Some device/cloud file providers work through FileReader but reject Blob.arrayBuffer.
+      return await new Promise((resolve,reject)=>{
+        const reader=new FileReader();
+        reader.onload=()=>resolve(reader.result);
+        reader.onerror=()=>reject(new Error('Your browser cannot read this video. Save or download it to this device, then select it again. Keep the file in place until the upload finishes.'));
+        reader.onabort=()=>reject(new Error('Reading the video was cancelled. Select it again to retry.'));
+        reader.readAsArrayBuffer(blob);
+      });
+    }
+  }
   async function fingerprint(file, job) {
     const hashes = [];
     for (let start = 0; start < file.size; start += 10 * 1024 * 1024) {
       if (job.cancelled) throw new Error('Upload cancelled');
-      const hash = new Uint8Array(await crypto.subtle.digest('SHA-256', await file.slice(start, start + 10 * 1024 * 1024).arrayBuffer()));
+      const hash = new Uint8Array(await crypto.subtle.digest('SHA-256', await readChunk(file.slice(start, start + 10 * 1024 * 1024))));
       hashes.push(...hash);
     }
     return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', new Uint8Array(hashes))), b => b.toString(16).padStart(2, '0')).join('');
@@ -57,19 +71,19 @@
       xhr.send(blob);
     });
   }
-  async function upload(file, cohortId, lessonId) {
+  async function upload(file, cohortId, lessonId, persistDraft) {
     if (jobs.get(lessonId)?.running) throw new Error('This lesson is already uploading');
     if (!file.size || file.size > 500 * 1024 * 1024) throw new Error('Choose a video up to 500 MB.');
     const types={mp4:'video/mp4',m4v:'video/mp4',mov:'video/quicktime',webm:'video/webm',mkv:'video/x-matroska',avi:'video/x-msvideo','3gp':'video/3gpp'};
     const contentType=types[file.name.split('.').pop().toLowerCase()]||file.type;
     if(!contentType?.startsWith('video/'))throw new Error('Choose a video recording.');
     const job = { running: true, cancelled: false, percent: 0, message: 'Checking video…', requests: new Set() }; jobs.set(lessonId, job); paint(lessonId);
-    const previewURL = URL.createObjectURL(file);
-    job.previewURL = previewURL;
-    document.querySelectorAll('[data-video-local]').forEach(el => { if (el.dataset.videoLocal === lessonId) { el.src = previewURL; el.hidden = false; } });
+    // Do not open a second media reader while the selected device/cloud file is uploading.
     try {
       job.message = 'Preparing upload…'; paint(lessonId);
       const hash = await fingerprint(file, job);
+      if (job.cancelled) throw new Error('Upload cancelled');
+      if (persistDraft) cohortId = await persistDraft();
       const start = await api('initiate', { cohort_id: cohortId, lesson_id: lessonId, filename: file.name, content_type: contentType, size_bytes: file.size, fingerprint: hash });
       job.assetId = start.asset_id;
       if (job.cancelled) { await api('cancel', { asset_id: job.assetId }); throw new Error('Upload cancelled'); }
@@ -89,12 +103,14 @@
         while (next <= count && !job.cancelled) {
           const part = next++, offset = (part - 1) * start.chunk_size, blob = file.slice(offset, offset + start.chunk_size);
           if (uploaded.get(part) === blob.size) { progress(); continue; }
+          // Send an owned byte buffer, not a live OS/cloud file reference. Reuse it on retry.
+          const bytes = await readChunk(blob);
           for (let attempt = 0; attempt < 3; attempt++) {
             if (job.cancelled) throw new Error('Upload cancelled');
             try {
               const { url } = await api('sign', { asset_id: job.assetId, part_number: part });
               if (job.cancelled) throw new Error('Upload cancelled');
-              await put(url, blob, job, bytes => { loading.set(part, bytes); progress(); });
+              await put(url, bytes, job, loaded => { loading.set(part, loaded); progress(); });
               loading.delete(part); uploaded.set(part, blob.size); progress(); break;
             } catch (error) { loading.delete(part); if (job.cancelled || attempt === 2) throw error; await new Promise(r => setTimeout(r, 1000 * (attempt + 1))); }
           }
@@ -113,7 +129,7 @@
       job.running = false; job.previewURL = null;
       for (const xhr of job.requests) xhr.abort();
       document.querySelectorAll('[data-video-local]').forEach(el => { if (el.dataset.videoLocal === lessonId) { el.pause(); el.removeAttribute('src'); el.load(); el.hidden = true; } });
-      URL.revokeObjectURL(previewURL); paint(lessonId);
+      paint(lessonId);
     }
   }
   function stop(player) {

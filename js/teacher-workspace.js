@@ -1096,8 +1096,9 @@
     input.disabled=true;
     try{
       captureDraft();
-      await saveDraft(); // Persist the class and lesson IDs before requesting an upload.
-      const assetId=await window.ThinkRightVideo.upload(file,draftId,lessonId);
+      // Read the selected file immediately, before awaiting any network request.
+      // Persist IDs after fingerprinting, but before the upload authorization request.
+      const assetId=await window.ThinkRightVideo.upload(file,draftId,lessonId,async()=>{await saveDraft();return draftId;});
       const lesson=draft.lessons.find(l=>l.id===lessonId);
       if(!lesson)throw new Error('Lesson removed. Upload was not attached.');
       lesson.video_asset_id=assetId;lesson.video_url='';dirty=true;
