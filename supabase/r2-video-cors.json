@@ -1,0 +1,16 @@
+[
+  {
+    "AllowedOrigins": [
+      "https://thinkright.com.ng",
+      "https://www.thinkright.com.ng",
+      "http://localhost:5500",
+      "http://127.0.0.1:5500",
+      "http://localhost:3000",
+      "http://127.0.0.1:3000"
+    ],
+    "AllowedMethods": ["GET", "PUT", "HEAD"],
+    "AllowedHeaders": ["content-type", "range", "if-match", "if-none-match", "x-amz-*"],
+    "ExposeHeaders": ["ETag", "Content-Range", "Accept-Ranges", "Content-Length"],
+    "MaxAgeSeconds": 3600
+  }
+]
