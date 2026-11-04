@@ -2,5 +2,13 @@
   "buildCommand": "npm run build:web",
   "outputDirectory": "dist",
   "framework": null,
-  "cleanUrls": false
+  "cleanUrls": false,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "www.thinkright.com.ng" }],
+      "destination": "https://thinkright.com.ng/:path*",
+      "permanent": true
+    }
+  ]
 }
