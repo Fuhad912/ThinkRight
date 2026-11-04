@@ -1,6 +1,6 @@
 import { S3Client, CreateMultipartUploadCommand, UploadPartCommand, ListPartsCommand, CompleteMultipartUploadCommand, AbortMultipartUploadCommand, HeadObjectCommand, GetObjectCommand, DeleteObjectCommand } from 'npm:@aws-sdk/client-s3@3.922.0';
 import { getSignedUrl } from 'npm:@aws-sdk/s3-request-presigner@3.922.0';
-import { inspectMP4 } from './mp4.ts';
+import { inspectVideo } from './video.ts';
 
 const env = (key: string) => Deno.env.get(key) || '';
 const base = env('SUPABASE_URL'), service = env('SUPABASE_SERVICE_ROLE_KEY'), anon = env('SUPABASE_ANON_KEY');
@@ -24,8 +24,8 @@ async function allowed(bearer: string, fn: string, body: unknown) {
 }
 async function verify(asset: any) {
   const head = await s3.send(new HeadObjectCommand({ Bucket: bucket, Key: asset.object_key }));
-  if (head.ContentLength !== Number(asset.size_bytes) || head.ContentType !== 'video/mp4') throw new Error('Uploaded video size or type does not match');
-  return await inspectMP4(Number(asset.size_bytes), async (start, end) => {
+  if (head.ContentLength !== Number(asset.size_bytes) || !head.ContentType?.startsWith('video/')) throw new Error('Uploaded video size or type does not match');
+  return await inspectVideo(Number(asset.size_bytes), async (start, end) => {
     const object = await s3.send(new GetObjectCommand({ Bucket: bucket, Key: asset.object_key, Range: `bytes=${start}-${end}` }));
     const bytes = await object.Body!.transformToByteArray();
     if (bytes.length !== end - start + 1) throw new Error('Incomplete video metadata');
@@ -61,16 +61,17 @@ export async function handler(request: Request): Promise<Response> {
     const user = await auth.json();
     if (body.action !== 'playback' && env('VIDEO_UPLOADS_ENABLED') !== 'true') return json(503, { error: 'Video uploads are temporarily unavailable' });
     if (body.action === 'initiate') {
-      if (!uuid(body.cohort_id) || !uuid(body.lesson_id) || !Number.isSafeInteger(body.size_bytes) || body.size_bytes < 1 || body.size_bytes > MAX || body.content_type !== 'video/mp4' || !/^[a-f0-9]{64}$/.test(body.fingerprint || '')) throw new Error('Choose an MP4 video up to 500 MB');
+      if (!uuid(body.cohort_id) || !uuid(body.lesson_id) || !Number.isSafeInteger(body.size_bytes) || body.size_bytes < 1 || body.size_bytes > MAX || !/^video\/[a-z0-9.+-]{1,80}$/i.test(body.content_type || '') || !/^[a-f0-9]{64}$/.test(body.fingerprint || '')) throw new Error('Choose a video up to 500 MB');
       await allowed(bearer, 'video_upload_allowed', { p_cohort: body.cohort_id, p_lesson: body.lesson_id });
       const existing = await db(`video_assets?teacher_id=eq.${user.id}&cohort_id=eq.${body.cohort_id}&lesson_id=eq.${body.lesson_id}&fingerprint=eq.${body.fingerprint}&size_bytes=eq.${body.size_bytes}&state=in.(uploading,verifying,ready)&expires_at=gt.${encodeURIComponent(new Date().toISOString())}&limit=1`);
       if (existing[0]?.upload_id) return json(200, { asset_id: existing[0].id, chunk_size: CHUNK, state: existing[0].state });
       const active = await db(`video_assets?teacher_id=eq.${user.id}&state=in.(uploading,verifying)&expires_at=gt.${encodeURIComponent(new Date().toISOString())}&select=id`);
       if (active.length >= 10) throw new Error('Finish or cancel an existing upload first (maximum 10 active uploads)');
-      const id = crypto.randomUUID(), key = `${user.id}/${body.cohort_id}/${body.lesson_id}/${id}.mp4`;
+      const extensions: Record<string,string> = {'video/mp4':'mp4','video/quicktime':'mov','video/webm':'webm','video/x-matroska':'mkv','video/x-msvideo':'avi','video/3gpp':'3gp','video/mpeg':'mpeg'};
+      const id = crypto.randomUUID(), key = `${user.id}/${body.cohort_id}/${body.lesson_id}/${id}.${extensions[body.content_type] || 'video'}`;
       // Persist intent before contacting R2 so abandoned multipart sessions have an owner.
       await db('video_assets', 'POST', { id, teacher_id: user.id, cohort_id: body.cohort_id, lesson_id: body.lesson_id, object_key: key, size_bytes: body.size_bytes, fingerprint: body.fingerprint, filename: String(body.filename || 'lesson.mp4').slice(0, 200) });
-      const upload = await s3.send(new CreateMultipartUploadCommand({ Bucket: bucket, Key: key, ContentType: 'video/mp4' }));
+      const upload = await s3.send(new CreateMultipartUploadCommand({ Bucket: bucket, Key: key, ContentType: body.content_type }));
       try { await db(`video_assets?id=eq.${id}`, 'PATCH', { upload_id: upload.UploadId }); }
       catch (error) { await s3.send(new AbortMultipartUploadCommand({ Bucket: bucket, Key: key, UploadId: upload.UploadId })); throw error; }
       return json(200, { asset_id: id, chunk_size: CHUNK });

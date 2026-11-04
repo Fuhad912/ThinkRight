@@ -18,9 +18,9 @@ function movie(codec='avc1',audio='mp4a'){
  return Buffer.concat([box('ftyp',Buffer.from('isom0000')),box('mdat',Buffer.alloc(32)),box('moov',box('mvhd',mvhd),box('trak',box('mdia',box('minf',box('stbl',box('stsd',stsd,video,...(audio?[sound]:[])))))))]);
 }
 async function main(){
- const mp4=load('supabase/functions/lesson-video/mp4.ts');
- for(const audio of ['mp4a','']){const bytes=movie('avc1',audio);let largest=0;const result=await mp4.inspectMP4(bytes.length,async(a,b)=>{largest=Math.max(largest,b-a+1);return new Uint8Array(bytes.subarray(a,b+1));});assert.equal(result.duration_seconds,90);assert.ok(largest<1024);}
- for(const bytes of [movie('hvc1'),movie('avc1','ac-3'),Buffer.from('fake video'),movie().subarray(0,40)])await assert.rejects(()=>mp4.inspectMP4(bytes.length,async(a,b)=>new Uint8Array(bytes.subarray(a,b+1))));
+ const video=load('supabase/functions/lesson-video/video.ts');
+ for(const bytes of [movie('hvc1'),movie('avc1','ac-3'),Buffer.concat([Buffer.from([0x1a,0x45,0xdf,0xa3]),Buffer.alloc(28)]),Buffer.concat([Buffer.from('RIFF0000AVI '),Buffer.alloc(20)])])await video.inspectVideo(bytes.length,async(a,b)=>new Uint8Array(bytes.subarray(a,b+1)));
+ await assert.rejects(()=>video.inspectVideo(32,async()=>new Uint8Array(32)));
  const user='10000000-0000-4000-8000-000000000001',cid='20000000-0000-4000-8000-000000000001',lid='30000000-0000-4000-8000-000000000001';
  const env={SUPABASE_URL:'https://db.test',SUPABASE_SERVICE_ROLE_KEY:'service',SUPABASE_ANON_KEY:'anon',R2_ACCOUNT_ID:'account',R2_VIDEO_BUCKET:'videos',R2_ACCESS_KEY_ID:'key',R2_SECRET_ACCESS_KEY:'secret',VIDEO_UPLOADS_ENABLED:'true',SITE_URL:'https://thinkright.test',VIDEO_CLEANUP_SECRET:'cleanup'};
  let assets=[],stored=movie(),completed=false,access=true,teacher=true,signed=0,partsOverride=null,failVerify=false;
@@ -56,7 +56,7 @@ async function main(){
    }
    throw new Error('Unexpected URL '+url);
  }
- const handler=load('supabase/functions/lesson-video/index.ts',{fetch,Deno:{env:{get:key=>env[key]},serve(){}},require:name=>name.includes('client-s3')?sdk:name.includes('s3-request-presigner')?{getSignedUrl:async()=>{signed++;return 'https://r2.test/signed';}}:mp4}).handler;
+ const handler=load('supabase/functions/lesson-video/index.ts',{fetch,Deno:{env:{get:key=>env[key]},serve(){}},require:name=>name.includes('client-s3')?sdk:name.includes('s3-request-presigner')?{getSignedUrl:async()=>{signed++;return 'https://r2.test/signed';}}:video}).handler;
  async function request(body,token='token',origin=env.SITE_URL){const response=await handler(new Request('https://edge.test',{method:'POST',headers:{authorization:'Bearer '+token,origin},body:JSON.stringify(body)}));return {status:response.status,body:await response.json()};}
  const init={action:'initiate',cohort_id:cid,lesson_id:lid,size_bytes:stored.length,content_type:'video/mp4',fingerprint:'a'.repeat(64),filename:'motion.mp4'};
  assert.equal((await request(init,'invalid')).status,401);
@@ -64,6 +64,9 @@ async function main(){
  assert.equal((await request({...init,size_bytes:524288001})).status,400);
  teacher=false;assert.equal((await request(init)).status,400);teacher=true;
  let result=await request(init);assert.equal(result.status,200);const assetId=result.body.asset_id;
+ const phone=await request({...init,filename:'phone.mov',content_type:'video/quicktime',fingerprint:'b'.repeat(64)});
+ assert.equal(phone.status,200,'phone recordings do not require MP4 conversion');
+ assert.equal((await request({action:'cancel',asset_id:phone.body.asset_id})).status,200);
  assert.equal((await request(init)).body.asset_id,assetId,'resume the same file');
  assert.equal((await request({action:'sign',asset_id:assetId,part_number:2})).status,400);
  assert.equal((await request({action:'sign',asset_id:assetId,part_number:1})).status,200);
@@ -76,6 +79,6 @@ async function main(){
  access=true;assert.equal((await request({action:'playback',asset_id:assetId})).status,200);
  env.VIDEO_UPLOADS_ENABLED='false';assert.equal((await request(init)).status,503);assert.equal((await request({action:'playback',asset_id:assetId})).status,200);
  assert.equal((await request({action:'cleanup'})).status,401);assert.equal((await request({action:'cleanup'},'cleanup')).status,200);
- console.log('Lesson video MP4 validation, upload/resume, authorization and playback API checks passed');
+ console.log('Lesson video container validation, MOV uploads, resume, authorization and playback API checks passed');
 }
 main().catch(error=>{console.error(error);process.exit(1);});

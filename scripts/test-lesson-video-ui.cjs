@@ -27,6 +27,9 @@ async function main(){
  assert.ok(document.querySelector('input[type=file][data-video-lesson="lesson"]'),'direct upload control');
  assert.equal(document.querySelector('input[name=video_url]'),null,'no new YouTube URL field');
  assert.match(document.querySelector('#class-editor').textContent,/500 MB/);
+ assert.match(document.querySelector('#class-editor').textContent,/very clear and easy to hear/);
+ assert.doesNotMatch(document.querySelector('#class-editor').textContent,/H\.264|AAC|720p/);
+ assert.match(document.querySelector('input[data-video-lesson]').getAttribute('accept'),/video\/\*/);
  assert.match(document.querySelector('#class-editor').textContent,/old video link/);
  const uploaded=window.ThinkRightVideo.editor({id:'id',video_asset_id:'asset',title:'<script>unsafe</script>'});
  const fragment=parseHTML(uploaded).document;

@@ -28,8 +28,8 @@
   }
   function editor(lesson) {
     const job = jobs.get(lesson.id);
-    return `<div class="lesson-video-upload"><label class="tw-field"><span>${lesson.video_asset_id ? 'Replace lesson video' : 'Upload lesson video'}</span><input type="file" accept="video/mp4,.mp4" data-video-lesson="${esc(lesson.id)}" ${job?.running ? 'disabled' : ''}></label>
-      <p class="tw-hint">MP4, up to 500 MB. Export H.264 video with AAC audio. For smaller files, use 720p. Reselect the same file to resume an interrupted upload.</p>
+    return `<div class="lesson-video-upload"><label class="tw-field"><span>${lesson.video_asset_id ? 'Replace lesson video' : 'Upload lesson video'}</span><input type="file" accept="video/*,.mp4,.mov,.m4v,.webm,.mkv,.avi,.3gp" data-video-lesson="${esc(lesson.id)}" ${job?.running ? 'disabled' : ''}></label>
+      <p class="tw-hint">Maximum file size: 500 MB. Make sure the video is very clear and easy to hear.</p>
       ${lesson.video_asset_id ? `<button type="button" class="tw-button small" data-video-preview="${esc(lesson.video_asset_id)}">Preview uploaded video</button>` : lesson.video_url ? '<p class="tw-hint">This lesson uses an old video link. Upload a replacement before sending the class for review.</p>' : ''}
       <video data-video-local="${esc(lesson.id)}" ${job?.previewURL ? `src="${esc(job.previewURL)}"` : 'hidden'} controls playsinline preload="metadata" style="width:100%;max-height:300px;background:#000" aria-label="Selected recording preview"></video>
       <progress max="100" value="${job?.percent || 0}" ${job?.running ? '' : 'hidden'} aria-label="Video upload progress" style="width:100%"></progress>
@@ -59,22 +59,18 @@
   }
   async function upload(file, cohortId, lessonId) {
     if (jobs.get(lessonId)?.running) throw new Error('This lesson is already uploading');
-    if (!/\.mp4$/i.test(file.name) || !file.size || file.size > 500 * 1024 * 1024) throw new Error('Choose an MP4 video up to 500 MB.');
+    if (!file.size || file.size > 500 * 1024 * 1024) throw new Error('Choose a video up to 500 MB.');
+    const types={mp4:'video/mp4',m4v:'video/mp4',mov:'video/quicktime',webm:'video/webm',mkv:'video/x-matroska',avi:'video/x-msvideo','3gp':'video/3gpp'};
+    const contentType=types[file.name.split('.').pop().toLowerCase()]||file.type;
+    if(!contentType?.startsWith('video/'))throw new Error('Choose a video recording.');
     const job = { running: true, cancelled: false, percent: 0, message: 'Checking video…', requests: new Set() }; jobs.set(lessonId, job); paint(lessonId);
     const previewURL = URL.createObjectURL(file);
     job.previewURL = previewURL;
     document.querySelectorAll('[data-video-local]').forEach(el => { if (el.dataset.videoLocal === lessonId) { el.src = previewURL; el.hidden = false; } });
     try {
-      await new Promise((resolve, reject) => {
-        const v = document.createElement('video'); const timeout = setTimeout(() => done(new Error('Cannot read this MP4. Export H.264 video with AAC audio.')), 15000);
-        function done(error) { clearTimeout(timeout); v.removeAttribute('src'); v.load(); error ? reject(error) : resolve(); }
-        v.onloadedmetadata = () => { v.onloadedmetadata = v.onerror = null; done(Number.isFinite(v.duration) && v.duration > 0 ? null : new Error('Choose a playable MP4 video.')); };
-        v.onerror = () => { v.onloadedmetadata = v.onerror = null; done(new Error('This MP4 cannot play here. Export H.264 video with AAC audio.')); };
-        v.preload = 'metadata'; v.src = previewURL;
-      });
       job.message = 'Preparing upload…'; paint(lessonId);
       const hash = await fingerprint(file, job);
-      const start = await api('initiate', { cohort_id: cohortId, lesson_id: lessonId, filename: file.name, content_type: 'video/mp4', size_bytes: file.size, fingerprint: hash });
+      const start = await api('initiate', { cohort_id: cohortId, lesson_id: lessonId, filename: file.name, content_type: contentType, size_bytes: file.size, fingerprint: hash });
       job.assetId = start.asset_id;
       if (job.cancelled) { await api('cancel', { asset_id: job.assetId }); throw new Error('Upload cancelled'); }
       if (start.state === 'ready' || start.state === 'verifying') {

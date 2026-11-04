@@ -42,9 +42,9 @@ The application code is not sufficient on its own. Configure and test staging be
 
 ## Smoke test before production rollout
 
-- Approved teacher: create a class, add a lesson, choose an H.264/AAC MP4 under 500 MB, watch progress and preview the uploaded video. Save, reload, and verify the preview still works.
+- Approved teacher: create a class, add a lesson, choose a video recording under 500 MB, watch progress and preview the uploaded video. Save, reload, and verify the preview still works.
 - Interrupt a large upload, reload, then reselect the identical file. It should reuse completed chunks. Session lifetime is 24 hours; after that a new upload is required.
-- Upload an MP4 with metadata at the end, a silent H.264 video, a corrupt file, an unsupported codec, and an oversized file. Valid supported videos pass; invalid media cannot be attached or submitted.
+- Upload recordings from different devices, including MOV and WebM, plus a non-video file and an oversized file. Valid video containers pass without codec restrictions; invalid files and files over 500 MB are rejected.
 - Submit the class, preview it as admin, approve it, enroll a student, and test playback/seek/fullscreen/speed on desktop, Android and iPhone. Test foregrounding a mobile app after playback credentials expire.
 - An unenrolled student, a second teacher and a signed-out browser must not receive playback links. Draft replacement videos must not be visible to enrolled students until approved.
 - Existing YouTube class: confirm existing students still watch it, new orders are rejected, and an existing pending payment settles. Replace every lesson and approve; enrollment should reopen with the class's existing availability.
@@ -54,7 +54,7 @@ The application code is not sufficient on its own. Configure and test staging be
 
 `lesson-video` accepts POST JSON with `action`. User operations use the current Supabase session. `initiate` accepts `cohort_id`, `lesson_id`, `filename`, `size_bytes`, `content_type`, and a full-file chunk-hash fingerprint; returns `asset_id`, `chunk_size`, and optionally a resumable state. `status`, `sign` (plus `part_number`), `complete`, and `cancel` use `asset_id`. `playback` returns a one-hour signed GET URL only after class-access checks. `cleanup` requires the dedicated cleanup secret as its bearer token.
 
-Uploads use 10 MiB parts, three concurrent browser requests, and up to three attempts per part with newly signed permissions. Each signed upload permission lasts 15 minutes. Resume requires reselecting the same file; the browser computes a fingerprint over all file chunks with bounded memory. After R2 assembly, the server checks object size, MP4 structure and H.264/AAC metadata using bounded range reads before marking the asset ready. It does not decode every frame or transcode the recording. Admins still preview recordings before approval.
+Uploads use 10 MiB parts, three concurrent browser requests, and up to three attempts per part with newly signed permissions. Each signed upload permission lasts 15 minutes. Resume requires reselecting the same file; the browser computes a fingerprint over all file chunks with bounded memory. After R2 assembly, the server checks object size and video-container signatures using bounded range reads before marking the asset ready. It does not enforce particular video or audio codecs, decode every frame, or transcode the recording. Admins preview recordings and assess clarity before approval.
 
 The internal `https://video.thinkright.invalid/assets/UUID` marker in `video_url` preserves compatibility with the existing workspace's HTTPS validation. It is not a public video endpoint. `video_asset_id` is authoritative, and actual playback uses an authorized temporary URL. Neither object keys nor signed URLs should be added to public curriculum responses or logs.
 
@@ -69,3 +69,7 @@ Set `VIDEO_UPLOADS_ENABLED=false` to stop new upload operations without interrup
 `npm.cmd run test:video` runs isolated API, media metadata, database and browser DOM tests. No tests connect to R2 or live Supabase. `npm.cmd run test:teacher` and `npm.cmd run build:web` cover the existing teacher/payment code and website bundle. Production smoke tests remain necessary after credentials and infrastructure are configured.
 
 References: [R2 S3 API](https://developers.cloudflare.com/r2/api/s3/api/), [multipart uploads](https://developers.cloudflare.com/r2/objects/upload-objects/), [presigned URLs](https://developers.cloudflare.com/r2/api/s3/presigned-urls/), [CORS](https://developers.cloudflare.com/r2/buckets/cors/).
+
+## Teacher guidance
+
+Show only two main recommendations: maximum file size 500 MB, and a very clear video with audible speech. Teachers do not need to choose codecs or convert files to pass upload validation. Native-browser playback support still varies by recording format; R2 storage does not provide automatic conversion. A successful upload is not a guarantee that the original recording plays on every student device.
