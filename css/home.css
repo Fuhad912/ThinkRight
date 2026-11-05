@@ -1,5 +1,12 @@
 /* A short front page: headlines, introduction and two clear study paths. */
 html.tr-cached-student .page-home .home-brief { display: none; }
+.home-brief.news-carousel { flex: none; padding: 24px; border-radius: 4px; }
+.home-brief.news-carousel .news-carousel-intro { margin: 20px 0; }
+.home-brief.news-carousel .news-slides { min-height: 150px; }
+@media(max-width:700px) {
+  .home-brief.news-carousel { padding: 16px; }
+  .home-brief.news-carousel .news-slides { min-height: 160px; }
+}
 .page-home { background: var(--surface-bg, #fff); }
 .page-home .home-hub-page { max-width: 1120px; padding: 28px 32px 0; }
 .home-brief { border-top: 2px solid var(--text-primary); border-bottom: 1px solid var(--line-subtle); padding: 0 0 18px; }

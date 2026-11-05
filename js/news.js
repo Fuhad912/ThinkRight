@@ -46,7 +46,7 @@
 
   async function initCarousel(root) {
     let posts;
-    const status = root.querySelector('#auth-news-status');
+    const status = root.querySelector('[role="status"]');
     try { posts = await published({ limit: 5, carousel: true }); }
     catch { if (status) status.textContent = 'Updates couldn’t load right now. Please try again later.'; return; }
     if (!posts.length) { if (status) status.textContent = 'No updates have been published yet. Check back soon.'; return; }
@@ -64,12 +64,13 @@
     const pauseButton = root.querySelector('[data-news="pause"]');
     function schedule() {
       clearTimeout(timer);
-      if (posts.length > 1 && !document.hidden && visible) timer = setTimeout(() => show(index + 1), 3000);
+      if (posts.length > 1 && !paused && !hovered && (!focused || playRequested) && !document.hidden && visible) timer = setTimeout(() => show(index + 1), 3000);
     }
     function updatePause() {
-      if (!pauseButton) return;
-      pauseButton.setAttribute('aria-label', paused ? 'Play news rotation' : 'Pause news rotation');
-      pauseButton.innerHTML = `<i class="fa-solid fa-${paused ? 'play' : 'pause'}" aria-hidden="true"></i>`;
+      if (pauseButton) {
+        pauseButton.setAttribute('aria-label', paused ? 'Play news rotation' : 'Pause news rotation');
+        pauseButton.innerHTML = `<i class="fa-solid fa-${paused ? 'play' : 'pause'}" aria-hidden="true"></i>`;
+      }
       root.querySelector('.news-slides').setAttribute('aria-live', paused || (focused && !playRequested) ? 'polite' : 'off');
     }
     function show(next) {
@@ -96,6 +97,7 @@
       const t = event.changedTouches[0], dx = t.clientX - touchStart.x, dy = t.clientY - touchStart.y;
       if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5 && !event.target.closest('button')) { suppressClick = true; show(index + (dx < 0 ? 1 : -1)); }
       touchStart = null;
+      paused = reduced.matches; updatePause(); schedule();
     }, { passive: true });
     document.addEventListener('visibilitychange', schedule);
     reduced.addEventListener('change', () => { if (reduced.matches) paused = true; updatePause(); schedule(); });
@@ -151,9 +153,9 @@
     await load(true);
   }
   document.addEventListener('DOMContentLoaded', () => {
-    const carousel = document.querySelector('#auth-news');
+    const carousels = document.querySelectorAll('#auth-news, [data-news-carousel]');
     const archive = document.querySelector('#news-content');
-    if (carousel) initCarousel(carousel);
+    carousels.forEach(initCarousel);
     if (archive) initArchive(archive);
   });
 })();
