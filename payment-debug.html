@@ -66,7 +66,7 @@
 <body>
     <div class="container">
         <h1>🐛 Payment Callback Debug Tool</h1>
-        
+
         <div class="section">
             <h2>📍 Current URL</h2>
             <div class="url-params" id="currentUrl"></div>
@@ -114,7 +114,7 @@
             // Parse query parameters
             const params = new URLSearchParams(window.location.search);
             const queryParamsDiv = document.getElementById('queryParams');
-            
+
             if (window.location.search) {
                 let html = '<div class="status-good">✓ Query string found:</div>';
                 for (const [key, value] of params) {
@@ -142,9 +142,9 @@
             const analysisDiv = document.getElementById('analysis');
             const status = params.get('status');
             const txRef = params.get('tx_ref');
-            
+
             let analysis = '';
-            
+
             if (!status) {
                 analysis += '<div class="status-bad">❌ CRITICAL: No status parameter found</div>';
                 analysis += '<div>This means Flutterwave is not redirecting with the status parameter.</div>';
@@ -157,18 +157,18 @@
             } else {
                 analysis += `<div class="status-good">✓ Status parameter received: <strong>${status}</strong></div>`;
             }
-            
+
             if (!txRef) {
                 analysis += '<div class="status-warn">⚠ No tx_ref parameter found</div>';
             } else {
                 analysis += `<div class="status-good">✓ Transaction reference received: <strong>${txRef}</strong></div>`;
             }
-            
+
             if (status && txRef) {
                 analysis += '<div class="status-good" style="margin-top: 10px;">✓ Both parameters received correctly!</div>';
                 analysis += '<div>The payment-callback.html should process this successfully.</div>';
             }
-            
+
             analysisDiv.innerHTML = analysis;
         }
 
