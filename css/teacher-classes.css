@@ -1,0 +1,122 @@
+/* My classes. Uses ThinkRight tokens from premium-ui.css (fonts, accent, surfaces, lines) so light and dark mode follow the site.
+   Rules: only class tiles, controls and the dialog get a container. Radii: 6px controls, 12px tiles. No shadows or gradients. */
+body[data-workspace-page="classes"]{background:var(--surface-bg)}
+
+.tc-page{width:100%;min-width:0;--tc-danger:var(--danger)}
+html[data-theme='dark'] .tc-page,body.dark .tc-page{--tc-danger:#f97066}
+.tc-page .tc-sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* Header */
+.tc-page .tc-head{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px 24px;margin:0 0 28px}
+.tc-page .tc-head h1{margin:0 0 6px;font-size:var(--text-h1);letter-spacing:-.03em}
+.tc-page .tc-head p{margin:0;max-width:52ch;color:var(--text-secondary);font-size:15px;line-height:1.55}
+.tc-page .tc-create{min-height:48px;padding:0 22px;border-radius:6px;box-shadow:none;font-size:14px}
+
+/* At a glance */
+.tc-page .tc-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0 0 28px;padding:20px 0;border-block:1px solid var(--line-subtle)}
+.tc-page .tc-summary>div{display:flex;flex-direction:column-reverse;justify-content:flex-end;gap:4px;min-width:0;padding-right:16px}
+.tc-page .tc-summary>div+div{padding-left:24px;border-left:1px solid var(--line-subtle)}
+.tc-page .tc-summary dd{margin:0;font-family:var(--font-heading);font-size:clamp(1.65rem,1.2rem + 1.6vw,2.4rem);font-weight:600;letter-spacing:-.035em;line-height:1.1;color:var(--text-primary);font-variant-numeric:tabular-nums}
+.tc-page .tc-summary dt{font-size:13px;color:var(--text-secondary);line-height:1.3}
+
+/* Search and subject */
+.tc-page .tc-toolbar{display:grid;grid-template-columns:minmax(0,1fr) minmax(190px,260px);gap:12px;margin:0 0 8px}
+.tc-page .tc-search{display:flex;align-items:center;gap:12px;min-height:48px;padding:0 14px;border:1px solid var(--line-subtle);border-radius:6px;background:var(--surface-bg);color:var(--text-muted);cursor:text}
+.tc-page .tc-search:focus-within{border-color:var(--accent-primary);box-shadow:0 0 0 3px var(--accent-soft)}
+.tc-page .tc-search input{flex:1;min-width:0;min-height:46px;padding:0;border:0;background:none;color:var(--text-primary);font:inherit;font-size:16px}
+.tc-page .tc-search input::placeholder{color:var(--text-muted)}
+.tc-page .tc-search input:focus,.tc-page .tc-search input:focus-visible{outline:0}
+.tc-page .tc-subject button{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-height:48px;padding:0 14px;border:1px solid var(--line-subtle);border-radius:6px;background:var(--surface-bg);color:var(--text-primary);font-size:15px;text-align:left}
+.tc-page .tc-subject button:hover{border-color:var(--line-strong)}
+.tc-page .tc-subject button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tc-page .tc-subject button .tw-i{color:var(--text-muted);font-size:12px}
+
+/* Status tabs */
+.tc-page .tc-tabs{display:flex;gap:28px;overflow-x:auto;border-bottom:1px solid var(--line-subtle);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tc-page .tc-tabs::-webkit-scrollbar{display:none}
+.tc-page .tc-tabs button{flex:none;display:inline-flex;align-items:center;gap:8px;min-height:48px;margin-bottom:-1px;padding:0;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;color:var(--text-secondary);font-size:14px;font-weight:600;white-space:nowrap}
+.tc-page .tc-tabs button strong{font-size:12px;font-weight:600;color:var(--text-muted);font-variant-numeric:tabular-nums}
+.tc-page .tc-tabs button:hover{color:var(--text-primary)}
+.tc-page .tc-tabs button[aria-pressed="true"]{color:var(--accent-primary);border-bottom-color:var(--accent-primary)}
+.tc-page .tc-tabs button[aria-pressed="true"] strong{color:var(--accent-primary)}
+.tc-page .tc-tabs button[data-alert="true"] strong{color:var(--tc-danger)}
+.tc-page .tc-count{display:flex;justify-content:space-between;gap:16px;margin:16px 0 20px;font-size:13px;color:var(--text-muted)}
+.tc-page .tc-count span:first-child{color:var(--text-secondary);font-weight:600}
+
+/* Class tiles */
+.tc-page .tc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:24px}
+.tc-page .tc-card{position:relative;display:flex;flex-direction:column;min-width:0;overflow:hidden;border:1px solid var(--line-subtle);border-radius:12px;background:var(--surface-bg);transition:border-color .15s ease}
+.tc-page .tc-card:hover{border-color:var(--accent-primary)}
+.tc-page .tc-card:focus-within{outline:2px solid var(--accent-primary);outline-offset:2px}
+
+.tc-page .tc-cover{position:relative;aspect-ratio:16/9;background:var(--surface-muted);overflow:hidden}
+.tc-page .tc-cover img{display:block;width:100%;height:100%;object-fit:cover}
+.tc-page .tc-cover__tag{position:absolute;left:12px;bottom:12px;max-width:calc(100% - 24px);padding:4px 10px;border-radius:6px;background:var(--surface-bg);color:var(--text-primary);font-size:12px;font-weight:700;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tc-page .tc-cover--type{display:flex;align-items:flex-end;padding:20px}
+.tc-page .tc-cover--type::before{content:"";position:absolute;left:20px;top:20px;width:28px;height:3px;background:var(--accent-primary)}
+.tc-page .tc-cover__subject{font-family:var(--font-heading);font-size:clamp(1.7rem,1.3rem + 1.2vw,2.15rem);font-weight:600;letter-spacing:-.04em;line-height:1.05;color:var(--accent-primary);overflow-wrap:anywhere}
+
+.tc-page .tc-card__body{display:flex;flex:1;flex-direction:column;gap:20px;min-width:0;padding:20px 20px 20px}
+.tc-page .tc-card__top{display:flex;flex-direction:column;gap:10px;min-width:0}
+.tc-page .tc-status{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--text-secondary)}
+.tc-page .tc-status i{width:8px;height:8px;border-radius:50%;background:var(--text-muted)}
+.tc-page .tc-status--published i{background:var(--success)}
+.tc-page .tc-status--in_review i{background:var(--accent-primary)}
+.tc-page .tc-status--changes_requested i{background:var(--tc-danger)}
+.tc-page .tc-title{margin:0;font-size:1.2rem;line-height:1.3;letter-spacing:-.025em;overflow-wrap:anywhere;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.tc-page .tc-desc{margin:0;color:var(--text-secondary);font-size:14px;line-height:1.55;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;overflow-wrap:anywhere}
+.tc-page .tc-note{display:flex;gap:10px;margin:0;font-size:13px;line-height:1.5;color:var(--text-secondary)}
+.tc-page .tc-note>i{flex:none;margin-top:3px;color:var(--tc-danger)}
+.tc-page .tc-note strong{display:block;color:var(--text-primary)}
+.tc-page .tc-note__text{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden;overflow-wrap:anywhere}
+
+.tc-page .tc-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:auto 0 0}
+.tc-page .tc-stats>div{display:flex;flex-direction:column-reverse;justify-content:flex-end;gap:2px;min-width:0}
+.tc-page .tc-stats dd{margin:0;font-family:var(--font-heading);font-size:1.3rem;font-weight:600;letter-spacing:-.02em;line-height:1.2;color:var(--text-primary);font-variant-numeric:tabular-nums}
+.tc-page .tc-stats dt{font-size:12px;color:var(--text-secondary)}
+
+.tc-page .tc-card__foot{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 20px;border-top:1px solid var(--line-subtle)}
+.tc-page .tc-price{display:flex;flex-direction:column;min-width:0;margin:0;line-height:1.3}
+.tc-page .tc-price strong{font-family:var(--font-heading);font-size:1.05rem;color:var(--text-primary);font-variant-numeric:tabular-nums}
+.tc-page .tc-price .tc-price--pending{font-family:var(--font-body);font-size:14px;font-weight:600;color:var(--text-secondary)}
+.tc-page .tc-price span{font-size:12px;color:var(--text-muted)}
+.tc-page .tc-action{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:var(--text-primary);white-space:nowrap}
+.tc-page .tc-action::after{content:"";position:absolute;inset:0}
+.tc-page .tc-action:focus-visible{outline:0}
+.tc-page .tc-action .tw-i{font-size:12px}
+.tc-page .tc-action--draft{color:var(--accent-primary)}
+.tc-page .tc-action--changes_requested{color:var(--tc-danger)}
+
+/* Empty states */
+.tc-page .tc-empty{max-width:620px;padding:clamp(28px,6vw,64px) 0}
+.tc-page .tc-empty h2{margin:0 0 8px;font-size:var(--text-h2);letter-spacing:-.03em}
+.tc-page .tc-empty p{margin:0 0 20px;max-width:52ch;color:var(--text-secondary);font-size:15px;line-height:1.6}
+.tc-page .tc-steps{margin:0 0 28px;padding:0;list-style:none;counter-reset:tc-step;border-top:1px solid var(--line-subtle)}
+.tc-page .tc-steps li{counter-increment:tc-step;display:grid;grid-template-columns:28px minmax(0,1fr);column-gap:12px;padding:16px 0;border-bottom:1px solid var(--line-subtle)}
+.tc-page .tc-steps li::before{content:counter(tc-step);grid-row:1/3;font-family:var(--font-heading);font-weight:600;color:var(--accent-primary)}
+.tc-page .tc-steps strong{color:var(--text-primary);font-size:15px}
+.tc-page .tc-steps span{color:var(--text-secondary);font-size:14px}
+
+/* Subject picker dialog */
+body[data-workspace-page="classes"] #workspace-dialog{margin:auto;border-radius:12px;padding:20px;box-shadow:var(--shadow-md)}
+body[data-workspace-page="classes"] .tw-earnings-choices button{min-height:48px;padding:12px 14px;font-size:15px}
+
+@media(max-width:639px){
+  .tc-page .tc-head{margin-bottom:22px}
+  .tc-page .tc-head p{font-size:14px}
+  .tc-page .tc-create{width:100%}
+  .tc-page .tc-summary{margin-bottom:20px;padding:16px 0}
+  .tc-page .tc-summary>div{padding-right:8px}
+  .tc-page .tc-summary>div+div{padding-left:14px}
+  .tc-page .tc-toolbar{grid-template-columns:minmax(0,1fr)}
+  .tc-page .tc-tabs{gap:20px}
+  .tc-page .tc-count span:last-child{display:none}
+  .tc-page .tc-grid{gap:16px}
+  .tc-page .tc-cover{aspect-ratio:2.3/1}
+  .tc-page .tc-cover--type{padding:16px}
+  .tc-page .tc-cover--type::before{left:16px;top:16px}
+  .tc-page .tc-card__body{padding:16px;gap:16px}
+  .tc-page .tc-card__foot{padding:12px 16px}
+  body[data-workspace-page="classes"] #workspace-dialog{width:100%;max-width:100%;margin:auto 0 0;padding:20px 16px calc(20px + env(safe-area-inset-bottom));border-radius:12px 12px 0 0;animation:tc-sheet-in .2s ease-out}
+}
+@keyframes tc-sheet-in{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}

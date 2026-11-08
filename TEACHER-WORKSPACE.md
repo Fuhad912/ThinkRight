@@ -27,7 +27,7 @@ Teacher identity comes from the authenticated database role, not URL parameters 
 
 - Price is configured per subject in NGN. Each purchase grants enrollment in one class. A zero price explicitly means free; unconfigured prices disable enrollment.
 - A checkout order locks its quoted amount for 15 minutes. New orders use the latest subject price. Existing completed payments retain their recorded amounts.
-- Only server verification of a successful Paystack transaction can settle a paid order. Callback and webhook retries are idempotent. The teacher share is 70% of the verified gross amount, before provider fees.
+- Only server verification of a successful Paystack transaction can settle a paid order. Callback and webhook retries are idempotent. The teacher share is 90% of the verified gross amount, before provider fees.
 - Payouts are **records of completed external transfers**, not automatic transfers. Review bank details and check actual bank evidence before recording. The database rejects payouts above the unpaid balance. Changing bank details resets review; previous payout bank snapshots remain unchanged.
 - Historical paid enrollments do not become payable automatically. Use Reconciliation only after checking external payment evidence. References must be unique. Refunds/chargebacks and duplicate or late successful payments require a reviewed support/accounting process; no automatic refund integration is included.
 - If Paystack confirms a payment but settlement fails, retain the reference and resolve it through support; do not ask the student to pay again. Check function logs and the provider dashboard for unresolved webhook retries.

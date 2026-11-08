@@ -158,7 +158,7 @@ begin
  insert into subject_course_enrollments(user_id,tutor_id,subject_id,enrollment_id) values(o.user_id,o.tutor_id,o.subject_id,eid);
  perform sync_subject_course(o.user_id,o.tutor_id,o.subject_id);
  insert into teacher_earnings(tutor_id,enrollment_id,cohort_id,gross_kobo,teacher_kobo,reference,source)
- values(o.tutor_id,eid,o.cohort_id,o.amount_kobo,round(o.amount_kobo*0.7),p_reference,'verified_payment');
+ values(o.tutor_id,eid,o.cohort_id,o.amount_kobo,round(o.amount_kobo*0.9),p_reference,'verified_payment');
  update class_orders set status='paid' where id=o.id;
  return o.cohort_id;
 end $$;

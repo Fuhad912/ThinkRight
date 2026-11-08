@@ -690,51 +690,41 @@
   function buildSubjectTabs() {
     if (!elements.subjectTabs) return;
     elements.subjectTabs.innerHTML = "";
-    if (elements.subjectSelect) elements.subjectSelect.innerHTML = "";
-
+    const dialog = document.getElementById("subjectPickerModal");
+    const options = document.getElementById("subjectModalOptions");
+    options.replaceChildren();
     SUBJECTS.forEach((subject) => {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = `arena-subject-pill ${subject.key === state.activeSubject ? "is-active" : ""}`;
-      btn.innerHTML = `<i class="fa-solid ${subject.icon}"></i> <span>${escapeHtml(subject.label)}</span>`;
+      btn.className = "arena-subject-pill";
       btn.dataset.subject = subject.key;
-
+      btn.textContent = subject.label;
       btn.addEventListener("click", async () => {
+        dialog.close();
         if (state.activeSubject === subject.key) return;
         state.activeSubject = subject.key;
         syncSubjectPills();
         await loadSubjectData(subject.key);
       });
-
       elements.subjectTabs.appendChild(btn);
-
-      if (elements.subjectSelect) {
-        const option = document.createElement("option");
-        option.value = subject.key;
-        option.textContent = subject.label;
-        elements.subjectSelect.appendChild(option);
-      }
+      const modalBtn = btn.cloneNode(true);
+      modalBtn.addEventListener("click", () => btn.click());
+      options.appendChild(modalBtn);
     });
-
-    if (elements.subjectSelect) {
-      elements.subjectSelect.value = state.activeSubject;
-      elements.subjectSelect.addEventListener("change", async (e) => {
-        state.activeSubject = e.target.value;
-        syncSubjectPills();
-        await loadSubjectData(state.activeSubject);
-      });
-    }
+    elements.subjectSelect.addEventListener("click", () => dialog.showModal());
+    document.getElementById("closeSubjectPicker").addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (event) => { if (event.target === dialog) dialog.close(); });
+    syncSubjectPills();
   }
 
   function syncSubjectPills() {
-    if (elements.subjectTabs) {
-      elements.subjectTabs.querySelectorAll(".arena-subject-pill").forEach((pill) => {
-        pill.classList.toggle("is-active", pill.dataset.subject === state.activeSubject);
-      });
-    }
-    if (elements.subjectSelect && elements.subjectSelect.value !== state.activeSubject) {
-      elements.subjectSelect.value = state.activeSubject;
-    }
+    document.querySelectorAll(".arena-subject-pill").forEach((pill) => {
+      const active = pill.dataset.subject === state.activeSubject;
+      pill.classList.toggle("is-active", active);
+      pill.setAttribute("aria-pressed", String(active));
+    });
+    const subject = SUBJECTS.find((item) => item.key === state.activeSubject);
+    if (elements.subjectSelect) elements.subjectSelect.textContent = `${subject?.label || "Select subject"} ?`;
   }
 
   // --- Main Data Loaders ---

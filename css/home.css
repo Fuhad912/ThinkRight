@@ -1,6 +1,9 @@
 /* A short front page: headlines, introduction and two clear study paths. */
 html.tr-cached-student .page-home .home-brief { display: none; }
-.home-brief.news-carousel { flex: none; padding: 24px; border-radius: 4px; }
+.home-brief.news-carousel { flex: none; padding: 24px; border: 0; border-bottom: 1px solid var(--line-subtle); border-radius: 0; box-shadow: none; }
+.home-brief.news-carousel::before { display: none; }
+.home-brief.news-carousel .news-carousel-footer { border: 0; }
+.home-brief.news-carousel .news-position-line { visibility: hidden; }
 .home-brief.news-carousel .news-carousel-intro { margin: 20px 0; }
 .home-brief.news-carousel .news-slides { min-height: 150px; }
 @media(max-width:700px) {
@@ -9,7 +12,7 @@ html.tr-cached-student .page-home .home-brief { display: none; }
 }
 .page-home { background: var(--surface-bg, #fff); }
 .page-home .home-hub-page { max-width: 1120px; padding: 28px 32px 0; }
-.home-brief { border-top: 2px solid var(--text-primary); border-bottom: 1px solid var(--line-subtle); padding: 0 0 18px; }
+.home-brief { padding: 0 0 18px; }
 .home-brief__head { display: flex; justify-content: space-between; align-items: center; gap: 20px; min-height: 48px; }
 .home-brief__head h2 { display: flex; align-items: center; gap: 9px; margin: 0; font: 600 14px 'Space Grotesk', sans-serif; letter-spacing: -.02em; }
 .home-brief__head h2 i { color: var(--accent-primary); font-size: 14px; }
@@ -25,11 +28,11 @@ html.tr-cached-student .page-home .home-brief { display: none; }
 .home-news-status p { margin: 0; }
 .home-news-status button { background: transparent; border: 0; padding: 0 8px; min-height: 44px; font: inherit; color: var(--accent-primary); cursor: pointer; }
 .home-news-status [hidden] { display: none; }
-.page-home .home-hero { max-width: 760px; margin: 0 auto; padding: 62px 0 36px; text-align: center; }
+.page-home .home-hero { max-width: 880px; margin: 0 auto; padding: 40px 0 28px; text-align: left; }
 .home-eyebrow { color: var(--text-secondary); font: 700 10px/1.5 'Manrope', sans-serif; letter-spacing: .15em; }
-.page-home .home-hero__title { margin: 18px 0; font: 600 clamp(38px, 5vw, 60px)/1.08 'Space Grotesk', sans-serif; letter-spacing: -.055em; color: var(--text-primary); }
+.page-home .home-hero__title { margin: 12px 0; font: 600 clamp(28px, 3.5vw, 42px)/1.15 'Space Grotesk', sans-serif; letter-spacing: -.035em; color: var(--text-primary); }
 .home-hero__title span { color: var(--accent-primary); }
-.page-home .home-hero__subtitle { font-size: 14px; line-height: 1.85; margin: 0 auto; color: var(--text-secondary); }
+.page-home .home-hero__subtitle { max-width: 72ch; font-size: 14px; line-height: 1.85; margin: 0; color: var(--text-secondary); }
 .home-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; max-width: 880px; margin: 0 auto; }
 .home-action { display: flex; align-items: center; gap: 18px; padding: 28px; border: 1px solid var(--line-subtle); border-radius: 14px; color: var(--text-primary); background: var(--surface-bg); text-decoration: none; transition: border-color .18s, background .18s; }
 .home-action--primary { background: var(--surface-subtle); }
@@ -83,13 +86,40 @@ html.tr-cached-student .page-home .home-brief { display: none; }
   .home-details p { grid-column: 2; }
 }
 .home-mobile-brand { display: none; }
+.page-home .tr-navbar__auth-btn,
+.page-home .home-mobile-login {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 10px 18px;
+  border: 1px solid var(--tr-navbar-accent);
+  border-radius: 6px;
+  background: var(--tr-navbar-accent);
+  color: #fff;
+  font: 600 14px/1.4 var(--font-body);
+  text-decoration: none;
+  box-shadow: none;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.page-home .tr-navbar__auth-btn::after { content: '\2192'; }
+.page-home .home-mobile-login i { font-size: 12px; }
+.page-home .tr-navbar__auth-btn:hover,
+.page-home .home-mobile-login:hover {
+  background: var(--accent-primary-hover);
+  border-color: var(--accent-primary-hover);
+  color: #fff;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-home .tr-navbar__auth-btn, .page-home .home-mobile-login { transition: none; }
+}
 .home-news-controls { display: flex; gap: 4px; }
 .home-news-controls button { display: grid; place-items: center; width: 36px; height: 44px; border: 0; border-radius: 6px; background: transparent; color: var(--text-secondary); cursor: pointer; }
 .home-news-controls button:hover { background: var(--surface-subtle); color: var(--accent-primary); }
 @media (max-width: 899px) {
   .home-mobile-brand { display: flex; justify-content: space-between; align-items: center; padding: 0 0 18px; }
   .home-mobile-brand > a { text-decoration: none; }
-  .home-mobile-login { display: inline-flex; gap: 9px; align-items: center; min-height: 44px; font-size: 12px; font-weight: 600; color: var(--text-secondary); }
   html:not(.tr-cached-student):not(.tr-cached-teacher) .page-home #tr-student-bottom-nav,
   html.tr-cached-guest .page-home #tr-student-bottom-nav { display: none !important; }
   html:not(.tr-cached-student):not(.tr-cached-teacher) body.page-home,

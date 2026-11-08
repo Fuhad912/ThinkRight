@@ -250,7 +250,7 @@ async function signUp(email, password, username, role = 'student', policyAccepta
                             id: userId,
                             display_name: username.trim(),
                             status: 'pending',
-                            revenue_share_pct: 70.0
+                            revenue_share_pct: 90
                         });
                     if (tutorError) {
                         console.warn('⚠️ Initial tutor record warning:', tutorError);

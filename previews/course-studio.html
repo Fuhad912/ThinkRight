@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex">
+  <title>Course studio preview · ThinkRight</title>
+  <link rel="stylesheet" href="../css/premium-ui.css">
+  <link rel="stylesheet" href="course-studio.css?v=20261107-player">
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
+  <script defer src="../js/auth.js?v=20261016c"></script>
+  <script defer src="course-studio.js?v=20261107-share90"></script>
+  <script type="module" src="../js/studio-player.js?v=20261106-custom-player"></script>
+</head>
+<body data-workspace-page="course-preview">
+  <div class="preview-bar"><span>Interactive design preview · Sample data</span><select id="scene" aria-label="Preview screen"><option value="create">Create a course</option><option value="agreement">Price agreement</option><option value="student">Student course</option><option value="chat">Course chat</option></select></div>
+  <header class="site-header"><a class="brand" href="../tutor-dashboard.html">ThinkRight<span>.</span></a><nav aria-label="Teacher navigation"><a href="../tutor-dashboard.html">Home</a><a href="../tutor-classes.html" aria-current="page">My courses</a><a href="../tutor-payouts.html">Earnings</a><a href="../tutor-onboarding.html">Profile</a></nav></header>
+  <div id="workspace-root"><main id="app"></main></div>
+  <p id="toast" role="status" aria-live="polite"></p>
+</body>
+</html>

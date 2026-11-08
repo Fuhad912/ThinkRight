@@ -184,7 +184,7 @@
               id: currentUser.id,
               display_name: name,
               status: "active",
-              revenue_share_pct: 70.0
+              revenue_share_pct: 90
             })
             .select()
             .single();
@@ -327,7 +327,7 @@
         });
       }
 
-      const revSharePct = Number(currentTutor?.revenue_share_pct || 70) / 100;
+      const revSharePct = Number(currentTutor?.revenue_share_pct || 90) / 100;
       const netEarnings = grossRevenue * revSharePct;
 
       if (tutorGrossRevenueEl) tutorGrossRevenueEl.textContent = `₦${Math.round(grossRevenue).toLocaleString()}`;
@@ -431,7 +431,7 @@
           You haven't created any classes yet
         </h3>
         <p style="color: var(--text-secondary); max-width: 480px; margin: 0 auto 1.75rem; font-size: 0.95rem; line-height: 1.6;">
-          Launch your first JAMB syllabus class and upload pre-recorded video lessons. Students learn on their own schedule, and you earn 70% of every enrollment fee.
+          Launch your first JAMB syllabus class and upload pre-recorded video lessons. Students learn on their own schedule, and you earn 90% of every enrollment fee.
         </p>
         <button type="button" class="tr-btn tr-btn--primary" id="emptyCreateBtn">
           <i class="fa-solid fa-plus"></i> Create Your First Class

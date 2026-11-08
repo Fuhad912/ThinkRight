@@ -81,7 +81,7 @@ begin
      raise exception 'Complete the teaching application first';
    end if;
    insert into tutors(id,display_name,bio,subjects,whatsapp_number,sample_video_url,status,revenue_share_pct)
-   values(uid,trim(p_data->>'display_name'),p_data->>'bio',array(select jsonb_array_elements_text(coalesce(p_data->'subjects','[]'))),p_data->>'whatsapp_number',p_data->>'sample_video_url','pending',70)
+   values(uid,trim(p_data->>'display_name'),p_data->>'bio',array(select jsonb_array_elements_text(coalesce(p_data->'subjects','[]'))),p_data->>'whatsapp_number',p_data->>'sample_video_url','pending',90)
    on conflict(id) do update set display_name=excluded.display_name,bio=excluded.bio,subjects=excluded.subjects,whatsapp_number=excluded.whatsapp_number,sample_video_url=excluded.sample_video_url,updated_at=now();
    if p_data ? 'application' then
      insert into teacher_applications(tutor_id,details) values(uid,p_data->'application')
@@ -183,7 +183,7 @@ begin
    perform 1 from tutors where id=tid for update;
    if length(trim(coalesce(p_data->>'reference','')))<3 then raise exception 'Payment evidence reference required'; end if;
    insert into teacher_earnings(tutor_id,enrollment_id,cohort_id,gross_kobo,teacher_kobo,reference,source)
-   select tid,e.id,e.cohort_id,round(e.paid_amount*100),round(e.paid_amount*70),trim(p_data->>'reference'),'legacy_reconciled' from enrollments e where e.id=eid and e.paid_amount>0;
+   select tid,e.id,e.cohort_id,round(e.paid_amount*100),round(e.paid_amount*90),trim(p_data->>'reference'),'legacy_reconciled' from enrollments e where e.id=eid and e.paid_amount>0;
  elsif p_action='payout' then
    tid:=(p_data->>'id')::uuid;
    perform 1 from tutors where id=tid for update;

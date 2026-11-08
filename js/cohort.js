@@ -179,7 +179,7 @@
       }
 
       // 3. Load Q&A posts
-      loadPosts();
+      await loadPosts();
     } catch (err) {
       console.error("Failed to load cohort:", err);
       if (cohortTitle) cohortTitle.textContent = "Unable to load class";
@@ -270,20 +270,15 @@
     if (!postsListEl || !cohortId) return;
 
     try {
-      const { data: posts, error } = await window.supabase
-        .from("cohort_posts")
-        .select("id, body, created_at, author_id")
-        .eq("cohort_id", cohortId)
-        .order("created_at", { ascending: true })
-        .limit(50);
-
+      const { data: posts, error } = await window.supabase.rpc('course_messages',{p_cohort:cohortId});
       if (error) throw error;
 
       if (!posts || posts.length === 0) {
-        postsListEl.innerHTML = `<p style="color: var(--text-secondary); font-size: 0.85rem;">No questions posted yet. Be the first to ask!</p>`;
+        postsListEl.innerHTML = `<p style="color: var(--text-secondary); font-size: 0.85rem;">Start the course conversation. Ask a question or share what you learned.</p>`;
         return;
       }
 
+      const nearBottom=postsListEl.scrollHeight-postsListEl.scrollTop-postsListEl.clientHeight<80;
       postsListEl.innerHTML = posts.map((p) => {
         const timeStr = new Date(p.created_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
         const isTutorAuthor = currentCohort && p.author_id === currentCohort.tutor_id;
@@ -295,16 +290,16 @@
           <div style="padding: 0.65rem 0.85rem; background: rgba(100, 116, 139, 0.05); border-radius: 8px; border: 1px solid var(--border-color);">
             <p style="font-size: 0.88rem; color: var(--text-primary); margin: 0 0 4px 0;">${escapeHtml(p.body)}</p>
             <div style="display: flex; align-items: center; justify-content: space-between;">
-              <span style="font-size: 0.72rem; color: var(--text-secondary);">${timeStr}</span>
+              <span style="font-size: 0.72rem; color: var(--text-secondary);">${escapeHtml(p.author_name || "Student")} · ${timeStr}</span>
               ${authorBadge}
             </div>
           </div>
         `;
       }).join("");
 
-      postsListEl.scrollTop = postsListEl.scrollHeight;
+      if(nearBottom) postsListEl.scrollTop = postsListEl.scrollHeight;
     } catch (e) {
-      console.warn("Could not load posts:", e);
+      if(!postsListEl.children.length) postsListEl.textContent="The conversation could not load. Reload the page to retry.";
     }
   }
 
@@ -319,21 +314,13 @@
     if (!text || !cohortId) return;
 
     try {
-      const { error } = await window.supabase
-        .from("cohort_posts")
-        .insert({
-          cohort_id: cohortId,
-          lesson_id: currentLesson ? currentLesson.id : null,
-          author_id: currentUser.id,
-          body: text
-        });
-
+      const { error } = await window.supabase.rpc('course_message_send',{p_cohort:cohortId,p_body:text});
       if (error) throw error;
 
       if (postInput) postInput.value = "";
       loadPosts();
     } catch (err) {
-      console.error("Failed to post comment:", err);
+      alert(err.message || "Message could not be sent. Please retry.");
     }
   }
 
@@ -392,6 +379,8 @@
       currentUser = await resolveUser();
       window.ThinkRightLoader?.setProgress(70, "Loading lessons & discussions...");
       await loadCohort();
+      const chatTimer = setInterval(() => { if (!document.hidden && currentUser && currentCohort) loadPosts(); }, 10000);
+      window.addEventListener('pagehide',()=>clearInterval(chatTimer),{once:true});
     } finally {
       window.ThinkRightLoader?.done("Classroom ready");
     }

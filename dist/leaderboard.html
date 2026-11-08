@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="css/navbar.css?v=20261018-more">
     <link rel="stylesheet" href="css/premium-ui.css?v=20260308e">
     <link rel="stylesheet" href="css/preloader.css?v=20261016d">
-    <link rel="stylesheet" href="css/leaderboard.css?v=20260923-arena">
+    <link rel="stylesheet" href="css/leaderboard.css?v=20261104-layout">
     <script src="js/preloader.js?v=20261016d"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="css/footer.css?v=20261031">
@@ -113,18 +113,6 @@
         <main class="leaderboard-main">
             <!-- Arena Hero Section -->
             <section class="arena-hero">
-                <div class="arena-hero__top">
-                    <div class="arena-live-chip">
-                        <span class="arena-pulse-dot"></span>
-                        <span id="arenaLiveText">WEEKLY SEASON ACTIVE</span>
-                        <span class="arena-live-sep">•</span>
-                        <span id="leaderboardWeekLabel" class="arena-week-tag">Week: --</span>
-                    </div>
-                    <button type="button" class="arena-rules-btn" id="openScoringRulesBtn" title="How rankings and projected scores work">
-                        <i class="fa-solid fa-circle-question"></i> How Scoring Works
-                    </button>
-                </div>
-
                 <div class="arena-hero__center">
                     <span class="arena-brand-prefix">ThinkRight's</span>
                     <h1 class="arena-title">National UTME Arena</h1>
@@ -137,7 +125,7 @@
                 <div class="arena-timer-strip">
                     <div class="arena-timer-label">
                         <i class="fa-solid fa-stopwatch-20"></i>
-                        <span>Weekly Season Resets In:</span>
+                        <span>Rankings reset in</span>
                     </div>
                     <div class="arena-countdown" id="arenaCountdown" aria-label="Countdown to weekly reset">
                         <div class="arena-countdown-unit">
@@ -193,14 +181,19 @@
                 </div>
             </div>
 
+            <div class="arena-scoring-help">
+                <button type="button" class="arena-rules-btn" id="openScoringRulesBtn" title="How rankings and projected scores work">
+                    <i class="fa-solid fa-circle-question" aria-hidden="true"></i> How Scoring Works
+                </button>
+            </div>
+
             <!-- Subject Picker Bar (Displayed only in Subject Masters mode) -->
             <div id="subjectPickerContainer" class="arena-subject-picker-container" style="display: none;">
                 <div class="arena-subject-scroll-wrap">
                     <div id="subjectTabs" class="arena-subject-tabs" role="tablist" aria-label="Select subject"></div>
                 </div>
                 <div class="arena-subject-mobile-select-wrap">
-                    <label for="subjectSelect" class="arena-subject-select-label">Select Subject:</label>
-                    <select id="subjectSelect" class="arena-subject-select" aria-label="Select subject"></select>
+                    <button type="button" id="subjectSelect" class="arena-subject-select" aria-haspopup="dialog">Select subject</button>
                 </div>
             </div>
 
@@ -297,13 +290,18 @@
             </div>
         </aside>
 
+        <dialog id="subjectPickerModal" class="subject-picker-dialog" aria-labelledby="subjectPickerTitle">
+            <header><h3 id="subjectPickerTitle">Choose a subject</h3><button type="button" id="closeSubjectPicker" aria-label="Close subject picker">&times;</button></header>
+            <div id="subjectModalOptions" class="subject-modal-options"></div>
+        </dialog>
+
         <!-- Scoring Rules Modal -->
         <div id="scoringRulesModal" class="arena-modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="scoringModalTitle">
             <div class="arena-modal-card">
                 <div class="arena-modal-header">
                     <div>
-                        <span class="arena-podium-badge"><i class="fa-solid fa-circle-info"></i> Transparent Methodology</span>
-                        <h3 id="scoringModalTitle">How ThinkRight Rankings Work</h3>
+                        <span class="arena-podium-badge"><i class="fa-solid fa-circle-info"></i> Ranking guide</span>
+                        <h3 id="scoringModalTitle">How rankings work</h3>
                     </div>
                     <button type="button" class="arena-modal-close" id="closeScoringRulesBtn" aria-label="Close dialog">&times;</button>
                 </div>
@@ -311,34 +309,34 @@
                     <div class="arena-rule-item">
                         <div class="arena-rule-num">1</div>
                         <div>
-                            <h4>3-Test Qualification Minimum</h4>
-                            <p>To prevent lucky single-test anomalies, candidates must complete at least 3 valid practice tests during the active week to enter the national standings.</p>
+                            <h4>Take 3 tests</h4>
+                            <p>Complete at least 3 valid practice tests this week to join the rankings.</p>
                         </div>
                     </div>
                     <div class="arena-rule-item">
                         <div class="arena-rule-num">2</div>
                         <div>
-                            <h4>Recency-Weighted Projection</h4>
-                            <p>Your projected score out of 400 is calculated with heavier weight on your most recent performances (up to 35% on your latest test), rewarding active improvement.</p>
+                            <h4>Recent tests count more</h4>
+                            <p>Your estimated score is out of 400. Recent tests have more effect on your score.</p>
                         </div>
                     </div>
                     <div class="arena-rule-item">
                         <div class="arena-rule-num">3</div>
                         <div>
-                            <h4>Official JAMB Curve Calibration</h4>
-                            <p>Raw percentage scores are mapped through ThinkRight's empirical JAMB calibration algorithm (0.85 scaling factor) to reflect actual UTME grading difficulty.</p>
+                            <h4>An estimated score</h4>
+                            <p>We adjust practice results to estimate your JAMB score. This is not an official JAMB result.</p>
                         </div>
                     </div>
                     <div class="arena-rule-item">
                         <div class="arena-rule-num">4</div>
                         <div>
-                            <h4>Weekly Reset Cycle</h4>
-                            <p>Every Sunday at 23:59:59 UTC, the competition resets for a brand-new weekly season, giving every candidate a fresh opportunity to claim the #1 spot.</p>
+                            <h4>A fresh start each week</h4>
+                            <p>Rankings reset every Sunday at 23:59:59 UTC.</p>
                         </div>
                     </div>
                 </div>
                 <div class="arena-modal-footer">
-                    <button type="button" class="tr-btn tr-btn--primary" id="gotItRulesBtn">Got It, Let's Compete!</button>
+                    <button type="button" class="tr-btn tr-btn--primary" id="gotItRulesBtn">Got it</button>
                 </div>
             </div>
         </div>
@@ -389,9 +387,9 @@
       <div class="tr-site-footer__main">
         <div class="tr-site-footer__identity"><a class="tr-site-footer__brand" href="index.html">ThinkRight<span>.</span></a><p>A clearer path to your next chapter.</p><span class="tr-site-footer__note">Learn. Practice. Move forward.</span></div>
         <nav class="tr-site-footer__links" aria-label="Learning links"><h2>Keep learning</h2><a href="practice.html">Free CBT practice</a><a href="classes.html">Explore classes</a><a href="syllabus.html">JAMB syllabus</a><a href="news.html">Latest news</a></nav>
-        <nav class="tr-site-footer__links" aria-label="Support links"><h2>Here to help</h2><a href="mailto:thinkright912@gmail.com">Email support <span aria-hidden="true">?</span></a><a href="https://wa.me/2348160271964" target="_blank" rel="noopener noreferrer">WhatsApp <span class="tr-site-footer__sr">(opens in a new tab)</span><span aria-hidden="true">?</span></a><a href="tutor-onboarding.html">Teach on ThinkRight</a></nav>
+        <nav class="tr-site-footer__links" aria-label="Support links"><h2>Here to help</h2><a href="mailto:thinkright912@gmail.com">Email support <span aria-hidden="true">&#8599;</span></a><a href="https://wa.me/2348160271964" target="_blank" rel="noopener noreferrer">WhatsApp <span class="tr-site-footer__sr">(opens in a new tab)</span><span aria-hidden="true">&#8599;</span></a><a href="tutor-onboarding.html">Teach on ThinkRight</a></nav>
       </div>
-      <div class="tr-site-footer__bottom"><p>&copy; 2026 ThinkRight. All rights reserved.</p><a href="#" class="tr-site-footer__top" onclick="window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});return false;">Back to top <span aria-hidden="true">?</span></a></div>
+      <div class="tr-site-footer__bottom"><p>&copy; 2026 ThinkRight. All rights reserved.</p><a href="#" class="tr-site-footer__top" onclick="window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});return false;">Back to top <span aria-hidden="true">&#8593;</span></a></div>
     </footer>
 </body>
 </html>

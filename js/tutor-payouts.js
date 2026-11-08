@@ -129,7 +129,7 @@
         grossSales += Number(e.paid_amount || 0);
       });
 
-      const revSharePct = Number(currentTutor?.revenue_share_pct || 70) / 100;
+      const revSharePct = Number(currentTutor?.revenue_share_pct || 90) / 100;
       const netEarnings = grossSales * revSharePct;
 
       renderFinancialSummary(grossSales, netEarnings, enrollments || []);
@@ -165,7 +165,7 @@
             </div>
             <div>
               <h4 style="font-family: var(--font-heading, 'Space Grotesk', sans-serif); font-size: 1.05rem; font-weight: 700; color: var(--text-primary); margin: 0 0 2px 0;">
-                Upcoming Weekly Payout (70% Share)
+                Upcoming Weekly Payout (90% Share)
               </h4>
               <p style="font-size: 0.85rem; color: var(--text-secondary); margin: 0;">
                 Scheduled for ${nextFridayStr} &bull; ${enrollments.length} candidate enrollment${enrollments.length === 1 ? "" : "s"}

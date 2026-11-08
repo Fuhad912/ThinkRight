@@ -15,11 +15,24 @@
   }
   function paint(id) {
     const job = jobs.get(id); if (!job) return;
+    const uploading = [...jobs.values()].some(item => item.running);
+    document.querySelectorAll('[data-workspace-page="class"] [data-action]').forEach(control => {
+      if (['save-class', 'submit-class', 'add-lesson', 'remove-lesson', 'move-lesson', 'step'].includes(control.dataset.action)) {
+        control.disabled = uploading;
+      }
+    });
     document.querySelectorAll('[data-video-status]').forEach(el => {
       if (el.dataset.videoStatus !== id) return;
       el.textContent = job.message;
       const progress = el.parentElement.querySelector('progress');
-      if (progress) { progress.value = job.percent || 0; progress.hidden = !job.running; }
+      if (progress) { if (job.phase === 'uploading' || job.percent === 100) progress.value = job.percent || 0; else progress.removeAttribute('value'); progress.hidden = !job.running && job.percent !== 100; }
+      const meter = el.parentElement.querySelector('[data-upload-percent]');
+      if (meter) meter.textContent = job.phase === 'uploading' || job.percent === 100 ? `${job.percent || 0}%` : job.running ? job.phase === 'verifying' ? 'Verifying' : 'Preparing' : '';
+      const summary = el.parentElement.querySelector('[data-upload-file]');
+      if (summary) { summary.textContent = job.filename || ''; summary.hidden = !job.filename; }
+      el.parentElement.dataset.uploadState = job.running ? 'active' : job.percent === 100 ? 'complete' : 'idle';
+      const heading = el.parentElement.querySelector('.tw-upload-heading strong');
+      if (heading) heading.textContent = job.running ? 'Uploading your video' : 'Your lesson recording';
       const cancel = el.parentElement.querySelector('[data-video-cancel]');
       if (cancel) cancel.hidden = !job.running;
       const input = el.parentElement.querySelector('input[type=file]');
@@ -28,14 +41,34 @@
   }
   function editor(lesson) {
     const job = jobs.get(lesson.id);
-    return `<div class="lesson-video-upload"><label class="tw-field"><span>${lesson.video_asset_id ? 'Replace lesson video' : 'Upload lesson video'}</span><input type="file" accept="video/*,.mp4,.mov,.m4v,.webm,.mkv,.avi,.3gp" data-video-lesson="${esc(lesson.id)}" ${job?.running ? 'disabled' : ''}></label>
-      <p class="tw-hint">Maximum file size: 500 MB. Make sure the video is very clear and easy to hear.</p>
-      ${lesson.video_asset_id ? `<button type="button" class="tw-button small" data-video-preview="${esc(lesson.video_asset_id)}">Preview uploaded video</button>` : lesson.video_url ? '<p class="tw-hint">This lesson uses an old video link. Upload a replacement before sending the class for review.</p>' : ''}
+    return `<div class="lesson-video-upload ${lesson.video_asset_id ? 'has-video' : ''}" data-upload-state="${job?.running ? 'active' : job?.percent === 100 ? 'complete' : 'idle'}"><div class="tw-upload-heading"><div><strong>${job?.running?'Uploading your video':'Your lesson recording'}</strong><span>Choose a video from your device</span></div></div><label class="${lesson.video_asset_id ? 'tw-video-replace' : 'tw-field'}"><span>${lesson.video_asset_id ? 'Replace video' : 'Upload lesson video'}</span><input type="file" accept="video/*,.mp4,.mov,.m4v,.webm,.mkv,.avi,.3gp" data-video-lesson="${esc(lesson.id)}" ${job?.running ? 'disabled' : ''}></label>
+      ${lesson.video_asset_id ? '' : '<p class="tw-hint">Maximum file size: 500 MB. Make sure the video is very clear and easy to hear.</p>'}
+      ${lesson.video_asset_id ? inlinePlayer(lesson.video_asset_id) : lesson.video_url ? '<p class="tw-hint">This lesson uses an old video link. Upload a replacement before sending the class for review.</p>' : ''}
       <video data-video-local="${esc(lesson.id)}" ${job?.previewURL ? `src="${esc(job.previewURL)}"` : 'hidden'} controls playsinline preload="metadata" style="width:100%;max-height:300px;background:#000" aria-label="Selected recording preview"></video>
-      <progress max="100" value="${job?.percent || 0}" ${job?.running ? '' : 'hidden'} aria-label="Video upload progress" style="width:100%"></progress>
+      <p class="tw-upload-file" data-upload-file ${job?.filename ? '' : 'hidden'}>${esc(job?.filename)}</p>
+      <div class="tw-upload-meter-label"><span>Upload progress</span><strong data-upload-percent>${job?.phase === 'uploading' || job?.percent === 100 ? `${job.percent}%` : job?.running ? 'Preparing' : ''}</strong></div>
+      <progress max="100" ${job?.phase === 'uploading' || job?.percent === 100 || !job?.running ? `value="${job?.percent || 0}"` : ''} ${job?.running || job?.percent === 100 ? '' : 'hidden'} aria-label="Video upload progress" style="width:100%"></progress>
       <p class="tw-hint" role="status" data-video-status="${esc(lesson.id)}">${esc(job?.message || (lesson.video_asset_id ? 'Video uploaded. Changes go live after review.' : 'No video uploaded yet.'))}</p>
-      <button type="button" class="tw-button small" data-video-cancel="${esc(lesson.id)}" ${job?.running ? '' : 'hidden'}>Cancel upload</button></div>`;
+      <button type="button" class="tw-button small" data-video-cancel="${esc(lesson.id)}" ${job?.running ? '' : 'hidden'}>Cancel upload</button><small class="tw-upload-limit">Up to 500 MB per video</small></div><p class="tw-upload-wait">Continue after the upload finishes.</p>`;
   }
+  function inlinePlayer(assetId) {
+    return `<div class="tw-inline-video"><video-player><video-skin><video data-video-inline="${esc(assetId)}" controls playsinline preload="metadata" aria-label="Uploaded lesson video"></video></video-skin></video-player><p class="tw-hint" role="status">Loading lesson video…</p><button type="button" class="tw-icon-btn" data-video-retry aria-label="Retry loading video" title="Retry loading video" hidden><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></button></div>`;
+  }
+  function mountInline(root) {
+    root.querySelectorAll('[data-video-inline]').forEach(player => {
+      const box = player.closest('.tw-inline-video'), status = box.querySelector('[role=status]'), retry = box.querySelector('[data-video-retry]');
+      const fail = error => { status.textContent = error?.message || 'Video could not load. Try again.'; retry.hidden = false; };
+      const load = async () => {
+        retry.hidden = true; status.textContent = 'Loading lesson video…';
+        try { await mount(player, player.dataset.videoInline); if (player.isConnected) status.textContent = ''; }
+        catch (error) { if (player.isConnected) fail(error); }
+      };
+      retry.onclick = load;
+      player.addEventListener('video-access-error', () => fail());
+      load();
+    });
+  }
+  function unmountInline(root) { root.querySelectorAll('[data-video-inline]').forEach(stop); }
   async function readChunk(blob) {
     try { return await blob.arrayBuffer(); }
     catch (error) {
@@ -77,7 +110,7 @@
     const types={mp4:'video/mp4',m4v:'video/mp4',mov:'video/quicktime',webm:'video/webm',mkv:'video/x-matroska',avi:'video/x-msvideo','3gp':'video/3gpp'};
     const contentType=types[file.name.split('.').pop().toLowerCase()]||file.type;
     if(!contentType?.startsWith('video/'))throw new Error('Choose a video recording.');
-    const job = { running: true, cancelled: false, percent: 0, message: 'Checking video…', requests: new Set() }; jobs.set(lessonId, job); paint(lessonId);
+    const job = { running: true, cancelled: false, percent: 0, phase: 'preparing', filename: file.name, message: 'Checking video…', requests: new Set() }; jobs.set(lessonId, job); paint(lessonId);
     // Do not open a second media reader while the selected device/cloud file is uploading.
     try {
       job.message = 'Preparing upload…'; paint(lessonId);
@@ -96,6 +129,7 @@
       const uploaded = new Map(status.parts.map(p => [p.number, p.size])), loading = new Map();
       const count = Math.ceil(file.size / start.chunk_size); let next = 1;
       function progress() {
+        job.phase = 'uploading';
         const bytes = [...uploaded.values(), ...loading.values()].reduce((sum, value) => sum + value, 0);
         job.percent = Math.min(99, Math.floor(bytes / file.size * 100)); job.message = `Uploading ${file.name} · ${job.percent}%`; paint(lessonId);
       }
@@ -119,7 +153,7 @@
       const workers = await Promise.allSettled([worker(), worker(), worker()]);
       const failure = workers.find(r => r.status === 'rejected'); if (failure) throw failure.reason;
       if (job.cancelled) throw new Error('Upload cancelled');
-      job.message = 'Checking uploaded video…'; paint(lessonId);
+      job.phase = 'verifying'; job.message = 'Checking uploaded video…'; paint(lessonId);
       const completed = await api('complete', { asset_id: job.assetId });
       if (job.cancelled) throw new Error('Upload cancelled');
       job.percent = 100; job.message = 'Video uploaded. Save your draft to keep it.';
@@ -179,6 +213,6 @@
     try { await mount(player, preview.dataset.videoPreview); dialog.querySelector('p').textContent = ''; }
     catch (error) { dialog.querySelector('p').textContent = error.message; }
   });
-  window.ThinkRightVideo = { api, editor, upload, mount, stop, busy: () => [...jobs.values()].some(j => j.running) };
+  window.ThinkRightVideo = { api, editor, inlinePlayer, mountInline, unmountInline, upload, mount, stop, busy: () => [...jobs.values()].some(j => j.running) };
   window.addEventListener('beforeunload', event => { if (window.ThinkRightVideo.busy()) { event.preventDefault(); event.returnValue = ''; } });
 })();

@@ -57,7 +57,7 @@ begin
  insert into enrollments(user_id,cohort_id,paid_amount,status) values(o.user_id,o.cohort_id,o.amount_kobo/100.0,'active')
  on conflict(user_id,cohort_id) do update set paid_amount=excluded.paid_amount,status='active',expires_at=null returning id into eid;
  insert into teacher_earnings(tutor_id,enrollment_id,cohort_id,gross_kobo,teacher_kobo,reference,source)
- values(o.tutor_id,eid,o.cohort_id,o.amount_kobo,round(o.amount_kobo*0.7),p_reference,'verified_payment');
+ values(o.tutor_id,eid,o.cohort_id,o.amount_kobo,round(o.amount_kobo*0.9),p_reference,'verified_payment');
  update class_orders set status='paid' where id=o.id;
  return o.cohort_id;
 end $$;

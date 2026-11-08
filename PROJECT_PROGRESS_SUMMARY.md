@@ -31,7 +31,7 @@ This document captures the complete chronological record of features, design ref
 - **Problem:** The original tutor application form had cramped spacing, poor input ergonomics, and generic box styling.
 - **Solution:**
   - Modernized the application hero with a high-converting gradient heading (*"Teach on ThinkRight. Inspire 300+ JAMB Scorers."*).
-  - Highlighted the **70% Revenue Share**, **Async-First**, and **Engaged Mentorship** value props in clean benefit cards.
+  - Highlighted the **90% Revenue Share**, **Async-First**, and **Engaged Mentorship** value props in clean benefit cards.
   - Split the form into structured numbered sections with clean icon-prefixed inputs for Name, WhatsApp phone number, Bio, Subject checklist, and Sample Video URL.
   - Added real-time application status tracking (`pending`, `active`, `suspended`).
 
@@ -147,14 +147,14 @@ This document captures the complete chronological record of features, design ref
 - **Features Implemented:**
   - **Active Classes:** Real-time count of cohorts with status `open` or `in_progress`.
   - **Total Enrolled Students:** Unique count of active student enrollments across all tutor cohorts (`public.enrollments`).
-  - **Revenue Share:** Transparent 70% rev-share indicator.
+  - **Revenue Share:** Transparent 90% rev-share indicator.
 
 ---
 
 ### 2.5 Parallel Tutor Recruitment Funnel (Active Now)
 - **Strategy:** Rather than waiting for Phase 2 to ship before finding tutors, high-converting recruitment funnels were activated across all primary platform touchpoints immediately:
   1. **[classes.html](file:///c:/Users/basir/OneDrive/Desktop/ThinkRight-main/classes.html):** Prominent unboxed `.tutor-recruit-banner` with the 3 pillars:
-     - **70% Direct Payouts** (weekly disbursements).
+     - **90% Direct Payouts** (weekly disbursements).
      - **Async-First** (record on your own time without live stream power/data headaches).
      - **Vast Reach** (immediate access to thousands of UTME 2026 candidates).
   2. **[my-classes.html](file:///c:/Users/basir/OneDrive/Desktop/ThinkRight-main/my-classes.html):** Removed outdated browse button; added educator invitation notice above the footer.

@@ -92,7 +92,7 @@ body.dark .tr-navbar__theme-btn:hover,body.dark .tr-navbar__hamburger:hover,body
 body.dark .tr-navbar__logout-btn,body.tr-dark .tr-navbar__logout-btn,html[data-theme=dark] .tr-navbar__logout-btn{background:rgba(248,113,113,.1);border-color:rgba(248,113,113,.25);color:#fca5a5}
 body.dark .tr-navbar__logout-btn:hover,body.tr-dark .tr-navbar__logout-btn:hover,html[data-theme=dark] .tr-navbar__logout-btn:hover{background:rgba(248,113,113,.18);border-color:rgba(248,113,113,.45);color:#fff}
 body.dark .tr-navbar__user-avatar .tw-avatar-dot,body.tr-dark .tr-navbar__user-avatar .tw-avatar-dot,html[data-theme=dark] .tr-navbar__user-avatar .tw-avatar-dot{border-color:#090e18}
-.tw-theme-btn{cursor:pointer}.tw-icon-btn{width:44px;height:44px;border:1px solid var(--line-subtle);border-radius:12px;background:var(--surface-bg);color:var(--text-secondary);display:inline-grid;place-items:center}.tw-icon-btn svg{width:19px;height:19px}
+.tw-theme-btn{cursor:pointer}.tw-icon-btn{width:44px;height:44px;border:0;border-radius:6px;background:transparent;color:var(--text-secondary);display:inline-grid;place-items:center;cursor:pointer}.tw-icon-btn svg{width:19px;height:19px}
 .tw-main{margin:0 auto;max-width:1280px;padding:32px 24px 48px;min-width:0}.tw-page-head{display:flex;gap:18px;align-items:center;justify-content:space-between;margin-bottom:28px}.tw-page-head p{max-width:640px;color:var(--text-secondary);margin:0}.tw-page-head>div{min-width:0}
 .tw-button{border:1px solid var(--line-subtle);border-radius:10px;background:var(--surface-bg);color:var(--text-primary);padding:11px 16px;font-size:13px;font-weight:700;min-height:44px;display:inline-flex;justify-content:center;align-items:center;gap:8px;text-align:center}.tw-button svg{width:17px;height:17px;flex-shrink:0}
 .tw-button:hover{border-color:var(--accent-primary);color:var(--accent-primary)}.tw-button.primary{background:var(--accent-primary);border-color:var(--accent-primary);color:white}.tw-button.primary:hover{background:var(--accent-primary-hover)}.tw-button.danger{color:var(--danger)}.tw-button.small{padding:8px 12px;font-size:12px}
@@ -543,39 +543,103 @@ body.dark .tr-navbar__user-avatar .tw-avatar-dot,body.tr-dark .tr-navbar__user-a
 }
 
 /* --- Phase 4: Payouts & Earnings (De-boxed Ledger & Bank Card) --- */
-.tw-payouts-page{max-width:1320px;margin:0 auto}
-.tw-payouts-layout{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(320px,1.05fr);gap:24px;margin-top:20px}
-.tw-earnings-card,.tw-payouts-history-card,.tw-payout-bank-card{background:var(--surface-bg);border:1px solid var(--line-subtle);border-radius:18px;padding:22px;box-shadow:var(--shadow-xs);margin-bottom:24px}
 .tw-card-section-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;margin-bottom:18px}
 .tw-card-section-head h3{margin:0 0 3px;font-size:1.15rem}
 .tw-card-section-head p{margin:0;font-size:12px;color:var(--text-secondary)}
-.tw-earnings-ledger{display:grid}
-.tw-earning-row{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 2px;border-bottom:1px solid var(--line-subtle)}
-.tw-earning-row:last-child{border-bottom:0}
-.tw-earning-main strong{font-size:13px;display:block;margin-bottom:3px;color:var(--text-primary)}
-.tw-earning-main small{font-size:11px;color:var(--text-muted)}
+/* Earnings: open balances and ledgers, with a separate payout account. */
+.tw-payouts-page .tw-filterbar{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.tw-earnings-filter{min-width:0}
+.tw-earnings-filter>span{display:block;font-size:12px;font-weight:600;margin-bottom:8px}
+.tw-earnings-filter>button{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:48px;padding:12px;border:1px solid var(--line-subtle);border-radius:6px;background:var(--surface-bg);color:var(--text-primary);font:inherit;text-align:left;cursor:pointer}
+.tw-earnings-filter>button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tw-earnings-choices{display:grid;gap:8px}
+.tw-earnings-choices button{display:flex;align-items:center;justify-content:space-between;gap:16px;text-align:left;min-height:48px;padding:12px;border:1px solid var(--line-subtle);border-radius:6px;background:var(--surface-bg);color:var(--text-primary);font:inherit;overflow-wrap:anywhere;cursor:pointer}
+.tw-earnings-choices button[aria-pressed="true"]{border-color:var(--accent-primary);background:var(--accent-soft)}
+.tw-earnings-choices button:focus-visible{outline:3px solid var(--accent-primary);outline-offset:2px}
+.tw-payouts-page .tw-earning-row+.tw-earning-row,.tw-payouts-page .tw-payout-row+.tw-payout-row{border-top:1px solid var(--line-strong)}
+body[data-workspace-page="earnings"]{background:var(--surface-bg)}
+.tw-payouts-page{max-width:1120px;margin:0 auto}
+.tw-payouts-page .tw-page-head{margin-bottom:32px}
+.tw-payouts-page .tw-page-head h1{font-size:40px;letter-spacing:-.035em;margin:0 0 8px}
+.tw-payouts-page .tw-page-head p{font-size:14px;max-width:75ch}
+.tw-earnings-overview{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;padding:16px 0 32px;border-bottom:1px solid var(--line-subtle)}
+.tw-earnings-balance{padding-left:20px;border-left:3px solid var(--accent-primary)}
+.tw-earnings-balance h2{font:600 14px/1.5 var(--font-body);margin:0 0 12px;color:var(--text-secondary)}
+.tw-earnings-balance>strong{display:block;font:500 clamp(32px,4vw,44px)/1.15 var(--font-heading);letter-spacing:-.035em;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.tw-earnings-balance p{font-size:14px;color:var(--text-secondary);margin:12px 0 0}
+.tw-earnings-totals{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:0;align-self:center}
+.tw-earnings-totals>div+div{border-left:1px solid var(--line-subtle);padding-left:24px}
+.tw-earnings-totals dt{font-size:14px;color:var(--text-secondary);margin-bottom:8px}
+.tw-earnings-totals dd{font:500 24px/1.4 var(--font-heading);margin:0;overflow-wrap:anywhere}
+.tw-earnings-reconciliation{font-size:14px;line-height:1.7;max-width:75ch;color:var(--text-secondary);margin:24px 0 0}
+.tw-payouts-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:48px;margin-top:48px}
+.tw-payouts-main,.tw-payouts-side{min-width:0}
+.tw-earnings-section+.tw-earnings-section{margin-top:48px;padding-top:32px;border-top:1px solid var(--line-subtle)}
+.tw-earnings-section-head h2,.tw-payout-account h2,.tw-payout-info h2{font-size:20px;line-height:1.4;margin:0 0 8px;font-weight:500}
+.tw-earnings-section-head p,.tw-payout-account>p,.tw-payout-info p{font-size:14px;line-height:1.7;color:var(--text-secondary);margin:0 0 24px;max-width:75ch}
+.tw-payouts-page .tw-filterbar{padding:0;margin:24px 0 12px;gap:16px;background:none;border:0;box-shadow:none}
+.tw-payouts-page .tw-filterbar label{min-width:0;max-width:none;flex:1}
+.tw-payouts-page .tw-filterbar select{width:100%;min-height:44px;border-radius:6px;box-shadow:none}
+.tw-earnings-filter-note{font-size:12px;line-height:1.6;color:var(--text-secondary);margin:0 0 16px}
+.tw-earnings-ledger,.tw-payouts-ledger{display:grid}
+.tw-earning-row,.tw-payout-row{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;padding:24px 0;border-bottom:1px solid var(--line-subtle)}
+.tw-earning-row:last-child,.tw-payout-row:last-child{border-bottom:0}
+.tw-earning-main,.tw-payout-main{min-width:0;overflow-wrap:anywhere}
+.tw-earning-main h3{font:600 14px/1.6 var(--font-body);margin:0 0 8px}
+.tw-earning-main p,.tw-payout-main p{font-size:12px;color:var(--text-secondary);line-height:1.6;margin:0}
 .tw-earning-side{text-align:right;flex-shrink:0}
-.tw-earning-side strong{font-family:var(--font-heading);font-size:15px;color:var(--success);display:block}
-.tw-earning-side small{font-size:11px;color:var(--text-muted)}
-
-.tw-payouts-ledger{display:grid}
-.tw-payout-row{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:14px 2px;border-bottom:1px solid var(--line-subtle)}
-.tw-payout-row:last-child{border-bottom:0}
-.tw-payout-main strong{font-family:var(--font-heading);font-size:16px;display:block;margin-bottom:3px}
-.tw-payout-main small{font-size:11px;color:var(--text-muted)}
-.tw-reversal-note{margin-top:4px;font-size:11px;color:var(--danger);display:flex;align-items:center;gap:5px}
-
-.tw-bank-account-preview{background:linear-gradient(135deg,#091e42,#172b4d 60%,#0c2340);color:#fff;border-radius:16px;padding:22px;margin-bottom:20px;box-shadow:0 8px 20px rgba(9,30,66,.18);position:relative;overflow:hidden}
-.tw-bank-account-preview:before{content:"";position:absolute;width:180px;height:180px;right:-40px;top:-40px;border-radius:50%;background:rgba(255,255,255,.05);pointer-events:none}
-.tw-bank-preview-label{font-size:11px;font-weight:600;color:rgba(255,255,255,.75);margin-bottom:12px}
-.tw-bank-preview-bank{font-size:13px;color:#dbeafe;margin-bottom:4px;font-weight:600}
-.tw-bank-preview-number{font-family:var(--font-heading);font-size:20px;letter-spacing:2px;font-weight:700;color:#fff;margin-bottom:10px}
-.tw-bank-preview-name{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:#bfdbfe}
-.tw-bank-status-banner{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:99px;font-size:10px;font-weight:700;margin-top:14px}
-.tw-bank-status-banner.is-verified{background:rgba(16,185,129,.2);color:#34d399;border:1px solid rgba(16,185,129,.4)}
-.tw-bank-status-banner.is-pending{background:rgba(245,158,11,.2);color:#fbbf24;border:1px solid rgba(245,158,11,.4)}
-.tw-bank-form{display:grid;gap:4px}
-@media(max-width:1023px){.tw-payouts-layout{grid-template-columns:1fr}}
+.tw-earning-side strong,.tw-payout-main strong{font:500 20px/1.4 var(--font-heading);display:block;margin:0 0 8px}
+.tw-earning-side small{display:block;color:var(--text-secondary);font-size:12px}
+.tw-payout-status{font-size:12px;font-weight:600;color:var(--success);padding-top:4px;white-space:nowrap}
+.tw-payout-status.is-reversed{color:var(--danger)}
+.tw-payout-main .tw-reversal-note{margin-top:8px;color:var(--danger)}
+.tw-earnings-empty{padding:24px 0}
+.tw-earnings-empty h3{font-size:16px;line-height:1.5;margin:0 0 8px;font-weight:500}
+.tw-earnings-empty p{font-size:14px;line-height:1.7;color:var(--text-secondary);margin:0 0 16px;max-width:60ch}
+.tw-payouts-side{border-left:1px solid var(--line-subtle);padding-left:32px}
+.tw-payout-account-details{margin:24px 0}
+.tw-payout-account-details>div+div{margin-top:16px}
+.tw-payout-account-details dt{font-size:12px;color:var(--text-secondary);margin:0 0 4px}
+.tw-payout-account-details dd{font-size:14px;font-weight:600;margin:0;overflow-wrap:anywhere}
+.tw-payout-account .tw-payout-account-status{display:flex;align-items:center;gap:8px;font-size:12px}
+.tw-payout-info{margin-top:32px;padding-top:32px;border-top:1px solid var(--line-subtle)}
+.tw-payout-info p{margin-bottom:16px}
+.tw-payout-info a{display:inline-flex;align-items:center;gap:12px;min-height:44px;color:var(--accent-primary);font-size:14px;font-weight:600}
+.tw-payouts-page .tw-button,#workspace-dialog.tw-bank-drawer .tw-button{min-height:44px;border-radius:6px;box-shadow:none;transform:none}
+.tw-payouts-page :is(a,button,select):focus-visible,#workspace-dialog.tw-bank-drawer :is(button,input):focus-visible{outline:3px solid var(--accent-primary);outline-offset:3px}
+#workspace-dialog.tw-bank-drawer{position:fixed;inset:0 0 0 auto;margin:0;width:min(440px,100vw);max-width:100vw;height:100dvh;max-height:100dvh;padding:32px 24px max(32px,env(safe-area-inset-bottom));border:0;border-left:1px solid var(--line-subtle);border-radius:0;box-shadow:var(--shadow-md);overflow-y:auto;overscroll-behavior:contain}
+#workspace-dialog.tw-bank-drawer[open]{animation:tw-bank-enter .24s ease-out}
+#workspace-dialog.tw-bank-drawer::backdrop{backdrop-filter:none}
+.tw-bank-drawer .tw-dialog-head{align-items:flex-start;margin-bottom:16px}
+.tw-bank-drawer .tw-dialog-head h2{font-size:28px;line-height:1.25;font-weight:500}
+.tw-bank-drawer .tw-dialog-head button{min-width:44px;min-height:44px;border-radius:6px;flex-shrink:0}
+.tw-bank-drawer>p{color:var(--text-secondary);font-size:14px;line-height:1.7;margin:0 0 32px}
+.tw-bank-form{display:grid;gap:16px}
+.tw-bank-form .tw-field{margin:0}
+.tw-bank-form .tw-input{min-height:48px;border-radius:6px;font-size:16px;box-shadow:none}
+.tw-bank-form .tw-hint{font-size:12px;line-height:1.7;margin:0;color:var(--text-secondary)}
+.tw-bank-error{font-size:14px;line-height:1.6;color:var(--danger);margin:0}
+@keyframes tw-bank-enter{from{transform:translateX(100%)}to{transform:translateX(0)}}
+@media(prefers-reduced-motion:reduce){#workspace-dialog.tw-bank-drawer[open]{animation:none}}
+@media(max-width:1023px){
+ .tw-payouts-layout{grid-template-columns:minmax(0,1fr) 240px;gap:32px}
+ .tw-payouts-side{padding-left:24px}
+ .tw-earnings-overview{gap:32px}
+}
+@media(max-width:760px){
+ .tw-payouts-layout{grid-template-columns:minmax(0,1fr);gap:32px;margin-top:32px}
+ .tw-payouts-side{grid-row:1;border:0;border-bottom:1px solid var(--line-subtle);padding:0 0 32px}
+ .tw-earnings-overview{grid-template-columns:minmax(0,1fr);gap:24px;padding-bottom:24px}
+ .tw-earnings-totals{gap:16px}
+ .tw-earnings-totals dd{font-size:20px}
+ .tw-payouts-page .tw-page-head h1{font-size:32px}
+ .tw-earning-row,.tw-payout-row{gap:16px}
+}
+@media(max-width:380px){
+ .tw-earning-row{flex-wrap:wrap;gap:12px}
+ .tw-earning-side{text-align:left}
+ .tw-payouts-page .tw-filterbar label{flex-basis:100%}
+}
 
 /* --- Phase 5: Administration (De-boxed Cards & Operation Queues) --- */
 .tw-admin-page{max-width:1320px;margin:0 auto}
@@ -765,8 +829,23 @@ body.tr-dark .tr-student-more-sheet__theme .tr-navbar__icon-moon, html[data-them
 }
 
 .tw-header .tr-profile-header-logout{margin-left:auto;flex-shrink:0;min-height:44px}
+.tw-header .tw-header-settings{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:44px;min-height:44px;margin-left:auto;border-radius:6px;color:var(--text-primary);text-decoration:none}
+.tw-header .tw-header-settings+.tr-profile-header-logout{margin-left:0}
+.tw-reviewer-feedback{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.tw-reviewer-feedback p{margin:0;overflow-wrap:anywhere}
+.tw-reviewer-feedback button{flex-shrink:0;min-width:44px;min-height:44px}
+.tw-profile-edit-icon{width:44px;min-width:44px;padding:0!important}
+.teacher-workspace .tw-profile-edit-icon{border:0;background:transparent;box-shadow:none;color:var(--accent-primary)}
+.teacher-workspace .tw-icon-btn:focus-visible{outline:2px solid var(--accent-primary);outline-offset:2px}
+@media(hover:hover){.teacher-workspace .tw-icon-btn:not(:disabled):hover{background:var(--accent-soft);color:var(--accent-primary)}}
 .tw-sidebar .tw-nav a[data-nav-key="profile"] .tw-nav-label { color: #000; }
 body.tr-dark .tw-sidebar .tw-nav a[data-nav-key="profile"] .tw-nav-label,
 html[data-theme="dark"] .tw-sidebar .tw-nav a[data-nav-key="profile"] .tw-nav-label { color: #fff; }
 @media(max-width:1023px){.tw-header .tr-profile-header-logout{display:inline-flex!important;padding:0 10px}.tr-navbar__theme-btn{display:none!important}}
+@media(max-width:1023px){
+  .teacher-workspace:not([data-workspace-page="profile"]) .tw-header .tw-header-settings,
+  .teacher-workspace:not([data-workspace-page="profile"]) .tw-header [data-action="logout"] {
+    display:none!important;
+  }
+}
 

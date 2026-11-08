@@ -58,7 +58,7 @@ create table public.teacher_earnings (
   id uuid primary key default gen_random_uuid(), tutor_id uuid not null references public.tutors(id),
   enrollment_id uuid unique not null references public.enrollments(id), cohort_id uuid not null references public.cohorts(id),
   gross_kobo bigint not null check(gross_kobo>=0), teacher_kobo bigint not null check(teacher_kobo>=0),
-  share_pct numeric not null default 70 check(share_pct=70), reference text unique not null,
+  share_pct numeric not null default 90 check(share_pct in (70,90)), reference text unique not null,
   source text not null check(source in ('verified_payment','legacy_reconciled')), created_at timestamptz not null default now()
 );
 create table public.teacher_payouts (
@@ -80,7 +80,7 @@ alter table public.workspace_audit enable row level security;
 -- New private tables are accessed only through the checked RPCs below.
 revoke all on public.class_revisions, public.teacher_bank_details, public.class_orders, public.teacher_earnings, public.teacher_payouts, public.workspace_audit from anon, authenticated;
 drop policy if exists tutors_insert_self on public.tutors;
-create policy tutors_insert_pending on public.tutors for insert to authenticated with check(auth.uid()=id and status='pending' and revenue_share_pct=70);
+create policy tutors_insert_pending on public.tutors for insert to authenticated with check(auth.uid()=id and status='pending' and revenue_share_pct=90);
 revoke update, delete on public.tutors from authenticated;
 drop policy if exists tutors_update_self on public.tutors;
 drop policy if exists cohorts_manage_tutor on public.cohorts;
@@ -113,14 +113,14 @@ create or replace function public.workspace_signup() returns trigger language pl
 begin
  if new.raw_user_meta_data->>'role'='teacher' then
    insert into tutors(id,display_name,status,revenue_share_pct)
-   values(new.id,coalesce(nullif(new.raw_user_meta_data->>'username',''),'New educator'),'pending',70) on conflict do nothing;
+   values(new.id,coalesce(nullif(new.raw_user_meta_data->>'username',''),'New educator'),'pending',90) on conflict do nothing;
  end if;
  return new;
 end $$;
 create trigger workspace_signup_teacher after insert on auth.users for each row execute function public.workspace_signup();
 -- Recover earlier teacher applications that had no session when signing up.
 insert into public.tutors(id,display_name,status,revenue_share_pct)
-select u.id,coalesce(nullif(u.raw_user_meta_data->>'username',''),'New educator'),'pending',70
+select u.id,coalesce(nullif(u.raw_user_meta_data->>'username',''),'New educator'),'pending',90
 from auth.users u where u.raw_user_meta_data->>'role'='teacher' on conflict do nothing;
 
 create or replace function public.workspace_identity() returns jsonb language plpgsql stable security definer set search_path=public as $$
@@ -183,7 +183,7 @@ begin
      raise exception 'Complete the teaching application first';
    end if;
    insert into tutors(id,display_name,bio,subjects,whatsapp_number,sample_video_url,status,revenue_share_pct)
-   values(uid,trim(p_data->>'display_name'),p_data->>'bio',array(select jsonb_array_elements_text(coalesce(p_data->'subjects','[]'))),p_data->>'whatsapp_number',p_data->>'sample_video_url','pending',70)
+   values(uid,trim(p_data->>'display_name'),p_data->>'bio',array(select jsonb_array_elements_text(coalesce(p_data->'subjects','[]'))),p_data->>'whatsapp_number',p_data->>'sample_video_url','pending',90)
    on conflict(id) do update set display_name=excluded.display_name,bio=excluded.bio,subjects=excluded.subjects,whatsapp_number=excluded.whatsapp_number,sample_video_url=excluded.sample_video_url,updated_at=now();
    if p_data ? 'application' then
      insert into teacher_applications(tutor_id,details) values(uid,p_data->'application')
@@ -288,7 +288,7 @@ begin
    perform 1 from tutors where id=tid for update;
    if length(trim(coalesce(p_data->>'reference','')))<3 then raise exception 'Payment evidence reference required'; end if;
    insert into teacher_earnings(tutor_id,enrollment_id,cohort_id,gross_kobo,teacher_kobo,reference,source)
-   select tid,e.id,e.cohort_id,round(e.paid_amount*100),round(e.paid_amount*70),trim(p_data->>'reference'),'legacy_reconciled' from enrollments e where e.id=eid and e.paid_amount>0;
+   select tid,e.id,e.cohort_id,round(e.paid_amount*100),round(e.paid_amount*90),trim(p_data->>'reference'),'legacy_reconciled' from enrollments e where e.id=eid and e.paid_amount>0;
  elsif p_action='payout' then
    tid:=(p_data->>'id')::uuid;
    perform 1 from tutors where id=tid for update;
@@ -351,7 +351,7 @@ begin
  perform 1 from tutors where id=tid for update;
  if exists(select 1 from enrollments e join teacher_earnings te on te.enrollment_id=e.id where e.user_id=o.user_id and e.cohort_id=o.cohort_id) then raise exception 'Duplicate class payment requires support reconciliation'; end if;
  insert into enrollments(user_id,cohort_id,paid_amount,status) values(o.user_id,o.cohort_id,o.amount_kobo/100.0,'active') on conflict(user_id,cohort_id) do update set paid_amount=excluded.paid_amount,status='active',expires_at=null returning id into eid;
- insert into teacher_earnings(tutor_id,enrollment_id,cohort_id,gross_kobo,teacher_kobo,reference,source) values(tid,eid,o.cohort_id,o.amount_kobo,round(o.amount_kobo*0.7),p_reference,'verified_payment');
+ insert into teacher_earnings(tutor_id,enrollment_id,cohort_id,gross_kobo,teacher_kobo,reference,source) values(tid,eid,o.cohort_id,o.amount_kobo,round(o.amount_kobo*0.9),p_reference,'verified_payment');
  update class_orders set status='paid' where id=o.id;
  return o.cohort_id;
 end $$;

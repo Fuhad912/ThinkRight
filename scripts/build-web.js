@@ -12,6 +12,7 @@ const ROOT_FILES = [
   'my-classes.html',
   'my-cohorts.html',
   'tutor-onboarding.html',
+  'tutor-settings.html',
   'tutor-dashboard.html',
   'tutor-payouts.html',
   'tutor-classes.html',

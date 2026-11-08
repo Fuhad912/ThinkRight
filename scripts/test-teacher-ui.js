@@ -5,6 +5,7 @@ const assert=require('node:assert/strict');
 const pages=['tutor-dashboard','tutor-classes','tutor-class','tutor-students','tutor-discussions','tutor-payouts','tutor-onboarding','admin'];
 async function check(page,width,populated=false,homeState=''){
  const {window}=parseHTML(readFileSync(page+'.html','utf8')),document=window.document;
+ for(const dialog of document.querySelectorAll('dialog')){dialog.showModal=()=>{dialog.open=true;};dialog.close=()=>{dialog.open=false;};}
  const identity={role:page==='admin'?'admin':'teacher',status:'active',name:'Educator'};
  const data={identity,subjects:[{id:'physics',name:'Physics',enrollment_price:1000}],tutors:[],classes:[],revisions:[],students:[],enrollments:[],progress:[],lessons:[],posts:[],banks:[],earnings:[],payouts:[],audit:[]};
  if(populated){
@@ -28,11 +29,13 @@ async function check(page,width,populated=false,homeState=''){
  const localStorage={getItem:()=>null,setItem(){}};
  const matchMedia=query=>({matches:query.includes('639')?width<=639:width<=1023});
  Object.assign(window,{location,localStorage,matchMedia,authInitialized:true,resolveWorkspaceIdentity:async()=>identity,supabase:{auth:{getUser:async()=>({data:{user:{id:'teacher',email:'test@example.com'}}})},rpc:async()=>({data,error:null})}});
- runInNewContext(readFileSync('js/teacher-workspace.js','utf8'),{window,document,location,localStorage,history:{replaceState(){}},URLSearchParams,URL,Intl,Date,structuredClone,console,confirm:()=>true,setTimeout:()=>1,clearTimeout(){},matchMedia});
+ window.ThinkRightVideo={unmountInline(){},mountInline(){},busy:()=>false,editor:()=>''};
+ runInNewContext(readFileSync('js/course-studio.js','utf8'),{window,Intl});
+ runInNewContext(readFileSync('js/teacher-workspace.js','utf8'),{window,document,location,localStorage,history:{replaceState(){}},URLSearchParams,URL,Intl,Date,structuredClone,crypto:require("node:crypto").webcrypto,console,confirm:()=>true,setTimeout:()=>1,clearTimeout(){},matchMedia});
  await new Promise(resolve=>setImmediate(resolve));
  assert.ok(document.querySelector('#workspace-main h1'),page+': '+document.body.textContent);
  assert.equal(document.querySelector('#workspace-main script'),null,'Untrusted titles must be escaped');
- if(page!=='admin'){
+ if(page!=='admin'&&homeState!=='pending'){
   const desktop=document.querySelector('.tr-navbar__nav');
   assert.equal(desktop.querySelectorAll('a[href="tutor-dashboard.html"]').length,1,'Teacher Home should not be duplicated');
   assert.equal(desktop.querySelector('a[href="tutor-dashboard.html"]').textContent.trim(),'Home');
@@ -42,12 +45,12 @@ async function check(page,width,populated=false,homeState=''){
   assert.equal(mobile[2].getAttribute('href'),'tutor-payouts.html');
   assert.ok(mobile[2].querySelector('.fa-wallet'),'Mobile Earnings should have a Font Awesome icon');
  }
- if(page==='tutor-dashboard'){
+ if(page==='tutor-dashboard'&&homeState!=='pending'){
   const home=document.querySelector('.tw-teacher-home');
   assert.ok(home,'Teacher home should render');
   assert.ok(home.querySelector('.tw-teacher-home-hero .tw-teacher-home-cta'),'Next action should lead the dashboard');
   assert.equal(home.querySelectorAll('.tw-teacher-home-shortcuts,canvas').length,0,'Home stays focused: no charts or duplicate shortcuts');
-  assert.ok(home.querySelector('.tw-teacher-home-intro .fa-hand'),'Teacher greeting should use Font Awesome');
+  assert.equal(home.querySelector('.tw-teacher-home-intro .fa-hand'),null,'Teacher greeting should not include a waving hand');
   assert.equal(home.querySelectorAll('.tw-dash-spotlight,.tw-dash-today').length,0,'Old dashboard sections should not render');
   const metrics=[...home.querySelectorAll('.tw-home-metric')];
   assert.deepEqual(metrics.map(a=>a.getAttribute('href')),['tutor-students.html','tutor-classes.html','tutor-payouts.html','tutor-analytics.html']);
@@ -68,7 +71,7 @@ async function check(page,width,populated=false,homeState=''){
  for(const a of document.querySelectorAll('a[href]')){const href=a.getAttribute('href').split(/[?#]/)[0];if(href.endsWith('.html'))assert.ok(existsSync(href),href);}
  document.querySelector('[data-action="menu"]').click();assert.ok(document.querySelector('.tw-sidebar.open'));
  document.querySelector('[data-action="close-menu"]').click();assert.equal(document.querySelector('.tw-sidebar.open'),null);
- if(width<=639){
+ if(width<=639&&homeState!=='pending'){
   const more=document.querySelector('.tw-bottom-nav [data-action="menu"]');
   more.click();assert.ok(document.querySelector('.tw-sidebar.open'));
   assert.equal(more.getAttribute('aria-expanded'),'true');

@@ -43,7 +43,7 @@ create table if not exists public.tutors (
     display_name text not null,
     bio text null,
     subjects text[] not null default '{}',
-    revenue_share_pct numeric(5, 2) not null default 70.00,
+    revenue_share_pct numeric(5, 2) not null default 90,
     whatsapp_number text null,
     sample_video_url text null,
     status text not null default 'pending',

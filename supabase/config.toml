@@ -1,5 +1,8 @@
 project_id = "thinkright"
 
+[functions.delete-teacher-account]
+verify_jwt = false
+
 # JWT validation is performed inside the handler for checkout requests.
 # Flutterwave webhooks authenticate with the configured verif-hash instead.
 [functions.class-checkout]

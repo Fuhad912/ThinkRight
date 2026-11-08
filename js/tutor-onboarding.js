@@ -157,7 +157,7 @@
           sample_video_url: sampleVideo || null,
           subjects: checkedSubjects,
           status: "pending",
-          revenue_share_pct: 70.0,
+          revenue_share_pct: 90,
           updated_at: new Date().toISOString()
         });
 

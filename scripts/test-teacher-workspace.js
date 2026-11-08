@@ -64,11 +64,11 @@ async function main() {
   for(let i=0;i<2;i++)await db.query('select class_order_settle($1,$2,$3,now(),$4)',[order.reference,100000,'NGN',ids.student]);
   await as('teacher');
   let snap=(await db.query('select workspace_snapshot() as s')).rows[0].s;
-  assert.equal(snap.earnings.length,1);assert.equal(snap.earnings[0].teacher_kobo,70000);assert.equal(Number(snap.enrollments[0].paid_amount),1000);
+  assert.equal(snap.earnings.length,1);assert.equal(snap.earnings[0].teacher_kobo,90000);assert.equal(Number(snap.enrollments[0].paid_amount),1000);
   await action('bank',{bank:'Example bank',account_number:'0123456789',account_name:'Teacher'});
-  await as('admin');await fails(()=>action('payout',{id:ids.teacher,amount_kobo:70000,reference:'PAY-1',paid_at:new Date().toISOString()}),/Review the bank/);
+  await as('admin');await fails(()=>action('payout',{id:ids.teacher,amount_kobo:90000,reference:'PAY-1',paid_at:new Date().toISOString()}),/Review the bank/);
   await action('bank_review',{id:ids.teacher});
-  await action('payout',{id:ids.teacher,amount_kobo:70000,reference:'PAY-1',paid_at:new Date(Date.now()-1000).toISOString()});
+  await action('payout',{id:ids.teacher,amount_kobo:90000,reference:'PAY-1',paid_at:new Date(Date.now()-1000).toISOString()});
   await fails(()=>action('payout',{id:ids.teacher,amount_kobo:1,reference:'PAY-2',paid_at:new Date().toISOString()}),/exceeds/);
   snap=(await db.query('select workspace_snapshot() as s')).rows[0].s;
   await action('reverse_payout',{id:snap.payouts[0].id,reason:'Incorrect transfer record'});

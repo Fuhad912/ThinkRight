@@ -250,7 +250,7 @@ async function signUp(email, password, username, role = 'student', policyAccepta
                             id: userId,
                             display_name: username.trim(),
                             status: 'pending',
-                            revenue_share_pct: 70.0
+                            revenue_share_pct: 90
                         });
                     if (tutorError) {
                         console.warn('⚠️ Initial tutor record warning:', tutorError);
@@ -612,7 +612,7 @@ async function resetPassword(email) {
         console.log('Sending password reset email to:', email);
 
         // Use the correct redirect URL
-        const redirectUrl = 'https://thinkright.name.ng/reset-password.html';
+        const redirectUrl = 'https://thinkright.com.ng/reset-password.html';
         console.log('Reset redirect URL:', redirectUrl);
 
         const { data, error } = await supabase.auth.resetPasswordForEmail(email, {

@@ -1,6 +1,6 @@
 /**
  * ThinkRight - Student Classes Browsing, Enrollment, Curriculum Preview & Progress
- * Subject-course checkout includes every topic class from the selected teacher.
+ * Course checkout uses the approved price and unlocks the selected course.
  */
 
 (function () {
@@ -267,7 +267,7 @@
       const badgeClass = isCore ? "home-pillar-card__badge--blue" : "home-pillar-card__badge--green";
       const badgeText = isCore ? "Core Subject" : "Elective Subject";
 
-      const price = cohort.subjects?.enrollment_price == null ? null : Number(cohort.subjects.enrollment_price);
+      const price = cohort.course_type ? Number(cohort.price) : (cohort.subjects?.enrollment_price == null ? null : Number(cohort.subjects.enrollment_price));
       const priceHtml = price === null ? '<span class="student-cohort-card__price-tag">Price pending</span>' : price === 0
         ? `<span class="student-cohort-card__price-tag student-cohort-card__price-tag--free">Free</span>`
         : `<span class="student-cohort-card__price-tag">&#8358;${price.toLocaleString()}</span>`;
@@ -466,7 +466,7 @@
     if (!cohort || !curriculumModal) return;
 
     const isEnrolled = userEnrollments.has(cohortId);
-    const price = cohort.subjects?.enrollment_price == null ? null : Number(cohort.subjects.enrollment_price);
+    const price = cohort.course_type ? Number(cohort.price) : (cohort.subjects?.enrollment_price == null ? null : Number(cohort.subjects.enrollment_price));
 
     if (curriculumModalTitle) {
       curriculumModalTitle.textContent = cohort.title;
@@ -570,6 +570,9 @@
     }
 
     // Footer actions
+    if (curriculumModalBody && cohort.course_type) {
+      curriculumModalBody.insertAdjacentHTML('afterbegin', '<section class="course-purchase-summary"><h3>'+ (cohort.course_type==='complete'?'Complete subject course':'Focused topic course')+'</h3><p>'+escapeHtml(cohort.description||'')+'</p>'+(cohort.course_type==='topic'?'<p>Topics: '+escapeHtml(cohort.focused_topics||'')+'</p>':'')+'<h4>What you will learn</h4><p style="white-space:pre-wrap">'+escapeHtml(cohort.outcomes||'')+'</p><p>Includes indefinite recording access and ongoing course conversation.</p></section>');
+    }
     if (curriculumModalFooter) {
       if (isEnrolled) {
         curriculumModalFooter.innerHTML = `

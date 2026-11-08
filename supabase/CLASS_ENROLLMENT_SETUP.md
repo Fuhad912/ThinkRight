@@ -6,6 +6,6 @@ For an existing installation, run `class_specific_enrollment.sql` in Supabase SQ
 
 Existing enrollment rows and financial records are retained, including access previously granted under subject bundles. New purchases and newly published classes do not inherit subject-wide access. Existing pending orders settle against their recorded class, teacher, price and subject; coordinate rollout so students have no in-flight checkout under the old bundle wording.
 
-Flutterwave verification grants access only to the purchased class and records 70% of the payment for its teacher. Payouts remain manual. Repeated verification of the same payment does not duplicate earnings.
+Flutterwave verification grants access only to the purchased class and records 90% of the payment for its teacher. Payouts remain manual. Repeated verification of the same payment does not duplicate earnings.
 
 Local checks: `node scripts/test-class-specific.cjs` and `node scripts/test-class-checkout.js`.

@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (roleDescText) {
             if (isTeacher) {
-                roleDescText.innerHTML = '<strong>Educator Account:</strong> Teach JAMB students through video lessons and earn 70% of each class payment.';
+                roleDescText.innerHTML = '<strong>Educator Account:</strong> Teach JAMB students through video lessons and earn 90% of each class payment.';
             } else {
                 roleDescText.textContent = 'Practice 10,000+ JAMB questions, join tutor classes, and track your scores.';
             }
@@ -353,8 +353,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const teacherSession = roleOverride === 'teacher' || user.user_metadata?.role === 'teacher' || user.user_metadata?.role === 'tutor';
             if (teacherSession) {
-                // The onboarding page loads and validates the teacher's application itself.
-                window.location.replace('tutor-onboarding.html');
+                // New teacher registrations finish onboarding; returning teachers use their account status.
+                const destination = roleOverride === 'teacher'
+                    ? 'tutor-onboarding.html'
+                    : await window.workspaceDestination(urlParams.get('next'));
+                window.location.replace(destination);
                 return;
             }
 
@@ -370,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Registration may request teaching; only a pending application can be created here.
             if (roleOverride === 'teacher' && !await window.getTutorProfile(user.id)) {
                 const { error } = await window.supabase.from('tutors').insert({
-                    id: user.id, display_name: name, status: 'pending', revenue_share_pct: 70
+                    id: user.id, display_name: name, status: 'pending', revenue_share_pct: 90
                 });
                 if (error && error.code !== '23505') throw error;
             }
