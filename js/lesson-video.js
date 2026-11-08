@@ -17,7 +17,7 @@
     const job = jobs.get(id); if (!job) return;
     const uploading = [...jobs.values()].some(item => item.running);
     document.querySelectorAll('[data-workspace-page="class"] [data-action]').forEach(control => {
-      if (['save-class', 'submit-class', 'add-lesson', 'remove-lesson', 'move-lesson', 'step'].includes(control.dataset.action)) {
+      if (['save-class', 'submit-class', 'add-lesson', 'remove-lesson', 'remove-video', 'move-lesson', 'step'].includes(control.dataset.action)) {
         control.disabled = uploading;
       }
     });
@@ -42,6 +42,7 @@
   function editor(lesson) {
     const job = jobs.get(lesson.id);
     return `<div class="lesson-video-upload ${lesson.video_asset_id ? 'has-video' : ''}" data-upload-state="${job?.running ? 'active' : job?.percent === 100 ? 'complete' : 'idle'}"><div class="tw-upload-heading"><div><strong>${job?.running?'Uploading your video':'Your lesson recording'}</strong><span>Choose a video from your device</span></div></div><label class="${lesson.video_asset_id ? 'tw-video-replace' : 'tw-field'}"><span>${lesson.video_asset_id ? 'Replace video' : 'Upload lesson video'}</span><input type="file" accept="video/*,.mp4,.mov,.m4v,.webm,.mkv,.avi,.3gp" data-video-lesson="${esc(lesson.id)}" ${job?.running ? 'disabled' : ''}></label>
+      ${lesson.video_asset_id || lesson.video_url ? `<button type="button" class="tw-remove-video" data-action="remove-video" data-lesson-id="${esc(lesson.id)}" ${job?.running?'disabled':''}><i class="fa-regular fa-trash-can" aria-hidden="true"></i> Remove video</button>` : ''}
       ${lesson.video_asset_id ? '' : '<p class="tw-hint">Maximum file size: 500 MB. Make sure the video is very clear and easy to hear.</p>'}
       ${lesson.video_asset_id ? inlinePlayer(lesson.video_asset_id) : lesson.video_url ? '<p class="tw-hint">This lesson uses an old video link. Upload a replacement before sending the class for review.</p>' : ''}
       <video data-video-local="${esc(lesson.id)}" ${job?.previewURL ? `src="${esc(job.previewURL)}"` : 'hidden'} controls playsinline preload="metadata" style="width:100%;max-height:300px;background:#000" aria-label="Selected recording preview"></video>
@@ -213,6 +214,12 @@
     try { await mount(player, preview.dataset.videoPreview); dialog.querySelector('p').textContent = ''; }
     catch (error) { dialog.querySelector('p').textContent = error.message; }
   });
-  window.ThinkRightVideo = { api, editor, inlinePlayer, mountInline, unmountInline, upload, mount, stop, busy: () => [...jobs.values()].some(j => j.running) };
+  function forgetUpload(id) {
+    const job=jobs.get(id);
+    if(job?.running)throw new Error('Finish or cancel the upload first.');
+    if(job?.previewURL)URL.revokeObjectURL(job.previewURL);
+    jobs.delete(id);
+  }
+  window.ThinkRightVideo = { api, editor, inlinePlayer, mountInline, unmountInline, upload, mount, stop, forgetUpload, busy: () => [...jobs.values()].some(j => j.running) };
   window.addEventListener('beforeunload', event => { if (window.ThinkRightVideo.busy()) { event.preventDefault(); event.returnValue = ''; } });
 })();

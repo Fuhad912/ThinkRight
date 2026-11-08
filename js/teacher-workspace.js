@@ -109,13 +109,13 @@
     // Keep logout in the profile and admin headers, outside the navigation drawer.
     const headerLogout = root.querySelector('#tr-logout-btn');
     root.querySelectorAll('.tw-sidebar [data-action="logout"], .tw-mobile-logout').forEach(button=>button.remove());
-    if(headerLogout){
+    if(headerLogout&&(admin||page==='profile')){
       headerLogout.classList.add('tr-profile-header-logout');
       root.querySelector('.tw-header .tr-navbar__container').appendChild(headerLogout);
     }else headerLogout?.remove();
     if(!admin){
       root.querySelector('.tr-navbar__nav a[href="tutor-settings.html"]')?.closest('li')?.remove();
-      if(page!=='settings')headerLogout?.insertAdjacentHTML('beforebegin',`<a class="tw-header-settings tw-icon-btn" href="${paths.settings}" aria-label="Settings" title="Settings">${icon('settings')}</a>`);
+      if(page==='profile')headerLogout?.insertAdjacentHTML('beforebegin',`<a class="tw-header-settings tw-icon-btn" href="${paths.settings}" aria-label="Settings" title="Settings">${icon('settings')}</a>`);
       root.querySelector('.tr-navbar__link--home')?.closest('li')?.remove();
       root.querySelector(`.tr-navbar__nav a[href="${paths.dashboard}"]`)?.insertAdjacentHTML('afterbegin',icon('dashboard'));
     }
@@ -1193,7 +1193,7 @@
     }
   }
   async function handleClick(event){const el=event.target.closest('[data-action]');if(!el)return;const op=el.dataset.action,id=el.dataset.id;
-    if(op==='classes-subject-picker'){showDialog('Choose a subject',`<div class="tw-earnings-choices">${[['all','All subjects'],...data.subjects.map(item=>[item.id,item.name])].map(([value,label])=>`<button type="button" data-action="classes-subject-choice" data-value="${esc(value)}" aria-pressed="${subjectFilter===value}">${esc(label)}${subjectFilter===value?icon('check'):''}</button>`).join('')}</div>`);return;}
+    if(op==='classes-subject-picker'){showDialog('Choose a subject',`<div class="tw-earnings-choices">${[['all','All subjects'],...teachingSubjects().map(item=>[item.id,item.name])].map(([value,label])=>`<button type="button" data-action="classes-subject-choice" data-value="${esc(value)}" aria-pressed="${subjectFilter===value}">${esc(label)}${subjectFilter===value?icon('check'):''}</button>`).join('')}</div>`);return;}
     if(op==='classes-subject-choice'){subjectFilter=el.dataset.value;dialog.close();render();$('[data-action="classes-subject-picker"]')?.focus();return;}
     if(op==='dismiss-reviewer-feedback'){dismissedReviewerFeedback=ownTutor().review_feedback||'';try{localStorage.setItem('thinkright_dismissed_review_'+user.id,dismissedReviewerFeedback);}catch{}el.closest('[data-reviewer-feedback]')?.remove();return;}
     if((uploadLessonVideo.preparing||window.ThinkRightVideo?.busy())&&['save-class','submit-class','remove-lesson','move-lesson','add-lesson','withdraw-class','accept-course-price','step'].includes(op)){toast('Finish or cancel the current video upload first.');return;}
@@ -1215,9 +1215,19 @@
     if(busy)return;
     try{
       if(op==='logout'){if(dirty&&!confirm('Leave without saving this draft?'))return;await window.logout();location.href='login.html';return;}
-      if(op==='step'){if(uploadLessonVideo.preparing||window.ThinkRightVideo.busy()){toast('Finish or cancel the upload first.');return;}captureDraft();const target=Number(el.dataset.step);const problem=target>step&&revision(draftId)?.state!=='in_review'?window.ThinkRightCourseStudio.validate(draft,teachingSubjects(),target):null;step=problem?problem.step:target;render();if(problem){toast(problem.message);if(problem.field)document.querySelector(`[data-draft="${problem.field}"]`)?.focus();}else{window.scrollTo(0,0);document.querySelector('.cs-workspace h2')?.setAttribute('tabindex','-1');document.querySelector('.cs-workspace h2')?.focus();}return;}
+      if(op==='step'){if(uploadLessonVideo.preparing||window.ThinkRightVideo.busy()){toast('Finish or cancel the upload first.');return;}captureDraft();const previous=step,target=Number(el.dataset.step);const problem=target>step&&revision(draftId)?.state!=='in_review'?window.ThinkRightCourseStudio.validate(draft,teachingSubjects(),target):null;step=problem?problem.step:target;render();window.ThinkRightCourseStudio.animateStep(previous,step);if(problem){toast(problem.message);if(problem.field)document.querySelector(`[data-draft="${problem.field}"]`)?.focus();}else{window.scrollTo(0,0);document.querySelector('.cs-workspace h2')?.setAttribute('tabindex','-1');document.querySelector('.cs-workspace h2')?.focus({preventScroll:true});}return;}
       if(op==='add-lesson'){captureDraft();draft.lessons.push({id:crypto.randomUUID(),title:'',syllabus_topic:'',video_url:''});dirty=true;render();return;}
       if(op==='move-lesson'){captureDraft();const i=Number(el.dataset.index),j=i+Number(el.dataset.direction);if(j>=0&&j<draft.lessons.length)[draft.lessons[i],draft.lessons[j]]=[draft.lessons[j],draft.lessons[i]];dirty=true;render();return;}
+      if(op==='remove-video'){
+        if(uploadLessonVideo.preparing||window.ThinkRightVideo.busy()){toast('Finish or cancel the upload first.');return;}
+        if(revision(draftId)?.state==='in_review'){toast('Withdraw your submission before editing.');return;}
+        captureDraft();const lesson=draft.lessons.find(item=>item.id===el.dataset.lessonId);
+        if(!lesson)return;
+        window.ThinkRightVideo.forgetUpload(lesson.id);
+        delete lesson.video_asset_id;lesson.video_url='';dirty=true;render();
+        document.querySelector(`[data-video-lesson="${lesson.id}"]`)?.focus();
+        toast('Video removed from this draft. Save your draft to keep this change.');return;
+      }
       if(op==='remove-lesson'){if(!confirm('Remove this lesson from the draft? Published content changes only after approval.'))return;captureDraft();draft.lessons.splice(Number(el.dataset.index),1);dirty=true;render();return;}
       if(op==='preview'){captureDraft();showDialog('Student preview',previewContent(draft));return;}
       if(op==='admin-tab'){adminTab=validAdminTab(el.dataset.tab);history.replaceState(null,'','#'+adminTab);render();return;}
@@ -1236,7 +1246,11 @@
         return;
       }
       if(op==='request-course-price'){showDialog('Request a price change',`<form data-form="course-price-request" data-id="${draftId}"><input type="hidden" name="version" value="${draftVersion}">${field('Your proposed price (NGN)','price',draft.proposed_price,'number','min="100" max="1000000" step="0.01" required')}${textArea('Why would you like a different price?','reason','','minlength="10" maxlength="1000" required')}<button class="tw-button primary" type="submit">Send price request</button></form>`);return;}
-      if(op==='admin-class'){const r=revision(id);showDialog('Review class',previewContent(r.body)+`<form data-form="class-review" data-id="${id}">${r.body.course_type?field('Enrollment price (NGN)','approved_price',r.suggested_price??r.body.proposed_price,'number','min="100" max="1000000" step="0.01" required')+'<p class="tw-hint">A different price requires the teacher’s acceptance before publication.</p>':''}${textArea('Feedback (required when requesting changes)','feedback')}<div class="tw-actions"><button class="tw-button" name="decision" value="changes" type="submit">Request changes</button><button class="tw-button primary" name="decision" value="approve" type="submit">Approve course</button></div></form>`);return;}
+      if(op==='admin-class'){
+        const r=revision(id),c=cohort(id);if(!r||!c)throw new Error('This submission is unavailable. Reload the page.');
+        showDialog('Review class',window.ThinkRightAdminCourseReview.render({revision:r,course:c,teacher:tutor(c.tutor_id),subject:subject(r.body.subject_id),cover:thumbnailURL(r.body.thumbnail_path),player:window.ThinkRightVideo.inlinePlayer}));
+        dialog.classList.add('acr-dialog');window.ThinkRightAdminCourseReview.updateDecision(dialog.querySelector('[data-form="class-review"]'),r);dialog.addEventListener('close',()=>dialog.classList.remove('acr-dialog'),{once:true});return;
+      }
       if(op==='open-credential'){
         const t=tutor(id), path=t?.application?.credential_path;
         if(!path){toast('No document has been uploaded.');return;}
@@ -1322,7 +1336,7 @@
       if(op==='course-price-request'){payload.id=id;op='request_course_price';}
       if(op==='price'){payload.subject_id=id;}
       if(op==='reply'||op==='reconcile'||op==='payout'||op==='reverse-payout'||op==='teacher-review'||op==='class-review')payload.id=id;
-      if(op==='class-review'){payload.decision=event.submitter?.value;op='class_review';}
+      if(op==='class-review'){Object.assign(payload,window.ThinkRightAdminCourseReview.prepare(revision(id),payload,event.submitter?.value));const error=form.querySelector('[data-review-error]');if(error){error.hidden=true;error.textContent='';}if(submitter)submitter.textContent=payload.decision==='approve'?'Approving…':'Sending…';op='class_review';}
       if(op==='teacher-review')op='teacher_review';if(op==='reverse-payout')op='reverse_payout';
       if(op==='payout'){payload.amount_kobo=Math.round(Number(payload.amount)*100);payload.paid_at=payload.paid_at+'T00:00:00+01:00';}
       submissionLoader?.setProgress(65,'Saving your teaching application...');
@@ -1345,13 +1359,14 @@
       }
       submissionLoader?.setProgress(85,'Updating your teaching workspace...');
       await refresh();if(op==='request_course_price')loadDraft();if(dialog.open)dialog.close();if(op==='profile'){profileModalOpen=false;document.body.style.overflow='';}shell();render();toast(op==='bank'?'Bank details saved. Awaiting ThinkRight review.':actionResult?.price_pending?'Price suggestion sent. Awaiting teacher acceptance.':'Saved successfully');
-    }catch(error){const bankError=op==='bank'?form.querySelector('[data-bank-error]'):null;if(bankError){bankError.textContent=error.message;bankError.hidden=false;bankError.focus();}else toast(error.message);}finally{
+    }catch(error){const bankError=op==='bank'?form.querySelector('[data-bank-error]'):form.querySelector('[data-review-error]');if(bankError){bankError.textContent=error.message;bankError.hidden=false;bankError.focus();}else toast(error.message);}finally{
       if(loaderHeartbeat!==null)window.clearInterval(loaderHeartbeat);
       if(submissionLoader){submissionLoader.release('teacher-application');submissionLoader.done();}
-      busy=false;if(submitter){submitter.disabled=false;if(op==='bank')submitter.textContent='Save bank details';}window.ThinkRightLoader?.ribbonDone();
+      busy=false;if(submitter){submitter.disabled=false;if(op==='bank')submitter.textContent='Save bank details';if(form.dataset.form==='class-review'){submitter.textContent=submitter.value==='approve'?'Approve & publish':'Request changes';window.ThinkRightAdminCourseReview.updateDecision(form,revision(id));}}window.ThinkRightLoader?.ribbonDone();
     }
   }
   function wire(){
+    document.addEventListener('input',event=>{const form=event.target.closest('[data-form="class-review"]');if(form)window.ThinkRightAdminCourseReview.updateDecision(form,revision(form.dataset.id));});
     dialog.addEventListener('cancel',event=>{if(dialog.classList.contains('tw-bank-drawer')&&busy)event.preventDefault();});
     dialog.addEventListener('close',()=>{
       if(!dialog.classList.contains('tw-bank-drawer'))return;

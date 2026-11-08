@@ -43,6 +43,8 @@ async function main(){
  assert.equal(fragment.querySelector('[data-video-inline]').dataset.videoInline,'asset');
  assert.equal(fragment.querySelector('[data-video-preview]'),null,'uploaded videos render inline without a modal button');
  assert.equal(fragment.querySelector('script'),null);
+ assert.equal(fragment.querySelector('[data-action="remove-video"]').dataset.lessonId,'id');
+ assert.equal(parseHTML(window.ThinkRightVideo.editor({id:'empty'})).document.querySelector('[data-action="remove-video"]'),null);
  // Upload feedback survives editor rendering and follows actual transfer phases.
  const uploadContext={...context};
  runInNewContext(readFileSync('js/lesson-video.js','utf8').replace('window.ThinkRightVideo = {','window.ThinkRightVideo = { jobs, paint,'),uploadContext);
@@ -74,6 +76,13 @@ async function main(){
  assert.match(document.querySelector('.cs-stack').textContent,/Motion/,'review includes curriculum');
  assert.ok(document.querySelector('[data-action=submit-class]'),'review can submit through the existing action');
  assert.ok(document.querySelector('[data-action=save-class]'),'draft can be saved before submission');
+ document.querySelector('[data-action=step][data-step="1"]').click();
+ for(const video of document.querySelectorAll('video')){video.pause=()=>{};video.load=()=>{};}
+ document.querySelector('[data-action="remove-video"]').click();
+ assert.equal(document.querySelector('[data-video-inline]'),null,'removed recording disappears from draft');
+ assert.equal(document.querySelector('[data-action="remove-video"]'),null);
+ assert.ok(document.querySelector('input[data-video-lesson="lesson"]'),'teacher can select a replacement');
+ assert.match(document.querySelector('#draft-status').textContent,/Unsaved/);
  // Player renewal preserves the position and avoids applying stale responses after a lesson switch.
  let resolveFirst, calls=0;
  window.supabase.functions={invoke:async()=>{calls++;if(calls===1)return await new Promise(resolve=>{resolveFirst=resolve;});return {data:{url:'https://video.test/new'}};}};

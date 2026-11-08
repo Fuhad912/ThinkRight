@@ -24,6 +24,7 @@ async function check(page,width,populated=false,homeState=''){
   if(homeState==='pending'||homeState==='suspended')identity.status=homeState;
   if(homeState==='first-class'){data.classes=[];data.revisions=[];data.posts=[];}
  }
+ if(page==='tutor-classes')data.subjects.push({id:'chemistry',name:'Chemistry',enrollment_price:1000});
  const location={pathname:'/'+page+'.html',search:'',hash:'',replace:v=>{throw Error('Unexpected redirect '+v);}};
  if(page==='tutor-class'&&populated)location.search='?id=class';
  const localStorage={getItem:()=>null,setItem(){}};
@@ -79,6 +80,12 @@ async function check(page,width,populated=false,homeState=''){
   assert.equal(more.getAttribute('aria-expanded'),'false');
  }
  if(page==='admin')for(const tab of ['teachers','pricing','payouts','reconcile','audit','reviews'])document.querySelector(`[data-tab="${tab}"]`).click();
+ if(page==='tutor-classes'&&populated){
+  document.querySelector('[data-action="classes-subject-picker"]').click();
+  assert.equal(document.querySelector('[data-action="classes-subject-choice"][data-value="chemistry"]'),null,'unregistered subjects are excluded');
+  if(populated)assert.ok(document.querySelector('[data-action="classes-subject-choice"][data-value="physics"]'),'registered subject remains available');
+  document.querySelector('#workspace-dialog').close();
+ }
  if(page==='tutor-class'){
   for(const step of ['1','2','0']){document.querySelector(`[data-action="step"][data-step="${step}"]`).click();assert.ok(document.querySelector('#class-editor'));}
   assert.equal(document.querySelector('[data-action="preview"]'),null,'Student preview is removed from the teacher class editor');

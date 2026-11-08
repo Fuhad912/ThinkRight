@@ -40,7 +40,7 @@ begin
    if coalesce(b->>'course_type','') not in ('topic','complete') then raise exception 'Choose focused topic or complete subject course'; end if;
    if not exists(select 1 from tutors where id=owner_id and status='active' and (b->>'subject_id')=any(subjects)) then raise exception 'Choose an approved teaching subject'; end if;
    if b->>'course_type'='topic' and length(trim(coalesce(b->>'focused_topics','')))=0 then raise exception 'Enter the course topics'; end if;
-   if length(trim(coalesce(b->>'title','')))<3 or length(trim(coalesce(b->>'description','')))<20 or length(trim(coalesce(b->>'outcomes','')))=0 then raise exception 'Complete the course title, description and learning outcomes'; end if;
+   if length(trim(coalesce(b->>'title','')))=0 or length(trim(coalesce(b->>'description','')))<20 or length(trim(coalesce(b->>'outcomes','')))=0 then raise exception 'Complete the course title, description and learning outcomes'; end if;
    if nullif(b->>'thumbnail_path','') is null or not exists(select 1 from storage.objects where bucket_id='class-thumbnails' and name=b->>'thumbnail_path' and name like owner_id::text||'/%') then raise exception 'Upload a course cover before review'; end if;
    price:=(b->>'proposed_price')::numeric;
    if price is null or price not between 100 and 1000000 or price<>round(price,2) then raise exception 'Enter a course price from 100 to 1000000 with at most two decimals'; end if;
