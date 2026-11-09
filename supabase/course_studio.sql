@@ -32,16 +32,16 @@ revoke all on function public.workspace_action_before_course(text,jsonb) from pu
 
 create or replace function public.course_revision_validate() returns trigger
 language plpgsql security definer set search_path=public as $$
-declare b jsonb:=new.body; owner_id uuid; l jsonb; price numeric;
+declare b jsonb:=new.body; v_course_owner_id uuid; l jsonb; price numeric;
 begin
  -- Old published rows are untouched until their next submission.
  if new.state in ('in_review','published') and (tg_op='INSERT' or new.body is distinct from old.body or new.state is distinct from old.state) then
-   select tutor_id into owner_id from cohorts where id=new.cohort_id;
+   select tutor_id into v_course_owner_id from cohorts where id=new.cohort_id;
    if coalesce(b->>'course_type','') not in ('topic','complete') then raise exception 'Choose focused topic or complete subject course'; end if;
-   if not exists(select 1 from tutors where id=owner_id and status='active' and (b->>'subject_id')=any(subjects)) then raise exception 'Choose an approved teaching subject'; end if;
+   if not exists(select 1 from tutors where id=v_course_owner_id and status='active' and (b->>'subject_id')=any(subjects)) then raise exception 'Choose an approved teaching subject'; end if;
    if b->>'course_type'='topic' and length(trim(coalesce(b->>'focused_topics','')))=0 then raise exception 'Enter the course topics'; end if;
    if length(trim(coalesce(b->>'title','')))=0 or length(trim(coalesce(b->>'description','')))<20 or length(trim(coalesce(b->>'outcomes','')))=0 then raise exception 'Complete the course title, description and learning outcomes'; end if;
-   if nullif(b->>'thumbnail_path','') is null or not exists(select 1 from storage.objects where bucket_id='class-thumbnails' and name=b->>'thumbnail_path' and name like owner_id::text||'/%') then raise exception 'Upload a course cover before review'; end if;
+   if nullif(b->>'thumbnail_path','') is null or not exists(select 1 from storage.objects o where o.bucket_id='class-thumbnails' and o.name=b->>'thumbnail_path' and o.name like v_course_owner_id::text||'/%') then raise exception 'Upload a course cover before review'; end if;
    price:=(b->>'proposed_price')::numeric;
    if price is null or price not between 100 and 1000000 or price<>round(price,2) then raise exception 'Enter a course price from 100 to 1000000 with at most two decimals'; end if;
    if jsonb_array_length(coalesce(b->'lessons','[]'))=0 then raise exception 'Add at least one recorded lesson'; end if;

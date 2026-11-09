@@ -32,6 +32,9 @@ async function check(page,width,populated=false,homeState=''){
  Object.assign(window,{location,localStorage,matchMedia,authInitialized:true,resolveWorkspaceIdentity:async()=>identity,supabase:{auth:{getUser:async()=>({data:{user:{id:'teacher',email:'test@example.com'}}})},rpc:async()=>({data,error:null})}});
  window.ThinkRightVideo={unmountInline(){},mountInline(){},busy:()=>false,editor:()=>''};
  runInNewContext(readFileSync('js/course-studio.js','utf8'),{window,Intl});
+ runInNewContext(readFileSync('js/admin-workspace.js','utf8'),{window,document,Intl,Date});
+ runInNewContext(readFileSync('js/admin-course-review.js','utf8'),{window,Intl,Date});
+ window.scrollTo=()=>{};window.ThinkRightVideo.inlinePlayer=()=>'<video controls></video>';
  runInNewContext(readFileSync('js/teacher-workspace.js','utf8'),{window,document,location,localStorage,history:{replaceState(){}},URLSearchParams,URL,Intl,Date,structuredClone,crypto:require("node:crypto").webcrypto,console,confirm:()=>true,setTimeout:()=>1,clearTimeout(){},matchMedia});
  await new Promise(resolve=>setImmediate(resolve));
  assert.ok(document.querySelector('#workspace-main h1'),page+': '+document.body.textContent);
@@ -79,8 +82,31 @@ async function check(page,width,populated=false,homeState=''){
   document.querySelector('[data-action="close-menu"]').click();
   assert.equal(more.getAttribute('aria-expanded'),'false');
  }
- if(page==='admin')for(const tab of ['teachers','pricing','payouts','reconcile','audit','reviews'])document.querySelector(`[data-tab="${tab}"]`).click();
+ if(page==='admin')for(const tab of ['teachers','payouts','reconcile','audit','reviews'])document.querySelector(`[data-tab="${tab}"]`).click();
+ if(page==='admin'){
+  assert.equal(document.querySelector('[data-tab="pricing"]'),null);
+  for(const tab of ['payments','textbooks','news','broadcasts','reconcile','audit'])assert.ok(document.querySelector(`[data-admin-more-tab="${tab}"]`));
+  document.querySelector('[data-admin-more-tab="payments"]').click();
+  assert.equal(document.querySelector('.tw-bottom-nav [data-action="menu"]').getAttribute('aria-current'),'page');
+  assert.equal(document.querySelector('[data-admin-more-tab="overview"]'),null);
+  assert.ok(document.querySelector('.tw-bottom-nav a[href="admin.html#overview"]'));
+  document.querySelector('[data-tab="reviews"]').click();
+ }
+ if(page==='admin'&&populated){
+  document.querySelector('[data-action="admin-class"]').click();
+  assert.ok(document.querySelector('#workspace-main [data-form="class-review"]'),'class review opens on the main page');
+  assert.equal(Boolean(document.querySelector('#workspace-dialog').open),false,'class review does not use a modal');
+  document.querySelector('[data-action="admin-review-back"]').click();
+  document.querySelector('[data-tab="teachers"]').click();
+  document.querySelector('[data-action="admin-teacher"]').click();
+  assert.ok(document.querySelector('#workspace-main [data-form="teacher-review"]'),'teacher evidence opens on the main page');
+  document.querySelector('[data-action="admin-review-back"]').click();
+ }
  if(page==='tutor-classes'&&populated){
+  document.querySelector('[data-action="remove-class-dialog"]').click();
+  assert.ok(document.querySelector('[data-form="class-removal"] [value="request"]'),'enrolled class requires removal request');
+  assert.equal(document.querySelector('[data-form="class-removal"] [value="delete"]'),null,'enrolled class cannot be deleted directly');
+  document.querySelector('#workspace-dialog').close();
   document.querySelector('[data-action="classes-subject-picker"]').click();
   assert.equal(document.querySelector('[data-action="classes-subject-choice"][data-value="chemistry"]'),null,'unregistered subjects are excluded');
   if(populated)assert.ok(document.querySelector('[data-action="classes-subject-choice"][data-value="physics"]'),'registered subject remains available');

@@ -10,12 +10,13 @@ async function main(){
  const json=value=>new Response(JSON.stringify(value),{status:200,headers:{'content-type':'application/json'}});
  async function fetch(url,options){
   if(url.endsWith('/auth/v1/user'))return json({id:'student',email:'test@example.com'});
-  if(url.endsWith('/rpc/class_order_create')){orderArgs=JSON.parse(options.body);return json({enrolled:alreadyEnrolled,amount_kobo:100000,cohort_id:'class',subject_id:'physics',tutor_id:'teacher',access_scope:'class',reference:ref});}
-  if(url.includes('/payments')){initialization=JSON.parse(options.body);return json({status:'success',data:{link:checkoutURL}});}
+  if(url.endsWith('/rpc/class_order_create')){orderArgs=JSON.parse(options.body);return json({enrolled:alreadyEnrolled,amount_kobo:100000,cohort_id:'class',subject_id:'physics',tutor_id:'teacher',access_scope:'class',reference:ref,expires_at:new Date(Date.now()+15*60000).toISOString()});}
+  if(url.includes('/payments')){initialization=JSON.parse(options.body);if(providerFailure)return new Response(JSON.stringify(providerFailure.body),{status:providerFailure.status,headers:{'content-type':'application/json'}});return json({status:'success',data:{link:checkoutURL}});}
   if(url.includes('/transactions/verify_by_reference'))return json({status:'success',data:{status:paymentStatus,tx_ref:ref,amount:1000,currency,created_at:paidAt,meta:{user_id:owner}}});
   if(url.endsWith('/rpc/class_order_settle')){settlement=JSON.parse(options.body);assert.equal(options.headers.authorization,'Bearer test-service');return json('class');}
   throw Error('Unexpected request '+url);
  }
+ let providerFailure=null;
  const source=ts.transpileModule(readFileSync('supabase/functions/class-checkout/index.ts','utf8'),{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.None},reportDiagnostics:true});
  assert.equal(source.diagnostics.length,0);
  runInNewContext(source.outputText,{Deno:{env:{get:key=>env[key]},serve:fn=>handler=fn},crypto:webcrypto,TextEncoder,Uint8Array,URL,Request,Response,AbortSignal,fetch,console});
@@ -44,6 +45,13 @@ async function main(){
  paidAt='';assert.equal((await request({action:'verify',reference:ref})).status,400);paidAt=new Date().toISOString();
  paymentStatus='pending';assert.equal((await request({action:'verify',reference:ref})).status,400);paymentStatus='successful';
  settlement=null;assert.equal((await request({event:'charge.completed',data:{status:'failed',tx_ref:ref}},{'verif-hash':env.FLUTTERWAVE_SECRET_HASH})).status,200);assert.equal(settlement,null);
+ providerFailure={status:401,body:{status:'error',message:'Invalid authorization key'}};
+ assert.match((await (await request({action:'initialize',cohort_id:'class'})).json()).error,/authorize checkout/);
+ providerFailure={status:400,body:{status:'error',message:'Merchant account is not enabled'}};
+ assert.match((await (await request({action:'initialize',cohort_id:'class'})).json()).error,/Merchant account is not enabled/);
+ providerFailure={status:400,body:{status:'error',message:'Invalid test-secret'}};
+ assert.doesNotMatch((await (await request({action:'initialize',cohort_id:'class'})).json()).error,/test-secret/);
+ providerFailure=null;
  const missingHashEnv={...env,FLUTTERWAVE_SECRET_HASH:''};
  runInNewContext(source.outputText,{Deno:{env:{get:key=>missingHashEnv[key]},serve:fn=>handler=fn},crypto:webcrypto,TextEncoder,Uint8Array,URL,Request,Response,AbortSignal,fetch,console});
  assert.equal((await request(event,{'verif-hash':'any-hash'})).status,401);assert.equal(settlement,null);

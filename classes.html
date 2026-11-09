@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <title>JAMB Classes - ThinkRight</title>
-    <meta name="description" content="Browse open JAMB subject classes led by top tutors. 100% async pre-recorded video lessons mapped to the syllabus, watch on your own schedule, and join peer WhatsApp study groups.">
+    <meta name="description" content="Find a JAMB class, learn from teachers and watch video lessons at your own pace.">
         <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="css/footer.css?v=20261031">
 <link rel="stylesheet" href="css/class-checkout.css?v=20261031">
 <link rel="stylesheet" href="css/class-thumbnails.css?v=20261101">
+<link rel="stylesheet" href="css/classes-browse.css?v=20261108-preview">
 </head>
 <body class="page-syllabus tr-loading">
     <div id="tr-preloader" class="tr-preloader" role="status" aria-live="polite" aria-label="Loading ThinkRight"><div class="tr-loader-stack"><div class="tr-loader-brand">ThinkRight<span>.</span></div><div class="tr-loader-spinner" aria-hidden="true"><span class="tr-loader-spinner__core"></span></div></div></div>
@@ -100,21 +101,14 @@
       </div>
     </nav>
 
-    <div class="container" style="max-width: 1100px; margin: 2rem auto 4rem; padding: 0 1rem;">
+    <div class="container classes-browse-page">
         <!-- Student Classes Header (Shown only in student view) -->
-        <header id="studentClassesHeader" style="display: flex; align-items: flex-start; gap: 1.25rem; margin-bottom: 2.5rem;">
-            <a href="my-classes.html" class="tr-back-btn" aria-label="Back to My Classes" title="Back to My Classes" style="margin-top: 4px;">
-                <i class="fa-solid fa-arrow-left"></i>
-            </a>
-            <div style="flex: 1;">
-                <span class="home-hero__badge">Founding Classes</span>
-                <h1 style="font-size: clamp(1.8rem, 3.2vw, 2.5rem); font-weight: 800; color: var(--text-primary); margin: 0.4rem 0 0.5rem 0; line-height: 1.2;">
-                    JAMB Subject Classes
-                </h1>
-                <p style="color: var(--text-secondary); max-width: 640px; margin: 0; font-size: 1rem; line-height: 1.6;">
-                    Learn directly from verified tutors with pre-recorded video lessons mapped to the JAMB syllabus. Watch on your own schedule embedded directly inside ThinkRight, and connect with peers via WhatsApp.
-                </p>
+        <header id="studentClassesHeader" class="classes-browse-heading">
+            <div class="classes-browse-title">
+                <a href="my-classes.html" class="classes-browse-back" aria-label="Back to My Classes" title="Back to My Classes"><span aria-hidden="true">&lt;</span></a>
+                <h1>JAMB subject classes</h1>
             </div>
+            <p>Choose a class and watch video lessons whenever you want.</p>
         </header>
 
         <!-- Educator Classes Management Section -->
@@ -152,10 +146,11 @@
 
                 <div class="tr-search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="classesSearchInput" class="tr-search-input" placeholder="Search classes, subjects, or tutors..." aria-label="Search classes">
+                    <input type="text" id="classesSearchInput" class="tr-search-input" placeholder="Search classes, subjects or teachers" aria-label="Search classes">
                 </div>
             </div>
 
+            <h2 class="classes-results-heading">Find your next class</h2>
             <!-- Dynamic Cohort Cards Grid -->
             <div id="cohortsListGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 3.5rem;">
                 <div style="grid-column: 1 / -1; text-align: center; padding: 3.5rem 1rem; color: var(--text-secondary); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem;">
@@ -167,12 +162,13 @@
             </div>
         </section>
 
+        <section id="classesKeepLearning" class="classes-keep-learning" hidden aria-labelledby="keepLearningTitle"></section>
         <!-- Curriculum Preview Modal -->
         <div id="curriculumModal" class="curriculum-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="curriculumModalTitle">
             <div class="curriculum-modal">
                 <div class="curriculum-modal__header">
                     <div>
-                        <span class="home-pillar-card__badge home-pillar-card__badge--blue" style="margin-bottom: 0.25rem;">Syllabus Curriculum</span>
+                        <span class="curriculum-preview-label">Explore this class</span>
                         <h3 id="curriculumModalTitle" class="student-cohort-card__title" style="margin: 0 0 4px 0;">Class Curriculum</h3>
                         <p id="curriculumModalTutor" style="color: var(--text-secondary); margin: 0; font-size: 0.85rem;">Loading tutor &amp; subject...</p>
                     </div>
@@ -301,6 +297,6 @@
     <script defer src="js/auth.js?v=20261016c"></script>
     <script defer src="js/navbar-load.js?v=20261018-more"></script>
     <script defer src="js/pwa-register.js?v=20260321-sg"></script>
-    <script defer src="js/classes.js?v=20261107-course-studio"></script>
+    <script defer src="js/classes.js?v=20261108-preview"></script>
 </body>
 </html>

@@ -17,7 +17,7 @@ const assert=require('node:assert/strict');
   assert.equal(root.querySelector('script'),null,'Book titles must remain text');
   assert.equal(root.querySelector('img[src^="javascript:"]'),null,'Untrusted image schemes must be rejected');
   if(tab==='overview'){
-   for(const target of ['teachers','reviews','pricing','payouts','textbooks','news','audit']){
+   for(const target of ['teachers','reviews','payouts','textbooks','news','audit']){
     const link=root.querySelector(`[href="#${target}"]`);
     assert.equal(link?.dataset.action,'admin-tab',`${target} must use workspace tab navigation`);
     assert.equal(link?.dataset.tab,target);
@@ -25,6 +25,12 @@ const assert=require('node:assert/strict');
   }
   if(tab==='payments'){
    const input=root.querySelector('#ac-order-search');input.value='no-match';input.dispatchEvent(new window.Event('input',{bubbles:true}));assert.ok(root.querySelector('[data-reference]').hidden);
+   input.value='TR-test';input.dispatchEvent(new window.Event('input',{bubbles:true}));
+   root.querySelector('[data-ac-filter=pending]').click();assert.ok(root.querySelector('[data-reference]').hidden);
+   root.querySelector('[data-ac-filter=attention]').click();assert.equal(root.querySelector('[data-reference]').hidden,false);
+   root.querySelector('[data-ac=payment-detail]').click();assert.equal(root.querySelector('[data-ac-detail]').hidden,false);assert.match(root.querySelector('[data-ac-detail]').textContent,/Needs investigation/);
+   root.querySelector('[data-ac=close-payment]').click();assert.ok(root.querySelector('[data-ac-detail]').hidden);
+
   }
   if(tab==='textbooks'){root.querySelector('[data-ac=edit]').click();assert.equal(root.querySelector('[name=title]').value,snapshot.books[0].title);}
  }

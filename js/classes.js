@@ -228,6 +228,16 @@
     if (!cohortsGrid) return;
 
     const filtered = getFilteredCohorts();
+    const continuing=document.getElementById('classesKeepLearning');
+    if(continuing){
+      const enrolled=filtered.filter(c=>userEnrollments.has(c.id));
+      continuing.hidden=!enrolled.length;
+      continuing.innerHTML=enrolled.length?'<h2 id="keepLearningTitle">Keep learning</h2>'+enrolled.map(c=>{
+        const progress=userProgress.get(c.id)||{total:0,completed:0};
+        const pct=progress.total?Math.min(100,Math.round(progress.completed/progress.total*100)):0;
+        return '<article class="classes-continue-row"><div><h3>'+escapeHtml(c.title)+'</h3><p>'+progress.completed+' of '+progress.total+' lessons complete</p><div class="classes-continue-progress" role="progressbar" aria-label="Lesson progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+pct+'"><span style="width:'+pct+'%"></span></div></div><a class="tr-btn tr-btn--primary" href="cohort.html?id='+encodeURIComponent(c.id)+'">Continue learning</a></article>';
+      }).join(''):'';
+    }
 
     if (filtered.length === 0) {
       cohortsGrid.innerHTML = `
@@ -297,7 +307,7 @@
       if (isMyCohort) {
         actionButtons = `
           <a href="cohort.html?id=${cohort.id}" class="tr-btn tr-btn--primary tr-btn--sm">
-            Enter Classroom <i class="fa-solid fa-arrow-right"></i>
+            Continue learning <i class="fa-solid fa-arrow-right"></i>
           </a>
           <a href="tutor-dashboard.html#classes" class="tr-btn tr-btn--outline tr-btn--sm">
             <i class="fa-solid fa-sliders"></i> Manage Class
@@ -306,26 +316,26 @@
       } else if (isEnrolled) {
         actionButtons = `
           <button type="button" class="tr-btn tr-btn--outline tr-btn--sm btn-preview-curriculum" data-cohort-id="${cohort.id}">
-            <i class="fa-solid fa-list-check"></i> Syllabus
+            <i class="fa-solid fa-list-check"></i> Lessons
           </button>
           <a href="cohort.html?id=${cohort.id}" class="tr-btn tr-btn--primary tr-btn--sm">
-            Enter Classroom <i class="fa-solid fa-arrow-right"></i>
+            Continue learning <i class="fa-solid fa-arrow-right"></i>
           </a>
         `;
       } else if (isTeacherUser) {
         actionButtons = `
           <button type="button" class="tr-btn tr-btn--outline tr-btn--sm btn-preview-curriculum" data-cohort-id="${cohort.id}">
-            <i class="fa-solid fa-list-check"></i> Preview
+            View lessons
           </button>
           <a href="cohort.html?id=${cohort.id}" class="tr-btn tr-btn--secondary tr-btn--sm">
             View Classroom <i class="fa-solid fa-arrow-up-right-from-square"></i>
           </a>
         `;
       } else {
-        const enrollBtnText = cohort.video_migration_required ? "Videos being updated" : price === null ? "Enrollment opens soon" : price === 0 ? "Enroll Free" : `Enrol in this class Â· &#8358;${price.toLocaleString()}`;
+        const enrollBtnText = cohort.video_migration_required ? "Videos being updated" : price === null ? "Enrollment opens soon" : price === 0 ? "Enroll Free" : "Enrol in class";
         actionButtons = `
           <button type="button" class="tr-btn tr-btn--outline tr-btn--sm btn-preview-curriculum" data-cohort-id="${cohort.id}">
-            <i class="fa-solid fa-list-check"></i> Preview
+            View lessons
           </button>
           <button type="button" class="tr-btn tr-btn--primary tr-btn--sm btn-enroll-cohort" data-cohort-id="${cohort.id}" ${price === null || cohort.video_migration_required ? 'disabled' : ''}>
             ${enrollBtnText}
@@ -333,48 +343,30 @@
         `;
       }
 
-      const formattedStartDate = cohort.start_date
-        ? new Date(cohort.start_date).toLocaleDateString("en-NG", { month: "short", day: "numeric", year: "numeric" })
-        : "October 2026";
-
       const coverPath = cohort.thumbnail_path;
       const coverURL = typeof coverPath === 'string' && /^[-a-f0-9]+\/[-a-f0-9]+\.(jpg|png|webp)$/.test(coverPath)
         ? window.supabase.storage.from('class-thumbnails').getPublicUrl(coverPath).data.publicUrl : '';
       return `
-        <article class="student-cohort-card" data-cohort-id="${cohort.id}">
+        <article class="student-cohort-card recorded-course-card" data-cohort-id="${cohort.id}">
           <div class="class-cover">
-            <div class="class-cover__fallback"><i class="fa-solid fa-book-open" aria-hidden="true"></i><span>${escapeHtml(subjectName)}</span></div>
+            <div class="class-cover__fallback"><span>${escapeHtml(subjectName)}</span><strong>${escapeHtml(cohort.title)}</strong></div>
             ${coverURL?`<img src="${escapeHtml(coverURL)}" alt="${escapeHtml(cohort.title)} â€” ${escapeHtml(cohort.tutors?.display_name||'ThinkRight educator')}" width="640" height="360" loading="lazy" decoding="async">`:''}
           </div>
-          <div class="student-cohort-card__badge-row">
-            <span class="home-pillar-card__badge ${badgeClass}">${badgeText}: ${escapeHtml(subjectName)}</span>
-            ${priceHtml}
-          </div>
-
+          <div class="recorded-course-card__body">
+          <div class="recorded-course-card__subject">${escapeHtml(subjectName)}</div>
           <h3 class="student-cohort-card__title">${escapeHtml(cohort.title)}</h3>
-          <p class="student-cohort-card__desc">
-            ${escapeHtml(cohort.tutors?.bio || "Comprehensive syllabus coverage, structured async video lessons, WhatsApp peer groups, and weekly Q&A sessions.")}
-          </p>
-
-          <div class="student-cohort-card__meta-list">
-            <div class="student-cohort-card__meta-item">
-              <i class="fa-solid fa-chalkboard-user"></i>
-              <span>Tutor: <strong>${escapeHtml(cohort.tutors?.display_name || "ThinkRight Lead Educator")}</strong></span>
-            </div>
-            <div class="student-cohort-card__meta-item">
-              <i class="fa-regular fa-calendar-days"></i>
-              <span>Starts: <strong>${formattedStartDate}</strong></span>
-            </div>
-            <div class="student-cohort-card__meta-item">
-              <i class="fa-solid fa-circle-play" style="color: var(--accent-primary);"></i>
-              <span>Format: <strong>100% Async Pre-recorded</strong></span>
-            </div>
+          <p class="recorded-course-card__teacher">By ${escapeHtml(cohort.tutors?.display_name || "ThinkRight teacher")}</p>
+          <p class="student-cohort-card__desc">${escapeHtml(cohort.description || "Watch the lessons and learn at your own pace.")}</p>
+          <div class="recorded-course-card__details">
+            <span>Recorded lessons</span>
+            <strong class="recorded-course-card__type">${cohort.course_type === 'topic' ? 'Topic-based course' : cohort.course_type === 'complete' ? 'Full subject course' : 'Recorded course'}</strong>
           </div>
-
+          <div class="recorded-course-card__price">${isEnrolled ? '<span>Enrolled</span>' : priceHtml}</div>
           ${progressHtml}
 
           <div class="student-cohort-card__actions">
             ${actionButtons}
+          </div>
           </div>
         </article>
       `;
@@ -415,7 +407,13 @@
     showToast('Opening secure checkout...', 'info');
     try {
       const { data, error } = await window.supabase.functions.invoke('class-checkout', { body: { action: 'initialize', cohort_id: cohortId } });
-      if (error || data?.error) throw new Error(data?.error || 'Enrollment could not start. Please retry.');
+      if (error || data?.error) {
+        let message = data?.error || '';
+        if (!message && error?.context?.json) {
+          try { message = (await error.context.json()).error || ''; } catch (_) {}
+        }
+        throw new Error(message || 'Checkout could not connect. Check your connection and try again.');
+      }
       if (data.enrolled) location.href = 'cohort.html?id=' + encodeURIComponent(cohortId);
       else {
         const checkout = new URL(data.authorization_url);
@@ -481,11 +479,12 @@
           <div class="tr-loader-spinner tr-loader-spinner--score" aria-hidden="true">
             <span class="tr-loader-spinner__core"></span>
           </div>
-          <p style="margin: 0; font-size: 0.9rem; font-weight: 600; color: var(--text-secondary);">Loading syllabus curriculum...</p>
+          <p style="margin: 0; font-size: 0.9rem; font-weight: 600; color: var(--text-secondary);">Loading lessons…</p>
         </div>
       `;
     }
 
+    if (curriculumModalFooter) curriculumModalFooter.innerHTML = "";
     curriculumModal.classList.add("is-open");
     document.body.style.overflow = "hidden";
 
@@ -527,7 +526,7 @@
       if (lessons.length === 0) {
         curriculumModalBody.innerHTML = `
           <div style="text-align: center; padding: 2rem 1rem; color: var(--text-secondary);">
-            <p style="font-size: 0.95rem; margin: 0;">No syllabus lessons uploaded yet for this class.</p>
+            <p style="font-size: 0.95rem; margin: 0;">Lessons will appear here once they are available.</p>
           </div>
         `;
       } else {
@@ -548,7 +547,7 @@
                 <span class="curriculum-lesson-row__num">${lesson.order_index || idx + 1}</span>
                 <div style="min-width: 0;">
                   <h5 class="curriculum-lesson-row__title">${escapeHtml(lesson.title)}</h5>
-                  <p class="curriculum-lesson-row__topic">${escapeHtml(lesson.syllabus_topic || "JAMB Official Syllabus Topic")}</p>
+                  <p class="curriculum-lesson-row__topic">${escapeHtml(lesson.syllabus_topic || "Recorded lesson")}</p>
                 </div>
               </div>
               ${statusIcon}
@@ -559,7 +558,7 @@
         curriculumModalBody.innerHTML = `
           <div style="margin-bottom: 1.25rem;">
             <p style="font-size: 0.9rem; color: var(--text-secondary); margin: 0 0 1rem 0;">
-              ${lessons.length} structured async lessons mapped to the official JAMB UTME syllabus.
+              ${lessons.length} recorded lessons · Watch at your own pace.
             </p>
             <div class="curriculum-lessons-list">
               ${lessonRows}
@@ -571,7 +570,7 @@
 
     // Footer actions
     if (curriculumModalBody && cohort.course_type) {
-      curriculumModalBody.insertAdjacentHTML('afterbegin', '<section class="course-purchase-summary"><h3>'+ (cohort.course_type==='complete'?'Complete subject course':'Focused topic course')+'</h3><p>'+escapeHtml(cohort.description||'')+'</p>'+(cohort.course_type==='topic'?'<p>Topics: '+escapeHtml(cohort.focused_topics||'')+'</p>':'')+'<h4>What you will learn</h4><p style="white-space:pre-wrap">'+escapeHtml(cohort.outcomes||'')+'</p><p>Includes indefinite recording access and ongoing course conversation.</p></section>');
+      curriculumModalBody.insertAdjacentHTML('afterbegin', '<section class="course-purchase-summary"><h3>'+ (cohort.course_type==='complete'?'Complete subject course':'Focused topic course')+'</h3><p>'+escapeHtml(cohort.description||'')+'</p>'+(cohort.course_type==='topic'?'<p>Topics: '+escapeHtml(cohort.focused_topics||'')+'</p>':'')+'<h4>What you will learn</h4><p style="white-space:pre-wrap">'+escapeHtml(cohort.outcomes||'')+'</p><p>Watch the recordings anytime and ask questions in the class chat.</p></section>');
     }
     if (curriculumModalFooter) {
       if (isEnrolled) {
@@ -580,14 +579,14 @@
             <i class="fa-solid fa-circle-check"></i> Class unlocked
           </span>
           <a href="cohort.html?id=${cohortId}" class="tr-btn tr-btn--primary tr-btn--sm">
-            Enter Classroom <i class="fa-solid fa-arrow-right"></i>
+            Continue learning <i class="fa-solid fa-arrow-right"></i>
           </a>
         `;
       } else {
         const enrollBtnText = cohort.video_migration_required ? "Videos being updated" : price === null ? "Enrollment opens soon" : price === 0 ? "Enroll Free" : `Enrol in this class Â· &#8358;${price.toLocaleString()}`;
         curriculumModalFooter.innerHTML = `
           <div style="display: flex; flex-direction: column;">
-            <span style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase;">One-time class enrolment</span>
+            <span style="font-size: 0.75rem; color: var(--text-secondary); text-transform: none;">Pay once</span>
             <span style="font-family: var(--font-heading, 'Space Grotesk', sans-serif); font-size: 1.1rem; font-weight: 700; color: var(--text-primary);">
               ${price === null ? 'Price pending' : price === 0 ? "Free" : `&#8358;${price.toLocaleString()}`}
             </span>

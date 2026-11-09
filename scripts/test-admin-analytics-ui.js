@@ -5,16 +5,12 @@ const {parseHTML}=require('linkedom');
 const flush=async()=>{for(let i=0;i<8;i++)await new Promise(r=>setImmediate(r));};
 async function checkAdminNavigation(){
  const {document,window}=parseHTML(readFileSync('admin.html','utf8'));
- const identity={role:'admin',status:'active',name:'Admin'};
- const data={identity,subjects:[],tutors:[],classes:[],revisions:[],students:[],enrollments:[],progress:[],lessons:[],posts:[],banks:[],earnings:[],payouts:[],audit:[]};
- const location={pathname:'/admin.html',search:'',hash:'',replace:()=>{throw Error('Unexpected redirect');}};
- const localStorage={getItem:()=>null,setItem(){}};
- const matchMedia=()=>({matches:true});
- Object.assign(window,{location,localStorage,matchMedia,authInitialized:true,resolveWorkspaceIdentity:async()=>identity,supabase:{auth:{getUser:async()=>({data:{user:{id:'admin',email:'admin@example.com'}}})},rpc:async()=>({data,error:null})}});
- vm.runInNewContext(readFileSync('js/teacher-workspace.js','utf8'),{window,document,location,localStorage,history:{replaceState(){}},URLSearchParams,URL,Intl,Date,structuredClone,console,confirm:()=>true,setTimeout:()=>1,clearTimeout(){},matchMedia});
- await flush();
- assert.ok(document.querySelector('.tw-header a[href="admin-analytics.html"]'));
- assert.ok(document.querySelector('.tw-header [data-action="logout"]'));
+ const data={subjects:[],tutors:[],classes:[],revisions:[],banks:[],earnings:[],payouts:[],enrollments:[],audit:[]};
+ window.matchMedia=()=>({matches:false});
+ vm.runInNewContext(readFileSync('js/admin-workspace.js','utf8'),{window,document,Intl,Date});
+ document.querySelector('#workspace-root').innerHTML=window.ThinkRightAdminWorkspace.render({tab:'overview',body:'',data});
+ assert.ok(document.querySelector('.aw-nav a[href="admin-analytics.html"]'));
+
 }
 async function setup(role='admin',error=false){
  const {document}=parseHTML(readFileSync('admin-analytics.html','utf8'));

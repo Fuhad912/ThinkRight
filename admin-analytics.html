@@ -8,7 +8,8 @@
   <link rel="icon" href="favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/admin-analytics.css?v=20261101">
+  <link rel="stylesheet" href="css/premium-ui.css?v=20261002">
+  <link rel="stylesheet" href="css/admin-analytics.css?v=20261109-finance">
   <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.4"></script>
   <script defer src="js/auth.js?v=20261031-documents"></script>
   <script defer src="js/admin-analytics.js?v=20261101"></script>
@@ -17,7 +18,7 @@
   <a class="skip" href="#main">Skip to analytics</a>
   <header class="site-head"><a class="brand" href="admin.html">ThinkRight<span>.</span></a><nav aria-label="Administration"><a href="admin.html">Admin workspace</a><button id="logout" type="button">Log out</button></nav></header>
   <main id="main">
-    <header class="page-head"><div><span class="eyebrow">PLATFORM INSIGHTS</span><h1>A clearer view of your platform.</h1><p>See how students learn and teachers build, with records you can act on.</p></div><button type="button" id="refresh">Refresh data</button></header>
+    <header class="page-head"><div><h1>Analytics</h1><p>Track student learning, teacher activity and course enrolments.</p></div><button type="button" id="refresh">Refresh data</button></header>
     <form id="filters" class="filters" aria-label="Analytics filters">
       <label>Period<select id="period"><option value="1">Today</option><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="custom">Custom dates</option></select></label>
       <label>From<input id="from" type="date" required></label><label>To<input id="to" type="date" required></label>

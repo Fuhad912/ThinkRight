@@ -4,7 +4,7 @@ const env = (key: string) => Deno.env.get(key) || '';
 const base = env('SUPABASE_URL');
 const anon = env('SUPABASE_ANON_KEY');
 const service = env('SUPABASE_SERVICE_ROLE_KEY');
-const secret = env('FLUTTERWAVE_SECRET_KEY');
+const secret = env('FLUTTERWAVE_SECRET_KEY').trim();
 const secretHash = env('FLUTTERWAVE_SECRET_HASH');
 const site = env('SITE_URL').replace(/\/$/, '');
 const allowedOrigins = [site, ...env('CHECKOUT_ALLOWED_ORIGINS').split(',').map(s => s.trim())].filter(Boolean);
@@ -12,6 +12,13 @@ const allowedOrigins = [site, ...env('CHECKOUT_ALLOWED_ORIGINS').split(',').map(
 function validCheckoutURL(value: string) {
   try { const url = new URL(value); return url.protocol === 'https:' && !url.username && !url.password && (url.hostname === 'flutterwave.com' || url.hostname.endsWith('.flutterwave.com') || url.hostname === 'ravemodal-dev.herokuapp.com'); }
   catch { return false; }
+}
+function providerMessage(value: unknown) {
+  let message = typeof value === 'string' ? value : '';
+  for (const credential of [secret, service, anon, secretHash]) {
+    if (credential) message = message.split(credential).join('[redacted]');
+  }
+  return message.replace(/FLW(?:SECK|PUBK|SECK_TEST|PUBK_TEST)-[^\s"'<>]+/gi, '[redacted]').slice(0, 300);
 }
 async function equalSecret(left: string, right: string) {
   const encoder = new TextEncoder();
@@ -115,6 +122,9 @@ Deno.serve(async (request: Request) => {
     if (order.enrolled) return json(200, { enrolled: true, cohort_id: order.cohort_id, subject_id: order.subject_id, tutor_id: order.tutor_id });
 
     if (!Number.isSafeInteger(order.amount_kobo) || order.amount_kobo <= 0 || !/^TR-[a-f0-9-]{36}$/i.test(order.reference || '')) throw new Error('Invalid course order. Please contact support.');
+    if (!user.email) throw new Error('Add an email address to your student account before paying.');
+    const remainingMinutes = Math.floor((Date.parse(order.expires_at) - Date.now()) / 60000);
+    if (!Number.isFinite(remainingMinutes) || remainingMinutes < 1) throw new Error('This checkout session is expiring. Wait one minute, then try Enroll again.');
     const amountNaira = order.amount_kobo / 100;
     const response = await fetch('https://api.flutterwave.com/v3/payments', {
       method: 'POST',
@@ -126,6 +136,7 @@ Deno.serve(async (request: Request) => {
         tx_ref: order.reference,
         amount: amountNaira,
         currency: 'NGN',
+        configurations: { session_duration: Math.min(15, remainingMinutes), max_retry_attempt: 3 },
         redirect_url: `${site}/classes.html`,
         customer: {
           email: user.email,
@@ -146,9 +157,14 @@ Deno.serve(async (request: Request) => {
       signal: AbortSignal.timeout(15000)
     });
 
-    const payment = await response.json();
-    if (!response.ok || payment.status !== 'success' || !payment.data?.link) {
-      throw new Error('Payment provider could not start checkout. Please retry.');
+    const payment = await response.json().catch(() => null);
+    if (!response.ok || payment?.status !== 'success' || !payment?.data?.link) {
+      const detail = providerMessage(payment?.message);
+      console.error('Class checkout provider rejection', { status: response.status, message: detail || 'No provider message' });
+      if (response.status === 401 || response.status === 403) {
+        throw new Error('Flutterwave could not authorize checkout. ThinkRight needs to check its payment key and account permissions.');
+      }
+      throw new Error(detail ? `Flutterwave rejected checkout: ${detail}` : 'Flutterwave could not create a payment link. Please try again later.');
     }
 
     if (!validCheckoutURL(payment.data.link)) throw new Error('Payment provider returned an invalid checkout link.');

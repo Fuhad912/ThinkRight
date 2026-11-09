@@ -20,8 +20,9 @@
   const textArea = (label,name,value='',extra='') => `<label class="tw-field"><span>${label}</span><textarea name="${name}" ${extra}>${esc(value)}</textarea></label>`;
   const safeURL = value => {try{const url=new URL(value);return url.protocol==='https:'?url.href:'';}catch{return '';}};
   let page = document.body.dataset.workspacePage, data, user, draft, draftId, draftVersion=1, step=0, dirty=false, busy=false;
-  const adminTabs=['overview','reviews','teachers','payments','textbooks','pricing','payouts','reconcile','news','broadcasts','audit'];
+  const adminTabs=['overview','reviews','teachers','payments','textbooks','payouts','reconcile','news','broadcasts','audit'];
   const validAdminTab=value=>adminTabs.includes(value)?value:'overview';
+  let adminReview=null;
   let search='', statusFilter='all', subjectFilter='all', classFilter='all', period='30', fromDate='', toDate='', adminTab='overview', profileTab='overview', profileModalOpen=false, profileEditorTab='about';
   const root = $('#workspace-root'), dialog = $('#workspace-dialog');
   let payoutDialogOverflow='';
@@ -43,6 +44,7 @@
   async function refresh(fallbackIdentity){
     try{
       data=await rpc('workspace_snapshot');
+      data.classes=data.classes.filter(c=>!c.deleted_at);
     }catch(_err){
       const idObj=fallbackIdentity||data?.identity||{role:'teacher',status:'active',name:user?.user_metadata?.username||user?.email?.split('@')[0]||'Educator'};
       if(page==='earnings'||page==='admin'||idObj.role==='admin')throw _err;
@@ -102,6 +104,9 @@
 
     root.innerHTML=`<div class="tw-scrim" data-action="close-menu"></div><aside class="tw-sidebar" id="teacher-navigation" aria-label="${admin?'Admin':'Teacher'} mobile navigation"><button class="tw-icon-btn tw-drawer-theme-btn tw-drawer-theme-top" data-action="theme" type="button" aria-label="Toggle dark mode" title="Toggle dark mode"><i class="fa-solid fa-sun tr-navbar__icon-sun" aria-hidden="true"></i><i class="fa-solid fa-moon tr-navbar__icon-moon" aria-hidden="true"></i></button><button class="tw-icon-btn tw-drawer-close" data-action="close-menu" aria-label="Close navigation">${icon('close')}</button><div class="tw-more-heading"><span>${admin?'ADMIN WORKSPACE':'TEACHER WORKSPACE'}</span><h2 id="teacher-more-title">More</h2></div><div class="tw-brand-block"><a class="tw-brand" href="${paths[admin?'admin':'dashboard']}">ThinkRight</a></div><nav class="tw-nav">${navKeys.map(key=>{const b=badges[key]?`<span class="tw-nav-badge">${badges[key]}</span>`:'';return `<a data-nav-key="${key}" href="${paths[key]}" ${page===key||(page==='class'&&key==='classes')?'aria-current="page"':''}><span class="tw-nav-icon">${icon(key)}</span><span class="tw-nav-label">${key==='profile'?'Teaching profile':titles[key]}</span>${b}<i class="fa-solid fa-chevron-right tw-more-chevron" aria-hidden="true"></i></a>`;}).join('')}</nav><div class="tw-sidebar-foot"><div class="tw-foot-tools"><a class="tw-foot-btn" href="mailto:thinkright912@gmail.com" aria-label="Contact support" title="Contact support"><i class="fa-solid fa-life-ring tw-i" aria-hidden="true"></i><span>Support</span></a></div><div class="tw-user"><span class="tw-avatar">${esc(name.slice(0,1).toUpperCase())}<i class="tw-avatar-dot ${statusClass}" title="${statusLabel}" aria-label="${statusLabel}"></i></span><strong title="${esc(name)}">${esc(name)}</strong><button class="tw-foot-btn tw-logout-btn" data-action="logout" type="button" aria-label="Sign out" title="Sign out">${icon('logout')}</button></div></div></aside><header id="tr-navbar" class="tr-navbar tw-header" role="navigation" aria-label="${admin?'Admin':'Teacher'} main navigation"><div class="tr-navbar__container"><a href="${paths[admin?'admin':'dashboard']}" class="tr-navbar__logo tw-brand" aria-label="ThinkRight Home"><span class="tr-navbar__brand">ThinkRight</span></a><ul class="tr-navbar__nav" role="list"><li><a href="${paths[admin?'admin':'dashboard']}" class="tr-navbar__link tr-navbar__link--home" title="Home" aria-label="Home"><i class="fa-solid fa-house"></i></a></li>${navKeys.map(key=>{const isActive=page===key||(page==='class'&&key==='classes');const b=badges[key]?`<span class="tw-nav-badge">${badges[key]}</span>`:'';return `<li><a href="${paths[key]}" class="tr-navbar__link${isActive?' active':''}" ${isActive?'aria-current="page"':''}>${titles[key]}${b}</a></li>`;}).join('')}</ul><div id="tr-user-info" class="tr-navbar__user-info"><div class="tr-navbar__user-avatar" title="${esc(name)} · ${statusLabel}"><span class="tr-navbar__avatar-initial">${esc(name.slice(0,1).toUpperCase())}</span><i class="tw-avatar-dot ${statusClass}" title="${statusLabel}" aria-label="${statusLabel}"></i></div><button id="tr-logout-btn" class="tr-navbar__logout-btn" data-action="logout" type="button" title="Logout" aria-label="Logout"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Logout</span></button></div><button id="tr-theme-toggle" class="tr-navbar__theme-btn tw-theme-btn" data-action="theme" aria-label="Toggle dark mode" title="Toggle dark mode" type="button"><i class="fa-solid fa-sun tr-navbar__icon-sun" aria-hidden="true"></i><i class="fa-solid fa-moon tr-navbar__icon-moon" aria-hidden="true"></i></button><button class="tr-navbar__logout-btn tw-mobile-logout" data-action="logout" type="button" aria-label="Log out"><i class="fa-solid fa-arrow-right-from-bracket" aria-hidden="true"></i><span>Log out</span></button><button id="tr-hamburger" class="tr-navbar__hamburger tw-mobile-menu" data-action="menu" aria-label="Toggle navigation menu" aria-controls="teacher-navigation" aria-expanded="false" type="button"><span class="tr-navbar__hamburger-line"></span><span class="tr-navbar__hamburger-line"></span><span class="tr-navbar__hamburger-line"></span></button></div></header><main id="workspace-main" class="tw-main" tabindex="-1"></main><nav class="tw-bottom-nav" aria-label="Quick navigation">${(admin?['admin','profile','earnings']:data.identity.status==='pending'?['profile']:['dashboard','classes','earnings']).map(key=>`<a href="${admin?'admin.html#'+(key==='profile'?'teachers':key==='earnings'?'payouts':'reviews'):paths[key]}" ${page===key?'aria-current="page"':''}>${icon(key)}<span>${admin?({admin:'Reviews',profile:'Teachers',earnings:'Payouts'}[key]):titles[key]}</span></a>`).join('')}<button data-action="menu" aria-label="More navigation">${icon('menu')}<span>More</span></button></nav>`;
     if(admin){
+      root.querySelector('.tw-bottom-nav').insertAdjacentHTML('afterbegin','<a href="admin.html#overview"><i class="fa-solid fa-house tw-i" aria-hidden="true"></i><span>Overview</span></a>');
+      const moreItems=[['payments','Payments','credit-card'],['textbooks','Textbooks','book'],['news','News','newspaper'],['broadcasts','Email announcements','envelope'],['reconcile','Payment reconciliation','receipt'],['audit','Activity','clock-rotate-left']];
+      root.querySelector('.tw-sidebar .tw-nav').innerHTML=moreItems.map(([tab,label,glyph])=>`<a href="admin.html#${tab}" data-admin-more-tab="${tab}"><span class="tw-nav-icon"><i class="fa-solid fa-${glyph} tw-i" aria-hidden="true"></i></span><span class="tw-nav-label">${label}</span><i class="fa-solid fa-chevron-right tw-more-chevron" aria-hidden="true"></i></a>`).join('')+'<a href="admin-analytics.html"><span class="tw-nav-icon"><i class="fa-solid fa-chart-line tw-i" aria-hidden="true"></i></span><span class="tw-nav-label">Analytics</span></a>';
       const analyticsLink=document.createElement('a');
       analyticsLink.href='admin-analytics.html';analyticsLink.className='tw-button';analyticsLink.textContent='Analytics';
       root.querySelector('.tw-header .tr-navbar__container').appendChild(analyticsLink);
@@ -364,6 +369,7 @@
         </div>
         <div class="tc-card__foot">
           <p class="tc-price">${price==null?'<strong class="tc-price--pending">Price pending</strong><span>Set by ThinkRight</span>':`<strong>${naira(price)}</strong><span>Enrollment price</span>`}</p>
+          ${item.retired_at?'<span class="tc-removal-status">Retired</span>':item.removal_requested_at?'<span class="tc-removal-status">Removal requested</span>':`<button type="button" class="tc-remove" data-action="remove-class-dialog" data-id="${item.id}" aria-label="Remove ${esc(title)}" title="Remove class"><i class="fa-regular fa-trash-can" aria-hidden="true"></i></button>`}
           <a class="tc-action tc-action--${esc(state)}" href="${href}">${actionLabel}<span class="tc-sr">: ${esc(title)}</span> ${icon('arrow')}</a>
         </div>
       </article>`;
@@ -893,6 +899,9 @@
   function captureDraft(){const form=$('#class-editor');if(!form)return;for(const input of form.querySelectorAll('[data-draft]'))if(input.type!=='radio'||input.checked)draft[input.dataset.draft]=input.value;for(const input of form.querySelectorAll('[data-lesson]')){const item=draft.lessons[Number(input.dataset.lesson)];if(item)item[input.name]=input.value;}}
   function reviewDraftError(body){return window.ThinkRightCourseStudio.validate(body,teachingSubjects());}
   function editorPage(){
+    const saved=cohort(draftId);
+    if(saved?.deleted_at)return head('','Class removed','This class has been removed.',link('Back to my classes',paths.classes));
+    if(saved?.retired_at)return head('','Class retired','This class is closed to new students. Enrolled students can still watch their lessons.',link('Open classroom','cohort.html?id='+saved.id))+`<p>${esc(saved.removal_reason||'')}</p>`;
     return notice()+window.ThinkRightCourseStudio.render({draft,revision:revision(draftId),course:cohort(draftId),subjects:teachingSubjects(),step,dirty,coverURL:thumbnailURL,videoEditor:window.ThinkRightVideo.editor});
   }
   function thumbnailURL(path){if(!path||!/^[-a-f0-9]+\/[-a-f0-9]+\.(jpg|png|webp)$/.test(path))return '';return window.supabase?.storage?.from('class-thumbnails').getPublicUrl(path).data.publicUrl||'';}
@@ -951,13 +960,22 @@
       </div>
     </div>`;
   }
+  function showAdminReview(title,content){
+    if(title==='Teacher application'){
+      const teacherId=content.match(/data-form="teacher-review" data-id="([^"]+)"/)?.[1];
+      title='Review '+(tutor(teacherId)?.display_name||'teacher');
+      content=content.replace('</form>','<p data-review-error role="alert" tabindex="-1" hidden></p></form>');
+    }
+    adminReview={title,content};render();window.scrollTo(0,0);$('#workspace-main h1')?.setAttribute('tabindex','-1');$('#workspace-main h1')?.focus({preventScroll:true});
+  }
   function adminPage(){
-    const pending=data.revisions.filter(r=>r.state==='in_review');
+    if(adminReview)return window.ThinkRightAdminWorkspace.render({tab:adminTab,body:'',data,detail:adminReview});
+    const pending=data.revisions.filter(r=>r.state==='in_review'&&cohort(r.cohort_id)&&!cohort(r.cohort_id).retired_at);
     let body='';
     if(['overview','payments','textbooks'].includes(adminTab)){
       body='<section id="admin-console" aria-live="polite"></section>';
     }else if(adminTab==='reviews'){
-      body=`<div class="tw-admin-card">
+      body=`${data.classes.some(c=>c.removal_requested_at)?panel('Class removal requests','Review why the teacher wants to retire the class. Existing students keep access.',data.classes.filter(c=>c.removal_requested_at).map(c=>`<div class="tw-admin-row"><div><h3>${esc(c.title)}</h3><p>${esc(tutor(c.tutor_id)?.display_name)}</p><p>${esc(c.removal_reason)}</p></div>${button('Review removal','admin-removal-dialog',`data-id="${c.id}"`)}</div>`).join('')):''}<div class="tw-admin-card">
         <div class="tw-admin-section-head">
           <h2>Class review queue</h2>
           <p>Preview the submitted revision before approving or requesting curriculum modifications.</p>
@@ -989,28 +1007,6 @@
             </div>
             <div>${button('Review teacher','admin-teacher',`data-id="${t.id}"`)}</div>
           </div>`).join('')||empty('No teacher applications','Applications will appear when educators sign up.')}
-        </div>
-      </div>`;
-    }else if(adminTab==='pricing'){
-      body=`<div class="tw-admin-card">
-        <div class="tw-admin-section-head">
-          <h2>Subject enrollment prices</h2>
-          <p>A new price applies to future purchases across every class in that subject.</p>
-        </div>
-        <div class="tw-admin-list">
-          ${data.subjects.map(s=>`<form class="tw-admin-row tw-price-row" data-form="price" data-id="${esc(s.id)}">
-            <div class="tw-admin-row-main">
-              <h3>${esc(s.name)}</h3>
-              <p>${s.enrollment_price==null?'Not configured · enrollment disabled':money(Number(s.enrollment_price)*100)+' per enrollment'}</p>
-            </div>
-            <div style="display:flex;align-items:center;gap:12px">
-              <label style="display:flex;align-items:center;gap:8px">
-                <span class="tw-hint">NGN</span>
-                <input class="tw-input" type="number" min="0" step="0.01" required name="price" value="${esc(s.enrollment_price??'')}" aria-label="${esc(s.name)} price" style="width:130px">
-              </label>
-              <button class="tw-button primary" type="submit">Save price</button>
-            </div>
-          </form>`).join('')}
         </div>
       </div>`;
     }else if(adminTab==='payouts'){
@@ -1129,42 +1125,23 @@
         </div>
       </div>`;
     }
-    return `<div class="tw-admin-page">
-      ${head('ADMINISTRATION','Your platform, at a glance.','Manage learning, review applications, and keep track of payments.')}
-      <div class="tw-stats-grid">
-        <div class="tw-metric-card">
-          <div class="tw-metric-header"><div class="tw-metric-icon"><i class="fa-solid fa-list-check"></i></div><span class="tw-metric-badge">Queue</span></div>
-          <div class="tw-metric-value">${pending.length}</div>
-          <div class="tw-metric-label">Classes to review</div>
-          <div class="tw-metric-hint">Submitted revisions</div>
-        </div>
-        <div class="tw-metric-card">
-          <div class="tw-metric-header"><div class="tw-metric-icon"><i class="fa-solid fa-user-clock"></i></div><span class="tw-metric-badge">Review</span></div>
-          <div class="tw-metric-value">${data.tutors.filter(t=>t.status==='pending').length}</div>
-          <div class="tw-metric-label">Pending teachers</div>
-          <div class="tw-metric-hint">Application queue</div>
-        </div>
-        <div class="tw-metric-card">
-          <div class="tw-metric-header"><div class="tw-metric-icon"><i class="fa-solid fa-tags"></i></div><span class="tw-metric-badge">Rates</span></div>
-          <div class="tw-metric-value">${data.subjects.filter(s=>s.enrollment_price==null).length}</div>
-          <div class="tw-metric-label">Prices to configure</div>
-          <div class="tw-metric-hint">Missing catalog price</div>
-        </div>
-        <div class="tw-metric-card">
-          <div class="tw-metric-header"><div class="tw-metric-icon"><i class="fa-solid fa-building-columns"></i></div><span class="tw-metric-badge">Accounts</span></div>
-          <div class="tw-metric-value">${data.banks.filter(b=>!b.reviewed).length}</div>
-          <div class="tw-metric-label">Bank reviews</div>
-          <div class="tw-metric-hint">Pending verification</div>
-        </div>
-      </div>
-      <nav class="tw-tabs" aria-label="Admin sections">
-        ${adminTabs.map((id,index)=>`<button data-action="admin-tab" data-tab="${id}" aria-pressed="${adminTab===id}">${['Overview','Class reviews','Teachers','Payments','Textbooks','Pricing','Payouts','Reconciliation','News','Email alerts','Activity'][index]}</button>`).join('')}
-      </nav>
-      ${body}
-    </div>`;
+    return window.ThinkRightAdminWorkspace.render({tab:adminTab,body,data});
   }
-  function render(){const views={dashboard,classes:classesPage,students:studentsPage,analytics:analyticsPage,discussions:discussionsPage,earnings:earningsPage,settings:()=>window.ThinkRightTeacherSettings.render(data,user,async()=>{await refresh();shell();render();}),profile:profilePage,class:editorPage,admin:adminPage};window.ThinkRightVideo.unmountInline($('#workspace-main'));$('#workspace-main').innerHTML=views[page]();window.ThinkRightVideo.mountInline($('#workspace-main'));if(page==='dashboard')initDashboardCharts();if(page==='analytics')initAnalyticsCharts();if(page==='admin'&&adminTab==='news')window.ThinkRightAdminNews?.mount($('#admin-news'));if(page==='admin'&&$('#admin-console'))window.ThinkRightAdminConsole?.mount($('#admin-console'),adminTab,data);}
-  function showDialog(title,content){window.ThinkRightVideo.unmountInline(dialog);dialog.innerHTML=`<div class="tw-dialog-head"><h2 id="dialog-title">${title}</h2><button class="tw-icon-btn" data-action="close-dialog" aria-label="Close dialog">${icon('close')}</button></div>${content}`;if(!dialog.open)dialog.showModal();window.ThinkRightVideo.mountInline(dialog);dialog.onclose=()=>window.ThinkRightVideo.unmountInline(dialog);}
+  function render(){const views={dashboard,classes:classesPage,students:studentsPage,analytics:analyticsPage,discussions:discussionsPage,earnings:earningsPage,settings:()=>window.ThinkRightTeacherSettings.render(data,user,async()=>{await refresh();shell();render();}),profile:profilePage,class:editorPage,admin:adminPage};window.ThinkRightVideo.unmountInline($('#workspace-main'));$('#workspace-main').innerHTML=views[page]();window.ThinkRightVideo.mountInline($('#workspace-main'));if(page==='admin')syncAdminNavigation();if(page==='dashboard')initDashboardCharts();if(page==='analytics')initAnalyticsCharts();if(page==='admin'&&adminTab==='news')window.ThinkRightAdminNews?.mount($('#admin-news'));if(page==='admin'&&$('#admin-console'))window.ThinkRightAdminConsole?.mount($('#admin-console'),adminTab,data);}
+  function syncAdminNavigation(){
+    document.querySelectorAll('[data-admin-more-tab]').forEach(link=>{
+      if(link.dataset.adminMoreTab===adminTab)link.setAttribute('aria-current','page');
+      else link.removeAttribute('aria-current');
+    });
+    const quickTabs=['overview','reviews','teachers','payouts'];
+    document.querySelectorAll('.tw-bottom-nav a').forEach((link,index)=>{
+      if(quickTabs[index]===adminTab)link.setAttribute('aria-current','page');
+      else link.removeAttribute('aria-current');
+    });
+    const more=document.querySelector('.tw-bottom-nav [data-action="menu"]');
+    if(more){if(!quickTabs.includes(adminTab))more.setAttribute('aria-current','page');else more.removeAttribute('aria-current');}
+  }
+  function showDialog(title,content){if(page==='admin'&&content.includes('data-form="teacher-review"')){showAdminReview('Teacher application',content);return;}window.ThinkRightVideo.unmountInline(dialog);dialog.innerHTML=`<div class="tw-dialog-head"><h2 id="dialog-title">${title}</h2><button class="tw-icon-btn" data-action="close-dialog" aria-label="Close dialog">${icon('close')}</button></div>${content}`;if(!dialog.open)dialog.showModal();window.ThinkRightVideo.mountInline(dialog);dialog.onclose=()=>window.ThinkRightVideo.unmountInline(dialog);}
   function menu(open){
     const nav=$('.tw-sidebar');
     const headerToggle=$('.tw-mobile-menu[data-action=menu]');
@@ -1192,7 +1169,13 @@
       sec.hidden=sec.dataset.editorSection!==profileEditorTab;
     }
   }
-  async function handleClick(event){const el=event.target.closest('[data-action]');if(!el)return;const op=el.dataset.action,id=el.dataset.id;
+  async function handleClick(event){
+    const adminLink=event.target.closest('[data-admin-more-tab]');
+    if(adminLink&&page==='admin'){
+      event.preventDefault();menu(false);adminReview=null;adminTab=validAdminTab(adminLink.dataset.adminMoreTab);
+      history.replaceState(null,'','#'+adminTab);render();return;
+    }
+    const el=event.target.closest('[data-action]');if(!el)return;const op=el.dataset.action,id=el.dataset.id;
     if(op==='classes-subject-picker'){showDialog('Choose a subject',`<div class="tw-earnings-choices">${[['all','All subjects'],...teachingSubjects().map(item=>[item.id,item.name])].map(([value,label])=>`<button type="button" data-action="classes-subject-choice" data-value="${esc(value)}" aria-pressed="${subjectFilter===value}">${esc(label)}${subjectFilter===value?icon('check'):''}</button>`).join('')}</div>`);return;}
     if(op==='classes-subject-choice'){subjectFilter=el.dataset.value;dialog.close();render();$('[data-action="classes-subject-picker"]')?.focus();return;}
     if(op==='dismiss-reviewer-feedback'){dismissedReviewerFeedback=ownTutor().review_feedback||'';try{localStorage.setItem('thinkright_dismissed_review_'+user.id,dismissedReviewerFeedback);}catch{}el.closest('[data-reviewer-feedback]')?.remove();return;}
@@ -1214,6 +1197,13 @@
     if(page==='classes'&&op==='clear-class-filters'){subjectFilter='all';statusFilter='all';search='';render();return;}
     if(busy)return;
     try{
+      if(op==='remove-class-dialog'||op==='admin-removal-dialog'){
+        const c=cohort(id);if(!c)return;
+        const protectedClass=data.enrollments.some(e=>e.cohort_id===id)||data.earnings.some(e=>e.cohort_id===id);
+        if(op==='remove-class-dialog'&&revision(id)?.state==='in_review'&&!protectedClass){showDialog('Withdraw before deleting',`<p>This class is under review. Open the class and withdraw your submission before deleting it.</p>${link('Open class',paths.class+'?id='+id,true)}`);return;}
+        const adminReview=op==='admin-removal-dialog';
+        showDialog(adminReview?'Review removal request':protectedClass?'Request class removal':'Delete class',`<p><strong>${esc(revision(id)?.body.title||c.title)}</strong></p><p>${adminReview?'Approving closes this class to new students. Enrolled students keep their lessons and payment records.':protectedClass?'This class has students or payment records. Explain why you want to remove it. ThinkRight will review your request.':'This removes the class from your list and stops new enrollments. You cannot undo this from your workspace.'}</p>${adminReview?`<p>Teacher’s reason: ${esc(c.removal_reason)}</p>`:''}<form data-form="class-removal" data-id="${id}">${adminReview||protectedClass?textArea(adminReview?'Decision and reason':'Why do you want to remove this class?','reason','','required minlength="10" maxlength="2000"'):''}<p data-removal-error role="alert" tabindex="-1" hidden></p><div class="tw-actions">${adminReview?'<button type="submit" name="decision" value="reject" class="tw-button">Keep class</button><button type="submit" name="decision" value="approve" class="tw-button danger">Approve removal</button>':`<button type="button" data-action="close-dialog" class="tw-button">Cancel</button><button type="submit" name="decision" value="${protectedClass?'request':'delete'}" class="tw-button ${protectedClass?'primary':'danger'}">${protectedClass?'Send removal request':'Delete class'}</button>`}</div></form>`);return;
+      }
       if(op==='logout'){if(dirty&&!confirm('Leave without saving this draft?'))return;await window.logout();location.href='login.html';return;}
       if(op==='step'){if(uploadLessonVideo.preparing||window.ThinkRightVideo.busy()){toast('Finish or cancel the upload first.');return;}captureDraft();const previous=step,target=Number(el.dataset.step);const problem=target>step&&revision(draftId)?.state!=='in_review'?window.ThinkRightCourseStudio.validate(draft,teachingSubjects(),target):null;step=problem?problem.step:target;render();window.ThinkRightCourseStudio.animateStep(previous,step);if(problem){toast(problem.message);if(problem.field)document.querySelector(`[data-draft="${problem.field}"]`)?.focus();}else{window.scrollTo(0,0);document.querySelector('.cs-workspace h2')?.setAttribute('tabindex','-1');document.querySelector('.cs-workspace h2')?.focus({preventScroll:true});}return;}
       if(op==='add-lesson'){captureDraft();draft.lessons.push({id:crypto.randomUUID(),title:'',syllabus_topic:'',video_url:''});dirty=true;render();return;}
@@ -1230,7 +1220,8 @@
       }
       if(op==='remove-lesson'){if(!confirm('Remove this lesson from the draft? Published content changes only after approval.'))return;captureDraft();draft.lessons.splice(Number(el.dataset.index),1);dirty=true;render();return;}
       if(op==='preview'){captureDraft();showDialog('Student preview',previewContent(draft));return;}
-      if(op==='admin-tab'){adminTab=validAdminTab(el.dataset.tab);history.replaceState(null,'','#'+adminTab);render();return;}
+      if(op==='admin-review-back'){adminReview=null;render();return;}
+      if(op==='admin-tab'){adminReview=null;adminTab=validAdminTab(el.dataset.tab);history.replaceState(null,'','#'+adminTab);render();return;}
       if(op==='class-tab'){const tab=el.dataset.tab;if(tab==='editor')return;captureDraft();classFilter=draftId;showDialog(tab==='students'?'Class students':'Class discussions',tab==='students'?studentsContent():discussionsContent());return;}
       if(op==='student'){
         const sName=student(id);
@@ -1248,8 +1239,11 @@
       if(op==='request-course-price'){showDialog('Request a price change',`<form data-form="course-price-request" data-id="${draftId}"><input type="hidden" name="version" value="${draftVersion}">${field('Your proposed price (NGN)','price',draft.proposed_price,'number','min="100" max="1000000" step="0.01" required')}${textArea('Why would you like a different price?','reason','','minlength="10" maxlength="1000" required')}<button class="tw-button primary" type="submit">Send price request</button></form>`);return;}
       if(op==='admin-class'){
         const r=revision(id),c=cohort(id);if(!r||!c)throw new Error('This submission is unavailable. Reload the page.');
-        showDialog('Review class',window.ThinkRightAdminCourseReview.render({revision:r,course:c,teacher:tutor(c.tutor_id),subject:subject(r.body.subject_id),cover:thumbnailURL(r.body.thumbnail_path),player:window.ThinkRightVideo.inlinePlayer}));
-        dialog.classList.add('acr-dialog');window.ThinkRightAdminCourseReview.updateDecision(dialog.querySelector('[data-form="class-review"]'),r);dialog.addEventListener('close',()=>dialog.classList.remove('acr-dialog'),{once:true});return;
+        const content=window.ThinkRightAdminCourseReview.render({revision:r,course:c,teacher:tutor(c.tutor_id),subject:subject(r.body.subject_id),cover:thumbnailURL(r.body.thumbnail_path),player:window.ThinkRightVideo.inlinePlayer});
+        const view=document.createElement('div');view.innerHTML=content;
+        if(r.state!=='in_review'){const form=view.querySelector('[data-form="class-review"]');if(form)form.innerHTML=`<h3>Class status</h3><p>${esc(r.state.replaceAll('_',' '))}</p><p>Enrollment price: ${money(Number(c.price)*100)}</p>`;if(form)form.removeAttribute('data-form');}
+        showAdminReview(r.state==='in_review'?'Review class':'Class details',view.innerHTML);
+        const form=$('#workspace-main [data-form="class-review"]');if(form)window.ThinkRightAdminCourseReview.updateDecision(form,r);return;
       }
       if(op==='open-credential'){
         const t=tutor(id), path=t?.application?.credential_path;
@@ -1283,6 +1277,10 @@
     const submissionLoader=applicationSubmission?window.ThinkRightLoader:null;
     let loaderHeartbeat=null;
     try{
+      if(op==='class-removal'){
+        await rpc('class_removal',{p_id:id,p_decision:event.submitter?.value,p_reason:payload.reason||''});
+        await refresh();dialog.close();shell();render();toast(event.submitter?.value==='request'?'Removal request sent to ThinkRight.':event.submitter?.value==='delete'?'Class deleted.':event.submitter?.value==='approve'?'Class retired. Existing students keep access.':'Removal request declined.');return;
+      }
       if(op==='bank'){
         const error=form.querySelector('[data-bank-error]');if(error){error.hidden=true;error.textContent='';}
         for(const key of ['bank','account_name','account_number'])payload[key]=String(payload[key]||'').trim();
@@ -1341,6 +1339,7 @@
       if(op==='payout'){payload.amount_kobo=Math.round(Number(payload.amount)*100);payload.paid_at=payload.paid_at+'T00:00:00+01:00';}
       submissionLoader?.setProgress(65,'Saving your teaching application...');
       const actionResult=await action(op,payload);
+      if(page==='admin'&&['class_review','teacher_review'].includes(op))adminReview=null;
       if(window.ThinkRightEmail){
         if(op==='teacher_review'){
           const t=tutor(id);
@@ -1359,13 +1358,15 @@
       }
       submissionLoader?.setProgress(85,'Updating your teaching workspace...');
       await refresh();if(op==='request_course_price')loadDraft();if(dialog.open)dialog.close();if(op==='profile'){profileModalOpen=false;document.body.style.overflow='';}shell();render();toast(op==='bank'?'Bank details saved. Awaiting ThinkRight review.':actionResult?.price_pending?'Price suggestion sent. Awaiting teacher acceptance.':'Saved successfully');
-    }catch(error){const bankError=op==='bank'?form.querySelector('[data-bank-error]'):form.querySelector('[data-review-error]');if(bankError){bankError.textContent=error.message;bankError.hidden=false;bankError.focus();}else toast(error.message);}finally{
+    }catch(error){const bankError=op==='bank'?form.querySelector('[data-bank-error]'):form.querySelector('[data-review-error], [data-removal-error]');if(bankError){bankError.textContent=error.message;bankError.hidden=false;bankError.focus();}else toast(error.message);}finally{
       if(loaderHeartbeat!==null)window.clearInterval(loaderHeartbeat);
       if(submissionLoader){submissionLoader.release('teacher-application');submissionLoader.done();}
       busy=false;if(submitter){submitter.disabled=false;if(op==='bank')submitter.textContent='Save bank details';if(form.dataset.form==='class-review'){submitter.textContent=submitter.value==='approve'?'Approve & publish':'Request changes';window.ThinkRightAdminCourseReview.updateDecision(form,revision(id));}}window.ThinkRightLoader?.ribbonDone();
     }
   }
   function wire(){
+    document.addEventListener('input',event=>{if(event.target.matches('[data-aw-search]'))window.ThinkRightAdminWorkspace.filter($('#workspace-main'));});
+    document.addEventListener('change',event=>{if(event.target.matches('[data-aw-status]'))window.ThinkRightAdminWorkspace.filter($('#workspace-main'));});
     document.addEventListener('input',event=>{const form=event.target.closest('[data-form="class-review"]');if(form)window.ThinkRightAdminCourseReview.updateDecision(form,revision(form.dataset.id));});
     dialog.addEventListener('cancel',event=>{if(dialog.classList.contains('tw-bank-drawer')&&busy)event.preventDefault();});
     dialog.addEventListener('close',()=>{
@@ -1391,7 +1392,7 @@
     document.addEventListener('change',async event=>{const key=event.target.dataset.filter;if(['subject_id','course_type'].includes(event.target.dataset.draft)){captureDraft();render();return;}if(!key)return;if(key==='availability'){window.ThinkRightLoader?.ribbonStart();try{await action('availability',{id:draftId,status:event.target.value});await refresh();toast('Availability updated');}catch(error){toast(error.message);render();}finally{window.ThinkRightLoader?.ribbonDone();}return;}({subject:v=>subjectFilter=v,status:v=>statusFilter=v,class:v=>classFilter=v,period:v=>period=v,from:v=>fromDate=v,to:v=>toDate=v}[key])?.(event.target.value);render();});
     document.addEventListener('keydown',event=>{const nav=$('.tw-sidebar');if(!nav?.classList.contains('open'))return;if(event.key==='Escape'){menu(false);return;}if(event.key==='Tab'){const items=[...nav.querySelectorAll('button,a[href]')].filter(e=>e.offsetParent!==null),first=items[0],last=items.at(-1);if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}});
     window.addEventListener('beforeunload',event=>{if(dirty){event.preventDefault();event.returnValue='';}});
-    window.addEventListener('hashchange',()=>{if(page==='admin'){adminTab=validAdminTab(location.hash.slice(1));menu(false);render();}});
+    window.addEventListener('hashchange',()=>{if(page==='admin'){adminReview=null;adminTab=validAdminTab(location.hash.slice(1));menu(false);render();}});
     document.addEventListener('click',event=>{if(dirty&&event.target.closest('a[href]')&&!event.target.closest('a[target=_blank]')&&!confirm('Leave without saving your draft?'))event.preventDefault();});
     const resize=()=>{const narrow=matchMedia('(max-width:1023px)').matches;$('.tw-sidebar').inert=!$('.tw-sidebar').classList.contains('open');if(!narrow){$('.tw-sidebar').classList.remove('open');$('.tw-scrim').classList.remove('open');$('.tw-mobile-menu[data-action=menu]')?.setAttribute('aria-expanded','false');$('#workspace-main').inert=false;document.body.style.overflow='';}};window.addEventListener('resize',resize);resize();
   }
